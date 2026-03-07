@@ -3,7 +3,9 @@ package com.example.tustareas.modelos
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
+/**
+ * Clase que representa la tabla tareas en la bd
+ */
 @Entity(tableName = "tareas")
 data class Tarea (
     @PrimaryKey(autoGenerate = true)
