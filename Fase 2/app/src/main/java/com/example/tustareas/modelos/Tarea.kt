@@ -1,0 +1,18 @@
+package com.example.tustareas.modelos
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity(tableName = "tareas")
+data class Tarea (
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
+    var nombre: String,
+    var descripcion: String,
+    var fechaLimite: Date, // Hay que construirlo a partir del timestamp
+    var prioridad: Prioridad, // Hay que hacer una clase para convertir este enum
+    var fechaCreacion: Date, // Hay que construirlo a partir del timestamp
+    var estado: Estado, // Hay que hacer una clase para convertir este enum
+    // La lista de etiquetas va en una clase distinta room se lleva mal con las N:N
+)
