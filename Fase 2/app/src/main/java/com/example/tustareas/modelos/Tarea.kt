@@ -1,13 +1,24 @@
 package com.example.tustareas.modelos
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import java.util.Date
 
 /**
  * Clase que representa la tabla tareas en la bd
  */
-@Entity(tableName = "tareas")
+@Entity(
+    tableName = "tareas",
+    foreignKeys = [
+        ForeignKey(
+            entity = Proyecto::class,
+            parentColumns = ["id"], // PK de proyecto (padre)
+            childColumns = ["id"], // PK de tareas (hija)
+        )
+    ]
+)
 data class Tarea (
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
