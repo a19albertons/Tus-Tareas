@@ -1,6 +1,7 @@
 package com.example.tustareas.modelos
 
 import androidx.room.TypeConverter
+import java.util.Date
 
 /**
  * Clase que gestiona las conversiones que requiere room para los enums y tipos especificos
@@ -26,5 +27,16 @@ class Convertidor {
     @TypeConverter
     fun toEstado(value: String): Estado {
         return runCatching { Estado.valueOf(value) }.getOrDefault( Estado.EnTiempo )
+    }
+
+    // Date
+    @TypeConverter
+    fun fromDate(value: Long): Date {
+        return Date(value)
+    }
+
+    @TypeConverter
+    fun toDate(value: Date): Long {
+        return value.time
     }
 }

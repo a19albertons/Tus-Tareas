@@ -2,6 +2,7 @@ package com.example.tustareas.modelos
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 /**
  * Clase que representa la tabla tareas en la bd
