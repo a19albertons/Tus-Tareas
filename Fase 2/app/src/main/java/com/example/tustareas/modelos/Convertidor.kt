@@ -16,4 +16,15 @@ class Convertidor {
     fun toPrioridad(value: String): Prioridad {
         return runCatching { Prioridad.valueOf(value) }.getOrDefault(Prioridad.NoEstablecido )
     }
+
+    // Estado
+    @TypeConverter
+    fun fromEstado(value: Estado): String {
+        return value.name
+    }
+
+    @TypeConverter
+    fun toEstado(value: String): Estado {
+        return runCatching { Estado.valueOf(value) }.getOrDefault( Estado.EnTiempo )
+    }
 }
