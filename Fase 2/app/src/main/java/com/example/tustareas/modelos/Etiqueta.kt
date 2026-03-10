@@ -3,6 +3,9 @@ package com.example.tustareas.modelos
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Clase que representa la tabla etiquetas en la bd
+ */
 @Entity(tableName = "etiquetas")
 data class Etiqueta(
     @PrimaryKey(autoGenerate = true)

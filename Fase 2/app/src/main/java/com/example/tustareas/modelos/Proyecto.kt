@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
+/**
+ * Clase que representa la tabla proyectos en la bd
+ */
 @Entity(tableName = "proyectos")
 data class Proyecto (
     @PrimaryKey(autoGenerate = true)
