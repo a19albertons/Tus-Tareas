@@ -37,6 +37,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    flavorDimensions += ("versiones")
+    productFlavors {
+        create("pre-produccion") {
+            dimension="versiones"
+            applicationIdSuffix=".pre"
+            versionNameSuffix="-pre"
+        }
+        create("produccion") {
+            dimension="versiones"
+        }
+    }
 }
 
 dependencies {
