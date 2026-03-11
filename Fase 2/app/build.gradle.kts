@@ -56,6 +56,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
+    // Live data
+    implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.2")
+
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
