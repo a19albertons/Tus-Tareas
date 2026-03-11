@@ -15,7 +15,7 @@ import java.util.Date
         ForeignKey(
             entity = Proyecto::class,
             parentColumns = ["id"], // PK de proyecto (padre)
-            childColumns = ["id"], // PK de tareas (hija)
+            childColumns = ["idProyecto"], // FK en tareas (hija)
         )
     ]
 )
@@ -29,4 +29,5 @@ data class Tarea (
     var fechaCreacion: Date, // Hay que construirlo a partir del timestamp
     var estado: Estado, // Hay que hacer una clase para convertir este enum
     // La lista de etiquetas va en una clase distinta room se lleva mal con las N:N
+    var idProyecto: Int // Clave foránea a proyecto
 )

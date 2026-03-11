@@ -10,13 +10,12 @@ import com.example.tustareas.modelos.TareaEtiqueta
 /**
  * Clase que representa el Data Transfer Object entre Tarea y la lista de etiquetas
  */
-class TareaDTO (
+data class TareaDTO (
     @Embedded var tarea: Tarea,
     @Relation(
-        parentColumn = "idTarea",
-        entityColumn = "idEtiqueta",
-        associateBy = Junction(TareaEtiqueta::class)
-
+        parentColumn = "id",
+        entityColumn = "id",
+        associateBy = Junction(TareaEtiqueta::class, parentColumn = "idTarea", entityColumn = "idEtiqueta")
     )
     var etiquetas: List<Etiqueta>
 ) {

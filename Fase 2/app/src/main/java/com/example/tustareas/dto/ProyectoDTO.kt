@@ -14,14 +14,14 @@ import com.example.tustareas.modelos.Tarea
 data class ProyectoDTO (
     @Embedded var proyecto: Proyecto,
     @Relation(
-        parentColumn = "idProyecto",
-        entityColumn = "idEtiqueta",
-        associateBy = Junction(ProyectoEtiqueta::class,)
+        parentColumn = "id",
+        entityColumn = "id",
+        associateBy = Junction(ProyectoEtiqueta::class, parentColumn = "idProyecto", entityColumn = "idEtiqueta")
     )
     var etiquetas: List<Etiqueta>,
     @Relation(
         parentColumn = "id",
-        entityColumn = "id"
+        entityColumn = "idProyecto"
     )
     var tareas: List<Tarea>
 ) {
