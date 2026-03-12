@@ -8,5 +8,9 @@ class TusTareasRepository(database: TusTareasDatabase) {
     private val tareaConsultas = database.tareaConsultas()
 
     // funcines daos
+    // Tareas en tiempo no completas que terminen hoy
     fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = tareaConsultas.obtenerTareasTerminanDiaEspecifico(fecha)
+
+    // Tareas no completadas y retrasadas
+    fun obtenerTareasRetrasadas(fecha: Date) = tareaConsultas.obtenerTareasRetrasadas(fecha)
 }

@@ -11,7 +11,11 @@ import java.util.Date
  * ViewModel que une la aplicacion con la base de datos
  */
 class TusTareasModel(application: Application): AndroidViewModel(application) {
+    // Invocacion repositorio
     private val repository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
 
+    // Metodos de la base de datos
     fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = repository.obtenerTareasTerminanDiaEspecifico(fecha)
+    fun obtenerTareasRetrasadas(fecha: Date) = repository.obtenerTareasRetrasadas(fecha)
+
 }
