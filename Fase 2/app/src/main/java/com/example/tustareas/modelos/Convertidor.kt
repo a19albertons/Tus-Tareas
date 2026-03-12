@@ -1,6 +1,7 @@
 package com.example.tustareas.modelos
 
 import androidx.room.TypeConverter
+import java.util.Calendar
 import java.util.Date
 
 /**
@@ -31,12 +32,20 @@ class Convertidor {
 
     // Date
     @TypeConverter
-    fun fromDate(value: Long): Date {
-        return Date(value)
+    fun fromDate(value: Date?): Long? {
+        if (value == null) return null
+        // Conversion datetime a date
+        val cal = Calendar.getInstance()
+        cal.time = value
+        cal.set(Calendar.HOUR_OF_DAY, 0)
+        cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
+        return cal.timeInMillis
     }
 
     @TypeConverter
-    fun toDate(value: Date): Long {
-        return value.time
+    fun toDate(value: Long?): Date? {
+        return value?.let { Date(it) }
     }
 }
