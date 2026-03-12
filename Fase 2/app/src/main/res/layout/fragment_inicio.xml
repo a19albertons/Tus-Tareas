@@ -13,13 +13,13 @@
         android:layout_margin="10dp"
         android:backgroundTint="#FF444444"
         app:cardCornerRadius="30dp"
-        >
+    >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp"
-            >
+        >
 
             <TextView
                 android:id="@+id/tareasHoyTexto"
@@ -28,18 +28,26 @@
                 android:text="@string/temporal"
                 android:textSize="24sp"
                 android:textColor="#FFFFFFFF"
-                />
+            />
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+            >
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/tareasHoy"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                />
             </ScrollView>
+            <TextView
+                android:id="@+id/verMas1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                android:textAlignment="textEnd"
+                android:paddingRight="15dp"
+                android:textColor="#FFFFFFFF" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -58,6 +66,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tareasRetrasadasTexto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
@@ -65,14 +74,21 @@
                 android:textColor="#FFFFFFFF" />
 
             <ScrollView
-                android:id="@+id/tareasRetrasadasTexto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/tareasRetrasadas"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </ScrollView>
+            <TextView
+                android:id="@+id/verMas2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                android:textAlignment="textEnd"
+                android:paddingRight="15dp"
+                android:textColor="#FFFFFFFF" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -90,6 +106,7 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tareasProximasTexto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
@@ -97,12 +114,11 @@
                 android:textColor="#FFFFFFFF" />
 
             <ScrollView
-                android:id="@+id/tareasProximasTexto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/tareasProximas"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </ScrollView>
 
