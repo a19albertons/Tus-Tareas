@@ -23,8 +23,8 @@ data class Tarea (
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var nombre: String,
-    var descripcion: String,
-    var fechaLimite: Date, // Hay que construirlo a partir del timestamp
+    var descripcion: String? = null,
+    var fechaLimite: Date? = null, // Hay que construirlo a partir del timestamp
     var prioridad: Prioridad, // Hay que hacer una clase para convertir este enum
     var fechaCreacion: Date, // Hay que construirlo a partir del timestamp
     var estado: Estado, // Hay que hacer una clase para convertir este enum

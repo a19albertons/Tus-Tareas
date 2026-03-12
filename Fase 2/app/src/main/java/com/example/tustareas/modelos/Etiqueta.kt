@@ -11,6 +11,6 @@ data class Etiqueta(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var nombre: String,
-    var descripcion: String
+    var descripcion: String? = null
 ) {
 }
