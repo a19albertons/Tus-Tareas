@@ -58,12 +58,16 @@ INSERT INTO etiquetas (nombre, descripcion) VALUES
 INSERT INTO tareas (nombre, descripcion, fechaLimite, prioridad, fechaCreacion, estado, idProyecto) VALUES
     ('Tarea 1', 'Descripción de tarea 1',
          strftime('%s','now','localtime','+7 days','start of day','utc')*1000,
-         'ALTA', strftime('%s','now','localtime','start of day','utc')*1000, 'PENDIENTE', 1),
-    ('Tarea 2', NULL, NULL, 'MEDIA', strftime('%s','now','localtime','start of day','utc')*1000, 'COMPLETADA', 1),
+         'Alta', strftime('%s','now','localtime','start of day','utc')*1000, 'EnTiempo', 1),
+    ('Tarea 2', NULL, NULL, 'Media', strftime('%s','now','localtime','start of day','utc')*1000, 'COMPLETADA', 1),
     ('Tarea Hoy 1', 'Vencimiento hoy',
-         strftime('%s','now','localtime','start of day','utc')*1000, 'BAJA', strftime('%s','now','localtime','start of day','utc')*1000, 'PENDIENTE', 1),
+         strftime('%s','now','localtime','start of day','utc')*1000, 'Baja', strftime('%s','now','localtime','start of day','utc')*1000, 'EnTiempo', 1),
     ('Tarea Hoy 2', 'Otra tarea de hoy',
-         strftime('%s','now','localtime','start of day','utc')*1000, 'MEDIA', strftime('%s','now','localtime','start of day','utc')*1000, 'PENDIENTE', 1);
+         strftime('%s','now','localtime','start of day','utc')*1000, 'Media', strftime('%s','now','localtime','start of day','utc')*1000, 'EnTiempo', 1),
+    ('Tarea Hoy 3', 'Tercera tarea hoy',
+         strftime('%s','now','localtime','start of day','utc')*1000, 'Alta', strftime('%s','now','localtime','start of day','utc')*1000, 'EnTiempo', 1),
+    ('Tarea Hoy 4', 'Cuarta tarea hoy',
+         strftime('%s','now','localtime','start of day','utc')*1000, 'Baja', strftime('%s','now','localtime','start of day','utc')*1000, 'EnTiempo', 1);
 INSERT INTO TareaEtiquetas (idTarea, idEtiqueta) VALUES (1,1), (2,2);
 INSERT INTO ProyectoEtiquetas (idProyecto, idEtiqueta) VALUES (1,1);
 EOF
