@@ -1,0 +1,38 @@
+package com.example.tustareas.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tustareas.R
+import com.example.tustareas.modelos.Tarea
+
+class TareasRetrasadasAdapter(private var tareas: List<Tarea>) : RecyclerView.Adapter<TareasRetrasadasAdapter.TareasViewHolder>() {
+
+    // View holder
+    class TareasViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+        val nombreTarea: TextView = itemView.findViewById(R.id.nombreTarea)
+        val fechaLimite: TextView = itemView.findViewById(R.id.fechaLimite)
+    }
+
+    // Inflar el contenido de la vista
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareasViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_tareas_retrasadas, parent, false)
+        return TareasViewHolder(view)
+    }
+
+    // Sobreescritura de valores
+    override fun onBindViewHolder(holder: TareasViewHolder, position: Int) {
+        val objetoActual = tareas[position]
+        holder.nombreTarea.text = objetoActual.nombre
+        holder.fechaLimite.text = objetoActual.fechaLimite.toString()
+    }
+
+    // total de elementos
+    override fun getItemCount(): Int {
+        return tareas.size
+    }
+
+}
