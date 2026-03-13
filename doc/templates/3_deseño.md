@@ -125,3 +125,5 @@ classDiagram
 ```
 
 ## Deseño de interface de usuarios
+
+[enlace a figma](https://www.figma.com/design/VZCQcw7a7B60PrGtjRBL0c/El-proyecto?node-id=0-1&p=f&t=KTdcYnHBGH3pHU1V-0)
