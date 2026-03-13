@@ -2,6 +2,54 @@
 
 ## Diagrama da arquitectura
 
+### Diagrama de componentes
+
+```mermaid
+flowchart TB
+    %% tu
+    Cliente[Usuario]
+
+    %% app
+    subgraph El dispositivo del usuario
+        subgraph Aplicacion
+            ui[ui]
+            ViewModel[ViewModel]
+            dao[dao]
+            ServicioDeNotificaciones[Servicio de notificaciones]
+        end
+        SistemaDeNotificaciones[Sistema de notificaciones]
+        BD[Base de datos]
+    end
+
+    %% relaciones
+    Cliente -->|interactua| ui
+    ui <-->|intercambio de datos| ViewModel
+    ViewModel <-->|usa| dao
+    dao <-->|interactua| BD
+    ViewModel <-->|usa| ServicioDeNotificaciones
+    ServicioDeNotificaciones <-->|envia notificaciones| SistemaDeNotificaciones
+    
+```
+
+### Diagrama de Despliegue
+```mermaid
+flowchart TD
+    %% nodo
+    Usuario[Usuario]
+    subgraph El dispositivo
+        subgraph Sistema operativo android
+            Aplicacion[Aplicación]
+            Bd[Base de datos]
+            SistemaNotificaciones[Sistema de notificaciones]
+        end
+    end
+
+    %% relaciones
+    Usuario -->|usa| Aplicacion
+    Aplicacion -->|usa| Bd
+    Aplicacion -->|envia notificaciones| SistemaNotificaciones
+```
+
 ## Diagrama de Base de Datos
 
 ```mermaid
