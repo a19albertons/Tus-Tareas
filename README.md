@@ -6,9 +6,13 @@
 
 > _TODO_: Realiza unha breve descrición do proxecto (entre 100 e 300 palabras). Resalta o fundamental **coas túas propias palabras**. Utiliza unha linguaxe correcta, **pero natural**, que poida ser entendida pola maioría das persoas, incluso as que non teñan un coñecemento técnico da materia.
 
+O proxecto consiste nunha aplicación de xestión de tarefas para dispositivos móbiles. A aplicación permitirá ao usuario crear, editar, modificar e eliminar tarefas, así como organizalas en proxectos e asignarlles etiquetas. Ademais, contará con funcionalidades adicionais como a posibilidade ter estadisticas sobre as tarefas de cada semana, un sistema de notificacións para avisar ao usuario de unha tarefa esta retrasada ou cerca da data limite, definir prioridades e marcar as tarefas como completas.
+
 ## Sobre a autoría
 
 > _TODO_: Realiza unha breve descrición de quen es (perfil profesional), puntos fortes, tecnoloxías que máis dominas... e os motivos que te levaron a elaborar este proxecto. **Non máis de 200 palabras**.
+
+Estudante de informática do IES San Clemente de Desenvolvemento de aplicacións multiplataforma. Teño experiencia programando en Java, Kotlin, Python e Go. O prxecto realizase por necesidades de cumplimentar o proxecto fin de ciclo.
 
 ## Licencia
 
