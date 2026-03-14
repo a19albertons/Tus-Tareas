@@ -6,11 +6,15 @@
 
 ### FUNCIONAIS
 
-- Crear, modificar, eliminar tarefas
-- organizar as tarefas dentro de proxectos e asignarlle etiquetas.
+- Crear, modificar e eliminar tarefas
+- Crear, modificar e eliminar proxectos.
+- Administrar etiquetas.
 - Posibilidade de marcar tarefas como completas, a sua prioridade e data de vencemento.
-- Sistema de notificacións para avissar si esta retrasada ou cerca da data de vencemento.
+- Sistema de notificacións para avisar si esta retrasada ou cerca da data de vencemento.
 - Sistema de estadísticas con información sobre as tarefas da semana actual
+- Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descipción...
+- Filtrado de proxectos por nome, etiquetas...
+- Filtrado de etiquetas por nome e descipción
 
 ### NON FUNCIONAIS
 
