@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.TareasHoyPendientesAdapter
+import com.example.tustareas.adapters.TareasProximasAdapter
 import com.example.tustareas.adapters.TareasRetrasadasAdapter
 import com.example.tustareas.dao.TareaConsultas
 import com.example.tustareas.databinding.FragmentInicioBinding
@@ -88,6 +89,35 @@ class InicioFragment : Fragment() {
                 segundoRecyclerView.adapter = TareasRetrasadasAdapter(listadoTareasRetrasadas)
                 binding.verMas2.visibility = View.GONE
             }
+        }
+
+        model.obtenerTareasProximas(Date()).observe(viewLifecycleOwner) {
+            listadoTareasProximas ->
+            // switch
+            when (listadoTareasProximas?.size ?: 0) {
+                0 -> binding.tareasProximasTexto.text = "No hay tareas próximas"
+                1 -> binding.tareasProximasTexto.text = "Tienes 1 tarea próxima"
+                else -> binding.tareasProximasTexto.text = "Tienes ${listadoTareasProximas?.size} tareas próximas"
+            }
+
+            // scroll view
+            // obtener referencia
+            val terceroRecyclerView = binding.tareasProximas
+
+            // definir layout
+            terceroRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+            // Asignar el adapter
+            if (listadoTareasProximas.size > 3) {
+                terceroRecyclerView.adapter =
+                    TareasProximasAdapter(listadoTareasProximas.subList(0, 3))
+                binding.verMas3.visibility = View.VISIBLE
+            }
+            else {
+                terceroRecyclerView.adapter = TareasProximasAdapter(listadoTareasProximas)
+                binding.verMas3.visibility = View.GONE
+            }
+
         }
 
 
