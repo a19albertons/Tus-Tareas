@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tustareas.R
 import com.example.tustareas.adapters.EtiquetasAdapter
-import com.example.tustareas.databinding.FragmentDetallesBinding
+import com.example.tustareas.databinding.FragmentVerDetallesBinding
 import com.example.tustareas.modelView.TusTareasModel
 import kotlin.getValue
 
-class DetallesFragment : Fragment() {
-    private var _binding: FragmentDetallesBinding? = null
-    private val binding: FragmentDetallesBinding
+class VerEtiquetasFragment : Fragment() {
+    private var _binding: FragmentVerDetallesBinding? = null
+    private val binding: FragmentVerDetallesBinding
         get() = _binding!!
 
     val model: TusTareasModel by viewModels(
@@ -29,7 +28,7 @@ class DetallesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentDetallesBinding.inflate(inflater, container, false)
+        _binding = FragmentVerDetallesBinding.inflate(inflater, container, false)
 
         // Obtenemos la referncia
         val recyclerView = binding.listaEtiquetas
@@ -41,6 +40,13 @@ class DetallesFragment : Fragment() {
         // Valor por defecto inicial
         model.obtenerEtiquetasFiltradas("").observe(viewLifecycleOwner) {
                 listadoEtiquetas ->
+            if (listadoEtiquetas.isEmpty()) {
+                binding.sinResultados.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                binding.sinResultados.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
+            }
             recyclerView.adapter = EtiquetasAdapter(listadoEtiquetas)
         }
         val filtro = binding.filtro
@@ -54,6 +60,13 @@ class DetallesFragment : Fragment() {
             override fun afterTextChanged(texto: Editable?) {
                 model.obtenerEtiquetasFiltradas(texto.toString()).observe(viewLifecycleOwner) {
                     listadoEtiquetas ->
+                    if (listadoEtiquetas.isEmpty()) {
+                        binding.sinResultados.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                    } else {
+                        binding.sinResultados.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+                    }
                     recyclerView.adapter = EtiquetasAdapter(listadoEtiquetas)
                 }
             }

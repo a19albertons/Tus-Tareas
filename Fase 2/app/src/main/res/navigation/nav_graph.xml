@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_inicio" />
     <fragment
         android:id="@+id/detallesFragment"
-        android:name="com.example.tustareas.fragmentos.DetallesFragment"
+        android:name="com.example.tustareas.fragmentos.VerEtiquetasFragment"
         android:label="fragment_detalles"
-        tools:layout="@layout/fragment_detalles" />
+        tools:layout="@layout/fragment_ver_detalles" />
 </navigation>
