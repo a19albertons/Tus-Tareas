@@ -10,4 +10,9 @@
         android:name="com.example.tustareas.fragmentos.InicioFragment"
         android:label="fragment_inicio"
         tools:layout="@layout/fragment_inicio" />
+    <fragment
+        android:id="@+id/detallesFragment"
+        android:name="com.example.tustareas.fragmentos.DetallesFragment"
+        android:label="fragment_detalles"
+        tools:layout="@layout/fragment_detalles" />
 </navigation>
