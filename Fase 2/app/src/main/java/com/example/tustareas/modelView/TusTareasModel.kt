@@ -18,5 +18,6 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = repository.obtenerTareasTerminanDiaEspecifico(fecha)
     fun obtenerTareasRetrasadas(fecha: Date) = repository.obtenerTareasRetrasadas(fecha)
     fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
+    fun obtenerEtiquetasFiltradas(texto: String) = repository.obtenerEtiquetasFiltradas(texto)
 
 }

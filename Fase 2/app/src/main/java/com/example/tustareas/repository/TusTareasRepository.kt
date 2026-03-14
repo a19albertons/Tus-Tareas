@@ -6,6 +6,8 @@ import java.util.Date
 class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
     private val tareaConsultas = database.tareaConsultas()
+    private val etiquetaConsultas = database.etiquetaConsultas()
+
 
     // funcines daos
     // Tareas en tiempo no completas que terminen hoy
@@ -16,4 +18,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Tareas proximas
     fun obtenerTareasProximas(fecha: Date) = tareaConsultas.obtenerTareasProximas(fecha)
+
+    // Etiquetas filtradas
+    fun obtenerEtiquetasFiltradas(texto: String) = etiquetaConsultas.obtenerEtiquetasFiltradas(texto)
 }
