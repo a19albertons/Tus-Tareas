@@ -121,6 +121,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </ScrollView>
+            <TextView
+                android:id="@+id/verMas3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                android:textAlignment="textEnd"
+                android:paddingRight="15dp"
+                android:textColor="#FFFFFFFF" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
