@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="#FF444444"
+            android:backgroundTint="@color/gray"
             app:cardCornerRadius="30dp"
         >
             <LinearLayout
@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/temporal"
                     android:textSize="24sp"
-                    android:textColor="#FFFFFFFF"
+                    android:textColor="@color/black"
                 />
 
 
@@ -58,7 +58,7 @@
                         android:layout_weight="0.2"
                         android:layout_height="wrap_content"
                         android:text="@string/temporal"
-                        android:textColor="#FFFFFFFF" />
+                        android:textColor="@color/blueMore" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="#FF444444"
+            android:backgroundTint="@color/gray"
             app:cardCornerRadius="30dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/temporal"
                     android:textSize="24sp"
-                    android:textColor="#FFFFFFFF" />
+                    android:textColor="@color/black" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -107,7 +107,7 @@
                         android:layout_weight="0.2"
                         android:layout_height="wrap_content"
                         android:text="@string/temporal"
-                        android:textColor="#FFFFFFFF" />
+                        android:textColor="@color/blueMore" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:backgroundTint="#FF444444"
+            android:backgroundTint="@color/gray"
             app:cardCornerRadius="30dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/temporal"
                     android:textSize="24sp"
-                    android:textColor="#FFFFFFFF" />
+                    android:textColor="@color/black" />
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -154,7 +154,7 @@
                         android:layout_weight="0.2"
                         android:layout_height="wrap_content"
                         android:text="@string/temporal"
-                        android:textColor="#FFFFFFFF" />
+                        android:textColor="@color/blueMore" />
                 </LinearLayout>
 
             </LinearLayout>
