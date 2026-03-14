@@ -7,7 +7,7 @@ object DateHelper {
     fun timestampToString(fecha: Date?): String {
         var devolver = ""
         // Control de la causistica no has definido una fecha (null)
-        if (fecha == null) {
+        if (fecha != null) {
             // asignacion a calendar
             val calendar = Calendar.getInstance()
             calendar.time = fecha
