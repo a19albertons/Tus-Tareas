@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         app:title="tus Tareas"
         android:background="@color/gray"
+        app:menu="@menu/toolbar_general"
         />
 
     <androidx.fragment.app.FragmentContainerView
