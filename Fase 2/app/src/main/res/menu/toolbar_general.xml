@@ -6,7 +6,7 @@
         android:title="Ajustes"
         />
     <item
-        android:id="@+id/etiquetasDetalles"
+        android:id="@+id/detallesFragment"
         android:title="Gestionar etiquetas"
         />
     <item
