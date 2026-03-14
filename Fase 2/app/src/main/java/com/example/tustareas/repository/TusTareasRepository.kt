@@ -13,4 +13,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Tareas no completadas y retrasadas
     fun obtenerTareasRetrasadas(fecha: Date) = tareaConsultas.obtenerTareasRetrasadas(fecha)
+
+    // Tareas proximas
+    fun obtenerTareasProximas(fecha: Date) = tareaConsultas.obtenerTareasProximas(fecha)
 }

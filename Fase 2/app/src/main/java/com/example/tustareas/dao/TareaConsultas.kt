@@ -16,4 +16,8 @@ interface TareaConsultas {
     @Transaction
     @Query("select * from tareas where fechaLimite < :fecha AND (estado = 'EnTiempo' OR estado = 'Retrasada')")
     fun obtenerTareasRetrasadas(fecha: Date): LiveData<List<Tarea>>
+
+    @Transaction
+    @Query("select * from tareas where (fechaLimite > :fecha OR fechaLimite = null) AND estado = 'EnTiempo' ORDER BY fechaLimite ASC")
+    fun obtenerTareasProximas(fecha: Date): LiveData<List<Tarea>>
 }

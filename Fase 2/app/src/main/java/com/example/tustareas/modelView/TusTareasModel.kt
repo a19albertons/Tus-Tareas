@@ -17,5 +17,6 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Metodos de la base de datos
     fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = repository.obtenerTareasTerminanDiaEspecifico(fecha)
     fun obtenerTareasRetrasadas(fecha: Date) = repository.obtenerTareasRetrasadas(fecha)
+    fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
 
 }
