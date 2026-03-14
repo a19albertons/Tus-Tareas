@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.util.DateHelper
 
 class TareasRetrasadasAdapter(private var tareas: List<Tarea>) : RecyclerView.Adapter<TareasRetrasadasAdapter.TareasViewHolder>() {
 
@@ -27,7 +28,7 @@ class TareasRetrasadasAdapter(private var tareas: List<Tarea>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: TareasViewHolder, position: Int) {
         val objetoActual = tareas[position]
         holder.nombreTarea.text = objetoActual.nombre
-        holder.fechaLimite.text = objetoActual.fechaLimite.toString()
+        holder.fechaLimite.text = DateHelper.timestampToString(objetoActual.fechaLimite)
     }
 
     // total de elementos
