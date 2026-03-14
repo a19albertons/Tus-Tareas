@@ -15,6 +15,8 @@
 - Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descipción...
 - Filtrado de proxectos por nome, etiquetas...
 - Filtrado de etiquetas por nome e descipción
+- O usuario poderá escoller entre modo claro, oscuro o sistema
+- O usuario poderá escoller entre varios idiomas disponibles ou deixar o default do sistema
 
 ### NON FUNCIONAIS
 
@@ -23,6 +25,10 @@
 - As notificacións serán enviadas ainda que a aplicación estea pechada
 
 - Ainda que a aplicación se caese, o dispositivo de apagase... os datos gardados non se veran afectados.
+
+- Los colores deben ofrecer una experiencia de usuario agradable en ambos modos.
+
+- La aplicación dispondrá de varios idiomas.
 
 ## Tipos de usuarios
 
