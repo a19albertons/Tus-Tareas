@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FF000000</color>
+    <color name="gray">#FF666666</color>
+    <color name="blueMore">#FF00F6FF</color>
+    <color name="blueStats">#FF3700FF</color>
+    <color name="yellowStats">#FFFFEA00</color>
+    <color name="grayStatsToolbar">#FFD9D9D9</color>
+    <color name="blueNotes">#FF1BD368</color>
+    <color name="greenStats">#FF059669</color>
+    <color name="redStats">#FFFF0000</color>
+</resources>
