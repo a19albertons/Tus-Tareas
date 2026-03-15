@@ -4,15 +4,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
+import com.example.tustareas.fragmentos.ListarEtiquetasFragmentDirections
 import com.example.tustareas.modelos.Etiqueta
+import com.google.android.material.card.MaterialCardView
 
 class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adapter<EtiquetasAdapter.EtiquetaViewHolder>() {
     // View Holder
     class EtiquetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nombreEtiqueta : TextView = itemView.findViewById(R.id.nombreEtiqueta)
         val descripcionEtiqueta : TextView = itemView.findViewById(R.id.descipcionEtiqueta)
+        val clickable : MaterialCardView = itemView.findViewById(R.id.clickable)
     }
 
     // Inflar el contenido de la vista
@@ -26,6 +30,9 @@ class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adap
         val objetoActual = etiquetas[posicion]
         holder.nombreEtiqueta.text = objetoActual.nombre
         holder.descripcionEtiqueta.text = objetoActual.descripcion
+        holder.clickable.setOnClickListener {
+            it.findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToEtiquetaDetallesFragment(objetoActual.id))
+        }
     }
 
     // Tamaño de la lista
