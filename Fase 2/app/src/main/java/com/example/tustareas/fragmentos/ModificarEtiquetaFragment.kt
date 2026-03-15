@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentModificarEtiquetaBinding
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
@@ -76,7 +77,7 @@ class ModificarEtiquetaFragment : Fragment() {
 
     // Dialogo de guardado
     private fun dialogoGuardado() {
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle("Estas seguro de guardar la etiqueta")
             .setMessage("")
             .setPositiveButton("Guardar") { _, _ ->
@@ -106,7 +107,7 @@ class ModificarEtiquetaFragment : Fragment() {
     }
     // Dialogo de modificación
     private fun dialogoModificado() {
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle("Estas seguro de los cambios")
             .setMessage("")
             .setPositiveButton("Guardar") { _, _ ->

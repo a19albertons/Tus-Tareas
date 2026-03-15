@@ -86,7 +86,7 @@ class EtiquetaDetallesFragment : Fragment() {
     }
 
     private fun dialgoEliminacion() {
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle("Desea eliminar esta etiqueta")
             .setMessage("")
             .setPositiveButton("Eliminar") { _, _ ->
