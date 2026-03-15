@@ -57,7 +57,9 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Controlar a android id home
         if (item.itemId == android.R.id.home) {
-            return false
+            // Para que salten los distintos dialogos que se configuren
+            onBackPressedDispatcher.onBackPressed()
+            return true
         }
         return NavigationUI.onNavDestinationSelected(
             item,
