@@ -6,4 +6,29 @@
     </style>
 
     <style name="Theme.TusTareas" parent="Base.Theme.TusTareas" />
+
+    <style name="DialogoPersonalizado" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <!-- Color mensajes -->
+        <item name="android:textColor">@color/blueNotes </item>
+        <!-- Color de fondo -->
+        <item name="android:background">@color/gray</item>
+
+        <!-- Botones -->
+        <item name="buttonBarPositiveButtonStyle">@style/BoronPositivo</item>
+        <item name="buttonBarNegativeButtonStyle">@style/BoronNegativo</item>
+        <item name="buttonBarNeutralButtonStyle">@style/BoronNeutral</item>
+    </style>
+
+    <style name="BoronPositivo" parent="Widget.Material3.Button.TextButton.Dialog">
+        <!-- Color boton -->
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="BoronNegativo" parent="Widget.Material3.Button.TextButton.Dialog">
+        <!-- Color boton -->
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="BoronNeutral" parent="Widget.Material3.Button.TextButton.Dialog">
+        <!-- Color boton -->
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>
