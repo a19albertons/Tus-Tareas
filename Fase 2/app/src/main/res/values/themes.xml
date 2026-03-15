@@ -7,6 +7,7 @@
 
     <style name="Theme.TusTareas" parent="Base.Theme.TusTareas" />
 
+    <!-- customización de los dialogos -->
     <style name="DialogoPersonalizado" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <!-- Color mensajes -->
         <item name="android:textColor">@color/blueNotes </item>
@@ -30,5 +31,12 @@
     <style name="BoronNeutral" parent="Widget.Material3.Button.TextButton.Dialog">
         <!-- Color boton -->
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- Gestion del bottom navigation view y su globo -->
+    <style name="globoBottomNavigation" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@android:color/transparent</item>
+        <item name="android:width">0dp</item>
+        <item name="android:height">0dp</item>
     </style>
 </resources>
