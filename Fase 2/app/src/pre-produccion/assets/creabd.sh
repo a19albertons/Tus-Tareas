@@ -38,12 +38,16 @@ CREATE TABLE tareas (
 CREATE TABLE TareaEtiquetas (
   idTarea INTEGER NOT NULL,
   idEtiqueta INTEGER NOT NULL,
-  PRIMARY KEY (idTarea, idEtiqueta)
+  PRIMARY KEY (idTarea, idEtiqueta),
+  FOREIGN KEY(idTarea) REFERENCES tareas(id) ON DELETE CASCADE,
+  FOREIGN KEY(idEtiqueta) REFERENCES etiquetas(id) ON DELETE CASCADE
 );
 CREATE TABLE ProyectoEtiquetas (
   idProyecto INTEGER NOT NULL,
   idEtiqueta INTEGER NOT NULL,
-  PRIMARY KEY (idProyecto, idEtiqueta)
+  PRIMARY KEY (idProyecto, idEtiqueta),
+  FOREIGN KEY(idProyecto) REFERENCES proyectos(id) ON DELETE CASCADE,
+  FOREIGN KEY(idEtiqueta) REFERENCES etiquetas(id) ON DELETE CASCADE
 );
 -- datos de ejemplo
 -- generamos timestamps en ms (strftime('%s')*1000) centrados a medianoche
