@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNav.setupWithNavController(navController)
 
+        // Flecha para atras
+        NavigationUI.setupActionBarWithNavController(this, navController)
+
 
     }
 
@@ -51,10 +55,18 @@ class MainActivity : AppCompatActivity() {
 
     // Navegacion del menu toolbar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
+        // Controlar a android id home
+        if (item.itemId == android.R.id.home) {
+            return false
+        }
         return NavigationUI.onNavDestinationSelected(
             item,
             navController
         ) || super.onOptionsItemSelected(item)
+    }
+
+    // Modificación logica flecha de retroceso
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
