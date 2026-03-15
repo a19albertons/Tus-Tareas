@@ -19,5 +19,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerTareasRetrasadas(fecha: Date) = repository.obtenerTareasRetrasadas(fecha)
     fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
     fun obtenerEtiquetasFiltradas(texto: String) = repository.obtenerEtiquetasFiltradas(texto)
+    fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
+
 
 }

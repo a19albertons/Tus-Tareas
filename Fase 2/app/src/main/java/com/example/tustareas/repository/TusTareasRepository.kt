@@ -21,4 +21,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Etiquetas filtradas
     fun obtenerEtiquetasFiltradas(texto: String) = etiquetaConsultas.obtenerEtiquetasFiltradas(texto)
+    // Etiqueta por id
+    fun obtenerEtiquetaPorID(id: Int) = etiquetaConsultas.obtenerEtiquetaPorID(id)
+
 }
