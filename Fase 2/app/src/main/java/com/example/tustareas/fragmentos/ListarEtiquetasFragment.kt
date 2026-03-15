@@ -10,13 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.adapters.EtiquetasAdapter
-import com.example.tustareas.databinding.FragmentVerDetallesBinding
+import com.example.tustareas.databinding.FragmentListarEtiquetasBinding
 import com.example.tustareas.modelView.TusTareasModel
 import kotlin.getValue
 
-class VerEtiquetasFragment : Fragment() {
-    private var _binding: FragmentVerDetallesBinding? = null
-    private val binding: FragmentVerDetallesBinding
+class ListarEtiquetasFragment : Fragment() {
+    private var _binding: FragmentListarEtiquetasBinding? = null
+    private val binding: FragmentListarEtiquetasBinding
         get() = _binding!!
 
     val model: TusTareasModel by viewModels(
@@ -28,7 +28,7 @@ class VerEtiquetasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentVerDetallesBinding.inflate(inflater, container, false)
+        _binding = FragmentListarEtiquetasBinding.inflate(inflater, container, false)
 
         // Obtenemos la referncia
         val recyclerView = binding.listaEtiquetas
