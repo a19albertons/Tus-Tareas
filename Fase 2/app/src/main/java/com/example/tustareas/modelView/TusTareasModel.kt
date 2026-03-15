@@ -24,5 +24,6 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
+    suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
 
 }
