@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.navigation.safeargs)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -57,7 +59,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     // Live data
-    implementation("androidx.lifecycle:lifecycle-livedata-core-ktx:2.6.2")
+    implementation(libs.androidx.lifecycle.livedata.core.ktx)
 
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
