@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.adapters.EtiquetasAdapter
 import com.example.tustareas.databinding.FragmentListarEtiquetasBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelos.Etiqueta
 import kotlin.getValue
 
 class ListarEtiquetasFragment : Fragment() {
@@ -72,6 +74,11 @@ class ListarEtiquetasFragment : Fragment() {
             }
 
     })
+        val boton = binding.anadirEtiqueta
+        boton.setOnClickListener {
+            findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiqutaFragment(
+                Etiqueta(0,"","")))
+        }
 
         return binding.root
     }
