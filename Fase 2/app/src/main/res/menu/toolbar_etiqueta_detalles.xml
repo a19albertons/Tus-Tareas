@@ -9,7 +9,7 @@
         android:icon="@drawable/editar"
         />
     <item
-
+        android:id="@+id/action_eliminar_etiqueta"
         android:title="eliminar"
         app:showAsAction="always"
         android:icon="@drawable/eliminar"
