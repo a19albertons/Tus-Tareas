@@ -11,8 +11,21 @@
         android:label="fragment_inicio"
         tools:layout="@layout/fragment_inicio" />
     <fragment
-        android:id="@+id/detallesFragment"
-        android:name="com.example.tustareas.fragmentos.VerEtiquetasFragment"
+        android:id="@+id/listarEtiquetasFragment"
+        android:name="com.example.tustareas.fragmentos.ListarEtiquetasFragment"
         android:label="fragment_detalles"
-        tools:layout="@layout/fragment_ver_detalles" />
+        tools:layout="@layout/fragment_listar_etiquetas" >
+        <action
+            android:id="@+id/action_listarEtiquetasFragment_to_etiquetaDetallesFragment"
+            app:destination="@id/etiquetaDetallesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/etiquetaDetallesFragment"
+        android:name="com.example.tustareas.fragmentos.EtiquetaDetallesFragment"
+        android:label="fragment_etiqueta_detalles"
+        tools:layout="@layout/fragment_etiqueta_detalles" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
