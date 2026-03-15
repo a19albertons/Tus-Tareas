@@ -19,8 +19,8 @@
             android:id="@+id/action_listarEtiquetasFragment_to_etiquetaDetallesFragment"
             app:destination="@id/etiquetaDetallesFragment" />
         <action
-            android:id="@+id/action_listarEtiquetasFragment_to_modificarEtiqutaFragment"
-            app:destination="@id/modificarEtiqutaFragment" />
+            android:id="@+id/action_listarEtiquetasFragment_to_modificarEtiquetaFragment"
+            app:destination="@id/modificarEtiquetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/etiquetaDetallesFragment"
@@ -32,9 +32,9 @@
             app:argType="integer" />
     </fragment>
     <fragment
-        android:id="@+id/modificarEtiqutaFragment"
+        android:id="@+id/modificarEtiquetaFragment"
         android:name="com.example.tustareas.fragmentos.ModificarEtiquetaFragment"
-        android:label="fragment_modificar_etiquta"
+        android:label="fragment_modificar_etiqueta"
         tools:layout="@layout/fragment_modificar_etiqueta" >
         <argument
             android:name="etiqueta"

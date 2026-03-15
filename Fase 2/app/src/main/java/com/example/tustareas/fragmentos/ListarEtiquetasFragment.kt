@@ -76,7 +76,7 @@ class ListarEtiquetasFragment : Fragment() {
     })
         val boton = binding.anadirEtiqueta
         boton.setOnClickListener {
-            findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiqutaFragment(
+            findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
                 Etiqueta(0,"","")))
         }
 
