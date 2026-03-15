@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Cuando esta seleccionado -->
+    <item android:drawable="@drawable/proyectos_seleccionado" android:state_checked="true" />
+    <!-- Icono normal -->
+    <item android:drawable="@drawable/proyectos" />
+</selector>
