@@ -24,6 +24,10 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
+
+    // Metodos de moficiación en la base de datos
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
 
+    // Metodos de eliminación en la base de datos
+    suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = repository.eliminarEtiqueta(etiqueta)
 }

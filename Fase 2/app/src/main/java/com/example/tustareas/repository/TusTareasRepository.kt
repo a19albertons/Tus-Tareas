@@ -31,6 +31,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.insertarEtiqueta(etiqueta)
     // Modificar etiqueta existente
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.modificarEtiqueta(etiqueta)
+    // Eliminar etiqueta existente
+    suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.eliminarEtiqueta(etiqueta)
 
 
 
