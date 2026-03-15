@@ -38,6 +38,8 @@ class ModificarEtiquetaFragment : Fragment() {
         val view = binding.root
         val args = ModificarEtiquetaFragmentArgs.fromBundle(requireArguments())
         etiquetaPasada = args.etiqueta
+        binding.tituloEtiqueta.setText(etiquetaPasada.nombre)
+        binding.descipcionEtiqueta.setText(etiquetaPasada.descripcion)
 
 
 
@@ -51,6 +53,7 @@ class ModificarEtiquetaFragment : Fragment() {
         // Variable que controla que modal
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                // 0 solo la pueden tener las de nueva creación
                 if (etiquetaPasada.id == 0) {
                     dialogoGuardado()
                 }
@@ -103,7 +106,33 @@ class ModificarEtiquetaFragment : Fragment() {
     }
     // Dialogo de modificación
     private fun dialogoModificado() {
-        TODO("Pendiente de implementar")
+        AlertDialog.Builder(requireContext())
+            .setTitle("Estas seguro de los cambios")
+            .setMessage("")
+            .setPositiveButton("Guardar") { _, _ ->
+                if (binding.tituloEtiqueta.text.toString().trim().isNotEmpty()) {
+                    // Pasamos el filtro de nulos del if y actualizamos la clase etiqueta con los datos del formulario
+                    etiquetaPasada.nombre = binding.tituloEtiqueta.text.toString().trim()
+                    etiquetaPasada.descripcion = binding.descipcionEtiqueta.text.toString().trim()
+
+                    // Generamos un hilo donde se ejecuta la inserción
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.modificarEtiqueta(etiquetaPasada)
+                    }
+
+                    // Volvemos a la vista previa
+                    findNavController().popBackStack()
+                }
+                else {
+                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                        Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Descartar") { _, _ ->
+                findNavController().popBackStack()
+            }
+            .setNeutralButton("Continuar",null)
+            .show()
     }
 
 
