@@ -1,10 +1,11 @@
 package com.example.tustareas.modelos
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 import java.util.Date
+import kotlinx.parcelize.Parcelize
 
 /**
  * Clase que representa la tabla tareas en la bd
@@ -19,6 +20,7 @@ import java.util.Date
         )
     ]
 )
+@Parcelize
 data class Tarea (
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
@@ -30,4 +32,4 @@ data class Tarea (
     var estado: Estado, // Hay que hacer una clase para convertir este enum
     // La lista de etiquetas va en una clase distinta room se lleva mal con las N:N
     var idProyecto: Int // Clave foránea a proyecto
-)
+) : Parcelable
