@@ -7,16 +7,20 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentEtiquetaDetallesBinding
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class EtiquetaDetallesFragment : Fragment() {
     private var _binding: FragmentEtiquetaDetallesBinding? = null
@@ -65,6 +69,13 @@ class EtiquetaDetallesFragment : Fragment() {
                         }
                         true
                     }
+                    R.id.action_eliminar_etiqueta -> {
+                        // Controlar que ya tenga el resultado cargado, por lo tanto esta inicializada
+                        if (::etiquetaVisualizada.isInitialized) {
+                            dialgoEliminacion()
+                        }
+                        true
+                    }
                     else -> false
                 }
             }
@@ -72,6 +83,31 @@ class EtiquetaDetallesFragment : Fragment() {
 
 
         return view
+    }
+
+    private fun dialgoEliminacion() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Desea eliminar esta etiqueta")
+            .setMessage("")
+            .setPositiveButton("Eliminar") { _, _ ->
+                if (::etiquetaVisualizada.isInitialized) {
+
+                    // Lanzamos la eliminación a otro hilos
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.eliminarEtiqueta(etiquetaVisualizada)
+                    }
+
+                    // Volvemos a la vista previa
+                    findNavController().popBackStack()
+                } else {
+                    Snackbar.make(
+                        binding.root, "Ha habido un error al guardar\nla modificación",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .setNeutralButton("Cancelar", null)
+            .show()
     }
 
     override fun onDestroyView() {
