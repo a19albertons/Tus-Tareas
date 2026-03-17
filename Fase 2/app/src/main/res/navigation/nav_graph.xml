@@ -43,4 +43,9 @@
             android:name="etiqueta"
             app:argType="com.example.tustareas.modelos.Etiqueta" />
     </fragment>
+    <fragment
+        android:id="@+id/listarTareasFragment"
+        android:name="com.example.tustareas.fragmentos.ListarTareasFragment"
+        android:label="fragment_listar_tareas"
+        tools:layout="@layout/fragment_listar_tareas" />
 </navigation>
