@@ -2,6 +2,7 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.modelos.Tarea
 import java.util.Date
 
 class TusTareasRepository(database: TusTareasDatabase) {
@@ -9,6 +10,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     private val tareaConsultas = database.tareaConsultas()
     private val etiquetaConsultas = database.etiquetaConsultas()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
+    private val tareaModificaciones = database.tareaModificaciones()
 
 
 
@@ -34,6 +36,11 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Eliminar etiqueta existente
     suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.eliminarEtiqueta(etiqueta)
 
+    // Modificar tarea existente
+    suspend fun modificarTarea(tarea: Tarea) = tareaModificaciones.modificarTarea(tarea)
+
+    // Obtener todas las tareas
+    fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
 
 
 }
