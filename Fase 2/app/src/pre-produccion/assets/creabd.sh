@@ -32,7 +32,7 @@ CREATE TABLE tareas (
   prioridad TEXT NOT NULL,
   fechaCreacion INTEGER NOT NULL,
   estado TEXT NOT NULL,
-  idProyecto INTEGER NOT NULL,
+  idProyecto INTEGER,
   FOREIGN KEY(idProyecto) REFERENCES proyectos(id)
 );
 CREATE TABLE TareaEtiquetas (
