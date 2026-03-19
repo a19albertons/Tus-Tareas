@@ -2,10 +2,16 @@ package com.example.tustareas.fragmentos
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentTareaDetallesBinding
 import com.example.tustareas.dto.TareaDTO
@@ -70,6 +76,35 @@ class TareaDetallesFragment : Fragment() {
             tareaVisualizada = tarea
         }
 
+        // Invocar el menu del activity
+        val activityMenu : MenuHost = requireActivity()
+        // Crear un modificador del menu (toolbar)
+        activityMenu.addMenuProvider( object : MenuProvider {
+            // Reemplaza el menu
+            override fun onCreateMenu(menuViejo: Menu, inflaMenuNuevo: MenuInflater) {
+                menuViejo.clear()
+                inflaMenuNuevo.inflate(R.menu.toolbar_tareas_detalles, menuViejo)
+            }
+
+            override fun onMenuItemSelected(item: MenuItem): Boolean {
+                return when (item.itemId) {
+                    R.id.action_editar_tarea -> {
+                        if (::tareaVisualizada.isInitialized) {
+                            findNavController().navigate(TareaDetallesFragmentDirections.actionTareaDetallesFragmentToModificarTareasFragment(tareaVisualizada))
+                        }
+                        true
+
+                    }
+                    R.id.action_eliminar_tarea -> {
+                        if (::tareaVisualizada.isInitialized) {
+                            TODO("Añadir opcion de borrar tarea")
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+        })
         return view
     }
 
