@@ -31,5 +31,5 @@ data class Tarea (
     var fechaCreacion: Date, // Hay que construirlo a partir del timestamp
     var estado: Estado, // Hay que hacer una clase para convertir este enum
     // La lista de etiquetas va en una clase distinta room se lleva mal con las N:N
-    var idProyecto: Int // Clave foránea a proyecto
+    var idProyecto: Int? = null // Clave foránea a proyecto
 ) : Parcelable
