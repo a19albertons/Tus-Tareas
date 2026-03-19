@@ -7,11 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.databinding.FragmentModificarTareasBinding
+import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
@@ -19,6 +24,7 @@ import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import java.util.Date
 
 
@@ -31,7 +37,7 @@ class ModificarTareasFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
-
+    private lateinit var tareaDTO : TareaDTO
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +48,7 @@ class ModificarTareasFragment : Fragment() {
         val view = binding.root
 
         val args = ModificarTareasFragmentArgs.fromBundle(requireArguments())
-        val tareaDTO = args.tareaDTO
+        tareaDTO = args.tareaDTO
 
         // Valores del dto
         binding.tituloTarea.setText(tareaDTO.tarea.nombre)
@@ -210,9 +216,60 @@ class ModificarTareasFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val flechaRetroceso = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 0 solo la pueden tener las de nueva creación
+                if (tareaDTO.tarea.id == 0) {
+                    dialogoGuardado()
+                }
+                else {
+                    TODO("Pendiente, proximamente...")
+                }
+            }
+        }
+
+        // Modifica el comportamiento en el activity
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // Dialogo guardado
+    private fun dialogoGuardado() {
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+            .setTitle("Esta seguro de guardar la tarea")
+            .setMessage("")
+            .setPositiveButton("Guardar") { _,_ ->
+                if (binding.tituloTarea.text.toString().trim().isNotEmpty()) {
+                    // Actualizamos los campos de texto con los ultimo
+                    tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
+                    tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
+
+                    // Generamos un hilo con la nueva tarea
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.insertarTareaConEtiqueta(tareaDTO)
+                    }
+
+                    // Vovlemos a la vista previa
+                    findNavController().popBackStack()
+                }
+                else {
+                    // Mensaje en caso de error controlado
+                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva tarea",
+                        Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Descartar") { _, _ ->
+                findNavController().popBackStack()
+            }
+            .setNeutralButton("Continuar", null)
+            .show()
     }
 
 
