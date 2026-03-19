@@ -46,10 +46,12 @@ class ListarTareasFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Definir el adapter
+        val adapter = TareasAdapter(emptyList(), model)
+        recyclerView.adapter = adapter
         // Actualizado con el nuevo sistema que evita duplicado de observers
         model.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
             listaTareas ->
-            recyclerView.adapter = TareasAdapter(listaTareas, model)
+            adapter.submitList(listaTareas)
             if (listaTareas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
