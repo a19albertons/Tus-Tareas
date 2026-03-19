@@ -12,4 +12,7 @@ interface EtiquetaConsultas {
 
     @Query("select * from etiquetas where id = :id")
     fun obtenerEtiquetaPorID(id: Int): LiveData<Etiqueta>
+
+    @Query("select * from etiquetas where id not in (:lista)")
+    fun obtenerEtiquetasRestantes(lista : List<Int>): LiveData<List<Etiqueta>>
 }

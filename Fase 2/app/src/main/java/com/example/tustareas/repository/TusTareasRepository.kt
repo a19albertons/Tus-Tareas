@@ -56,6 +56,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Obtener tarea dto por id
     fun obtenerTareaDTOPorID(id: Int) = tareaConsultas.obtenerTareaDTOPorID(id)
 
+    // Obtener etiquetas restantes
+    fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = etiquetaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
 
 }

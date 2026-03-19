@@ -32,6 +32,9 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerTareaDTOPorID(id: Int) = repository.obtenerTareaDTOPorID(id)
 
 
+
+
+
     // Filtros correctos evita duplicados de observers y aumenta la eficiencia y coherencia de la aplicación
     // Filtro para etiquetas
     private val textoEtiqueta = MutableLiveData("")
@@ -80,6 +83,15 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     }
 
+    // Filtro etiquetas modificar
+    private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
+    fun actualizarFiltroListaEtiquetaTareas(lista: List<Etiqueta>) {
+        listaEtiqueta.value = lista
+    }
+    fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
+            texto ->
+        repository.obtenerEtiquetasRestantes(texto)
+    }
 
 
 
