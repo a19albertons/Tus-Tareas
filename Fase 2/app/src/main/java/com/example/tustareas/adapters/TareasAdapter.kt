@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.modelView.TusTareasModel
@@ -16,7 +18,11 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.Date
 
-class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTareasModel): RecyclerView.Adapter<TareasAdapter.TareasViewHolder>() {
+/**
+ * Clase que define el adapter de las tareas
+ */
+// Modificado a ListAdapter para poder controlar los cambios en el checkbox sin volver al inicio
+class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTareasModel): ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
     // Genera un scope para los procesos secundarios
     private val scope = MainScope()
 
@@ -36,7 +42,7 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
 
     // Sobreescritura de valores
     override fun onBindViewHolder(holder: TareasViewHolder, posicion: Int) {
-        val objectoActual = tareas[posicion]
+        val objectoActual = getItem(posicion)
         holder.nombreTarea.text = objectoActual.nombre
         holder.fechaLimite.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         holder.clickable.setOnClickListener {
@@ -47,6 +53,9 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
         // Comprueba el estado
         if (objectoActual.estado == Estado.Completada) {
             holder.checkbox.isChecked = true
+        }
+        else {
+            holder.checkbox.isChecked = false
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
@@ -72,8 +81,18 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
 
     }
 
-    // Tamaño de la lista
-    override fun getItemCount(): Int {
-        return tareas.size
+    // Para evitar volver al inicio al hacer scroll al cambiar un checkbox
+    class TareaComprobacionDiferncias : DiffUtil.ItemCallback<Tarea>() {
+        // Comprobar en el global
+        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
+            return viejaTarea == nuevaTarea
+        }
+
+
+        // Comprobar algo unico (ids)
+        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
+
+            return viejaTarea.id == nuevaTarea.id
+        }
     }
 }
