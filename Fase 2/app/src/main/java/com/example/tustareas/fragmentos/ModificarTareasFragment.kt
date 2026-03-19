@@ -226,7 +226,7 @@ class ModificarTareasFragment : Fragment() {
                     dialogoGuardado()
                 }
                 else {
-                    TODO("Pendiente, proximamente...")
+                    dialogoModificado()
                 }
             }
         }
@@ -272,5 +272,35 @@ class ModificarTareasFragment : Fragment() {
             .show()
     }
 
+    private fun dialogoModificado() {
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+            .setTitle("Estas seguro de los cambios")
+            .setMessage("")
+            .setPositiveButton("Guardar") { _, _ ->
+                if (binding.tituloTarea.text.toString().trim().isNotEmpty()) {
+                    // Actualizamos los campos de texto con los ultimo
+                    tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
+                    tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
+
+                    // Generamos un hilo con la nueva tarea
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.modificarTareaConEtiqueta(tareaDTO)
+                    }
+                    // Volvemos a la vista previa
+                    findNavController().popBackStack()
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        "Ha habido un error al guardar\nla modificación",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .setNegativeButton("Descartar") { _, _ ->
+                findNavController().popBackStack()
+            }
+            .setNeutralButton("Continuar", null)
+            .show()
+    }
 
 }
