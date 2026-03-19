@@ -5,10 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
+import com.example.tustareas.fragmentos.ListarEtiquetasFragmentDirections
+import com.example.tustareas.fragmentos.ListarTareasFragment
+import com.example.tustareas.fragmentos.ListarTareasFragmentDirections
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
@@ -46,8 +50,7 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
         holder.nombreTarea.text = objectoActual.nombre
         holder.fechaLimite.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         holder.clickable.setOnClickListener {
-            // Hay que crear el fragmento de detalles
-            TODO("Hacer el fragmento de detalles")
+            it.findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToTareaDetallesFragment(objectoActual.id))
         }
         // Gestiona el estado de la tarea
         // Comprueba el estado
