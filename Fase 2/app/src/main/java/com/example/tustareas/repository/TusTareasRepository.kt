@@ -1,6 +1,7 @@
 package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
+import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.OrdenarTareas
@@ -58,6 +59,10 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Obtener etiquetas restantes
     fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = etiquetaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
+
+    // Insertar nueva tarea
+    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.insertarTareaConEtiqueta(tareaDTO)
+
 
 
 }

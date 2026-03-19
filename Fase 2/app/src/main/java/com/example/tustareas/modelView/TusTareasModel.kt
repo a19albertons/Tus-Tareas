@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.example.tustareas.db.TusTareasDatabase
+import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.OrdenarTareas
@@ -97,6 +98,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
+    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
 
     // Metodos de moficiación en la base de datos
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
