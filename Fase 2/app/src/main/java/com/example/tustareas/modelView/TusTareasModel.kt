@@ -9,6 +9,7 @@ import androidx.lifecycle.switchMap
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.modelos.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
@@ -52,6 +53,11 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun actualizarTextoListadoTareas(texto: String) {
         textoTarea.value = texto
     }
+    private val textoOrdenación = MutableLiveData(OrdenarTareas.FECHA_CREACION_ASC)
+    fun actualizarTextoOrdenacionListadoTareas(nuevaOrdenacion: OrdenarTareas) {
+        textoOrdenación.value = nuevaOrdenacion
+    }
+
 
     // Necesario para 2 o más filtros sobre el mismo observer (query)
     // Cuidado con los parentesis son traicioneros
@@ -59,13 +65,15 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         addSource(prioridadTarea) { value = Unit }
         addSource(estadoTarea) { value = Unit }
         addSource(textoTarea) { value = Unit }
+        addSource(textoOrdenación) { value = Unit }
     }
 
     fun obtenerTareasFiltradas() : LiveData<List<Tarea>> = vigiladorFiltrosTareas.switchMap {
         repository.obtenerTareasFiltradas(
             prioridadTarea.value ?: Prioridad.entries.toTypedArray(),
             estadoTarea.value ?: Estado.entries.toTypedArray(),
-            textoTarea.value ?: ""
+            textoTarea.value ?: "",
+            textoOrdenación.value ?: OrdenarTareas.FECHA_CREACION_ASC
         )
 
     }

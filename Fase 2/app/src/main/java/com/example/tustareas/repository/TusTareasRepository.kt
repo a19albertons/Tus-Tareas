@@ -3,6 +3,7 @@ package com.example.tustareas.repository
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.modelos.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import java.util.Date
@@ -44,7 +45,13 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Obtener todas las tareas
     fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
     // Filtrar tareas
-    fun obtenerTareasFiltradas(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String) = tareaConsultas.obtenerTareasFiltradas(prioridad, estado, textoTarea)
+    fun obtenerTareasFiltradas(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String, orden: OrdenarTareas) =
+        when (orden) {
+            OrdenarTareas.FECHA_CREACION_ASC -> tareaConsultas.obtenerTareasFiltradasFechaCreacionAsc(prioridad, estado, textoTarea)
+            OrdenarTareas.FECHA_CREACION_DES -> tareaConsultas.obtenerTareasFiltradasFechaCreacionDes(prioridad, estado, textoTarea)
+            OrdenarTareas.FECHA_LIMITE_ASC -> tareaConsultas.obtenerTareasFiltradasFechaLimiteAsc(prioridad, estado, textoTarea)
+            OrdenarTareas.FECHA_LIMITE_DES -> tareaConsultas.obtenerTareasFiltradasFechaLimiteDes(prioridad, estado, textoTarea)
+        }
 
 
 
