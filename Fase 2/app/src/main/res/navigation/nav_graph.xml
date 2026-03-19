@@ -47,5 +47,18 @@
         android:id="@+id/listarTareasFragment"
         android:name="com.example.tustareas.fragmentos.ListarTareasFragment"
         android:label="fragment_listar_tareas"
-        tools:layout="@layout/fragment_listar_tareas" />
+        tools:layout="@layout/fragment_listar_tareas" >
+        <action
+            android:id="@+id/action_listarTareasFragment_to_tareaDetallesFragment"
+            app:destination="@id/tareaDetallesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tareaDetallesFragment"
+        android:name="com.example.tustareas.fragmentos.TareaDetallesFragment"
+        android:label="fragment_tarea_detalles"
+        tools:layout="@layout/fragment_tarea_detalles" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
