@@ -11,14 +11,18 @@ import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.TareasAdapter
 import com.example.tustareas.databinding.FragmentListarTareasBinding
+import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
+import com.example.tustareas.modelos.Tarea
+import java.util.Date
 
 class ListarTareasFragment : Fragment() {
     private var _binding: FragmentListarTareasBinding? = null
@@ -196,6 +200,12 @@ class ListarTareasFragment : Fragment() {
         }
 
 
+        // Boton añadir tareas
+        binding.anadirTarea.setOnClickListener {
+            val tarea = Tarea(0, "", null, null, Prioridad.Alta, Date(), Estado.EnTiempo, null)
+            val dto = TareaDTO(tarea, emptyList())
+            findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
+        }
         return view
     }
 
