@@ -1,7 +1,9 @@
 package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
+import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import java.util.Date
 
@@ -41,6 +43,9 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Obtener todas las tareas
     fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
+    // Filtrar tareas
+    fun obtenerTareasFiltradas(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String) = tareaConsultas.obtenerTareasFiltradas(prioridad, estado, textoTarea)
+
 
 
 }

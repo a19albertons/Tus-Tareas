@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.tustareas.modelos.Estado
+import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import java.util.Date
 
@@ -24,4 +26,16 @@ interface TareaConsultas {
     @Transaction
     @Query("select * from tareas")
     fun obtenerTodasLasTareas(): LiveData<List<Tarea>>
+
+    @Transaction
+    @Query("select * from tareas " + // pedir datos
+            "where prioridad IN (:prioridad) " + // filtro prioridad
+            "AND estado IN (:estado) " + // filtro estado
+            "AND (LOWER(nombre) like LOWER('%' || :textoTarea || '%') " + // filtro nombre tarea
+            "OR LOWER(descripcion) like LOWER('%' || :textoTarea || '%') " + // filtro descripción tarea
+            "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
+            "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids
+            "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :textoTarea || '%')))" // el where comprube el nombre de la etiqueta contra el filtro
+    )
+    fun obtenerTareasFiltradas(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 }
