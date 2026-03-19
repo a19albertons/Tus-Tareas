@@ -103,6 +103,8 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Metodos de moficiación en la base de datos
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
     suspend fun modificarTarea(tarea: Tarea) = repository.modificarTarea(tarea)
+    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
+
 
 
     // Metodos de eliminación en la base de datos

@@ -1,8 +1,10 @@
 package com.example.tustareas.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
+import androidx.room.Query
 import androidx.room.Transaction
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Tarea
@@ -19,6 +21,10 @@ interface TareaModificaciones {
     // Usar solo aqui porque se us para la inserción de las relacion tarea etiqueta internamente
     @Insert(onConflict = REPLACE)
     suspend fun insertarTareaEtiqueta(tareaEtiqueta: TareaEtiqueta)
+    // Usar solo aqui para eliminar las relaciones preexistentes y crear las nuevas
+    @Query("DELETE FROM TareaEtiquetas WHERE idTarea = :id")
+    suspend fun eliminarRelacionesTarea(id: Int)
+
 
 
     @Transaction
@@ -27,6 +33,17 @@ interface TareaModificaciones {
         tareaDTO.etiquetas.forEach {
             etiqueta ->
             insertarTareaEtiqueta(TareaEtiqueta(id, etiqueta.id))
+        }
+    }
+    @Transaction
+    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) {
+        modificarTarea(tareaDTO.tarea)
+        // Eliminar relaciones anteriores
+        eliminarRelacionesTarea(tareaDTO.tarea.id)
+        // Insertar nuevas relaciones
+        tareaDTO.etiquetas.forEach {
+                etiqueta ->
+            insertarTareaEtiqueta(TareaEtiqueta(tareaDTO.tarea.id, etiqueta.id))
         }
     }
 }
