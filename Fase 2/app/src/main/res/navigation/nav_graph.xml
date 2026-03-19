@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_listarTareasFragment_to_tareaDetallesFragment"
             app:destination="@id/tareaDetallesFragment" />
+        <action
+            android:id="@+id/action_listarTareasFragment_to_modificarTareasFragment"
+            app:destination="@id/modificarTareasFragment" />
     </fragment>
     <fragment
         android:id="@+id/tareaDetallesFragment"
@@ -60,5 +63,14 @@
         <argument
             android:name="id"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/modificarTareasFragment"
+        android:name="com.example.tustareas.fragmentos.ModificarTareasFragment"
+        android:label="fragment_modificar_tareas"
+        tools:layout="@layout/fragment_modificar_tareas" >
+        <argument
+            android:name="tareaDTO"
+            app:argType="com.example.tustareas.dto.TareaDTO" />
     </fragment>
 </navigation>
