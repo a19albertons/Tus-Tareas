@@ -63,6 +63,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_tareaDetallesFragment_to_modificarTareasFragment"
+            app:destination="@id/modificarTareasFragment" />
     </fragment>
     <fragment
         android:id="@+id/modificarTareasFragment"
