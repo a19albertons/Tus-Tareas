@@ -1,15 +1,21 @@
 package com.example.tustareas.fragmentos
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.adapters.TareasAdapter
 import com.example.tustareas.databinding.FragmentListarTareasBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelos.Estado
+import com.example.tustareas.modelos.Prioridad
 
 class ListarTareasFragment : Fragment() {
     private var _binding: FragmentListarTareasBinding? = null
@@ -37,7 +43,8 @@ class ListarTareasFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Definir el adapter
-        model.obtenerTodasLasTareas().observe(viewLifecycleOwner) {
+        // Actualizado con el nuevo sistema que evita duplicado de observers
+        model.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
             listaTareas ->
             recyclerView.adapter = TareasAdapter(listaTareas, model)
             if (listaTareas.isEmpty()) {
@@ -50,6 +57,108 @@ class ListarTareasFragment : Fragment() {
             }
         }
 
+        // spinner prioridad tareas
+        val contenidoSpiner = listOf("Prioridad", "Alta", "Media", "Baja", "No establecido")
+        binding.prioridadTarea.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            contenidoSpiner
+        )
+        binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                var prioridad: Array<Prioridad>
+                // Cambia la prioridad
+                when (position) {
+                    0-> {
+                        prioridad = Prioridad.entries.toTypedArray()
+                    }
+                    1-> {
+                        prioridad = Array(1) { Prioridad.Alta }
+                    }
+                    2-> {
+                        prioridad = Array(1) { Prioridad.Media }
+                    }
+                    3-> {
+                        prioridad = Array(1) { Prioridad.Baja }
+                    }
+                    4-> {
+                        prioridad = Array(1) { Prioridad.NoEstablecido }
+                    }
+                    else -> {
+                        prioridad = Prioridad.entries.toTypedArray()
+                    }
+                }
+                // Observa la lista filtrada
+                model.actualizarPrioridadListadoTareas(prioridad)
+
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
+        // spinner prioridad tareas
+        val contenidoSpinerEstado = listOf("Estado", "En tiempo", "Retrasado", "Completada")
+        binding.estadoTarea.adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            contenidoSpinerEstado
+        )
+        binding.estadoTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                var estado: Array<Estado>
+                // Cambia la prioridad
+                when (position) {
+                    0-> {
+                        estado = Estado.entries.toTypedArray()
+                    }
+                    1-> {
+                        estado = Array(1) { Estado.EnTiempo }
+                    }
+                    2-> {
+                        estado = Array(1) { Estado.Retrasada }
+
+                    }
+                    3-> {
+                        estado = Array(1) { Estado.Completada }
+                    }
+                    else -> {
+                        estado = Estado.entries.toTypedArray()
+                    }
+                }
+                // Observa la lista filtrada
+                model.actualizarEstadoListadoTareas(estado)
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
+        // Texto filtro
+        val filtro = binding.filtro
+        filtro.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
+
+            }
+            override fun onTextChanged(texto: CharSequence?, empieza: Int, fin: Int, posicion: Int) {
+
+            }
+            override fun afterTextChanged(texto: Editable?) {
+                // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
+                model.actualizarTextoListadoTareas(texto.toString())
+            }
+
+        })
 
 
         return view
