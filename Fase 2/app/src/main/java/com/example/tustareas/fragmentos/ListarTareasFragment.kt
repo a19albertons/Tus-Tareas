@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tustareas.R
 import com.example.tustareas.adapters.TareasAdapter
 import com.example.tustareas.databinding.FragmentListarTareasBinding
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
+import com.example.tustareas.modelos.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 
 class ListarTareasFragment : Fragment() {
@@ -159,6 +162,36 @@ class ListarTareasFragment : Fragment() {
             }
 
         })
+
+        // Desplegable de las tres barras
+        binding.menuTareas.setOnClickListener {
+            ancla ->
+            val desplegable = PopupMenu(requireContext(), ancla)
+            desplegable.menuInflater.inflate(R.menu.menu_tareas, desplegable.menu)
+
+            desplegable.setOnMenuItemClickListener { clickado ->
+                when (clickado.itemId) {
+                    R.id.action_fecha_limite_asc -> {
+                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
+                        true
+                    }
+                    R.id.action_fecha_limite_des -> {
+                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
+                        true
+                    }
+                    R.id.action_fecha_creacion_asc -> {
+                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
+                        true
+                    }
+                    R.id.action_fecha_creacion_des -> {
+                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            desplegable.show()
+        }
 
 
         return view

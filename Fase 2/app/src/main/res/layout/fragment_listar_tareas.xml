@@ -48,6 +48,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
         <ImageView
+            android:id="@+id/menuTareas"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:src="@drawable/tres_barras"
