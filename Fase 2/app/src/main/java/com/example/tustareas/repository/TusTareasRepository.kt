@@ -53,6 +53,9 @@ class TusTareasRepository(database: TusTareasDatabase) {
             OrdenarTareas.FECHA_LIMITE_DES -> tareaConsultas.obtenerTareasFiltradasFechaLimiteDes(prioridad, estado, textoTarea)
         }
 
+    // Obtener tarea dto por id
+    fun obtenerTareaDTOPorID(id: Int) = tareaConsultas.obtenerTareaDTOPorID(id)
+
 
 
 }

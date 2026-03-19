@@ -29,6 +29,8 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
     fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
     fun obtenerTodasLasTareas() = repository.obtenerTodasLasTareas()
+    fun obtenerTareaDTOPorID(id: Int) = repository.obtenerTareaDTOPorID(id)
+
 
     // Filtros correctos evita duplicados de observers y aumenta la eficiencia y coherencia de la aplicación
     // Filtro para etiquetas
