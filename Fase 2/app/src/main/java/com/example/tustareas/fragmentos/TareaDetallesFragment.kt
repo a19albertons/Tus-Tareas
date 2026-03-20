@@ -66,6 +66,22 @@ class TareaDetallesFragment : Fragment() {
                     isCheckable = false
                     chipStrokeWidth = 0f
 
+                    // Deshabilitamos los minimos de toque de material 3d
+                    setEnsureMinTouchTargetSize(false)
+                    // Modificamos los minimos
+                    chipMinHeight = 0f
+                    minHeight = 0
+
+                    // Definimos 2dp
+                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
+
+                    // Configuramos el padding
+                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+
+                    // Otros paddings
+                    textStartPadding = 0f
+                    textEndPadding = 0f
+
                     shapeAppearanceModel = shapeAppearanceModel.toBuilder()
                         .setAllCornerSizes(0f)
                         .build()
