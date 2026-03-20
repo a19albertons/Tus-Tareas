@@ -109,4 +109,5 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de eliminación en la base de datos
     suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = repository.eliminarEtiqueta(etiqueta)
+    suspend fun eliminarTarea(tarea: Tarea) = repository.eliminarTarea(tarea)
 }

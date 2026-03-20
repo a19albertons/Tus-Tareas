@@ -64,6 +64,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
     suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.insertarTareaConEtiqueta(tareaDTO)
     // Modifocar tarea con etiqueta
     suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.modificarTareaConEtiqueta(tareaDTO)
+    // Borrar tarea
+    suspend fun eliminarTarea(tarea: Tarea) = tareaModificaciones.eliminarTarea(tarea)
 
 
 

@@ -24,6 +24,9 @@ interface TareaModificaciones {
     // Usar solo aqui para eliminar las relaciones preexistentes y crear las nuevas
     @Query("DELETE FROM TareaEtiquetas WHERE idTarea = :id")
     suspend fun eliminarRelacionesTarea(id: Int)
+    // Debería hacer un borrado recursivo en cascada
+    @Delete
+    suspend fun eliminarTarea(tarea: Tarea)
 
 
 
