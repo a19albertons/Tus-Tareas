@@ -7,10 +7,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentTareaDetallesBinding
@@ -18,6 +22,8 @@ import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class TareaDetallesFragment : Fragment() {
     private var _binding : FragmentTareaDetallesBinding? = null
@@ -113,20 +119,44 @@ class TareaDetallesFragment : Fragment() {
                     }
                     R.id.action_eliminar_tarea -> {
                         if (::tareaVisualizada.isInitialized) {
-                            TODO("Añadir opcion de borrar tarea")
+                            dialogoEliminacion()
                         }
                         true
                     }
                     else -> false
                 }
             }
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
         return view
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun dialogoEliminacion() {
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+            .setTitle("Desea eliminar esta tarea")
+            .setMessage("")
+            .setPositiveButton("Eliminar") { _, _ ->
+                if (::tareaVisualizada.isInitialized) {
+                    // Borra la tarea
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.eliminarTarea(tareaVisualizada.tarea)
+                    }
+
+                    // Volvemos atras
+                    findNavController().popBackStack()
+                }
+                else {
+                    Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar la tarea",
+                        Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNeutralButton("Cancelar", null)
+            .show()
+
     }
 
 }
