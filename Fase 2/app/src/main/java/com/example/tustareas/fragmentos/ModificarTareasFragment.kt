@@ -55,8 +55,6 @@ class ModificarTareasFragment : Fragment() {
         binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
         binding.fechaCreacionTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaCreacion)
         binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
-        binding.prioridadTarea.setSelection(tareaDTO.tarea.prioridad.ordinal)
-        binding.estadoTarea.setSelection(tareaDTO.tarea.estado.ordinal)
 
         // Spinner prioridad
         val contenidosSpinerPrioridad = listOf("Alta", "Media", "Baja", "No establecida")
@@ -65,6 +63,8 @@ class ModificarTareasFragment : Fragment() {
             android.R.layout.simple_spinner_dropdown_item,
             contenidosSpinerPrioridad
         )
+        //Despues del adapter
+        binding.prioridadTarea.setSelection(tareaDTO.tarea.prioridad.ordinal)
         binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -108,6 +108,8 @@ class ModificarTareasFragment : Fragment() {
             android.R.layout.simple_spinner_dropdown_item,
             contenidosSpinerEstado
         )
+        //Despues del adapter sino pasa del valor del dto
+        binding.estadoTarea.setSelection(tareaDTO.tarea.estado.ordinal)
         binding.estadoTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
