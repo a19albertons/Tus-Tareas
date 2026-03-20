@@ -18,6 +18,8 @@
             android:layout_height="wrap_content"
             android:text="@string/temporal"
             android:textColor="@color/black"
+            android:background="@color/gray"
+            android:padding="2dp"
             />
         <TextView
             android:id="@+id/eliminarEtiqueta"
