@@ -34,11 +34,11 @@ interface ProyectoConsultas {
     fun obtenerProyectosFiltradosPorInicioAsc(texto: String): LiveData<List<Proyecto>>
 
     @Transaction
-    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaInicio ASC, fechaFin ASC")
+    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin ASC, fechaInicio ASC")
     fun obtenerProyectosFiltradosPorInicioYFinAsc(texto: String): LiveData<List<Proyecto>>
 
     @Transaction
-    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaInicio ASC, fechaFin DESC")
+    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin ASC, fechaInicio DESC")
     fun obtenerProyectosFiltradosPorInicioAscYFinDes(texto: String): LiveData<List<Proyecto>>
 
     @Transaction
@@ -46,11 +46,11 @@ interface ProyectoConsultas {
     fun obtenerProyectosFiltradosPorInicioDes(texto: String): LiveData<List<Proyecto>>
 
     @Transaction
-    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaInicio DESC, fechaFin ASC")
+    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin DESC, fechaInicio ASC")
     fun obtenerProyectosFiltradosPorInicioDesYFinAsc(texto: String): LiveData<List<Proyecto>>
 
     @Transaction
-    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaInicio DESC, fechaFin DESC")
+    @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin DESC, fechaInicio DESC")
     fun obtenerProyectosFiltradosPorInicioYFinDes(texto: String): LiveData<List<Proyecto>>
 
 
