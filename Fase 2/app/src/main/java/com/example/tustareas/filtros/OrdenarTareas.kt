@@ -1,4 +1,4 @@
-package com.example.tustareas.modelos
+package com.example.tustareas.filtros
 
 /**
  * Clase que define las posibilidades de ordenación de tareas

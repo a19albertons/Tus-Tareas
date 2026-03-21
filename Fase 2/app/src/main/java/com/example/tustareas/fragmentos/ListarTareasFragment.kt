@@ -19,7 +19,7 @@ import com.example.tustareas.databinding.FragmentListarTareasBinding
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
-import com.example.tustareas.modelos.OrdenarTareas
+import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import java.util.Date

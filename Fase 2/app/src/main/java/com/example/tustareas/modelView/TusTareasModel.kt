@@ -12,7 +12,7 @@ import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.modelos.OrdenarTareas
+import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
