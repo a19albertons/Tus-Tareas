@@ -16,6 +16,7 @@ import com.example.tustareas.databinding.FragmentListarProyectosBinding
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelView.TusTareasModel
+import com.google.android.material.snackbar.Snackbar
 
 
 class ListarProyectosFragment : Fragment() {
@@ -88,6 +89,10 @@ class ListarProyectosFragment : Fragment() {
                     1 -> model.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
                     2 -> model.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
                 }
+                // Notificación de filtros
+                if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {
+                    Snackbar.make(binding.root, "Primero va fin despues inicio", Snackbar.LENGTH_SHORT).show()
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -113,7 +118,10 @@ class ListarProyectosFragment : Fragment() {
                     0 -> model.actualizarFinProyecto(OrdenarProyectoFin.FIN)
                     1 -> model.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
                     2 -> model.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
-
+                }
+                // Notificación de filtros
+                if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {
+                    Snackbar.make(binding.root, "Primero va fin despues inicio", Snackbar.LENGTH_SHORT).show()
                 }
             }
 
