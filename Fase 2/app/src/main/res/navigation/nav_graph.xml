@@ -76,4 +76,9 @@
             android:name="tareaDTO"
             app:argType="com.example.tustareas.dto.TareaDTO" />
     </fragment>
+    <fragment
+        android:id="@+id/listarProyectosFragment"
+        android:name="com.example.tustareas.fragmentos.ListarProyectosFragment"
+        android:label="fragment_listar_proyectos"
+        tools:layout="@layout/fragment_listar_proyectos" />
 </navigation>
