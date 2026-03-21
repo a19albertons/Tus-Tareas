@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/action_editar_proyecto"
+        android:title="editar"
+        app:showAsAction="always"
+        android:icon="@drawable/editar"
+        />
+    <item
+        android:id="@+id/action_eliminar_proyecto"
+        android:title="eliminar"
+        app:showAsAction="always"
+        android:icon="@drawable/eliminar"
+        />
+    <item
+        android:id="@+id/ajustes"
+        android:title="Ajustes"
+        />
+    <item
+        android:id="@+id/listarEtiquetasFragment"
+        android:title="Gestionar etiquetas"
+        />
+    <item
+        android:id="@+id/action_limpiar_tareas_completas"
+        android:title="Limpiar tareas Comp."
+        />
+
+</menu>
