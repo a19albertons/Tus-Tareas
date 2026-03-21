@@ -3,11 +3,19 @@ package com.example.tustareas.fragmentos
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentProyectoDetallesBinding
+import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Tarea
@@ -23,6 +31,8 @@ class ProyectoDetallesFragment : Fragment() {
     val model : TusTareasModel by viewModels(
         ownerProducer = { this.requireActivity() }
     )
+
+    private lateinit var proyectoVisualizado : ProyectoDTO
 
 
     override fun onCreateView(
@@ -118,7 +128,40 @@ class ProyectoDetallesFragment : Fragment() {
                 binding.etiquetasProyectoGroup.addView(chip)
             }
 
+            // damos valor a proyecto
+            proyectoVisualizado = proyecto
         }
+
+        // Menu toolbar especifico
+        // Invocar el menu del activity
+        val activityMenu : MenuHost = requireActivity()
+        // Crear un modificador del menu (toolbar)
+        activityMenu.addMenuProvider( object : MenuProvider {
+            // Reemplaza el menu
+            override fun onCreateMenu(menuViejo: Menu, inflaMenuNuevo: MenuInflater) {
+                menuViejo.clear()
+                inflaMenuNuevo.inflate(R.menu.toolbar_proyectos_detalles, menuViejo)
+            }
+
+            override fun onMenuItemSelected(item: MenuItem): Boolean {
+                return when (item.itemId) {
+                    R.id.action_editar_proyecto -> {
+                        if (::proyectoVisualizado.isInitialized) {
+                            findNavController().navigate(ProyectoDetallesFragmentDirections.actionProyectoDetallesFragmentToModificarProyectoFragment(proyectoVisualizado))
+                        }
+                        true
+
+                    }
+                    R.id.action_eliminar_proyecto -> {
+                        if (::proyectoVisualizado.isInitialized) {
+                            TODO("Eliminación no implementada")
+                        }
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
 
 
