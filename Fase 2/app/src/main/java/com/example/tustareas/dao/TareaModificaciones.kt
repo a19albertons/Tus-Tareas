@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.modelos.TareaEtiqueta
@@ -15,11 +16,11 @@ interface TareaModificaciones {
     // Usar solo aqui porque devuelve el id interno para transaction
     @Insert
     suspend fun insertarTarea(tarea: Tarea) : Long
-    @Insert(onConflict = REPLACE)
+    @Update
     suspend fun modificarTarea(tarea: Tarea)
 
     // Usar solo aqui porque se us para la inserción de las relacion tarea etiqueta internamente
-    @Insert(onConflict = REPLACE)
+    @Insert
     suspend fun insertarTareaEtiqueta(tareaEtiqueta: TareaEtiqueta)
     // Usar solo aqui para eliminar las relaciones preexistentes y crear las nuevas
     @Query("DELETE FROM TareaEtiquetas WHERE idTarea = :id")

@@ -95,7 +95,11 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Obtener tareas restantes
     fun obtenerTareasRestantes(listaTareas: List<Tarea>) = tareaConsultas.obtenerTareasRestantes(listaTareas.map { it.id })
+    // Inserta un proyecto nuevo con sus tareas y etiquetas
     suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+    // Modificar proyecto existente
+    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+
 
 
 }

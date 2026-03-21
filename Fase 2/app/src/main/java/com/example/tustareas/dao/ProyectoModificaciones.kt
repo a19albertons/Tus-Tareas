@@ -16,12 +16,14 @@ interface ProyectoModificaciones {
     // Usar solo aqui hasta el primer transaction
     @Insert
     suspend fun insertarProyecto(proyecto: Proyecto) : Long
-    @Insert(onConflict = REPLACE)
+    @Update
+    suspend fun modificarProyecto(proyecto: Proyecto)
+    @Insert
     suspend fun insertarProyectoEtiqueta(proyectoEtiqueta: ProyectoEtiqueta)
     @Query("DELETE FROM ProyectoEtiquetas WHERE idProyecto = :id")
     suspend fun eliminarRelacionProyectoEtiqueta(id: Int)
-    @Query("UPDATE tareas SET idProyecto = null where id in (:ids)")
-    suspend fun eliminarProyectoID(ids: List<Int>)
+    @Query("UPDATE tareas SET idProyecto = null where idProyecto = :id")
+    suspend fun eliminarProyectoID(id: Int)
     @Query("UPDATE tareas SET idProyecto = :idProyecto where id = :id")
     suspend fun modificarProyectoID(id: Int, idProyecto: Int)
 
@@ -36,6 +38,26 @@ interface ProyectoModificaciones {
         proyectoDTO.tareas.forEach {
             modificarProyectoID(it.id, id)
         }
+
+    }
+
+    @Transaction
+    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) {
+        // Modificar proyecto
+        modificarProyecto(proyectoDTO.proyecto)
+
+        // Gestionar etiquetas
+        eliminarRelacionProyectoEtiqueta(proyectoDTO.proyecto.id)
+        proyectoDTO.etiquetas.forEach {
+            insertarProyectoEtiqueta(ProyectoEtiqueta(proyectoDTO.proyecto.id, it.id))
+        }
+
+        // Gestionar tareas
+        eliminarProyectoID(proyectoDTO.proyecto.id)
+        proyectoDTO.tareas.forEach {
+            modificarProyectoID(it.id, proyectoDTO.proyecto.id)
+        }
+
 
     }
 }

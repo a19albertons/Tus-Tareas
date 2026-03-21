@@ -147,6 +147,8 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
     suspend fun modificarTarea(tarea: Tarea) = repository.modificarTarea(tarea)
     suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
+    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+
 
 
 

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
+import androidx.room.Update
 import com.example.tustareas.modelos.Etiqueta
 
 @Dao
@@ -12,7 +13,7 @@ interface EtiquetaModificaciones {
     @Insert
     suspend fun insertarEtiqueta(etiqueta: Etiqueta)
 
-    @Insert(onConflict = REPLACE)
+    @Update
     suspend fun modificarEtiqueta(etiqueta: Etiqueta)
 
     @Delete
