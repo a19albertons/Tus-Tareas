@@ -1,5 +1,6 @@
 package com.example.tustareas.dto
 
+import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
@@ -7,10 +8,12 @@ import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.ProyectoEtiqueta
 import com.example.tustareas.modelos.Tarea
+import kotlinx.parcelize.Parcelize
 
 /**
  * Clase que representa el Data Transfer Object entre Proyecto y la lista de tareas, además de Proyecto con sus etiquetas
  */
+@Parcelize
 data class ProyectoDTO (
     @Embedded var proyecto: Proyecto,
     @Relation(
@@ -24,5 +27,5 @@ data class ProyectoDTO (
         entityColumn = "idProyecto"
     )
     var tareas: List<Tarea>
-) {
+) : Parcelable {
 }
