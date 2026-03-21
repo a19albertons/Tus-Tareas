@@ -202,7 +202,7 @@ class ModificarProyectoFragment : Fragment() {
                 if (proyectoDTO.proyecto.id == 0) {
                     dialogoGuardado()
                 } else {
-                    TODO("Añadir soporte para modificación")
+                    dialogoModificado()
                 }
             }
         }
@@ -232,6 +232,37 @@ class ModificarProyectoFragment : Fragment() {
                 else {
                     // Mensaje en caso de error controlado
                     Snackbar.make(binding.root, "Ha habido un error al guardar\nel nuevo proyecto",
+                        Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Descartar") { _, _ ->
+                findNavController().popBackStack()
+            }
+            .setNeutralButton("Continuar", null)
+            .show()
+    }
+
+    private fun dialogoModificado() {
+        AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
+            .setTitle("Estas seguro de los cambios")
+            .setMessage("")
+            .setPositiveButton("Guardar") { _,_ ->
+                if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
+                    // Actualizamos los campos de texto con los ultimo
+                    proyectoDTO.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
+                    proyectoDTO.proyecto.descripcion = binding.descripcionProyecto.text.toString().trim()
+
+                    // Generamos un hilo con la nueva tarea
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+                    }
+
+                    // Vovlemos a la vista previa
+                    findNavController().popBackStack()
+                }
+                else {
+                    // Mensaje en caso de error controlado
+                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
