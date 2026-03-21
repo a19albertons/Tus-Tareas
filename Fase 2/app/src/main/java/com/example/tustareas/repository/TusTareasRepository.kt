@@ -1,6 +1,7 @@
 package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
+import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
@@ -16,6 +17,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     private val tareaConsultas = database.tareaConsultas()
     private val etiquetaConsultas = database.etiquetaConsultas()
     private val proyectoConsultas = database.proyectoConsultas()
+    private val proyectoModificaciones = database.proyectoModificaciones()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val tareaModificaciones = database.tareaModificaciones()
 
@@ -90,5 +92,10 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Obtener proyecto por id
     fun obtenerProyectoPorId(id: Int) = proyectoConsultas.obtenerProyectoPorId(id)
+
+    // Obtener tareas restantes
+    fun obtenerTareasRestantes(listaTareas: List<Tarea>) = tareaConsultas.obtenerTareasRestantes(listaTareas.map { it.id })
+    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+
 
 }

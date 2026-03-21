@@ -7,6 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.example.tustareas.db.TusTareasDatabase
+import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
@@ -125,11 +126,22 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         repository.obtenerEtiquetasRestantes(texto)
     }
 
+    // Obtener tareas restantes
+    private val listaTareas = MutableLiveData<List<Tarea>>(emptyList<Tarea>())
+    fun actualizarFiltroListaTareaProyecto(lista: List<Tarea>) {
+        listaTareas.value = lista
+    }
+    fun obtenerTareasRestantes() : LiveData<List<Tarea>> = listaTareas.switchMap {
+            texto ->
+        repository.obtenerTareasRestantes(texto)
+    }
+
 
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
     suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
+    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
     // Metodos de moficiación en la base de datos
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
