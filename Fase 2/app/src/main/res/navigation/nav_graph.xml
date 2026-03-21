@@ -96,6 +96,9 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_proyectoDetallesFragment_to_modificarProyectoFragment"
+            app:destination="@id/modificarProyectoFragment" />
     </fragment>
     <fragment
         android:id="@+id/modificarProyectoFragment"
