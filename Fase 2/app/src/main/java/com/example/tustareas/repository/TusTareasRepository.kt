@@ -2,6 +2,8 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.filtros.OrdenarProyectoFin
+import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.OrdenarTareas
@@ -13,8 +15,10 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
     private val tareaConsultas = database.tareaConsultas()
     private val etiquetaConsultas = database.etiquetaConsultas()
+    private val proyectoConsultas = database.proyectoConsultas()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val tareaModificaciones = database.tareaModificaciones()
+
 
 
 
@@ -66,6 +70,23 @@ class TusTareasRepository(database: TusTareasDatabase) {
     suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.modificarTareaConEtiqueta(tareaDTO)
     // Borrar tarea
     suspend fun eliminarTarea(tarea: Tarea) = tareaModificaciones.eliminarTarea(tarea)
+    // Consultar proyectos
+    fun obtenerProyectosFiltradas(texto: String, inicio: OrdenarProyectosInicio, fin: OrdenarProyectoFin) =
+        when (Pair(inicio, fin)) {
+            Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN) -> proyectoConsultas.obtenerProyectosFiltradosPorDefecto(texto) // defecto
+            Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FECHA_ASC) -> proyectoConsultas.obtenerProyectosFiltradosPorFinAsc(texto) // Fin ascendente
+            Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FECHA_DES) -> proyectoConsultas.obtenerProyectosFiltradosPorFinDes(texto) // Fin desdendente
+            Pair(OrdenarProyectosInicio.FECHA_ASC, OrdenarProyectoFin.FIN) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioAsc(texto) // inicio ascendente
+            Pair(OrdenarProyectosInicio.FECHA_ASC, OrdenarProyectoFin.FECHA_ASC) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioYFinAsc(texto) // inicio y fin ascendente
+            Pair(OrdenarProyectosInicio.FECHA_ASC, OrdenarProyectoFin.FECHA_DES) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioAscYFinDes(texto) // inicio ascendente y fin descendente
+            Pair(OrdenarProyectosInicio.FECHA_DES, OrdenarProyectoFin.FIN) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioDes(texto) // inicio descendente
+            Pair(OrdenarProyectosInicio.FECHA_DES, OrdenarProyectoFin.FECHA_ASC) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioDesYFinAsc(texto) // inicio descendente y fin ascendente
+            Pair(OrdenarProyectosInicio.FECHA_DES, OrdenarProyectoFin.FECHA_DES) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioYFinDes(texto) // inicio y fin descendente
+
+            else -> proyectoConsultas.obtenerProyectosFiltradosPorDefecto(texto)
+
+
+        }
 
 
 

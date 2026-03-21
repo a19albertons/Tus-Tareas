@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.filtros.OrdenarProyectoFin
+import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
+import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
 import java.util.Date
@@ -83,6 +86,33 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         )
 
     }
+    // Filtro para proyectos
+    private val textoProyecto = MutableLiveData("")
+    private val inicioProyecto = MutableLiveData(OrdenarProyectosInicio.INICIO)
+    private val finProyecto = MutableLiveData(OrdenarProyectoFin.FIN)
+    fun actualizarTextoListadoProyectos(texto: String) {
+        textoProyecto.value = texto
+    }
+    fun actualizarInicioProyecto(inicio: OrdenarProyectosInicio) {
+        inicioProyecto.value = inicio
+    }
+    fun actualizarFinProyecto(fin: OrdenarProyectoFin) {
+        finProyecto.value = fin
+    }
+
+    private val vigiladorFiltrosProyectos = MediatorLiveData<Unit>().apply {
+        addSource(textoProyecto) { value = Unit }
+        addSource(inicioProyecto) { value = Unit }
+        addSource(finProyecto) { value = Unit }
+    }
+    fun obtenerProyectosFiltradas() : LiveData<List<Proyecto>> = vigiladorFiltrosProyectos.switchMap {
+        repository.obtenerProyectosFiltradas(
+            textoProyecto.value ?: "",
+            inicioProyecto.value ?: OrdenarProyectosInicio.INICIO,
+            finProyecto.value ?: OrdenarProyectoFin.FIN
+        )
+    }
+
 
     // Filtro etiquetas modificar
     private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
