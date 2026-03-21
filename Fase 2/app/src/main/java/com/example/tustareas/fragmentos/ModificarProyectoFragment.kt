@@ -213,7 +213,7 @@ class ModificarProyectoFragment : Fragment() {
 
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
-            .setTitle("Esta seguro de guardar la tarea")
+            .setTitle("Estas seguro de guardar los proyectos")
             .setMessage("")
             .setPositiveButton("Guardar") { _,_ ->
                 if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
@@ -231,7 +231,7 @@ class ModificarProyectoFragment : Fragment() {
                 }
                 else {
                     // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, "Estas seguro de guardar los proyectos",
+                    Snackbar.make(binding.root, "Ha habido un error al guardar\nel nuevo proyecto",
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
