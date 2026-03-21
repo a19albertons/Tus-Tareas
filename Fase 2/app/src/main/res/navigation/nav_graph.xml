@@ -80,5 +80,18 @@
         android:id="@+id/listarProyectosFragment"
         android:name="com.example.tustareas.fragmentos.ListarProyectosFragment"
         android:label="fragment_listar_proyectos"
-        tools:layout="@layout/fragment_listar_proyectos" />
+        tools:layout="@layout/fragment_listar_proyectos" >
+        <action
+            android:id="@+id/action_listarProyectosFragment_to_proyectoDetallesFragment"
+            app:destination="@id/proyectoDetallesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/proyectoDetallesFragment"
+        android:name="com.example.tustareas.fragmentos.ProyectoDetallesFragment"
+        android:label="fragment_proyecto_detalles"
+        tools:layout="@layout/fragment_proyecto_detalles" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
