@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
+import com.example.tustareas.fragmentos.ListarProyectosFragmentDirections
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
@@ -30,7 +32,7 @@ class ProyectosAdapter(private val proyectos: List<Proyecto>): RecyclerView.Adap
         holder.nombreProyecto.text = objectoActual.nombre
         holder.fechaFin.text = DateHelper.timestampToString(objectoActual.fechaFin)
         holder.clickable.setOnClickListener {
-            TODO("Pendiente de hacer el fragmento de detalles")
+            it.findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id))
         }
     }
 
