@@ -88,6 +88,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
         }
 
-
+    // Obtener proyecto por id
+    fun obtenerProyectoPorId(id: Int) = proyectoConsultas.obtenerProyectoPorId(id)
 
 }

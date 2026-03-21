@@ -34,6 +34,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
     fun obtenerTodasLasTareas() = repository.obtenerTodasLasTareas()
     fun obtenerTareaDTOPorID(id: Int) = repository.obtenerTareaDTOPorID(id)
+    fun obtenerProyectoPorId(id: Int) = repository.obtenerProyectoPorId(id)
 
 
 

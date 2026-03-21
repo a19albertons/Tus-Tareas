@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelos.Proyecto
 
 @Dao
@@ -53,7 +54,9 @@ interface ProyectoConsultas {
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin DESC, fechaInicio DESC")
     fun obtenerProyectosFiltradosPorInicioYFinDes(texto: String): LiveData<List<Proyecto>>
 
-
+    @Transaction
+    @Query("SELECT * FROM proyectos where id = :id")
+    fun obtenerProyectoPorId(id: Int): LiveData<ProyectoDTO>
 
 
 
