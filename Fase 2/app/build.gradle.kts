@@ -53,6 +53,9 @@ android {
 }
 
 dependencies {
+    // graficos de barra libreria
+    implementation(libs.mpandroidchart)
+
     // Room librerias
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
