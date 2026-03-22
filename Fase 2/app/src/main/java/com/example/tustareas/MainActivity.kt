@@ -4,21 +4,26 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.example.tustareas.modelView.TusTareasModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
     private lateinit var navController: NavController
+    private val model : TusTareasModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +65,14 @@ class MainActivity : AppCompatActivity() {
             // Para que salten los distintos dialogos que se configuren
             onBackPressedDispatcher.onBackPressed()
             return true
+        }
+        if (item.itemId == R.id.action_limpiar_tareas_completas) {
+
+            lifecycleScope.launch {
+                model.limpiarTareasCompletas()
+            }
+
+
         }
         return NavigationUI.onNavDestinationSelected(
             item,
