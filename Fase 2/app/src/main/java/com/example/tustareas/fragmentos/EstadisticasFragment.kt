@@ -99,6 +99,24 @@ class EstadisticasFragment : Fragment() {
             binding.grafico.invalidate()
         }
 
+        // Actualizar cantidad completas
+        model.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
+            cantidad ->
+            binding.completas.text = cantidad.toString()
+        }
+
+        // Actualizar cantidad pendientes
+        model.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
+            cantidad ->
+            binding.pendiente.text = cantidad.toString()
+        }
+
+        // Actualizar cantidad retrasadas
+        model.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
+            cantidad ->
+            binding.retrasadas.text = cantidad.toString()
+        }
+
 
 
         return view
