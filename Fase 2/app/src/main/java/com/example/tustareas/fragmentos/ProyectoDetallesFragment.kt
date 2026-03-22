@@ -8,10 +8,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentProyectoDetallesBinding
@@ -21,6 +23,8 @@ import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 
 class ProyectoDetallesFragment : Fragment() {
@@ -154,7 +158,7 @@ class ProyectoDetallesFragment : Fragment() {
                     }
                     R.id.action_eliminar_proyecto -> {
                         if (::proyectoVisualizado.isInitialized) {
-                            TODO("Eliminación no implementada")
+                            dialogoBorrado()
                         }
                         true
                     }
@@ -166,6 +170,34 @@ class ProyectoDetallesFragment : Fragment() {
 
 
         return view
+    }
+
+    private fun dialogoBorrado() {
+        AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
+            .setTitle("Desea eliminar este proyecto?")
+            .setMessage("Nota: las tareas no serán borradas")
+            .setPositiveButton("Eliminar") { _,_ ->
+                if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
+                    // Actualizamos los campos de texto con los ultimo
+                    proyectoVisualizado.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
+                    proyectoVisualizado.proyecto.descripcion = binding.descipcionProyecto.text.toString().trim()
+
+                    // Generamos un hilo con la nueva tarea
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+                    }
+
+                    // Vovlemos a la vista previa
+                    findNavController().popBackStack()
+                }
+                else {
+                    // Mensaje en caso de error controlado
+                    Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar el proyecto",
+                        Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNeutralButton("Cancelar", null)
+            .show()
     }
 
     override fun onDestroyView() {
