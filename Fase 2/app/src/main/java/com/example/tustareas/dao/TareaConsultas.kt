@@ -69,4 +69,11 @@ interface TareaConsultas {
     @Query("select * from tareas where id not in (:lista)")
     fun obtenerTareasRestantes(lista : List<Int>): LiveData<List<Tarea>>
 
+    @Query("select count(*) from tareas where fechaLimite = :i and estado = :estado")
+    fun tareasCompletadasPorDia(i: Long, estado: Estado = Estado.Completada): LiveData<Float>
+
+    @Query("select count(*) from tareas where fechaLimite = :i and estado != :estado")
+    fun tareasNoCompletadasPorDia(i: Long, estado: Estado = Estado.Completada): LiveData<Float>
+
+
 }

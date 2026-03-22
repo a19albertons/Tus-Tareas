@@ -102,7 +102,10 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Eliminar proyecto
     suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = proyectoModificaciones.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado.proyecto)
     suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()
-
+    // Tareas completadas por dia
+    fun tareasCompletadasPorDia(i: Long) = tareaConsultas.tareasCompletadasPorDia(i)
+    // Tareas no completadas por dia
+    fun tareasNoCompletadasPorDia(i: Long) = tareaConsultas.tareasNoCompletadasPorDia(i)
 
 
 }

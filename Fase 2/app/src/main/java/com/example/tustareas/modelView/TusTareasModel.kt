@@ -18,6 +18,7 @@ import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.github.mikephil.charting.data.BarEntry
 import java.util.Date
 import kotlin.apply
 
@@ -135,6 +136,34 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
             texto ->
         repository.obtenerTareasRestantes(texto)
     }
+
+    // Generación tercera grafica de estadisticas
+    fun obtenerDatosGrafico(timestampDiasSemana: LongArray): LiveData<List<BarEntry>> {
+        // variable base (mediadiador, completa, no completas)
+        val resultado = MediatorLiveData<List<BarEntry>>()
+        val completas = timestampDiasSemana.map { it -> repository.tareasCompletadasPorDia(it)  }
+        val noCompletas = timestampDiasSemana.map { it -> repository.tareasNoCompletadasPorDia(it)  }
+
+        // Generación dataset
+        val nuevoDataset = {
+            // variable de datos
+            val entradas = ArrayList<BarEntry>()
+            // Bucle for metiendole los datos al resultado
+            for (i in timestampDiasSemana.indices) {
+                entradas.add(BarEntry(i.toFloat(), floatArrayOf(completas[i].value ?: 0f, noCompletas[i].value ?: 0f)))
+            }
+            // devuelve el resultado
+            resultado.value = entradas
+        }
+
+        // Observers
+        completas.forEach { resultado.addSource(it) { nuevoDataset() } }
+        noCompletas.forEach { resultado.addSource(it) { nuevoDataset() } }
+
+        // Devolvemos el dataset
+        return resultado
+    }
+
 
 
 
