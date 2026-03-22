@@ -99,7 +99,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
     suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.insertarProyectoConTareaYEtiqueta(proyectoDTO)
     // Modificar proyecto existente
     suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.modificarProyectoConTareaYEtiqueta(proyectoDTO)
-
+    // Eliminar proyecto
+    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = proyectoModificaciones.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado.proyecto)
 
 
 }

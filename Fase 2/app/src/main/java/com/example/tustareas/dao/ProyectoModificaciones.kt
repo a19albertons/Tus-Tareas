@@ -18,6 +18,8 @@ interface ProyectoModificaciones {
     suspend fun insertarProyecto(proyecto: Proyecto) : Long
     @Update
     suspend fun modificarProyecto(proyecto: Proyecto)
+    @Delete
+    suspend fun eliminarProyecto(proyecto: Proyecto)
     @Insert
     suspend fun insertarProyectoEtiqueta(proyectoEtiqueta: ProyectoEtiqueta)
     @Query("DELETE FROM ProyectoEtiquetas WHERE idProyecto = :id")
@@ -57,7 +59,11 @@ interface ProyectoModificaciones {
         proyectoDTO.tareas.forEach {
             modificarProyectoID(it.id, proyectoDTO.proyecto.id)
         }
+    }
 
-
+    @Transaction
+    suspend fun eliminarProyectoConTareaYEtiqueta(proyecto: Proyecto) {
+        eliminarProyectoID(proyecto.id)
+        eliminarProyecto(proyecto)
     }
 }
