@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.modelos.TareaEtiqueta
 
@@ -50,4 +51,6 @@ interface TareaModificaciones {
             insertarTareaEtiqueta(TareaEtiqueta(tareaDTO.tarea.id, etiqueta.id))
         }
     }
+    @Query("DELETE FROM tareas WHERE estado = :estado")
+    suspend fun limpiarTareasCompletas(estado: Estado = Estado.Completada)
 }
