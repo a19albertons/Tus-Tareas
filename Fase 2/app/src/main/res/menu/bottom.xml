@@ -16,7 +16,7 @@
         android:icon="@drawable/ic_proyectos_selector"
         />
     <item
-
+        android:id="@+id/estadisticasFragment"
         android:title="Estadisticas"
         android:icon="@drawable/ic_estadisticas_selector"
         />
