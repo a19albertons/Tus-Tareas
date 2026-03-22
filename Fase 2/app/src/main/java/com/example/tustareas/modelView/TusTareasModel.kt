@@ -37,6 +37,10 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerTodasLasTareas() = repository.obtenerTodasLasTareas()
     fun obtenerTareaDTOPorID(id: Int) = repository.obtenerTareaDTOPorID(id)
     fun obtenerProyectoPorId(id: Int) = repository.obtenerProyectoPorId(id)
+    fun obtenerCantidadTareasCompletas() = repository.obtenerCantidadTareasCompletas()
+    fun obtenerCantidadTareasPendientes() = repository.obtenerCantidadTareasPendientes()
+    fun obtenerCantidadTareasRetrasadas() = repository.obtenerCantidadTareasRetrasadas()
+
 
 
 

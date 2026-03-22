@@ -106,6 +106,13 @@ class TusTareasRepository(database: TusTareasDatabase) {
     fun tareasCompletadasPorDia(i: Long) = tareaConsultas.tareasCompletadasPorDia(i)
     // Tareas no completadas por dia
     fun tareasNoCompletadasPorDia(i: Long) = tareaConsultas.tareasNoCompletadasPorDia(i)
+    // Obtener todas las tareas completadas
+    fun obtenerCantidadTareasCompletas() = tareaConsultas.obtenerCantidadTareasCompletas()
+    // Obtener todas las tareas pendientes
+    fun obtenerCantidadTareasPendientes() = tareaConsultas.obtenerCantidadTareasPendientes()
+    // Obtener todas las tareas retrasadas
+    fun obtenerCantidadTareasRetrasadas() = tareaConsultas.obtenerCantidadTareasRetrasadas()
+
 
 
 }

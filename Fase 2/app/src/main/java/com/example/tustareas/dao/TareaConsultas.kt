@@ -75,5 +75,13 @@ interface TareaConsultas {
     @Query("select count(*) from tareas where fechaLimite = :i and estado != :estado")
     fun tareasNoCompletadasPorDia(i: Long, estado: Estado = Estado.Completada): LiveData<Float>
 
+    @Query("select count(*) from tareas where estado = :estado")
+    fun obtenerCantidadTareasCompletas(estado: Estado = Estado.Completada): LiveData<Int>
+    @Query("select count(*) from tareas where estado = :estado")
+    fun obtenerCantidadTareasPendientes(estado: Estado = Estado.EnTiempo): LiveData<Int>
+    @Query("select count(*) from tareas where estado = :estado")
+    fun obtenerCantidadTareasRetrasadas(estado: Estado = Estado.Retrasada): LiveData<Int>
+
+
 
 }
