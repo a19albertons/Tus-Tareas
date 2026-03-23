@@ -167,6 +167,29 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         // Devolvemos el dataset
         return resultado
     }
+    // Generacion rueda (primer grafico)
+    fun obtenerRueda(fechaInicio: Long, fechaFin: Long): LiveData<Pair<Long, Long>> {
+        // variable base
+        val resultado = MediatorLiveData<Pair<Long, Long>>()
+        val completas = repository.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
+        val noCompletas = repository.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
+
+        // actualizador
+        val valores = {
+            val c = completas.value ?: 0
+            val nc = noCompletas.value ?: 0
+            resultado.value = Pair(c, nc)
+        }
+
+        // Observar
+        resultado.addSource(completas) { valores() }
+        resultado.addSource(noCompletas) { valores() }
+
+        // resultado
+        return resultado
+
+
+    }
 
 
 

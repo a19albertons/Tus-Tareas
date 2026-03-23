@@ -113,6 +113,11 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Obtener todas las tareas retrasadas
     fun obtenerCantidadTareasRetrasadas() = tareaConsultas.obtenerCantidadTareasRetrasadas()
 
+    // Obtener tareas completas entre 2 fechas
+    fun obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio: Long, fechaFin: Long) = tareaConsultas.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
+
+    // Obtener tareas pendientes entre 2 fechas
+    fun obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio: Long, fechaFin: Long) = tareaConsultas.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
 
 
 }
