@@ -117,6 +117,23 @@ class EstadisticasFragment : Fragment() {
             binding.retrasadas.text = cantidad.toString()
         }
 
+        // Primer grafico
+        val fechaInicio = timestampDiasSemana.first()
+        val fechaFin = timestampDiasSemana.last()
+
+
+        model.obtenerRueda(fechaInicio, fechaFin).observe(viewLifecycleOwner) {
+            valores ->
+            val completas = valores.first
+            val pendientes = valores.second
+            val progreso = completas.toFloat() / (completas + pendientes).toFloat() * 100
+            Log.d("Progreso", progreso.toString())
+            binding.graficoRedondo.progress = progreso.toInt()
+            binding.graficoRedondoTexto.text = progreso.toInt().toString()
+        }
+
+
+
 
 
         return view
