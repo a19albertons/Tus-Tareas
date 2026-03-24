@@ -114,4 +114,9 @@
         android:name="com.example.tustareas.fragmentos.EstadisticasFragment"
         android:label="fragment_estadisticas"
         tools:layout="@layout/fragment_estadisticas" />
+    <fragment
+        android:id="@+id/ajustesFragment"
+        android:name="com.example.tustareas.fragmentos.AjustesFragment"
+        android:label="fragment_ajustes"
+        tools:layout="@layout/fragment_ajustes" />
 </navigation>
