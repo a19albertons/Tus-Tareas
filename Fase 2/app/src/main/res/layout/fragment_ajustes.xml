@@ -63,7 +63,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/claro"
+                        android:src="@drawable/oscuro"
                         android:layout_marginRight="10dp"
                         />
                     <TextView
@@ -86,7 +86,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/claro"
+                        android:src="@drawable/sistema"
                         android:layout_marginRight="10dp"
                         />
                     <TextView
