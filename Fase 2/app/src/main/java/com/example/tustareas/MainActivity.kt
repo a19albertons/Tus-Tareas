@@ -62,6 +62,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Habilita el modo oscuro segun la preferencia guardada
+        val prefs = getSharedPreferences("settings", MODE_PRIVATE)
+        val modo = prefs.getInt("tema", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(modo)
 
     }
 
