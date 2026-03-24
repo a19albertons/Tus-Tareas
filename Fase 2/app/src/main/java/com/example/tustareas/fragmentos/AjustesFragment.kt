@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -31,7 +32,35 @@ class AjustesFragment : Fragment() {
         _binding = FragmentAjustesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val idioma = listOf("Sistema", "Español", "Ingles", "Gallego")
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            idioma
+        )
+        binding.idioma.adapter = adapter
 
+        binding.idioma.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                posicion: Int,
+                id: Long
+            ) {
+                when (posicion) {
+                    // Actualizar idioma
+                    0 -> model.setIdioma("Sistema")
+                    1 -> model.setIdioma("Español")
+                    2 -> model.setIdioma("Ingles")
+                    3 -> model.setIdioma("Gallego")
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
 
 
         return view

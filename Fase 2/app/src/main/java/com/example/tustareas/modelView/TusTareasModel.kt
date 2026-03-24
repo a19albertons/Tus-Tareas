@@ -1,6 +1,7 @@
 package com.example.tustareas.modelView
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -21,6 +22,7 @@ import com.example.tustareas.repository.TusTareasRepository
 import com.github.mikephil.charting.data.BarEntry
 import java.util.Date
 import kotlin.apply
+import androidx.core.content.edit
 
 /**
  * ViewModel que une la aplicacion con la base de datos
@@ -214,4 +216,16 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
     suspend fun limpiarTareasCompletas() = repository.limpiarTareasCompletas()
 
+
+    // Ajustes
+    private val prefs = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
+
+    val idioma = MutableLiveData<String>().apply {
+        value = prefs.getString("idioma", "sistema") ?: "sistema"
+    }
+
+    fun setIdioma(idioma: String) {
+        prefs.edit { putString("idioma", idioma) }
+        this.idioma.value = idioma
+    }
 }

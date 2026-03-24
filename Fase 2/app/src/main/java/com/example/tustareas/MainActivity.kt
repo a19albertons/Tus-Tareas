@@ -6,6 +6,7 @@ import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,6 +18,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.LanguageHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
@@ -48,6 +50,17 @@ class MainActivity : AppCompatActivity() {
 
         // Flecha para atras
         NavigationUI.setupActionBarWithNavController(this, navController)
+
+        // Soporte cambio de idioma
+        model.idioma.observe(this) {
+            idioma ->
+            val idiomasActual = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+            val idiomaNuevo = LanguageHelper.etiquetaIdioma(idioma)
+            if (idiomaNuevo != idiomasActual) {
+                LanguageHelper.aplicarIdioma(idiomaNuevo)
+                recreate()
+            }
+        }
 
 
     }
