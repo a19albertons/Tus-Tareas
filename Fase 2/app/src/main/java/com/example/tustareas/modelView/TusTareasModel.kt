@@ -2,6 +2,7 @@ package com.example.tustareas.modelView
 
 import android.app.Application
 import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -227,5 +228,16 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun setIdioma(idioma: String) {
         prefs.edit { putString("idioma", idioma) }
         this.idioma.value = idioma
+    }
+
+    val tema = MutableLiveData<Int>().apply {
+        // Valor del sistema (movil)
+        value = prefs.getInt("tema", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+
+    fun setTema (tema: Int) {
+        prefs.edit { putInt("tema", tema) }
+        this.tema.value = tema
+        AppCompatDelegate.setDefaultNightMode(tema)
     }
 }
