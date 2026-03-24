@@ -15,7 +15,7 @@
         android:icon="@drawable/eliminar"
         />
     <item
-        android:id="@+id/ajustes"
+        android:id="@+id/ajustesFragment"
         android:title="Ajustes"
         />
     <item
