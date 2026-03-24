@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import com.example.tustareas.R
@@ -60,6 +61,23 @@ class AjustesFragment : Fragment() {
 
             }
 
+        }
+        // Radio Buttons
+        binding.claro.setOnClickListener {
+            model.setTema(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+        binding.oscuro.setOnClickListener {
+            model.setTema(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+        binding.sistema.setOnClickListener {
+            model.setTema(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+
+        // Vigila que el clickado sea el unico marcado y desmarcar el resto
+        model.tema.observe(viewLifecycleOwner) { modo ->
+            binding.claro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_NO)
+            binding.oscuro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_YES)
+            binding.sistema.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
 
 
