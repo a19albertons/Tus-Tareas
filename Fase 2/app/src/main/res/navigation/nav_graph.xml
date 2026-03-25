@@ -9,7 +9,11 @@
         android:id="@+id/inicioFragment"
         android:name="com.example.tustareas.fragmentos.InicioFragment"
         android:label="fragment_inicio"
-        tools:layout="@layout/fragment_inicio" />
+        tools:layout="@layout/fragment_inicio" >
+        <action
+            android:id="@+id/action_inicioFragment_to_verMasFragment"
+            app:destination="@id/verMasFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listarEtiquetasFragment"
         android:name="com.example.tustareas.fragmentos.ListarEtiquetasFragment"
@@ -119,4 +123,16 @@
         android:name="com.example.tustareas.fragmentos.AjustesFragment"
         android:label="fragment_ajustes"
         tools:layout="@layout/fragment_ajustes" />
+    <fragment
+        android:id="@+id/verMasFragment"
+        android:name="com.example.tustareas.fragmentos.VerMasFragment"
+        android:label="fragment_ver_mas"
+        tools:layout="@layout/fragment_ver_mas" >
+        <argument
+            android:name="numeroVerMas"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_verMasFragment_to_tareaDetallesFragment"
+            app:destination="@id/tareaDetallesFragment" />
+    </fragment>
 </navigation>
