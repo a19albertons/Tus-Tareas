@@ -118,7 +118,7 @@
             android:src="@drawable/estado"
             android:layout_marginEnd="10dp"
             />
-        <Spinner
+        <TextView
             android:id="@+id/estadoTarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -55,6 +55,7 @@ class ModificarTareasFragment : Fragment() {
         binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
         binding.fechaCreacionTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaCreacion)
         binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
+        binding.estadoTarea.text = tareaDTO.tarea.estado.name
 
         // Spinner prioridad
         val contenidosSpinerPrioridad = listOf("Alta", "Media", "Baja", "No establecida")
@@ -101,43 +102,6 @@ class ModificarTareasFragment : Fragment() {
             }
         }
 
-        // spinner de estado
-        val contenidosSpinerEstado = listOf("En tiempo", "Retrasado", "Completada")
-        binding.estadoTarea.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
-            contenidosSpinerEstado
-        )
-        //Despues del adapter sino pasa del valor del dto
-        binding.estadoTarea.setSelection(tareaDTO.tarea.estado.ordinal)
-        binding.estadoTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                when (position) {
-                    0-> {
-                        tareaDTO.tarea.estado = Estado.EnTiempo
-                    }
-                    1-> {
-                        tareaDTO.tarea.estado = Estado.Retrasada
-                    }
-                    2-> {
-                        tareaDTO.tarea.estado = Estado.Completada
-                    }
-                    else -> {
-                        tareaDTO.tarea.estado = Estado.EnTiempo
-                    }
-
-                }
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-        }
 
         // calendario de fecha limite. No es como en el diseño de Figma
         binding.calendario.setOnClickListener {
@@ -252,6 +216,14 @@ class ModificarTareasFragment : Fragment() {
                     // Actualizamos los campos de texto con los ultimo
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
                     tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
+                    if (tareaDTO.tarea.estado != Estado.Completada) {
+                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(Date())) {
+                            tareaDTO.tarea.estado = Estado.EnTiempo
+                        }
+                        else {
+                            tareaDTO.tarea.estado = Estado.Retrasada
+                        }
+                    }
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
@@ -289,6 +261,14 @@ class ModificarTareasFragment : Fragment() {
                     // Actualizamos los campos de texto con los ultimo
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
                     tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
+                    if (tareaDTO.tarea.estado != Estado.Completada) {
+                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(Date())) {
+                            tareaDTO.tarea.estado = Estado.EnTiempo
+                        }
+                        else {
+                            tareaDTO.tarea.estado = Estado.Retrasada
+                        }
+                    }
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
