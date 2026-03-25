@@ -65,7 +65,12 @@ class EtiquetaDetallesFragment : Fragment() {
                     R.id.action_editar_etiqueta -> {
                         // Controla que ya tenga el resultado cargado, por lo tanto esta inicializada
                         if (::etiquetaVisualizada.isInitialized) {
-                            findNavController().navigate(EtiquetaDetallesFragmentDirections.actionEtiquetaDetallesFragmentToModificarEtiquetaFragment(etiquetaVisualizada))
+                            try {
+                                findNavController().navigate(EtiquetaDetallesFragmentDirections.actionEtiquetaDetallesFragmentToModificarEtiquetaFragment(etiquetaVisualizada))
+                            }
+                            catch (e: Exception) {
+                                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
+                            }
                         }
                         true
                     }
@@ -94,7 +99,12 @@ class EtiquetaDetallesFragment : Fragment() {
 
                     // Lanzamos la eliminación a otro hilos
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.eliminarEtiqueta(etiquetaVisualizada)
+                        try {
+                            model.eliminarEtiqueta(etiquetaVisualizada)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación", Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Volvemos a la vista previa

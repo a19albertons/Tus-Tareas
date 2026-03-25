@@ -22,6 +22,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
 class ListarTareasFragment : Fragment() {
@@ -204,7 +205,13 @@ class ListarTareasFragment : Fragment() {
         binding.anadirTarea.setOnClickListener {
             val tarea = Tarea(0, "", null, null, Prioridad.Alta, Date(), Estado.EnTiempo, null)
             val dto = TareaDTO(tarea, emptyList())
-            findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
+            try {
+                findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
+            }
+            catch (e: Exception) {
+                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
         }
         return view
     }

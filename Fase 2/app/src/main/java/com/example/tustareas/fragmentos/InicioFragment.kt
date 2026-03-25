@@ -17,6 +17,7 @@ import com.example.tustareas.dao.TareaConsultas
 import com.example.tustareas.databinding.FragmentInicioBinding
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Tarea
+import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
 class InicioFragment : Fragment() {
@@ -123,13 +124,30 @@ class InicioFragment : Fragment() {
 
         // Textos ver más
         binding.verMas1.setOnClickListener {
-            findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
+            try {
+                findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
+            } catch (e: Exception) {
+                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
         }
         binding.verMas2.setOnClickListener {
-            findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
+            try {
+                findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
+            }
+            catch (e: Exception) {
+                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
         }
         binding.verMas3.setOnClickListener {
-            findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
+            try {
+                findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
+            }
+            catch (e: Exception) {
+                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
         }
 
 

@@ -142,7 +142,12 @@ class ListarProyectosFragment : Fragment() {
                 etiquetas = emptyList(),
                 tareas = emptyList()
             )
-            findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToModificarProyectoFragment(proyectoDTO))
+            try {
+                findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToModificarProyectoFragment(proyectoDTO))
+            }
+            catch (e: Exception) {
+                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
+            }
         }
 
         return view

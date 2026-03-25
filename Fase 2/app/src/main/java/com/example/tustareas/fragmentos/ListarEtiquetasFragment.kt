@@ -14,6 +14,7 @@ import com.example.tustareas.adapters.EtiquetasAdapter
 import com.example.tustareas.databinding.FragmentListarEtiquetasBinding
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
+import com.google.android.material.snackbar.Snackbar
 import kotlin.getValue
 
 class ListarEtiquetasFragment : Fragment() {
@@ -67,8 +68,14 @@ class ListarEtiquetasFragment : Fragment() {
     })
         val boton = binding.anadirEtiqueta
         boton.setOnClickListener {
-            findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
-                Etiqueta(0,"","")))
+            try {
+                findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
+                    Etiqueta(0,"","")))
+            }
+            catch (e: Exception) {
+                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
+            }
+
         }
 
         return binding.root

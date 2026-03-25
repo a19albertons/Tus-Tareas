@@ -112,7 +112,16 @@ class TareaDetallesFragment : Fragment() {
                 return when (item.itemId) {
                     R.id.action_editar_tarea -> {
                         if (::tareaVisualizada.isInitialized) {
-                            findNavController().navigate(TareaDetallesFragmentDirections.actionTareaDetallesFragmentToModificarTareasFragment(tareaVisualizada))
+                            try {
+                                findNavController().navigate(TareaDetallesFragmentDirections.actionTareaDetallesFragmentToModificarTareasFragment(tareaVisualizada))
+                            }
+                            catch (e: Exception) {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Ha habido un error de navegación",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                         true
 
@@ -143,7 +152,13 @@ class TareaDetallesFragment : Fragment() {
                 if (::tareaVisualizada.isInitialized) {
                     // Borra la tarea
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.eliminarTarea(tareaVisualizada.tarea)
+                        try {
+                            model.eliminarTarea(tareaVisualizada.tarea)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar la tarea",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Volvemos atras

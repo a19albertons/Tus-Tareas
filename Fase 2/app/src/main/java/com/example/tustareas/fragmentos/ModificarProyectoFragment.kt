@@ -223,7 +223,13 @@ class ModificarProyectoFragment : Fragment() {
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+                        try {
+                            model.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nel nuevo proyecto",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Vovlemos a la vista previa
@@ -254,7 +260,13 @@ class ModificarProyectoFragment : Fragment() {
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+                        try {
+                            model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Vovlemos a la vista previa

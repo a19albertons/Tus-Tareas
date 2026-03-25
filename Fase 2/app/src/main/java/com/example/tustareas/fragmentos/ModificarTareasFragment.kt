@@ -255,7 +255,13 @@ class ModificarTareasFragment : Fragment() {
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.insertarTareaConEtiqueta(tareaDTO)
+                        try {
+                            model.insertarTareaConEtiqueta(tareaDTO)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva tarea",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Vovlemos a la vista previa
@@ -286,7 +292,13 @@ class ModificarTareasFragment : Fragment() {
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.modificarTareaConEtiqueta(tareaDTO)
+                        try {
+                            model.modificarTareaConEtiqueta(tareaDTO)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
                     // Volvemos a la vista previa
                     findNavController().popBackStack()

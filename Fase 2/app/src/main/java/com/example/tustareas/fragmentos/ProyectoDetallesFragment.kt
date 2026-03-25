@@ -151,7 +151,16 @@ class ProyectoDetallesFragment : Fragment() {
                 return when (item.itemId) {
                     R.id.action_editar_proyecto -> {
                         if (::proyectoVisualizado.isInitialized) {
-                            findNavController().navigate(ProyectoDetallesFragmentDirections.actionProyectoDetallesFragmentToModificarProyectoFragment(proyectoVisualizado))
+                            try {
+                                findNavController().navigate(ProyectoDetallesFragmentDirections.actionProyectoDetallesFragmentToModificarProyectoFragment(proyectoVisualizado))
+                            }
+                            catch (e: Exception) {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Ha habido un error al intentar\neditar el proyecto",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                         true
 
@@ -184,7 +193,13 @@ class ProyectoDetallesFragment : Fragment() {
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+                        try {
+                            model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar el proyecto",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Vovlemos a la vista previa

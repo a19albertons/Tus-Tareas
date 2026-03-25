@@ -88,7 +88,13 @@ class ModificarEtiquetaFragment : Fragment() {
 
                     // Generamos un hilo donde se ejecuta la inserción
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.insertarEtiqueta(etiquetaPasada)
+                        try {
+                            model.insertarEtiqueta(etiquetaPasada)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva etiqueta",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Volvemos a la vista previa
@@ -118,7 +124,13 @@ class ModificarEtiquetaFragment : Fragment() {
 
                     // Generamos un hilo donde se ejecuta la inserción
                     viewLifecycleOwner.lifecycleScope.launch {
-                        model.modificarEtiqueta(etiquetaPasada)
+                        try {
+                            model.modificarEtiqueta(etiquetaPasada)
+                        }
+                        catch (e: Exception) {
+                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                                Snackbar.LENGTH_SHORT).show()
+                        }
                     }
 
                     // Volvemos a la vista previa
