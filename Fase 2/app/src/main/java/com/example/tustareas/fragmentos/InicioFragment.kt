@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.TareasHoyPendientesAdapter
@@ -120,7 +121,16 @@ class InicioFragment : Fragment() {
 
         }
 
-
+        // Textos ver más
+        binding.verMas1.setOnClickListener {
+            findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
+        }
+        binding.verMas2.setOnClickListener {
+            findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
+        }
+        binding.verMas3.setOnClickListener {
+            findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
+        }
 
 
 
