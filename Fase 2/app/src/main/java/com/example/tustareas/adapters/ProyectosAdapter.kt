@@ -11,6 +11,7 @@ import com.example.tustareas.fragmentos.ListarProyectosFragmentDirections
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 
 class ProyectosAdapter(private val proyectos: List<Proyecto>): RecyclerView.Adapter<ProyectosAdapter.ProyectoViewHolder>() {
     // View holder
@@ -32,7 +33,13 @@ class ProyectosAdapter(private val proyectos: List<Proyecto>): RecyclerView.Adap
         holder.nombreProyecto.text = objectoActual.nombre
         holder.fechaFin.text = DateHelper.timestampToString(objectoActual.fechaFin)
         holder.clickable.setOnClickListener {
-            it.findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id))
+            try {
+                it.findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id))
+            }
+            catch (e: Exception) {
+                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+            }
+
         }
     }
 

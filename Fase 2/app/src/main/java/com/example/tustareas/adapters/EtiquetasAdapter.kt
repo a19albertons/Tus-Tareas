@@ -10,6 +10,7 @@ import com.example.tustareas.R
 import com.example.tustareas.fragmentos.ListarEtiquetasFragmentDirections
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 
 class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adapter<EtiquetasAdapter.EtiquetaViewHolder>() {
     // View Holder
@@ -31,7 +32,12 @@ class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adap
         holder.nombreEtiqueta.text = objetoActual.nombre
         holder.descripcionEtiqueta.text = objetoActual.descripcion
         holder.clickable.setOnClickListener {
-            it.findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToEtiquetaDetallesFragment(objetoActual.id))
+            try {
+                it.findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToEtiquetaDetallesFragment(objetoActual.id))
+            }
+            catch (e: Exception) {
+                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 

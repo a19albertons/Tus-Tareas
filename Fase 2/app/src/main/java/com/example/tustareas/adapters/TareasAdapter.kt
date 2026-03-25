@@ -18,6 +18,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -50,7 +51,12 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
         holder.nombreTarea.text = objectoActual.nombre
         holder.fechaLimite.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         holder.clickable.setOnClickListener {
-            it.findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToTareaDetallesFragment(objectoActual.id))
+            try {
+                it.findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToTareaDetallesFragment(objectoActual.id))
+            }
+            catch (e: Exception) {
+                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+            }
         }
         // Gestiona el estado de la tarea
         // Comprueba el estado
@@ -65,7 +71,12 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
             if (holder.checkbox.isChecked) {
                 objectoActual.estado = Estado.Completada
                 scope.launch {
-                    model.modificarTarea(objectoActual)
+                    try {
+                        model.modificarTarea(objectoActual)
+                    }
+                    catch (e: Exception) {
+                        Snackbar.make(it,"Ha habido un error al modificar la tarea", Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
             else {
@@ -77,7 +88,12 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
                     objectoActual.estado = Estado.Retrasada
                 }
                 scope.launch {
-                    model.modificarTarea(objectoActual)
+                    try {
+                        model.modificarTarea(objectoActual)
+                    }
+                    catch (e: Exception) {
+                        Snackbar.make(it,"Ha habido un error al modificar la tarea", Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

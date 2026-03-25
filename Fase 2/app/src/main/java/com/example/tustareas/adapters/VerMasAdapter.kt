@@ -18,6 +18,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -55,6 +56,12 @@ class VerMasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
             holder.otroCampo.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         }
         holder.clickable.setOnClickListener {
+            try {
+                it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
+            }
+            catch (e: Exception) {
+                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+            }
             it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
         }
         // Gestiona el estado de la tarea
