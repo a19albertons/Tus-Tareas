@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.BarEntry
 import java.util.Date
 import kotlin.apply
 import androidx.core.content.edit
+import com.example.tustareas.util.LanguageHelper
 
 /**
  * ViewModel que une la aplicacion con la base de datos
@@ -195,6 +196,23 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     }
 
 
+    // Filtro para VerMás
+    private val textoVerMas = MutableLiveData("")
+    fun actualizarTextoVerMas(texto: String) {
+        textoVerMas.value = texto
+    }
+    fun obtenerTareasTerminanDiaEspecificoConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
+            texto ->
+        repository.obtenerTareasTerminanDiaEspecificoConFiltro(texto)
+    }
+    fun obtenerTareasRetrasadasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
+            texto ->
+        repository.obtenerTareasRetrasadasConFiltro(texto)
+    }
+    fun obtenerTareasProximasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
+            texto ->
+        repository.obtenerTareasProximasConFiltro(texto)
+    }
 
 
     // Metodos de inserción en la base de datos
