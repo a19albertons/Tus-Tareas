@@ -20,6 +20,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.LanguageHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -76,7 +77,12 @@ class MainActivity : AppCompatActivity() {
         if (item.itemId == R.id.action_limpiar_tareas_completas) {
 
             lifecycleScope.launch {
-                model.limpiarTareasCompletas()
+                try {
+                    model.limpiarTareasCompletas()
+                }
+                catch (e: Exception) {
+                    Snackbar.make(findViewById(R.id.main), "Lo sentimos ha habido un \nerror eliminando las tareas", Snackbar.LENGTH_SHORT).show()
+                }
             }
 
 
