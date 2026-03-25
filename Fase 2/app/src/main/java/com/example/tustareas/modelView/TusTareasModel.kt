@@ -246,6 +246,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun setIdioma(idioma: String) {
         prefs.edit { putString("idioma", idioma) }
         this.idioma.value = idioma
+        LanguageHelper.aplicarIdioma(idioma)
     }
 
     val tema = MutableLiveData<Int>().apply {

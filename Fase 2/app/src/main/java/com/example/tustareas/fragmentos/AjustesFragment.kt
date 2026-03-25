@@ -41,6 +41,17 @@ class AjustesFragment : Fragment() {
         )
         binding.idioma.adapter = adapter
 
+        // Obtenemos el valor por defecto del modelo y lo deshabilitamos en la primera
+        // ejecucíón para evitar un reinicio (recreación
+        val idiomaGuardado = model.idioma.value
+        val posicionInicial = when(idiomaGuardado) {
+            "Español" -> 1
+            "Ingles" -> 2
+            "Gallego" -> 3
+            else -> 0
+        }
+        binding.idioma.setSelection(posicionInicial, false)
+
         binding.idioma.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,

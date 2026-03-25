@@ -51,16 +51,6 @@ class MainActivity : AppCompatActivity() {
         // Flecha para atras
         NavigationUI.setupActionBarWithNavController(this, navController)
 
-        // Soporte cambio de idioma
-        model.idioma.observe(this) {
-            idioma ->
-            val idiomasActual = AppCompatDelegate.getApplicationLocales().toLanguageTags()
-            val idiomaNuevo = LanguageHelper.etiquetaIdioma(idioma)
-            if (idiomaNuevo != idiomasActual) {
-                LanguageHelper.aplicarIdioma(idiomaNuevo)
-                recreate()
-            }
-        }
 
         // Habilita el modo oscuro segun la preferencia guardada
         val prefs = getSharedPreferences("settings", MODE_PRIVATE)
