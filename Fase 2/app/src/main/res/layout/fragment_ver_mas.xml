@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         app:cardCornerRadius="20dp"
+        android:backgroundTint="@color/white"
         app:strokeColor="@color/black"
         app:strokeWidth="1dp"
         >
