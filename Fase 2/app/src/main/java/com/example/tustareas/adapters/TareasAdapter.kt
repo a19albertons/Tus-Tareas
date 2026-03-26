@@ -25,7 +25,7 @@ import java.util.Date
  * Clase que define el adapter de las tareas
  */
 // Modificado a ListAdapter para poder controlar los cambios en el checkbox sin volver al inicio
-class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTareasModel): ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
+class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
     // Genera un scope para los procesos secundarios
     private val scope = MainScope()
 
