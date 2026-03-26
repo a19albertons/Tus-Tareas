@@ -31,5 +31,19 @@
 
 
     <!-- Listar tareas -->
+    <string name="estado">Estado</string>
+    <string name="prioridad">Prioridad</string>
+
+
+    <!-- Estado -->
+    <string name="en_tiempo">En tiempo</string>
+    <string name="retrasada">Retrasada</string>
+    <string name="completada">Completada</string>
+
+    <!-- Prioridad -->
+    <string name="baja">Baja</string>
+    <string name="media">Media</string>
+    <string name="alta">Alta</string>
+    <string name="no_establecido">No establecido</string>
 
 </resources>
