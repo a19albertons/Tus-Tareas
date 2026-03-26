@@ -6,17 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.TareasHoyPendientesAdapter
 import com.example.tustareas.adapters.TareasProximasAdapter
 import com.example.tustareas.adapters.TareasRetrasadasAdapter
-import com.example.tustareas.dao.TareaConsultas
 import com.example.tustareas.databinding.FragmentInicioBinding
 import com.example.tustareas.modelView.TusTareasModel
-import com.example.tustareas.modelos.Tarea
 import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
