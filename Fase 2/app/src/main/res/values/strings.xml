@@ -9,7 +9,10 @@
     <string name="lupa">lupa</string>
     <string name="buscar_por_titulo_descripci_n_y_etiqueta">Buscar por titulo, descripción y etiqueta</string>
     <string name="error_modificar_checkbox">Ha habido un error al modificar la tarea</string>
-
+    <string name="tres_barras">tres barras</string>
+    <string name="anadir">+</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
+    <string name="taza">taza</string>
 
 
     <!-- Inicio -->
@@ -25,7 +28,8 @@
     <string name="tienes_tareas_proximas">Tienes %1$d tareas próximas</string>
 
     <!-- Ver más -->
-    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
-    <string name="taza">taza</string>
+
+
+    <!-- Listar tareas -->
 
 </resources>
