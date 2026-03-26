@@ -57,7 +57,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.2"
                         android:layout_height="wrap_content"
-                        android:text="Ver más"
+                        android:text="@string/ver_mas"
                         android:textColor="@color/blueMore" />
                 </LinearLayout>
 
@@ -106,7 +106,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.2"
                         android:layout_height="wrap_content"
-                        android:text="Ver más"
+                        android:text="@string/ver_mas"
                         android:textColor="@color/blueMore" />
                 </LinearLayout>
             </LinearLayout>
@@ -153,7 +153,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="0.2"
                         android:layout_height="wrap_content"
-                        android:text="Ver más"
+                        android:text="@string/ver_mas"
                         android:textColor="@color/blueMore" />
                 </LinearLayout>
 

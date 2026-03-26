@@ -42,9 +42,9 @@ class InicioFragment : Fragment() {
             listadoTareasHoyFechaLimite ->
             // switch
             when (listadoTareasHoyFechaLimite?.size ?: 0) {
-                0 -> binding.tareasHoyTexto.text = "No hay tareas pendientes para hoy"
-                1 -> binding.tareasHoyTexto.text = "Tienes 1 tarea pendiente para hoy"
-                else -> binding.tareasHoyTexto.text = "Tienes ${listadoTareasHoyFechaLimite?.size} tareas pendientes para hoy"
+                0 -> binding.tareasHoyTexto.text = getString(R.string.no_hay_tareas_para_hoy)
+                1 -> binding.tareasHoyTexto.text = getString(R.string.tienes_una_tarea_para_hoy)
+                else -> binding.tareasHoyTexto.text = getString(R.string.tienes_tareas_para_hoy, listadoTareasHoyFechaLimite?.size)
             }
 
             // scroll view
@@ -69,9 +69,9 @@ class InicioFragment : Fragment() {
             listadoTareasRetrasadas ->
             // switch
             when (listadoTareasRetrasadas?.size ?: 0) {
-                0 -> binding.tareasRetrasadasTexto.text = "No hay tareas retrasadas"
-                1 -> binding.tareasRetrasadasTexto.text = "Tienes 1 tarea retrasada"
-                else -> binding.tareasRetrasadasTexto.text = "Tienes ${listadoTareasRetrasadas?.size} tareas retrasadas"
+                0 -> binding.tareasRetrasadasTexto.text = getString(R.string.no_hay_tareas_retrasadas)
+                1 -> binding.tareasRetrasadasTexto.text = getString(R.string.tienes_una_tarea_retrasada)
+                else -> binding.tareasRetrasadasTexto.text = getString(R.string.tienes_tareas_retrasadas, listadoTareasRetrasadas?.size)
             }
 
             // Scroll view
@@ -97,9 +97,9 @@ class InicioFragment : Fragment() {
             listadoTareasProximas ->
             // switch
             when (listadoTareasProximas?.size ?: 0) {
-                0 -> binding.tareasProximasTexto.text = "No hay tareas próximas"
-                1 -> binding.tareasProximasTexto.text = "Tienes 1 tarea próxima"
-                else -> binding.tareasProximasTexto.text = "Tienes ${listadoTareasProximas?.size} tareas próximas"
+                0 -> binding.tareasProximasTexto.text = getString(R.string.no_hay_tareas_proximas)
+                1 -> binding.tareasProximasTexto.text = getString(R.string.tienes_una_tarea_proxima)
+                else -> binding.tareasProximasTexto.text = getString(R.string.tienes_tareas_proximas, listadoTareasProximas?.size)
             }
 
             // scroll view
@@ -127,7 +127,7 @@ class InicioFragment : Fragment() {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
             } catch (e: Exception) {
-                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
@@ -136,7 +136,7 @@ class InicioFragment : Fragment() {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
             }
             catch (e: Exception) {
-                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
@@ -145,7 +145,7 @@ class InicioFragment : Fragment() {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
             }
             catch (e: Exception) {
-                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
