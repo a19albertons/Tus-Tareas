@@ -52,8 +52,8 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
             try {
                 it.findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToTareaDetallesFragment(objectoActual.id))
             }
-            catch (e: Exception) {
-                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+            catch (_: Exception) {
+                Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
         // Gestiona el estado de la tarea
@@ -72,8 +72,8 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
                     try {
                         model.modificarTarea(objectoActual)
                     }
-                    catch (e: Exception) {
-                        Snackbar.make(it,"Ha habido un error al modificar la tarea", Snackbar.LENGTH_SHORT).show()
+                    catch (_: Exception) {
+                        Snackbar.make(it,it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -89,8 +89,8 @@ class TareasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
                     try {
                         model.modificarTarea(objectoActual)
                     }
-                    catch (e: Exception) {
-                        Snackbar.make(it,"Ha habido un error al modificar la tarea", Snackbar.LENGTH_SHORT).show()
+                    catch (_: Exception) {
+                        Snackbar.make(it,it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
