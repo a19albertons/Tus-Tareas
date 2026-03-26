@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.PopupMenu
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -173,7 +174,8 @@ class ListarTareasFragment : Fragment() {
         // Desplegable de las tres barras
         binding.menuTareas.setOnClickListener {
             ancla ->
-            val desplegable = PopupMenu(requireContext(), ancla)
+            val customizarTemaDesplegable = ContextThemeWrapper(requireContext(), R.style.fondoBlancoTareas)
+            val desplegable = PopupMenu(customizarTemaDesplegable, ancla)
             desplegable.menuInflater.inflate(R.menu.menu_tareas, desplegable.menu)
 
             desplegable.setOnMenuItemClickListener { clickado ->
