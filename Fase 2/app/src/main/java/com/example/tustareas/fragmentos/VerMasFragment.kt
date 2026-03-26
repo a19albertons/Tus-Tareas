@@ -37,7 +37,7 @@ class VerMasFragment : Fragment() {
 
         // configuracion adapter
         binding.listaTareasConCondicionesEnOrigen.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = VerMasAdapter(emptyList(), model, origen)
+        val adapter = VerMasAdapter( model, origen)
         binding.listaTareasConCondicionesEnOrigen.adapter = adapter
 
         // valores inicio
