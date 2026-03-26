@@ -58,9 +58,8 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
                 it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
             }
             catch (_: Exception) {
-                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
-            it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
         }
         // Gestiona el estado de la tarea
         // Comprueba el estado
@@ -75,7 +74,12 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
             if (holder.checkbox.isChecked) {
                 objectoActual.estado = Estado.Completada
                 scope.launch {
-                    model.modificarTarea(objectoActual)
+                    try {
+                        model.modificarTarea(objectoActual)
+                    }
+                    catch (_: Exception) {
+                        Snackbar.make(it, it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
             else {
@@ -87,7 +91,12 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
                     objectoActual.estado = Estado.Retrasada
                 }
                 scope.launch {
-                    model.modificarTarea(objectoActual)
+                    try {
+                        model.modificarTarea(objectoActual)
+                    }
+                    catch (_: Exception) {
+                        Snackbar.make(it, it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
