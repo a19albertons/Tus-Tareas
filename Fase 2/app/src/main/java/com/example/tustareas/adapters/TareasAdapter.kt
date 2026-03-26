@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
-import com.example.tustareas.fragmentos.ListarEtiquetasFragmentDirections
-import com.example.tustareas.fragmentos.ListarTareasFragment
 import com.example.tustareas.fragmentos.ListarTareasFragmentDirections
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
