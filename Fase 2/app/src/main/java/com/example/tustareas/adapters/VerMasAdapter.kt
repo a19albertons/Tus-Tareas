@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
-import com.example.tustareas.fragmentos.ListarTareasFragmentDirections
-import com.example.tustareas.fragmentos.VerMasFragment
 import com.example.tustareas.fragmentos.VerMasFragmentDirections
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
@@ -27,7 +25,7 @@ import java.util.Date
  * Clase que define el adapter de ver más
  */
 // Modificado a ListAdapter para poder controlar los cambios en el checkbox sin volver al inicio
-class VerMasAdapter(private val tareas: List<Tarea>, private val model: TusTareasModel, private val verMas: Int): ListAdapter<Tarea, VerMasAdapter.VerMasViewHolder>(TareaComprobacionDiferncias()) {
+class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int): ListAdapter<Tarea, VerMasAdapter.VerMasViewHolder>(TareaComprobacionDiferncias()) {
     // Genera un scope para los procesos secundarios
     private val scope = MainScope()
 
@@ -59,7 +57,7 @@ class VerMasAdapter(private val tareas: List<Tarea>, private val model: TusTarea
             try {
                 it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
             }
             it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
