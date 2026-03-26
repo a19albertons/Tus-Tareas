@@ -6,6 +6,9 @@
     <!-- General -->
     <string name="temporal">Temporal</string>
     <string name="error_navegar">Ha habido un error al navegar</string>
+    <string name="lupa">lupa</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Buscar por titulo, descripción y etiqueta</string>
+
 
     <!-- Inicio -->
     <string name="ver_mas">Ver más</string>
@@ -18,5 +21,8 @@
     <string name="no_hay_tareas_proximas">No hay tareas próximas</string>
     <string name="tienes_una_tarea_proxima">Tienes 1 tarea próxima</string>
     <string name="tienes_tareas_proximas">Tienes %1$d tareas próximas</string>
+
+    <!-- Ver más -->
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
 
 </resources>
