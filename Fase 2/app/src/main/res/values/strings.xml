@@ -2,5 +2,21 @@
     <string name="app_name">Tus tareas</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- General -->
     <string name="temporal">Temporal</string>
+    <string name="error_navegar">Ha habido un error al navegar</string>
+
+    <!-- Inicio -->
+    <string name="ver_mas">Ver más</string>
+    <string name="no_hay_tareas_para_hoy">No hay tareas pendientes para hoy</string>
+    <string name="tienes_una_tarea_para_hoy">Tienes 1 tarea pendiente para hoy</string>
+    <string name="tienes_tareas_para_hoy">Tienes %1$d tareas pendientes para hoy</string>
+    <string name="no_hay_tareas_retrasadas">No hay tareas retrasadas</string>
+    <string name="tienes_una_tarea_retrasada">Tienes 1 tarea retrasada</string>
+    <string name="tienes_tareas_retrasadas">Tienes %1$d tareas retrasadas</string>
+    <string name="no_hay_tareas_proximas">No hay tareas próximas</string>
+    <string name="tienes_una_tarea_proxima">Tienes 1 tarea próxima</string>
+    <string name="tienes_tareas_proximas">Tienes %1$d tareas próximas</string>
+
 </resources>
