@@ -68,7 +68,7 @@ class ListarTareasFragment : Fragment() {
         }
 
         // spinner prioridad tareas
-        val contenidoSpiner = listOf("Prioridad", "Alta", "Media", "Baja", "No establecido")
+        val contenidoSpiner = listOf(getString(R.string.prioridad)) + Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -113,7 +113,7 @@ class ListarTareasFragment : Fragment() {
         }
 
         // spinner prioridad tareas
-        val contenidoSpinerEstado = listOf("Estado", "En tiempo", "Retrasado", "Completada")
+        val contenidoSpinerEstado = listOf(getString(R.string.estado)) + Estado.entries.map { getString(it.labelRes()) }
         binding.estadoTarea.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -209,7 +209,7 @@ class ListarTareasFragment : Fragment() {
                 findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
             }
             catch (_: Exception) {
-                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
