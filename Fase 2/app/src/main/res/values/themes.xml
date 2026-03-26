@@ -39,4 +39,9 @@
         <item name="android:width">0dp</item>
         <item name="android:height">0dp</item>
     </style>
+
+    <!-- Fondo blanco desplegable tareas de ordenacion por fechas -->
+    <style name="fondoBlancoTareas" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:itemBackground">@android:color/white</item>
+    </style>
 </resources>
