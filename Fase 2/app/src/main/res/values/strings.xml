@@ -8,6 +8,8 @@
     <string name="error_navegar">Ha habido un error al navegar</string>
     <string name="lupa">lupa</string>
     <string name="buscar_por_titulo_descripci_n_y_etiqueta">Buscar por titulo, descripción y etiqueta</string>
+    <string name="error_modificar_checkbox">Ha habido un error al modificar la tarea</string>
+
 
 
     <!-- Inicio -->
