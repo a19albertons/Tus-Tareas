@@ -24,5 +24,6 @@
 
     <!-- Ver más -->
     <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
+    <string name="taza">taza</string>
 
 </resources>
