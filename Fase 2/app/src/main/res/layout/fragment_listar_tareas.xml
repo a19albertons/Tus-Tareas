@@ -31,6 +31,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="5dp"
+                    android:contentDescription="@string/lupa"
                     android:src="@drawable/lupa"
                 />
                 <EditText
@@ -38,7 +39,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Buscar por titulo, descripción y etiqueta"
+                    android:autofillHints="importante, tarea 1, tarea para dentro de 1 semana"
+                    android:hint="@string/buscar_por_titulo_descripci_n_y_etiqueta"
                     android:layout_marginEnd="15dp"
                     android:textSize="14sp"
                     android:inputType="text"
@@ -51,6 +53,7 @@
             android:id="@+id/menuTareas"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:contentDescription="@string/tres_barras"
             android:src="@drawable/tres_barras"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
@@ -104,16 +107,17 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-    >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@string/taza"
             android:src="@drawable/taza"
         />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Todavía no ha creado tareas\no no se ajustan al filtro aplicado"
+            android:text="@string/todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado"
         />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
@@ -137,7 +141,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:backgroundTint="@color/black"
-            android:text="+"
+            android:text="@string/anadir"
             android:textSize="50sp"
             android:textColor="@color/white"
             app:cornerRadius="10dp"
