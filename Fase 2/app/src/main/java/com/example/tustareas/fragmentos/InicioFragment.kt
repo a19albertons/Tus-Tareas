@@ -29,7 +29,7 @@ class InicioFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentInicioBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -123,7 +123,7 @@ class InicioFragment : Fragment() {
         binding.verMas1.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
@@ -132,7 +132,7 @@ class InicioFragment : Fragment() {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
@@ -141,7 +141,7 @@ class InicioFragment : Fragment() {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
