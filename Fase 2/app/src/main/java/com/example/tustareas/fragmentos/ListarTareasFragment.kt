@@ -39,7 +39,7 @@ class ListarTareasFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarTareasBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -208,7 +208,7 @@ class ListarTareasFragment : Fragment() {
             try {
                 findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT)
                     .show()
             }
