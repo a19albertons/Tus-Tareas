@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp"
+    android:backgroundTint="@color/white"
     app:strokeColor="@color/black"
     app:strokeWidth="1dp"
 >
