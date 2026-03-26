@@ -52,7 +52,7 @@ class ListarTareasFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Definir el adapter
-        val adapter = TareasAdapter(emptyList(), model)
+        val adapter = TareasAdapter(model)
         recyclerView.adapter = adapter
         // Actualizado con el nuevo sistema que evita duplicado de observers
         model.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
