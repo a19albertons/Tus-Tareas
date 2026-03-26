@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.Visibility
-import com.example.tustareas.R
 import com.example.tustareas.adapters.VerMasAdapter
 import com.example.tustareas.databinding.FragmentVerMasBinding
 import com.example.tustareas.modelView.TusTareasModel
@@ -28,7 +26,7 @@ class VerMasFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentVerMasBinding.inflate(inflater, container, false)
         val view = binding.root
