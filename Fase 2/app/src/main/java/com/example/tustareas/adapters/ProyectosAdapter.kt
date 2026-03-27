@@ -36,7 +36,7 @@ class ProyectosAdapter(private val proyectos: List<Proyecto>): RecyclerView.Adap
             try {
                 it.findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(it,it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
 
