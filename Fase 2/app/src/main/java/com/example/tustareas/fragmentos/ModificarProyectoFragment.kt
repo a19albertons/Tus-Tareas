@@ -164,9 +164,9 @@ class ModificarProyectoFragment : Fragment() {
             // Customizamos el boton de confirmar
             picker.addOnPositiveButtonClickListener { eleccion ->
 
-                val FechaEscogidaPorUsuario = Date(eleccion)
-                proyectoDTO.proyecto.fechaInicio = FechaEscogidaPorUsuario
-                binding.fechaInicioProyecto.text = DateHelper.timestampToString(FechaEscogidaPorUsuario)
+                val fechaEscogidaPorUsuario = Date(eleccion)
+                proyectoDTO.proyecto.fechaInicio = fechaEscogidaPorUsuario
+                binding.fechaInicioProyecto.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
 
             // Mostramos el datePicker
@@ -182,9 +182,9 @@ class ModificarProyectoFragment : Fragment() {
             // Customizamos el boton de confirmar
             picker.addOnPositiveButtonClickListener { eleccion ->
 
-                val FechaEscogidaPorUsuario = Date(eleccion)
-                proyectoDTO.proyecto.fechaFin = FechaEscogidaPorUsuario
-                binding.fechaFinProyecto.text = DateHelper.timestampToString(FechaEscogidaPorUsuario)
+                val fechaEscogidaPorUsuario = Date(eleccion)
+                proyectoDTO.proyecto.fechaFin = fechaEscogidaPorUsuario
+                binding.fechaFinProyecto.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
 
             // Mostramos el datePicker
