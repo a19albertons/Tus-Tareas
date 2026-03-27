@@ -39,4 +39,17 @@
         <item name="android:width">0dp</item>
         <item name="android:height">0dp</item>
     </style>
+
+    <!-- Fondo blanco desplegable tareas de ordenacion por fechas -->
+    <style name="fondoBlancoTareas" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:itemBackground">@color/gray</item>
+    </style>
+
+    <!-- Modificar los 3 puntos del toolbar -->
+    <style name="modifcar3PuntosToolbar" parent="Widget.Material3.PopupMenu">
+        <!-- Color de fondo -->
+        <item name="android:popupBackground">@color/white</item>
+        <!-- Color de fondo cuando es clickada -->
+        <item name="android:itemBackground">@color/grayStatsToolbar</item>
+    </style>
 </resources>
