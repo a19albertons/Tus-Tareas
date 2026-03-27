@@ -24,6 +24,9 @@
     <string name="calendario">calendario</string>
     <string name="etiqueta">etiqueta</string>
     <string name="titulo">titulo</string>
+    <string name="fecha_inicio">fecha inicio</string>
+    <string name="fecha_fin">fecha fin</string>
+    <string name="tareas">tareas</string>
 
 
     <!-- Inicio -->
@@ -77,5 +80,8 @@
     <string name="inicio">Inicio</string>
     <string name="ascendente">Ascendente</string>
     <string name="descendente">Descendente</string>
+
+    <!-- Modificar proyectos -->
+
 
 </resources>
