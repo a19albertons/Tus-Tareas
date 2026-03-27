@@ -33,7 +33,7 @@ class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> U
             val etiquetas = currentList.toMutableList()
             etiquetas.remove(objetoActual)
             tareaEliminada(etiquetas)
-            Snackbar.make(it, "Etiqueta eliminada", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, it.context.getString(R.string.tarea_eliminada), Snackbar.LENGTH_SHORT).show()
             submitList(etiquetas)
         }
     }
