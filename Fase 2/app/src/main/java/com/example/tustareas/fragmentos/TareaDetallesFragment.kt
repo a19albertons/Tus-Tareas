@@ -117,7 +117,7 @@ class TareaDetallesFragment : Fragment() {
                             catch (_: Exception) {
                                 Snackbar.make(
                                     binding.root,
-                                    "Ha habido un error de navegación",
+                                    getString(R.string.error_navegar),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
@@ -145,9 +145,9 @@ class TareaDetallesFragment : Fragment() {
 
     fun dialogoEliminacion() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle("Desea eliminar esta tarea")
+            .setTitle(getString(R.string.confirmar_eliminar_tarea))
             .setMessage("")
-            .setPositiveButton("Eliminar") { _, _ ->
+            .setPositiveButton(getString(R.string.eliminar)) { _, _ ->
                 if (::tareaVisualizada.isInitialized) {
                     // Borra la tarea
                     viewLifecycleOwner.lifecycleScope.launch {
@@ -155,7 +155,7 @@ class TareaDetallesFragment : Fragment() {
                             model.eliminarTarea(tareaVisualizada.tarea)
                         }
                         catch (_: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar la tarea",
+                            Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -164,11 +164,11 @@ class TareaDetallesFragment : Fragment() {
                     findNavController().popBackStack()
                 }
                 else {
-                    Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar la tarea",
+                    Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNeutralButton("Cancelar", null)
+            .setNeutralButton(getString(R.string.cancelar), null)
             .show()
 
     }
