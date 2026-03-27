@@ -19,6 +19,9 @@
     <string name="guardar">Guardar</string>
     <string name="descartar">Descartar</string>
     <string name="continuar">Continuar</string>
+    <string name="fecha_creacion">fecha creacion</string>
+    <string name="calendario">calendario</string>
+    <string name="etiqueta">etiqueta</string>
 
 
     <!-- Inicio -->
