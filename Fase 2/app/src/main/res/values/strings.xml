@@ -28,8 +28,7 @@
     <string name="fecha_fin">fecha fin</string>
     <string name="tareas">tareas</string>
     <string name="no_existen_etiquetas">No existen etiquetas</string>
-    <string name="etiqueta_eliminada">Etiqueta eliminada</string>
-    <string name="tarea_eliminada">Tarea eliminada</string>
+
 
 
     <!-- Inicio -->
@@ -126,5 +125,12 @@
         <item>Ingles</item>
         <item>Gallego</item>
     </string-array>
+
+    <!-- Lista etiquetas presentes -->
+    <string name="etiqueta_eliminada">Etiqueta eliminada</string>
+
+
+    <!-- Lista tareas presentes -->
+    <string name="tarea_eliminada">Tarea eliminada</string>
 
 </resources>
