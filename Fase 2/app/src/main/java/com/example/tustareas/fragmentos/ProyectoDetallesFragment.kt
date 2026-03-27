@@ -40,7 +40,7 @@ class ProyectoDetallesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentProyectoDetallesBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -152,7 +152,7 @@ class ProyectoDetallesFragment : Fragment() {
                             try {
                                 findNavController().navigate(ProyectoDetallesFragmentDirections.actionProyectoDetallesFragmentToModificarProyectoFragment(proyectoVisualizado))
                             }
-                            catch (e: Exception) {
+                            catch (_: Exception) {
                                 Snackbar.make(
                                     binding.root,
                                     getString(R.string.error_navegar),
@@ -194,7 +194,7 @@ class ProyectoDetallesFragment : Fragment() {
                         try {
                             model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),
                                 Snackbar.LENGTH_SHORT).show()
                         }
