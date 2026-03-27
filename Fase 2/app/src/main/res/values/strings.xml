@@ -133,4 +133,8 @@
     <!-- Lista tareas presentes -->
     <string name="tarea_eliminada">Tarea eliminada</string>
 
+    <!-- Listar etiquetas -->
+    <string name="buscar_por_titulo_y_descripci_n">Buscar por titulo y descripción</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado etiqueta \n o no se ajustan al filtro aplicado</string>
+
 </resources>
