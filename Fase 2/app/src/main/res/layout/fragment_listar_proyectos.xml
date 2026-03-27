@@ -64,6 +64,7 @@
                 android:id="@+id/inicioProyecto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:popupBackground="@color/gray"
                 />
         </com.google.android.material.card.MaterialCardView>
         <Space
@@ -83,6 +84,7 @@
                 android:id="@+id/finProyecto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:popupBackground="@color/gray"
                 />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
