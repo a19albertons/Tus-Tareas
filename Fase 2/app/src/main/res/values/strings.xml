@@ -137,4 +137,8 @@
     <string name="buscar_por_titulo_y_descripci_n">Buscar por titulo y descripción</string>
     <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado etiqueta \n o no se ajustan al filtro aplicado</string>
 
+    <!-- Etiqueta detalles -->
+    <string name="error_eliminar_etiqueta">Ha habido un error al intentar\nborrar la etiqueta</string>
+    <string name="confirmar_eliminar_etiqueta">Desea eliminar esta etiqueta</string>
+
 </resources>
