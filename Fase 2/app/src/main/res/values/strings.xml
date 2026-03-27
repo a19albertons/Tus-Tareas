@@ -11,7 +11,6 @@
     <string name="error_modificar_checkbox">Ha habido un error al modificar la tarea</string>
     <string name="tres_barras">tres barras</string>
     <string name="anadir">+</string>
-    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
     <string name="taza">taza</string>
     <string name="nombreRequerido">Nombre*</string>
     <string name="descripcion">Descripcion</string>
@@ -45,6 +44,7 @@
     <!-- Listar tareas -->
     <string name="estado">Estado</string>
     <string name="prioridad">Prioridad</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
 
 
     <!-- Estado -->
@@ -69,5 +69,8 @@
     <!-- Tarea detalles -->
     <string name="error_eliminar_tarea">Ha habido un error al intentar\nborrar la tarea</string>
     <string name="confirmar_eliminar_tarea">Desea eliminar esta tarea</string>
+
+    <!-- Listar proyectos -->
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado proyectos\no no se ajustan al filtro aplicado</string>
 
 </resources>
