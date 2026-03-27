@@ -21,10 +21,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/descripcion"
             android:src="@drawable/descripcion"
             android:layout_marginEnd="10dp"
             />
@@ -42,10 +43,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_creacion"
             android:src="@drawable/fecha_cracion"
             android:layout_marginEnd="10dp"
             />
@@ -63,10 +65,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_inicio"
             android:src="@drawable/fecha_inicio"
             android:layout_marginEnd="10dp"
             />
@@ -84,10 +87,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_fin"
             android:src="@drawable/fecha_fin"
             android:layout_marginEnd="10dp"
             />
@@ -109,6 +113,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/tareas"
             android:src="@drawable/tareas_pequeno"
             android:layout_marginEnd="10dp"
             />
@@ -130,6 +135,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/etiqueta"
             android:src="@drawable/etiqueta"
             android:layout_marginEnd="10dp"
             />
