@@ -41,6 +41,7 @@
     <string name="no_hay_tareas_proximas">No hay tareas próximas</string>
     <string name="tienes_una_tarea_proxima">Tienes 1 tarea próxima</string>
     <string name="tienes_tareas_proximas">Tienes %1$d tareas próximas</string>
+    <string name="eliminar_simbolo">-</string>
 
     <!-- Ver más -->
 
