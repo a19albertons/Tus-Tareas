@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apariencia"
+                android:text="@string/apariencia"
                 android:textSize="32sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -44,7 +44,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Claro"
+                    android:text="@string/claro"
                     android:textSize="20sp"
                     />
                 <RadioButton
@@ -68,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Oscuro"
+                    android:text="@string/oscuro"
                     android:textSize="20sp"
                     />
                 <RadioButton
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Predeterminados del sistema"
+                    android:text="@string/predeterminados_del_sistema"
                     android:textSize="20sp"
                     />
                 <RadioButton
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Idioma"
+                android:text="@string/idioma"
                 android:textSize="32sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
