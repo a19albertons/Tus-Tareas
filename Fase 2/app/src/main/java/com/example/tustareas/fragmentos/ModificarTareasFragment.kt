@@ -167,8 +167,8 @@ class ModificarTareasFragment : Fragment() {
                 && listaEtiquetas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
                 ) {
                 // Obtener nueva etiqueta, la lista de etqiuetas y añadirla actualizando las disponibles
-                var etiquetaAnadir = listaEtiquetas[posicion]
-                var nuevasEtiqeutasDTO = tareaDTO.etiquetas.toMutableList()
+                val etiquetaAnadir = listaEtiquetas[posicion]
+                val nuevasEtiqeutasDTO = tareaDTO.etiquetas.toMutableList()
                 nuevasEtiqeutasDTO.add(etiquetaAnadir)
                 tareaDTO.etiquetas = nuevasEtiqeutasDTO
                 // Mandamos la lista con las nuevas etiquetas
