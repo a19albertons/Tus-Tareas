@@ -58,7 +58,7 @@ class ModificarTareasFragment : Fragment() {
         binding.estadoTarea.text = tareaDTO.tarea.estado.name
 
         // Spinner prioridad
-        val contenidosSpinerPrioridad = Prioridad.entries.map { it.labelRes() }
+        val contenidosSpinerPrioridad = Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
