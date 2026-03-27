@@ -93,4 +93,13 @@
     <string name="confirmar_eliminar_proyecto">Desea eliminar este proyecto</string>
     <string name="aviso_confirmar_eliminar_proyecto">Nota: las tareas no serán borradas</string>
 
+
+    <!-- Estadisticas -->
+    <string name="progreso_semanal">Progreso semanal</string>
+    <string name="tareas_completadas_vs_pendientes">Tareas completadas vs pendientes</string>
+    <string name="completas">Completas</string>
+    <string name="pendiente">Pendiente</string>
+    <string name="retrasadas">Retrasadas</string>
+    <string name="actividad_semanal">Actividad Semanal</string>
+
 </resources>
