@@ -58,7 +58,7 @@ class ModificarTareasFragment : Fragment() {
         binding.estadoTarea.text = tareaDTO.tarea.estado.name
 
         // Spinner prioridad
-        val contenidosSpinerPrioridad = listOf("Alta", "Media", "Baja", "No establecida")
+        val contenidosSpinerPrioridad = Prioridad.entries.map { it.labelRes() }
         binding.prioridadTarea.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -107,7 +107,7 @@ class ModificarTareasFragment : Fragment() {
         binding.calendario.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
             val builder = MaterialDatePicker.Builder.datePicker()
-            builder.setTitleText("Fecha limite")
+            builder.setTitleText(getString(R.string.fecha_limite))
             // Construimos el datePicker
             val picker = builder.build()
 
@@ -124,7 +124,7 @@ class ModificarTareasFragment : Fragment() {
         }
 
         // valor por defecto vacio
-        var listaEtiquetas = listOf(Etiqueta(0, "No existen etiquetas"))
+        var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
         binding.listaEtiquetas.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -134,7 +134,7 @@ class ModificarTareasFragment : Fragment() {
         // Gestionar etiqueta
         model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
             if (etiquetas.isEmpty()) {
-                listaEtiquetas = listOf(Etiqueta(0, "No existen etiquetas"))
+                listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
             }
             else {
                 listaEtiquetas = etiquetas
@@ -209,9 +209,9 @@ class ModificarTareasFragment : Fragment() {
     // Dialogo guardado
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle("Esta seguro de guardar la tarea")
+            .setTitle(getString(R.string.confirmar_guardar_tarea))
             .setMessage("")
-            .setPositiveButton("Guardar") { _,_ ->
+            .setPositiveButton(getString(R.string.guardar)) { _,_ ->
                 if (binding.tituloTarea.text.toString().trim().isNotEmpty()) {
                     // Actualizamos los campos de texto con los ultimo
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
@@ -231,7 +231,7 @@ class ModificarTareasFragment : Fragment() {
                             model.insertarTareaConEtiqueta(tareaDTO)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva tarea",
+                            Snackbar.make(binding.root, getString(R.string.error_guardar_tarea),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -241,22 +241,22 @@ class ModificarTareasFragment : Fragment() {
                 }
                 else {
                     // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva tarea",
+                    Snackbar.make(binding.root, getString(R.string.error_guardar_tarea),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Descartar") { _, _ ->
+            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
             }
-            .setNeutralButton("Continuar", null)
+            .setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
 
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle("Estas seguro de los cambios")
+            .setTitle(getString(R.string.confirmar_modificado_tarea))
             .setMessage("")
-            .setPositiveButton("Guardar") { _, _ ->
+            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
                 if (binding.tituloTarea.text.toString().trim().isNotEmpty()) {
                     // Actualizamos los campos de texto con los ultimo
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
@@ -276,7 +276,7 @@ class ModificarTareasFragment : Fragment() {
                             model.modificarTareaConEtiqueta(tareaDTO)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                            Snackbar.make(binding.root, getString(R.string.error_modificar_tarea),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -285,15 +285,15 @@ class ModificarTareasFragment : Fragment() {
                 } else {
                     Snackbar.make(
                         binding.root,
-                        "Ha habido un error al guardar\nla modificación",
+                        getString(R.string.error_modificar_tarea),
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }
-            .setNegativeButton("Descartar") { _, _ ->
+            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
             }
-            .setNeutralButton("Continuar", null)
+            .setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
 
