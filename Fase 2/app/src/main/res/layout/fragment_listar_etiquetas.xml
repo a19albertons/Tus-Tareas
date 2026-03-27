@@ -24,8 +24,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="5dp"
+                android:contentDescription="@string/lupa"
                 android:src="@drawable/lupa"
             />
             <EditText
@@ -33,8 +34,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:autofillHints="tarea 1"
                 android:hint="@string/buscar_por_titulo_y_descripci_n"
                 android:layout_marginEnd="15dp"
+                android:inputType="text"
                 android:textSize="14sp"
                 android:textColorHint="@color/black"
             />
@@ -47,10 +50,11 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:contentDescription="@string/taza"
             android:src="@drawable/taza"
             />
         <TextView
