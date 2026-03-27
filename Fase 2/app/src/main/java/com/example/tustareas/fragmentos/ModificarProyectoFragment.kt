@@ -1,6 +1,5 @@
 package com.example.tustareas.fragmentos
 
-import android.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.adapters.ListaTareasPresentesAdapter
 import com.example.tustareas.databinding.FragmentModificarProyectoBinding
@@ -61,12 +61,12 @@ class ModificarProyectoFragment : Fragment() {
         binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
 
         // spinner tareas
-        var listaTareas = listOf(Tarea(0, "No existen tareas", null, null, Prioridad.NoEstablecido,
+        var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
             Date(), Estado.EnTiempo, null))
         model.obtenerTareasRestantes().observe(viewLifecycleOwner) {
             tareas ->
             if (tareas.isEmpty()) {
-                listaTareas = listOf(Tarea(0, "No existen tareas", null, null, Prioridad.NoEstablecido,
+                listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
                     Date(), Estado.EnTiempo, null))
             }
             else {
@@ -90,11 +90,11 @@ class ModificarProyectoFragment : Fragment() {
         adapterTarea.submitList(proyectoDTO.tareas.toList())
 
         // spinner etiquetas
-        var listaEtiquetas = listOf(Etiqueta(0, " No existen etiquetas", ""))
+        var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
         model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
             etiquetas ->
             if (etiquetas.isEmpty()) {
-                listaEtiquetas = listOf(Etiqueta(0, " No existen etiquetas", ""))
+                listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
             }
             else {
                 listaEtiquetas = etiquetas
@@ -157,7 +157,7 @@ class ModificarProyectoFragment : Fragment() {
         binding.calendarioInicio.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
             val builder = MaterialDatePicker.Builder.datePicker()
-            builder.setTitleText("Fecha Inicio")
+            builder.setTitleText(getString(R.string.fecha_inicio))
             // Construimos el datePicker
             val picker = builder.build()
 
@@ -175,7 +175,7 @@ class ModificarProyectoFragment : Fragment() {
         binding.calendarioFin.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
             val builder = MaterialDatePicker.Builder.datePicker()
-            builder.setTitleText("Fecha Fin")
+            builder.setTitleText(getString(R.string.fecha_fin))
             // Construimos el datePicker
             val picker = builder.build()
 
@@ -213,9 +213,9 @@ class ModificarProyectoFragment : Fragment() {
 
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
-            .setTitle("Estas seguro de guardar los proyectos")
+            .setTitle(getString(R.string.confirmar_guardar_proyecto))
             .setMessage("")
-            .setPositiveButton("Guardar") { _,_ ->
+            .setPositiveButton(getString(R.string.guardar)) { _,_ ->
                 if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
                     // Actualizamos los campos de texto con los ultimo
                     proyectoDTO.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
@@ -227,7 +227,7 @@ class ModificarProyectoFragment : Fragment() {
                             model.insertarProyectoConTareaYEtiqueta(proyectoDTO)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nel nuevo proyecto",
+                            Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -237,22 +237,22 @@ class ModificarProyectoFragment : Fragment() {
                 }
                 else {
                     // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, "Ha habido un error al guardar\nel nuevo proyecto",
+                    Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Descartar") { _, _ ->
                 findNavController().popBackStack()
             }
-            .setNeutralButton("Continuar", null)
+            .setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
 
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
-            .setTitle("Estas seguro de los cambios")
+            .setTitle(getString(R.string.confirmar_modificar_proyecto))
             .setMessage("")
-            .setPositiveButton("Guardar") { _,_ ->
+            .setPositiveButton(getString(R.string.guardar)) { _,_ ->
                 if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
                     // Actualizamos los campos de texto con los ultimo
                     proyectoDTO.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
@@ -264,7 +264,7 @@ class ModificarProyectoFragment : Fragment() {
                             model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                            Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -274,14 +274,14 @@ class ModificarProyectoFragment : Fragment() {
                 }
                 else {
                     // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                    Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Descartar") { _, _ ->
+            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
             }
-            .setNeutralButton("Continuar", null)
+            .setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
 
