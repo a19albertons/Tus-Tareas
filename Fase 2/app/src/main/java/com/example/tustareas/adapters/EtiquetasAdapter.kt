@@ -35,7 +35,7 @@ class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adap
             try {
                 it.findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToEtiquetaDetallesFragment(objetoActual.id))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
