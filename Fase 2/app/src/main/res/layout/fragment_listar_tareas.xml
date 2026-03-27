@@ -81,6 +81,7 @@
                 android:id="@+id/prioridadTarea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:popupBackground="@color/gray"
             />
         </com.google.android.material.card.MaterialCardView>
         <Space
@@ -100,6 +101,7 @@
                 android:id="@+id/estadoTarea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:popupBackground="@color/gray"
             />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
