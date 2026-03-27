@@ -19,6 +19,8 @@
     <string name="guardar">Guardar</string>
     <string name="descartar">Descartar</string>
     <string name="continuar">Continuar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="eliminar">Eliminar</string>
     <string name="fecha_creacion">fecha creacion</string>
     <string name="calendario">calendario</string>
     <string name="etiqueta">etiqueta</string>
@@ -63,5 +65,9 @@
     <string name="confirmar_modificado_tarea">Está seguro de los cambios</string>
     <string name="no_existen_etiquetas">No existen etiquetas</string>
     <string name="fecha_limite">Fecha límite</string>
+
+    <!-- Tarea detalles -->
+    <string name="error_eliminar_tarea">Ha habido un error al intentar\nborrar la tarea</string>
+    <string name="confirmar_eliminar_tarea">Desea eliminar esta tarea</string>
 
 </resources>
