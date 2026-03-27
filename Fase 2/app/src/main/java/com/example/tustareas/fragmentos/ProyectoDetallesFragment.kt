@@ -157,7 +157,7 @@ class ProyectoDetallesFragment : Fragment() {
                             catch (e: Exception) {
                                 Snackbar.make(
                                     binding.root,
-                                    "Ha habido un error al intentar\neditar el proyecto",
+                                    getString(R.string.error_navegar),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                             }
@@ -183,9 +183,9 @@ class ProyectoDetallesFragment : Fragment() {
 
     private fun dialogoBorrado() {
         AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
-            .setTitle("Desea eliminar este proyecto?")
-            .setMessage("Nota: las tareas no serán borradas")
-            .setPositiveButton("Eliminar") { _,_ ->
+            .setTitle(getString(R.string.confirmar_eliminar_proyecto))
+            .setMessage(getString(R.string.aviso_confirmar_eliminar_proyecto))
+            .setPositiveButton(getString(R.string.eliminar)) { _,_ ->
                 if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
                     // Actualizamos los campos de texto con los ultimo
                     proyectoVisualizado.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
@@ -197,7 +197,7 @@ class ProyectoDetallesFragment : Fragment() {
                             model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar el proyecto",
+                            Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -207,11 +207,11 @@ class ProyectoDetallesFragment : Fragment() {
                 }
                 else {
                     // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar el proyecto",
+                    Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNeutralButton("Cancelar", null)
+            .setNeutralButton(getString(R.string.cancelar), null)
             .show()
     }
 
