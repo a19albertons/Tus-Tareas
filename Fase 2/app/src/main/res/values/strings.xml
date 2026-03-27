@@ -16,6 +16,9 @@
     <string name="nombreRequerido">Nombre*</string>
     <string name="descripcion">Descripcion</string>
     <string name="xx_xx_xxxx">XX/XX/XXXX</string>
+    <string name="guardar">Guardar</string>
+    <string name="descartar">Descartar</string>
+    <string name="continuar">Continuar</string>
 
 
     <!-- Inicio -->
@@ -50,6 +53,11 @@
     <string name="no_establecido">No establecido</string>
 
     <!-- Modificar tareas -->
-
+    <string name="error_guardar_tarea">Ha habido un error al guardar\nla nueva tarea</string>
+    <string name="error_modificar_tarea">Ha habido un error al guardar\nla modificación</string>
+    <string name="confirmar_guardar_tarea">Está seguro de guardar la tarea</string>
+    <string name="confirmar_modificado_tarea">Está seguro de los cambios</string>
+    <string name="no_existen_etiquetas">No existen etiquetas</string>
+    <string name="fecha_limite">Fecha límite</string>
 
 </resources>
