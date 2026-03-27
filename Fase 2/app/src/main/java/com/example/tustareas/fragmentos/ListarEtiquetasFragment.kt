@@ -29,7 +29,7 @@ class ListarEtiquetasFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarEtiquetasBinding.inflate(inflater, container, false)
 
@@ -72,7 +72,7 @@ class ListarEtiquetasFragment : Fragment() {
                 findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
                     Etiqueta(0,"","")))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
             }
 
