@@ -37,7 +37,7 @@ class EtiquetaDetallesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEtiquetaDetallesBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -68,7 +68,7 @@ class EtiquetaDetallesFragment : Fragment() {
                             try {
                                 findNavController().navigate(EtiquetaDetallesFragmentDirections.actionEtiquetaDetallesFragmentToModificarEtiquetaFragment(etiquetaVisualizada))
                             }
-                            catch (e: Exception) {
+                            catch (_: Exception) {
                                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
                             }
                         }
@@ -102,7 +102,7 @@ class EtiquetaDetallesFragment : Fragment() {
                         try {
                             model.eliminarEtiqueta(etiquetaVisualizada)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_etiqueta), Snackbar.LENGTH_SHORT).show()
                         }
                     }
