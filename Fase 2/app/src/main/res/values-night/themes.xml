@@ -47,9 +47,9 @@
 
     <!-- Modificar los 3 puntos del toolbar -->
     <style name="modifcar3PuntosToolbar" parent="Widget.Material3.PopupMenu">
+        <!-- Color del texto -->
+        <item name="android:textColor">@color/black</item>
         <!-- Color de fondo -->
-        <item name="android:popupBackground">@color/white</item>
-        <!-- Color de fondo cuando es clickada -->
         <item name="android:itemBackground">@color/grayStatsToolbar</item>
     </style>
 </resources>
