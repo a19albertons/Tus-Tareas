@@ -39,7 +39,7 @@ class ListarProyectosFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarProyectosBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -154,7 +154,7 @@ class ListarProyectosFragment : Fragment() {
             try {
                 findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToModificarProyectoFragment(proyectoDTO))
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
