@@ -11,6 +11,7 @@
         android:id="@+id/tituloEtiqueta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="etiqueta 1"
         android:textColorHint="@color/black"
         android:hint="@string/nombreRequerido"
         android:inputType="text"
@@ -25,6 +26,7 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:contentDescription="@string/descripcion"
             android:src="@drawable/descripcion"
             android:layout_marginEnd="10dp"
             />
@@ -33,6 +35,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:autofillHints="descripcion etiqueta"
             android:textColorHint="@color/black"
             android:hint="@string/descripcion"
             android:inputType="textMultiLine"
