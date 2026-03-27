@@ -28,6 +28,7 @@
     <string name="fecha_fin">fecha fin</string>
     <string name="tareas">tareas</string>
     <string name="no_existen_etiquetas">No existen etiquetas</string>
+    <string name="etiqueta_eliminada">Etiqueta eliminada</string>
 
 
     <!-- Inicio -->
