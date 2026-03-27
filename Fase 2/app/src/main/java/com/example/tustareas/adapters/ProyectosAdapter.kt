@@ -37,7 +37,7 @@ class ProyectosAdapter(private val proyectos: List<Proyecto>): RecyclerView.Adap
                 it.findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id))
             }
             catch (e: Exception) {
-                Snackbar.make(it,"Ha habido un error de navegación", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(it,it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
 
         }
