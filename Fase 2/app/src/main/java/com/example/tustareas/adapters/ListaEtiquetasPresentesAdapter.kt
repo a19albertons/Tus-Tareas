@@ -34,7 +34,7 @@ class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etique
             val etiquetas = currentList.toMutableList()
             etiquetas.remove(objetoActual)
             etiquetaEliminada(etiquetas)
-            Snackbar.make(it, "Etiqueta eliminada", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, it.context.getString(R.string.etiqueta_eliminada), Snackbar.LENGTH_SHORT).show()
             submitList(etiquetas)
         }
     }
