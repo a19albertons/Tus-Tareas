@@ -141,4 +141,10 @@
     <string name="error_eliminar_etiqueta">Ha habido un error al intentar\nborrar la etiqueta</string>
     <string name="confirmar_eliminar_etiqueta">Desea eliminar esta etiqueta</string>
 
+    <!-- Modificar etiquetas -->
+    <string name="error_modificar_etiqueta">Ha habido un error al guardar\nla modificación</string>
+    <string name="confirmar_modificar_etiqueta">Está seguro de los cambios</string>
+    <string name="error_guardar_etiqueta">Ha habido un error al guardar\nla nueva etiqueta</string>
+    <string name="confirmar_guardar_etiqueta">Estas seguro de guardar la etiqueta</string>
+
 </resources>
