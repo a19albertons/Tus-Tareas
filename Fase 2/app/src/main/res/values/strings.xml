@@ -72,5 +72,10 @@
 
     <!-- Listar proyectos -->
     <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado proyectos\no no se ajustan al filtro aplicado</string>
+    <string name="primero_va_fin_despues_inicio">Primero va fin despues inicio</string>
+    <string name="fin">Fin</string>
+    <string name="inicio">Inicio</string>
+    <string name="ascendente">Ascendente</string>
+    <string name="descendente">Descendente</string>
 
 </resources>
