@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tustareas.R
 import com.example.tustareas.adapters.ProyectosAdapter
 import com.example.tustareas.databinding.FragmentListarProyectosBinding
 import com.example.tustareas.dto.ProyectoDTO
@@ -75,7 +76,11 @@ class ListarProyectosFragment : Fragment() {
         })
 
         // Filtro por fecha inicio
-        val listaInicio = listOf("Inicio", "Ascendente", "Descendente")
+        val listaInicio = listOf(
+            getString(R.string.inicio),
+            getString(R.string.ascendente),
+            getString(R.string.descendente)
+        )
         binding.inicioProyecto.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -95,7 +100,7 @@ class ListarProyectosFragment : Fragment() {
                 }
                 // Notificación de filtros
                 if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {
-                    Snackbar.make(binding.root, "Primero va fin despues inicio", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.primero_va_fin_despues_inicio), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -105,7 +110,11 @@ class ListarProyectosFragment : Fragment() {
         }
 
         // Filtro por fecha fin
-        val listaFin = listOf("Fin", "Ascendente", "Descendente")
+        val listaFin = listOf(
+            getString(R.string.fin),
+            getString(R.string.ascendente),
+            getString(R.string.descendente)
+        )
         binding.finProyecto.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -125,7 +134,7 @@ class ListarProyectosFragment : Fragment() {
                 }
                 // Notificación de filtros
                 if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {
-                    Snackbar.make(binding.root, "Primero va fin despues inicio", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.primero_va_fin_despues_inicio), Snackbar.LENGTH_SHORT).show()
                 }
             }
 
@@ -146,7 +155,7 @@ class ListarProyectosFragment : Fragment() {
                 findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToModificarProyectoFragment(proyectoDTO))
             }
             catch (e: Exception) {
-                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
 
