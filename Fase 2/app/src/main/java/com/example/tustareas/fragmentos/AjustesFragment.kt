@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentAjustesBinding
 import com.example.tustareas.modelView.TusTareasModel
