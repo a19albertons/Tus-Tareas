@@ -127,7 +127,6 @@ class EstadisticasFragment : Fragment() {
             val completas = valores.first
             val pendientes = valores.second
             val progreso = completas.toFloat() / (completas + pendientes).toFloat() * 100
-            Log.d("Progreso", progreso.toString())
             binding.graficoRedondo.progress = progreso.toInt()
             binding.graficoRedondoTexto.text = progreso.toInt().toString()
         }
