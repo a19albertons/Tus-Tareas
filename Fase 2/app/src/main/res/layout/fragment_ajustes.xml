@@ -37,8 +37,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/claro"
                     android:src="@drawable/claro"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     />
                 <TextView
                     android:layout_width="0dp"
@@ -61,8 +62,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/oscuro"
                     android:src="@drawable/oscuro"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     />
                 <TextView
                     android:layout_width="0dp"
@@ -85,8 +87,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/predeterminados_del_sistema"
                     android:src="@drawable/sistema"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     />
                 <TextView
                     android:layout_width="0dp"
@@ -135,8 +138,9 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/idioma"
                     android:src="@drawable/idiomas"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     />
                 <Spinner
                     android:id="@+id/idioma"
