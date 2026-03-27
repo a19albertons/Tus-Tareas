@@ -39,7 +39,7 @@ class TareaDetallesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTareaDetallesBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -114,7 +114,7 @@ class TareaDetallesFragment : Fragment() {
                             try {
                                 findNavController().navigate(TareaDetallesFragmentDirections.actionTareaDetallesFragmentToModificarTareasFragment(tareaVisualizada))
                             }
-                            catch (e: Exception) {
+                            catch (_: Exception) {
                                 Snackbar.make(
                                     binding.root,
                                     "Ha habido un error de navegación",
@@ -154,7 +154,7 @@ class TareaDetallesFragment : Fragment() {
                         try {
                             model.eliminarTarea(tareaVisualizada.tarea)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, "Ha habido un error al intentar\nborrar la tarea",
                                 Snackbar.LENGTH_SHORT).show()
                         }
