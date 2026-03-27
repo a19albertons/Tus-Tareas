@@ -27,6 +27,7 @@
     <string name="fecha_inicio">fecha inicio</string>
     <string name="fecha_fin">fecha fin</string>
     <string name="tareas">tareas</string>
+    <string name="no_existen_etiquetas">No existen etiquetas</string>
 
 
     <!-- Inicio -->
@@ -66,7 +67,6 @@
     <string name="error_modificar_tarea">Ha habido un error al guardar\nla modificación</string>
     <string name="confirmar_guardar_tarea">Está seguro de guardar la tarea</string>
     <string name="confirmar_modificado_tarea">Está seguro de los cambios</string>
-    <string name="no_existen_etiquetas">No existen etiquetas</string>
     <string name="fecha_limite">Fecha límite</string>
 
     <!-- Tarea detalles -->
@@ -82,6 +82,11 @@
     <string name="descendente">Descendente</string>
 
     <!-- Modificar proyectos -->
+    <string name="error_modificar_proyecto">Ha habido un error al guardar\nla modificación</string>
+    <string name="confirmar_modificar_proyecto">Está seguro de los cambios</string>
+    <string name="error_guardar_proyecto">Ha habido un error al guardar\nel nuevo proyecto</string>
+    <string name="confirmar_guardar_proyecto">Está seguro de guardar los proyectos</string>
+    <string name="no_existen_tareas">No existen tareas</string>
 
 
 </resources>
