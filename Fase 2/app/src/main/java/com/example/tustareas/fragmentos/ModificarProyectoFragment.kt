@@ -241,7 +241,7 @@ class ModificarProyectoFragment : Fragment() {
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Descartar") { _, _ ->
+            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
             }
             .setNeutralButton(getString(R.string.continuar), null)
