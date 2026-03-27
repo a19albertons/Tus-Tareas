@@ -44,4 +44,12 @@
     <style name="fondoBlancoTareas" parent="Widget.AppCompat.PopupMenu">
         <item name="android:itemBackground">@android:color/white</item>
     </style>
+
+    <!-- Modificar los 3 puntos del toolbar -->
+    <style name="modifcar3PuntosToolbar" parent="Widget.Material3.PopupMenu">
+        <!-- Color de fondo -->
+        <item name="android:popupBackground">@color/grayStatsToolbar</item>
+        <!-- Color de fondo cuando es clickada -->
+        <item name="android:itemBackground">@color/grayStatsToolbar</item>
+    </style>
 </resources>
