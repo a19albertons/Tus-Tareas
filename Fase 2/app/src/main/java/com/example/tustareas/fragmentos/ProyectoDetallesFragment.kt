@@ -19,8 +19,6 @@ import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentProyectoDetallesBinding
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelView.TusTareasModel
-import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
