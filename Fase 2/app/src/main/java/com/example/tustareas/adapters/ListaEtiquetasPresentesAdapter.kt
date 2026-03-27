@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
-import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 
