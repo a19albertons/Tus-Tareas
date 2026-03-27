@@ -114,9 +114,9 @@ class ModificarTareasFragment : Fragment() {
             // Customizamos el boton de confirmar
             picker.addOnPositiveButtonClickListener { eleccion ->
 
-                val FechaEscogidaPorUsuario = Date(eleccion)
-                tareaDTO.tarea.fechaLimite = FechaEscogidaPorUsuario
-                binding.fechaLimiteTarea.text = DateHelper.timestampToString(FechaEscogidaPorUsuario)
+                val fechaEscogidaPorUsuario = Date(eleccion)
+                tareaDTO.tarea.fechaLimite = fechaEscogidaPorUsuario
+                binding.fechaLimiteTarea.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
 
             // Mostramos el datePicker
