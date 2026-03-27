@@ -69,7 +69,7 @@ class EtiquetaDetallesFragment : Fragment() {
                                 findNavController().navigate(EtiquetaDetallesFragmentDirections.actionEtiquetaDetallesFragmentToModificarEtiquetaFragment(etiquetaVisualizada))
                             }
                             catch (e: Exception) {
-                                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
+                                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
                             }
                         }
                         true
@@ -92,9 +92,9 @@ class EtiquetaDetallesFragment : Fragment() {
 
     private fun dialgoEliminacion() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle("Desea eliminar esta etiqueta")
+            .setTitle(getString(R.string.confirmar_eliminar_etiqueta))
             .setMessage("")
-            .setPositiveButton("Eliminar") { _, _ ->
+            .setPositiveButton(getString(R.string.eliminar)) { _, _ ->
                 if (::etiquetaVisualizada.isInitialized) {
 
                     // Lanzamos la eliminación a otro hilos
@@ -103,7 +103,7 @@ class EtiquetaDetallesFragment : Fragment() {
                             model.eliminarEtiqueta(etiquetaVisualizada)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación", Snackbar.LENGTH_SHORT).show()
+                            Snackbar.make(binding.root, getString(R.string.error_eliminar_etiqueta), Snackbar.LENGTH_SHORT).show()
                         }
                     }
 
@@ -111,12 +111,12 @@ class EtiquetaDetallesFragment : Fragment() {
                     findNavController().popBackStack()
                 } else {
                     Snackbar.make(
-                        binding.root, "Ha habido un error al guardar\nla modificación",
+                        binding.root, getString(R.string.error_eliminar_etiqueta),
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
             }
-            .setNeutralButton("Cancelar", null)
+            .setNeutralButton(getString(R.string.cancelar), null)
             .show()
     }
 
