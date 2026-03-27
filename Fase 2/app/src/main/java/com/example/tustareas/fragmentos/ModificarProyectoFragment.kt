@@ -125,8 +125,8 @@ class ModificarProyectoFragment : Fragment() {
                 && listaTareas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay tareas
             ) {
                 // Obtener nueva tarea, la lista de tareas y añadirla actualizando las disponibles)
-                var tareaAnadir = listaTareas[posicion]
-                var nuevasTareasDTO = proyectoDTO.tareas.toMutableList()
+                val tareaAnadir = listaTareas[posicion]
+                val nuevasTareasDTO = proyectoDTO.tareas.toMutableList()
                 nuevasTareasDTO.add(tareaAnadir)
                 proyectoDTO.tareas = nuevasTareasDTO
                 // Mandamos la lista con las nuevas tareas
@@ -143,8 +143,8 @@ class ModificarProyectoFragment : Fragment() {
                 && listaTareas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
             ) {
                 // Obtener nueva etiqueta, la lista de etiquetas y añadirla actualizando las disponibles)
-                var etiquetasAnadir = listaEtiquetas[posicion]
-                var nuevasEtiquetas = proyectoDTO.etiquetas.toMutableList()
+                val etiquetasAnadir = listaEtiquetas[posicion]
+                val nuevasEtiquetas = proyectoDTO.etiquetas.toMutableList()
                 nuevasEtiquetas.add(etiquetasAnadir)
                 proyectoDTO.etiquetas = nuevasEtiquetas
                 // Mandamos la lista con las nuevas tareas
