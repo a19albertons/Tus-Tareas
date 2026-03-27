@@ -117,5 +117,11 @@
     <string name="oscuro">Oscuro</string>
     <string name="predeterminados_del_sistema">Predeterminados del sistema</string>
     <string name="idioma">Idioma</string>
+    <string-array name="idiomas">
+        <item>Sistema</item>
+        <item>Español</item>
+        <item>Ingles</item>
+        <item>Gallego</item>
+    </string-array>
 
 </resources>
