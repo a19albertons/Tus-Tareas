@@ -111,4 +111,11 @@
         <item>D</item>
     </string-array>
 
+    <!-- Ajustes -->
+    <string name="apariencia">Apariencia</string>
+    <string name="claro">Claro</string>
+    <string name="oscuro">Oscuro</string>
+    <string name="predeterminados_del_sistema">Predeterminados del sistema</string>
+    <string name="idioma">Idioma</string>
+
 </resources>
