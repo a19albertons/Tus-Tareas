@@ -180,7 +180,7 @@ class ProyectoDetallesFragment : Fragment() {
     }
 
     private fun dialogoBorrado() {
-        AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_proyecto))
             .setMessage(getString(R.string.aviso_confirmar_eliminar_proyecto))
             .setPositiveButton(getString(R.string.eliminar)) { _,_ ->
