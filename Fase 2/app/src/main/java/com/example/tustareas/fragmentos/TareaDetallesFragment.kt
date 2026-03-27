@@ -65,7 +65,7 @@ class TareaDetallesFragment : Fragment() {
                 val chip = Chip(requireContext()).apply {
                     text = etiqueta.nombre
                     setChipBackgroundColorResource(R.color.gray)
-                    setTextColor(resources.getColor(R.color.black))
+                    setTextColor(resources.getColor(R.color.black, null))
                     isClickable = false
                     isFocusable = false
                     isCheckable = false
