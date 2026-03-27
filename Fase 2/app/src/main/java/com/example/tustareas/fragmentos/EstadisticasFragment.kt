@@ -73,7 +73,7 @@ class EstadisticasFragment : Fragment() {
             xAxis.position = XAxis.XAxisPosition.BOTTOM
 
             // Definimos las siglas de los dias de la semana
-            val dias = arrayOf("L", "M", "X", "J", "V", "S", "D")
+            val dias = resources.getStringArray(R.array.dias_semana_siglas)
             xAxis.valueFormatter = IndexAxisValueFormatter(dias)
             xAxis.granularity = 1f // Establece el tamaño de que se muestren
 
