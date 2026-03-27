@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,6 +11,8 @@
         android:id="@+id/tituloTarea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="tarea 1"
+        android:inputType="text"
         android:textStyle="bold"
         android:hint="@string/nombreRequerido"
         />
@@ -25,6 +26,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/descripcion"
             android:src="@drawable/descripcion"
             android:layout_marginEnd="10dp"
             />
@@ -33,8 +35,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:autofillHints="descripcion"
             android:hint="@string/descripcion"
-            />
+            android:inputType="text" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,10 +45,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_creacion"
             android:src="@drawable/fecha_cracion"
             android:layout_marginEnd="10dp"
             />
@@ -68,6 +72,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_limite"
             android:src="@drawable/fecha_limite"
             android:layout_marginEnd="10dp"
             />
@@ -82,6 +87,7 @@
             android:id="@+id/calendario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/calendario"
             android:src="@drawable/calendario"
             android:layout_marginEnd="10dp"
             />
@@ -96,6 +102,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/prioridad"
             android:src="@drawable/prioridad"
             android:layout_marginEnd="10dp"
             />
@@ -110,11 +117,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-
+        tools:ignore="UseCompoundDrawables"
         >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/estado"
             android:src="@drawable/estado"
             android:layout_marginEnd="10dp"
             />
@@ -135,6 +143,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/etiqueta"
             android:src="@drawable/etiqueta"
             android:layout_marginEnd="10dp"
             />
