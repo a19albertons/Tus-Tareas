@@ -33,7 +33,7 @@ class AjustesFragment : Fragment() {
         _binding = FragmentAjustesBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val idioma = listOf("Sistema", "Español", "Ingles", "Gallego")
+        val idioma = resources.getStringArray(R.array.idiomas)
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
