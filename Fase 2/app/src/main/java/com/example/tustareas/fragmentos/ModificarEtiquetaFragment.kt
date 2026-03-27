@@ -33,7 +33,7 @@ class ModificarEtiquetaFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarEtiquetaBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -91,7 +91,7 @@ class ModificarEtiquetaFragment : Fragment() {
                         try {
                             model.insertarEtiqueta(etiquetaPasada)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
                                 Snackbar.LENGTH_SHORT).show()
                         }
@@ -127,7 +127,7 @@ class ModificarEtiquetaFragment : Fragment() {
                         try {
                             model.modificarEtiqueta(etiquetaPasada)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
                                 Snackbar.LENGTH_SHORT).show()
                         }
