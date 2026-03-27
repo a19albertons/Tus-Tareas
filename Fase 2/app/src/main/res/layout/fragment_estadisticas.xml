@@ -30,14 +30,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Progreso semanal"
+                    android:text="@string/progreso_semanal"
                     android:textSize="24sp"
                     android:textColor="@color/black"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tareas completadas vs pendientes"
+                    android:text="@string/tareas_completadas_vs_pendientes"
                     android:textColor="@color/black"
                     />
 
@@ -109,7 +109,7 @@
                         android:textSize="12sp"
                         android:layout_marginBottom="10dp"
                         android:layout_gravity="center"
-                        android:text="Completas"
+                        android:text="@string/completas"
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                         android:textSize="12sp"
                         android:layout_marginBottom="10dp"
                         android:layout_gravity="center"
-                        android:text="Pendiente"
+                        android:text="@string/pendiente"
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -233,7 +233,7 @@
                         android:textSize="12sp"
                         android:layout_marginBottom="10dp"
                         android:layout_gravity="center"
-                        android:text="Completas"
+                        android:text="@string/retrasadas"
                         />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -280,7 +280,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Actividad Semanal"
+                    android:text="@string/actividad_semanal"
                     android:textSize="24sp"
                     android:textColor="@color/black"
                     />
