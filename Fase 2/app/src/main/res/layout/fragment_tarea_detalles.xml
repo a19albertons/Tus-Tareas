@@ -22,10 +22,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/descripcion"
             android:src="@drawable/descripcion"
             android:layout_marginEnd="10dp"
             />
@@ -43,10 +44,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_creacion"
             android:src="@drawable/fecha_cracion"
             android:layout_marginEnd="10dp"
             />
@@ -64,10 +66,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/fecha_limite"
             android:src="@drawable/fecha_limite"
             android:layout_marginEnd="10dp"
             />
@@ -85,10 +88,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/prioridad"
             android:src="@drawable/prioridad"
             android:layout_marginEnd="10dp"
             />
@@ -106,10 +110,11 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
 
-        >
+        tools:ignore="UseCompoundDrawables">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/estado"
             android:src="@drawable/estado"
             android:layout_marginEnd="10dp"
             />
@@ -131,6 +136,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/etiqueta"
             android:src="@drawable/etiqueta"
             android:layout_marginEnd="10dp"
             />
