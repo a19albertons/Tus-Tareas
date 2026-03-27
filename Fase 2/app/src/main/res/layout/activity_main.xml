@@ -18,6 +18,7 @@
         app:title="tus Tareas"
         android:background="@color/gray"
         app:menu="@menu/toolbar_general"
+        app:popupTheme="@style/modifcar3PuntosToolbar"
         />
 
     <androidx.fragment.app.FragmentContainerView
