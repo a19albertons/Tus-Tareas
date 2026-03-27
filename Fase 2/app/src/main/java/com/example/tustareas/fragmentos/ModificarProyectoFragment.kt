@@ -46,7 +46,7 @@ class ModificarProyectoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarProyectoBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -226,7 +226,7 @@ class ModificarProyectoFragment : Fragment() {
                         try {
                             model.insertarProyectoConTareaYEtiqueta(proyectoDTO)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
                                 Snackbar.LENGTH_SHORT).show()
                         }
@@ -263,7 +263,7 @@ class ModificarProyectoFragment : Fragment() {
                         try {
                             model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
                         }
-                        catch (e: Exception) {
+                        catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),
                                 Snackbar.LENGTH_SHORT).show()
                         }
