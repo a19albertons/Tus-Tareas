@@ -78,9 +78,9 @@ class ModificarEtiquetaFragment : Fragment() {
     // Dialogo de guardado
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle("Estas seguro de guardar la etiqueta")
+            .setTitle(getString(R.string.confirmar_guardar_etiqueta))
             .setMessage("")
-            .setPositiveButton("Guardar") { _, _ ->
+            .setPositiveButton(R.string.guardar) { _, _ ->
                 if (binding.tituloEtiqueta.text.toString().trim().isNotEmpty()) {
                     // Pasamos el filtro de nulos del if y actualizamos la clase etiqueta con los datos del formulario
                     etiquetaPasada.nombre = binding.tituloEtiqueta.text.toString().trim()
@@ -92,7 +92,7 @@ class ModificarEtiquetaFragment : Fragment() {
                             model.insertarEtiqueta(etiquetaPasada)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva etiqueta",
+                            Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -101,22 +101,22 @@ class ModificarEtiquetaFragment : Fragment() {
                     findNavController().popBackStack()
                 }
                 else {
-                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla nueva etiqueta",
+                    Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Descartar") { _, _ ->
+            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
             }
-            .setNeutralButton("Continuar",null)
+            .setNeutralButton(getString(R.string.continuar),null)
             .show()
     }
     // Dialogo de modificación
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle("Estas seguro de los cambios")
+            .setTitle(getString(R.string.confirmar_modificar_etiqueta))
             .setMessage("")
-            .setPositiveButton("Guardar") { _, _ ->
+            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
                 if (binding.tituloEtiqueta.text.toString().trim().isNotEmpty()) {
                     // Pasamos el filtro de nulos del if y actualizamos la clase etiqueta con los datos del formulario
                     etiquetaPasada.nombre = binding.tituloEtiqueta.text.toString().trim()
@@ -128,7 +128,7 @@ class ModificarEtiquetaFragment : Fragment() {
                             model.modificarEtiqueta(etiquetaPasada)
                         }
                         catch (e: Exception) {
-                            Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                            Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
@@ -137,14 +137,14 @@ class ModificarEtiquetaFragment : Fragment() {
                     findNavController().popBackStack()
                 }
                 else {
-                    Snackbar.make(binding.root, "Ha habido un error al guardar\nla modificación",
+                    Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
                         Snackbar.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Descartar") { _, _ ->
+            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
             }
-            .setNeutralButton("Continuar",null)
+            .setNeutralButton(getString(R.string.continuar),null)
             .show()
     }
 
