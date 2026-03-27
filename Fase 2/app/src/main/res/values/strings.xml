@@ -88,5 +88,9 @@
     <string name="confirmar_guardar_proyecto">Está seguro de guardar los proyectos</string>
     <string name="no_existen_tareas">No existen tareas</string>
 
+    <!-- Proyecto detalles -->
+    <string name="error_eliminar_proyecto">Ha habido un error al intentar\nborrar el proyecto</string>
+    <string name="confirmar_eliminar_proyecto">Desea eliminar este proyecto</string>
+    <string name="aviso_confirmar_eliminar_proyecto">Nota: las tareas no serán borradas</string>
 
 </resources>
