@@ -52,11 +52,7 @@ class EstadisticasFragment : Fragment() {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             timestampDia
         }
-
-        binding.grafico
-        // Creamos la entrada raiz un bar entry
-        val entries = ArrayList<BarEntry>()
-
+        
         model.obtenerDatosGrafico(timestampDiasSemana).observe(viewLifecycleOwner) {
             resultados ->
             // Creamos el dataset de barras
