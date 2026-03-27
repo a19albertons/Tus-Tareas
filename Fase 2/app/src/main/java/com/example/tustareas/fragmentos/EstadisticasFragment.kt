@@ -13,7 +13,6 @@ import com.example.tustareas.modelView.TusTareasModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.util.Date
 
@@ -52,7 +51,7 @@ class EstadisticasFragment : Fragment() {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             timestampDia
         }
-        
+
         model.obtenerDatosGrafico(timestampDiasSemana).observe(viewLifecycleOwner) {
             resultados ->
             // Creamos el dataset de barras
