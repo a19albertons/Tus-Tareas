@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:hint="Nombre*"
+        android:hint="@string/nombreRequerido"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Descripcion"
+            android:hint="@string/descripcion"
             />
     </LinearLayout>
     <LinearLayout
@@ -75,7 +75,7 @@
             android:id="@+id/fechaLimiteTarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="XX/XX/XXXX"
+            android:hint="@string/xx_xx_xxxx"
             android:textColorHint="@color/white"
             />
         <ImageView
@@ -148,7 +148,7 @@
             android:id="@+id/anadirEtiqueta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"
+            android:text="@string/anadir"
             android:textColor="@color/greenStats"
             android:padding="5dp"
             />
