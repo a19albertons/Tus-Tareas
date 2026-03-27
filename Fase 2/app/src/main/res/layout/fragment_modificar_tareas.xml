@@ -110,6 +110,7 @@
             android:id="@+id/prioridadTarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:popupBackground="@color/gray"
             />
     </LinearLayout>
     <LinearLayout
@@ -152,6 +153,7 @@
             android:id="@+id/listaEtiquetas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:popupBackground="@color/gray"
             />
         <TextView
             android:id="@+id/anadirEtiqueta"
