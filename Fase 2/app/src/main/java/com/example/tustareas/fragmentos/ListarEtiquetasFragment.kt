@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tustareas.R
 import com.example.tustareas.adapters.EtiquetasAdapter
 import com.example.tustareas.databinding.FragmentListarEtiquetasBinding
 import com.example.tustareas.modelView.TusTareasModel
@@ -73,7 +74,7 @@ class ListarEtiquetasFragment : Fragment() {
                     Etiqueta(0,"","")))
             }
             catch (_: Exception) {
-                Snackbar.make(binding.root, "Ha habido un error al navegar", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
 
         }
