@@ -74,7 +74,7 @@ class ModificarProyectoFragment : Fragment() {
             }
             binding.listaTareas.adapter = ArrayAdapter(
                 requireContext(),
-                R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_dropdown_item,
                 listaTareas.map { it.nombre }
             )
         }
@@ -101,7 +101,7 @@ class ModificarProyectoFragment : Fragment() {
             }
             binding.listaEtiquetas.adapter = ArrayAdapter(
                 requireContext(),
-                R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_dropdown_item,
                 listaEtiquetas.map { it.nombre }
             )
 
@@ -212,7 +212,7 @@ class ModificarProyectoFragment : Fragment() {
     }
 
     private fun dialogoGuardado() {
-        AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_guardar_proyecto))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _,_ ->
@@ -249,7 +249,7 @@ class ModificarProyectoFragment : Fragment() {
     }
 
     private fun dialogoModificado() {
-        AlertDialog.Builder(requireContext(), com.example.tustareas.R.style.DialogoPersonalizado)
+        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_modificar_proyecto))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _,_ ->
