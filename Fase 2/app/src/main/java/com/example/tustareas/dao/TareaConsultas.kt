@@ -12,10 +12,7 @@ import java.util.Date
 
 @Dao
 interface TareaConsultas {
-    @Transaction
-    @Query("select * from tareas where fechaLimite = :fecha AND estado = :estado")
-    fun obtenerTareasTerminanDiaEspecifico(fecha: Date, estado: Estado = Estado.EnTiempo): LiveData<List<Tarea>>
-    @Transaction
+        @Transaction
     @Query("select * from tareas " + // Obtener todo
             "where fechaLimite = :fecha " + // Fecha limite
             "AND estado = :estado " + // El estado
@@ -26,9 +23,7 @@ interface TareaConsultas {
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ") // El nombre de la etiqueta
     fun obtenerTareasTerminanDiaEspecificoConFiltro(texto: String, fecha: Date = Date(), estado: Estado = Estado.EnTiempo): LiveData<List<Tarea>>
 
-    @Transaction
-    @Query("select * from tareas where estado = :estado")
-    fun obtenerTareasRetrasadas(estado: Estado = Estado.Retrasada): LiveData<List<Tarea>>
+
 
     @Transaction
     @Query("select * from tareas " + // obtener todo
@@ -40,9 +35,7 @@ interface TareaConsultas {
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ") // El nombre de la etiqueta
     fun obtenerTareasRetrasadasConFiltro(texto: String, estado: Estado = Estado.Retrasada): LiveData<List<Tarea>>
 
-    @Transaction
-    @Query("select * from tareas where (fechaLimite > :fecha OR fechaLimite is null) AND estado = :estado ORDER BY fechaLimite ASC")
-    fun obtenerTareasProximas(fecha: Date, estado: Estado = Estado.EnTiempo): LiveData<List<Tarea>>
+
 
     @Transaction
     @Query("select * from tareas " + // obtener todo

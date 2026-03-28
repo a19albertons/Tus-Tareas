@@ -21,18 +21,12 @@ class TusTareasRepository(database: TusTareasDatabase) {
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val tareaModificaciones = database.tareaModificaciones()
 
+    val inicio = InicioRepository(database)
 
 
 
     // funcines daos
-    // Tareas en tiempo no completas que terminen hoy
-    fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = tareaConsultas.obtenerTareasTerminanDiaEspecifico(fecha)
 
-    // Tareas no completadas y retrasadas
-    fun obtenerTareasRetrasadas() = tareaConsultas.obtenerTareasRetrasadas()
-
-    // Tareas proximas
-    fun obtenerTareasProximas(fecha: Date) = tareaConsultas.obtenerTareasProximas(fecha)
 
     // Etiquetas filtradas
     fun obtenerEtiquetasFiltradas(texto: String) = etiquetaConsultas.obtenerEtiquetasFiltradas(texto)

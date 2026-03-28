@@ -35,7 +35,7 @@ class InicioFragment : Fragment() {
         val view = binding.root
 
         // observar tareas pendientes para hoy
-        model.obtenerTareasTerminanDiaEspecifico(Date()).observe(viewLifecycleOwner) {
+        model.inicio.obtenerTareasTerminanDiaEspecifico(Date()).observe(viewLifecycleOwner) {
             listadoTareasHoyFechaLimite ->
             // switch
             when (listadoTareasHoyFechaLimite?.size ?: 0) {
@@ -62,7 +62,7 @@ class InicioFragment : Fragment() {
             }
         }
 
-        model.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
+        model.inicio.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
             listadoTareasRetrasadas ->
             // switch
             when (listadoTareasRetrasadas?.size ?: 0) {
@@ -90,7 +90,7 @@ class InicioFragment : Fragment() {
             }
         }
 
-        model.obtenerTareasProximas(Date()).observe(viewLifecycleOwner) {
+        model.inicio.obtenerTareasProximas(Date()).observe(viewLifecycleOwner) {
             listadoTareasProximas ->
             // switch
             when (listadoTareasProximas?.size ?: 0) {

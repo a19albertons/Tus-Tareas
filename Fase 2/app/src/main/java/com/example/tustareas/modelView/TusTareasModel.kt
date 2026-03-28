@@ -32,11 +32,10 @@ import com.example.tustareas.util.LanguageHelper
 class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Invocacion repositorio
     private val repository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
+    val inicio = InicioModel(repository)
 
     // Metodos de consulta de la base de datos
-    fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = repository.obtenerTareasTerminanDiaEspecifico(fecha)
-    fun obtenerTareasRetrasadas() = repository.obtenerTareasRetrasadas()
-    fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
+
     fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
     fun obtenerTodasLasTareas() = repository.obtenerTodasLasTareas()
     fun obtenerTareaDTOPorID(id: Int) = repository.obtenerTareaDTOPorID(id)
