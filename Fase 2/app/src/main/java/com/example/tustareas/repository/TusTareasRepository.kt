@@ -17,7 +17,6 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
     private val tareaConsultas = database.tareaConsultas()
     private val etiquetaConsultas = database.etiquetaConsultas()
-    private val proyectoModificaciones = database.proyectoModificaciones()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val tareaModificaciones = database.tareaModificaciones()
 
@@ -28,6 +27,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val modificarTareasModel = ModificarTareasRepository(database)
     val listarProyectosModel = ListarProyectosRepository(database)
     val proyectoDetallesModel = ProyectoDetallesRepository(database)
+    val modificarProyectosModel = ModificarProyectosRepository(database)
 
 
 
@@ -64,12 +64,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-    // Obtener tareas restantes
-    fun obtenerTareasRestantes(listaTareas: List<Tarea>) = tareaConsultas.obtenerTareasRestantes(listaTareas.map { it.id })
-    // Inserta un proyecto nuevo con sus tareas y etiquetas
-    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.insertarProyectoConTareaYEtiqueta(proyectoDTO)
-    // Modificar proyecto existente
-    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+
+
 
     suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()
     // Tareas completadas por dia
@@ -92,9 +88,4 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-
-    // Legacy
-
-    // Obtener etiquetas restantes
-    fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = etiquetaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 }

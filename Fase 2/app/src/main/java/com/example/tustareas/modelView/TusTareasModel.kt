@@ -35,6 +35,9 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val modificarTareasModel = ModificarTareasModel(repository)
     val listarProyectosModel = ListarProyectosModel(repository)
     val proyectoDetallesModel = ProyectoDetallesModel(repository)
+    val modificarProyectosModel = ModificarProyectosModel(repository)
+
+
 
 
 
@@ -67,15 +70,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
 
 
-    // Obtener tareas restantes
-    private val listaTareas = MutableLiveData<List<Tarea>>(emptyList<Tarea>())
-    fun actualizarFiltroListaTareaProyecto(lista: List<Tarea>) {
-        listaTareas.value = lista
-    }
-    fun obtenerTareasRestantes() : LiveData<List<Tarea>> = listaTareas.switchMap {
-            texto ->
-        repository.obtenerTareasRestantes(texto)
-    }
+
 
     // Generación tercera grafica de estadisticas
     fun obtenerDatosGrafico(timestampDiasSemana: LongArray): LiveData<List<BarEntry>> {
@@ -133,12 +128,10 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
-    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
     // Metodos de moficiación en la base de datos
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
     suspend fun modificarTarea(tarea: Tarea) = repository.modificarTarea(tarea)
-    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
 
 
 
@@ -170,19 +163,5 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         prefs.edit { putInt("tema", tema) }
         this.tema.value = tema
         AppCompatDelegate.setDefaultNightMode(tema)
-    }
-
-
-
-
-
-    // Legacy
-    private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
-    fun actualizarFiltroListaEtiquetaTareas(lista: List<Etiqueta>) {
-        listaEtiqueta.value = lista
-    }
-    fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
-            texto ->
-        repository.obtenerEtiquetasRestantes(texto)
     }
 }
