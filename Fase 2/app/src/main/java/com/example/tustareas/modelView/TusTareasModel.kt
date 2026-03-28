@@ -240,13 +240,13 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     private val prefs = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
     val idioma = MutableLiveData<String>().apply {
-        value = prefs.getString("idioma", "sistema") ?: "sistema"
+        value = prefs.getString("idioma", "sistema")
     }
 
     fun setIdioma(idioma: String) {
         prefs.edit { putString("idioma", idioma) }
         this.idioma.value = idioma
-        LanguageHelper.aplicarIdioma(idioma)
+        LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idioma))
     }
 
     val tema = MutableLiveData<Int>().apply {
