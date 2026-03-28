@@ -140,4 +140,16 @@
 
     <!-- Activity main -->
     <string name="error_eliminando_tareas">Sorry, an error occurred\ndeleting the tasks</string>
+
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Projects</string>
+    <string name="estadisticas">Statistics</string>
+    <string name="fecha_creaci_n_asc">creation date asc</string>
+    <string name="fecha_creaci_n_des">creation date desc</string>
+    <string name="fecha_l_mite_asc">deadline asc</string>
+    <string name="fecha_l_mite_des">deadline desc</string>
+    <string name="editar">edit</string>
+    <string name="ajustes">Settings</string>
+    <string name="gestionar_etiquetas">Manage tags</string>
+    <string name="limpiar_tareas_comp">Clear completed Tasks</string>
 </resources>

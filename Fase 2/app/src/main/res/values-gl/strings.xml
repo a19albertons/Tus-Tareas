@@ -118,6 +118,18 @@
         <item>Galego</item>
     </string-array>
 
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Proxectos</string>
+    <string name="estadisticas">Estatisticas</string>
+    <string name="fecha_creaci_n_asc">data creación asc</string>
+    <string name="fecha_creaci_n_des">data creación desc</string>
+    <string name="fecha_l_mite_asc">data límite asc</string>
+    <string name="fecha_l_mite_des">data límite desc</string>
+    <string name="editar">editar</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="gestionar_etiquetas">Xestionar etiquetas</string>
+    <string name="limpiar_tareas_comp">Limpar tarefas Comp.</string>
+
     <!-- Lista etiquetas presentes -->
     <string name="etiqueta_eliminada">Etiqueta eliminada</string>
 
