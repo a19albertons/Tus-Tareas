@@ -5,7 +5,6 @@ import com.example.tustareas.modelos.Etiqueta
 
 class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
-    private val etiquetaConsultas = database.etiquetaConsultas()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val activityMainConsultas = database.activityMainConsultas()
 
@@ -20,6 +19,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val modificarProyectos = ModificarProyectosRepository(database)
     val estadisticas = EstadisticasRepository(database)
     val listarEtiquetas = ListarEtiquetasRepository(database)
+    val etiquetaDetalles = EtiquetaDetallesRepository(database)
 
 
 
@@ -28,15 +28,12 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-    // Etiqueta por id
-    fun obtenerEtiquetaPorID(id: Int) = etiquetaConsultas.obtenerEtiquetaPorID(id)
+
 
     // Insertar nueva etiqueta
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.insertarEtiqueta(etiqueta)
     // Modificar etiqueta existente
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.modificarEtiqueta(etiqueta)
-    // Eliminar etiqueta existente
-    suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.eliminarEtiqueta(etiqueta)
 
 
 

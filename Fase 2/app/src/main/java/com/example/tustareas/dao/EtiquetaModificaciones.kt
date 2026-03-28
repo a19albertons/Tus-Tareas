@@ -16,7 +16,6 @@ interface EtiquetaModificaciones {
     @Update
     suspend fun modificarEtiqueta(etiqueta: Etiqueta)
 
-    @Delete
-    suspend fun eliminarEtiqueta(etiqueta: Etiqueta)
+
 
 }

@@ -28,13 +28,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val modificarProyectos = ModificarProyectosModel(repository)
     val estadisticas = EstadisticasModel(repository)
     val listarEtiquetas = ListarEtiquetasModel(repository)
-
-
-    // Metodos de consulta de la base de datos
-
-    fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
-
-
+    val etiquetaDetalles = EtiquetaDetallesModel(repository)
 
 
     // Metodos de inserción en la base de datos
@@ -46,8 +40,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
 
 
-    // Metodos de eliminación en la base de datos
-    suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = repository.eliminarEtiqueta(etiqueta)
+
 
     // Metodo de la actividad principal
     suspend fun limpiarTareasCompletas() = repository.limpiarTareasCompletas()

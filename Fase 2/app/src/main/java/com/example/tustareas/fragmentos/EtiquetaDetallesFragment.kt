@@ -42,7 +42,7 @@ class EtiquetaDetallesFragment : Fragment() {
         _binding = FragmentEtiquetaDetallesBinding.inflate(inflater, container, false)
         val view = binding.root
         val args = EtiquetaDetallesFragmentArgs.fromBundle(requireArguments())
-        model.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
+        model.etiquetaDetalles.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
             etiqueta ->
             binding.tituloEtiqueta.text = etiqueta.nombre
             binding.descipcionEtiqueta.text = etiqueta.descripcion
@@ -100,7 +100,7 @@ class EtiquetaDetallesFragment : Fragment() {
                     // Lanzamos la eliminación a otro hilos
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.eliminarEtiqueta(etiquetaVisualizada)
+                            model.etiquetaDetalles.eliminarEtiqueta(etiquetaVisualizada)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_etiqueta), Snackbar.LENGTH_SHORT).show()
