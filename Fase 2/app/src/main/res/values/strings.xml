@@ -28,6 +28,7 @@
     <string name="fecha_fin">fecha fin</string>
     <string name="tareas">tareas</string>
     <string name="no_existen_etiquetas">No existen etiquetas</string>
+    <string name="inicio">Inicio</string>
 
 
 
@@ -79,7 +80,6 @@
     <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado proyectos\no no se ajustan al filtro aplicado</string>
     <string name="primero_va_fin_despues_inicio">Primero va fin despues inicio</string>
     <string name="fin">Fin</string>
-    <string name="inicio">Inicio</string>
     <string name="ascendente">Ascendente</string>
     <string name="descendente">Descendente</string>
 
@@ -150,5 +150,18 @@
     <!-- Activity main -->
     <string name="error_eliminando_tareas">Lo sentimos ha habido un\nerror eliminando las tareas</string>
 
+
+
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Proyectos</string>
+    <string name="estadisticas">Estadisticas</string>
+    <string name="fecha_creaci_n_asc">fecha creación asc</string>
+    <string name="fecha_creaci_n_des">fecha creación des</string>
+    <string name="fecha_l_mite_asc">fecha límite asc</string>
+    <string name="fecha_l_mite_des">fecha límite des</string>
+    <string name="editar">editar</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="gestionar_etiquetas">Gestionar etiquetas</string>
+    <string name="limpiar_tareas_comp">Limpiar tareas Comp.</string>
 
 </resources>
