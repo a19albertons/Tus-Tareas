@@ -18,6 +18,7 @@ interface TareaDetallesConsulta {
     @Query("select * from tareas where id = :id")
     fun obtenerTareaDTOPorID(id: Int): LiveData<TareaDTO>
 
+    // Eliminar tarea
     @Delete
     suspend fun eliminarTarea(tarea: Tarea)
 }
