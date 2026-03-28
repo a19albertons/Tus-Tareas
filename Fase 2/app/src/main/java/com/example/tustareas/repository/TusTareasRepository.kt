@@ -24,6 +24,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val inicio = InicioRepository(database)
     val verMas = VerMasRepository(database)
     val listarTareas = ListarTareasRepository(database)
+    val tareaDetalles = TareaDetallesRepository(database)
 
 
 
@@ -50,8 +51,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
 
 
-    // Obtener tarea dto por id
-    fun obtenerTareaDTOPorID(id: Int) = tareaConsultas.obtenerTareaDTOPorID(id)
+
 
     // Obtener etiquetas restantes
     fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = etiquetaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
@@ -60,8 +60,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.insertarTareaConEtiqueta(tareaDTO)
     // Modifocar tarea con etiqueta
     suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.modificarTareaConEtiqueta(tareaDTO)
-    // Borrar tarea
-    suspend fun eliminarTarea(tarea: Tarea) = tareaModificaciones.eliminarTarea(tarea)
+
     // Consultar proyectos
     fun obtenerProyectosFiltradas(texto: String, inicio: OrdenarProyectosInicio, fin: OrdenarProyectoFin) =
         when (Pair(inicio, fin)) {

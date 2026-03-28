@@ -20,10 +20,7 @@ interface TareaConsultas {
 
 
 
-    // Obtencion tareas dto
-    @Transaction
-    @Query("select * from tareas where id = :id")
-    fun obtenerTareaDTOPorID(id: Int): LiveData<TareaDTO>
+
 
     @Query("select * from tareas where id not in (:lista)")
     fun obtenerTareasRestantes(lista : List<Int>): LiveData<List<Tarea>>

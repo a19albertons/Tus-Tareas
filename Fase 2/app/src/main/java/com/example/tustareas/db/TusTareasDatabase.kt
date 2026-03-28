@@ -12,6 +12,7 @@ import com.example.tustareas.dao.ListarTareasConsultas
 import com.example.tustareas.dao.ProyectoConsultas
 import com.example.tustareas.dao.ProyectoModificaciones
 import com.example.tustareas.dao.TareaConsultas
+import com.example.tustareas.dao.TareaDetallesConsulta
 import com.example.tustareas.dao.TareaModificaciones
 import com.example.tustareas.dao.VerMasConsulta
 import com.example.tustareas.modelos.Convertidor
@@ -39,6 +40,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun inicioConsultas(): InicioConsultas
     abstract fun verMasConsultas(): VerMasConsulta
     abstract fun listarTareasConsultas(): ListarTareasConsultas
+    abstract fun tareaDetallesConsulta(): TareaDetallesConsulta
 
     companion object {
         @Volatile

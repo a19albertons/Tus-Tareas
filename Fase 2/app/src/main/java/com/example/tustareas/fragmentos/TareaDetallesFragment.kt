@@ -46,7 +46,7 @@ class TareaDetallesFragment : Fragment() {
 
         val args = TareaDetallesFragmentArgs.fromBundle(requireArguments())
         val tareaID = args.id
-        model.obtenerTareaDTOPorID(tareaID).observe(viewLifecycleOwner) {
+        model.tareaDetalles.obtenerTareaDTOPorID(tareaID).observe(viewLifecycleOwner) {
             tarea ->
             binding.tituloTarea.text = tarea.tarea.nombre
             binding.descipcionTarea.text = tarea.tarea.descripcion
@@ -152,7 +152,7 @@ class TareaDetallesFragment : Fragment() {
                     // Borra la tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.eliminarTarea(tareaVisualizada.tarea)
+                            model.tareaDetalles.eliminarTarea(tareaVisualizada.tarea)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
