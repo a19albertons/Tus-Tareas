@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.tustareas.db.TusTareasDatabase
-import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.repository.TusTareasRepository
 import kotlin.apply
 import androidx.core.content.edit
@@ -29,16 +28,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val estadisticas = EstadisticasModel(repository)
     val listarEtiquetas = ListarEtiquetasModel(repository)
     val etiquetaDetalles = EtiquetaDetallesModel(repository)
-
-
-    // Metodos de inserción en la base de datos
-    suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
-
-    // Metodos de moficiación en la base de datos
-    suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
-
-
-
+    val modificarEtiquetas = ModificarEtiquetasModel(repository)
 
 
 

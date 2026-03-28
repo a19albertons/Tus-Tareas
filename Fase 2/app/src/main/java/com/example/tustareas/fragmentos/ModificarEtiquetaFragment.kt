@@ -89,7 +89,7 @@ class ModificarEtiquetaFragment : Fragment() {
                     // Generamos un hilo donde se ejecuta la inserción
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.insertarEtiqueta(etiquetaPasada)
+                            model.modificarEtiquetas.insertarEtiqueta(etiquetaPasada)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
@@ -125,7 +125,7 @@ class ModificarEtiquetaFragment : Fragment() {
                     // Generamos un hilo donde se ejecuta la inserción
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarEtiqueta(etiquetaPasada)
+                            model.modificarEtiquetas.modificarEtiqueta(etiquetaPasada)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
