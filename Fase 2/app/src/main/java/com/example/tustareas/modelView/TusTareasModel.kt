@@ -37,6 +37,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val proyectoDetallesModel = ProyectoDetallesModel(repository)
     val modificarProyectosModel = ModificarProyectosModel(repository)
     val estadisticasModel = EstadisticasModel(repository)
+    val listarEtiquetasModel = ListarEtiquetasModel(repository)
 
 
     // Metodos de consulta de la base de datos
@@ -44,16 +45,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
 
 
-    // Filtros correctos evita duplicados de observers y aumenta la eficiencia y coherencia de la aplicación
-    // Filtro para etiquetas
-    private val textoEtiqueta = MutableLiveData("")
-    fun actualizarTextoListadoEtiqueta(texto: String) {
-        textoEtiqueta.value = texto
-    }
-    fun obtenerEtiquetasFiltradas() : LiveData<List<Etiqueta>> = textoEtiqueta.switchMap {
-        texto ->
-        repository.obtenerEtiquetasFiltradas(texto)
-    }
+
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)

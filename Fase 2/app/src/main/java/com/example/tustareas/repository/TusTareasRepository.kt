@@ -29,6 +29,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val proyectoDetallesModel = ProyectoDetallesRepository(database)
     val modificarProyectosModel = ModificarProyectosRepository(database)
     val estadisticasModel = EstadisticasRepository(database)
+    val listarEtiquetasModel = ListarEtiquetasRepository(database)
 
 
 
@@ -36,8 +37,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // funcines daos
 
 
-    // Etiquetas filtradas
-    fun obtenerEtiquetasFiltradas(texto: String) = etiquetaConsultas.obtenerEtiquetasFiltradas(texto)
+
     // Etiqueta por id
     fun obtenerEtiquetaPorID(id: Int) = etiquetaConsultas.obtenerEtiquetaPorID(id)
 

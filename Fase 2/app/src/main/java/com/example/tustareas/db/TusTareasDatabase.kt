@@ -10,6 +10,7 @@ import com.example.tustareas.dao.EstadisticasConsultas
 import com.example.tustareas.dao.EtiquetaConsultas
 import com.example.tustareas.dao.EtiquetaModificaciones
 import com.example.tustareas.dao.InicioConsultas
+import com.example.tustareas.dao.ListarEtiquetasConsultas
 import com.example.tustareas.dao.ListarProyectosConsultas
 import com.example.tustareas.dao.ListarTareasConsultas
 import com.example.tustareas.dao.ModificarProyectoConsultas
@@ -50,6 +51,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun modificarProyectoConsultas(): ModificarProyectoConsultas
     abstract fun estadisticasConsultas(): EstadisticasConsultas
     abstract fun activityMainConsultas(): ActivityMainConsultas
+    abstract fun listarEtiquetasConsultas(): ListarEtiquetasConsultas
 
     companion object {
         @Volatile

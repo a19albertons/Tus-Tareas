@@ -42,7 +42,7 @@ class ListarEtiquetasFragment : Fragment() {
 
         // Gestiona el adapter
         // El valor por defecto vacio se pasa al modelo que estara pendiente de los cambios a traves de una nueva función dedicada
-        model.obtenerEtiquetasFiltradas().observe(viewLifecycleOwner) {
+        model.listarEtiquetasModel.obtenerEtiquetasFiltradas().observe(viewLifecycleOwner) {
                 listadoEtiquetas ->
             if (listadoEtiquetas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
@@ -63,7 +63,7 @@ class ListarEtiquetasFragment : Fragment() {
             }
             override fun afterTextChanged(texto: Editable?) {
                 // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.actualizarTextoListadoEtiqueta(texto.toString())
+                model.listarEtiquetasModel.actualizarTextoListadoEtiqueta(texto.toString())
             }
 
     })

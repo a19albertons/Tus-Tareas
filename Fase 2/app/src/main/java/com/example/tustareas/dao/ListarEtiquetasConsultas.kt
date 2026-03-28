@@ -1,0 +1,12 @@
+package com.example.tustareas.dao
+
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Query
+import com.example.tustareas.modelos.Etiqueta
+
+@Dao
+interface ListarEtiquetasConsultas {
+    @Query("select * from etiquetas where LOWER(nombre) like LOWER('%' || :texto || '%') OR LOWER(descripcion) like LOWER('%' || :texto || '%')")
+    fun obtenerEtiquetasFiltradas(texto: String): LiveData<List<Etiqueta>>
+}
