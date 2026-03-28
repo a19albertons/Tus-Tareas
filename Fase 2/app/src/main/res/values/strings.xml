@@ -147,4 +147,8 @@
     <string name="error_guardar_etiqueta">Ha habido un error al guardar\nla nueva etiqueta</string>
     <string name="confirmar_guardar_etiqueta">Estas seguro de guardar la etiqueta</string>
 
+    <!-- Activity main -->
+    <string name="error_eliminando_tareas">Lo sentimos ha habido un\nerror eliminando las tareas</string>
+
+
 </resources>
