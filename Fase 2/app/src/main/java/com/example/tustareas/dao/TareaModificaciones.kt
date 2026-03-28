@@ -21,8 +21,6 @@ interface TareaModificaciones {
 
 
     // Legacy
-    @Update
-    suspend fun modificarTarea(tarea: Tarea)
 
     @Query("select * from etiquetas where id not in (:lista)")
     fun obtenerEtiquetasRestantes(lista : List<Int>): LiveData<List<Etiqueta>>

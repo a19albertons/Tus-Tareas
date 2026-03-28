@@ -47,8 +47,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Eliminar etiqueta existente
     suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = etiquetaModificaciones.eliminarEtiqueta(etiqueta)
 
-    // Modificar tarea existente
-    suspend fun modificarTarea(tarea: Tarea) = tareaModificaciones.modificarTarea(tarea)
+
 
 
     suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()
