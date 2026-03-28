@@ -4,26 +4,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_editar_etiqueta"
-        android:title="editar"
+        android:title="@string/editar"
         app:showAsAction="always"
         android:icon="@drawable/editar"
         />
     <item
         android:id="@+id/action_eliminar_etiqueta"
-        android:title="eliminar"
+        android:title="@string/eliminar"
         app:showAsAction="always"
         android:icon="@drawable/eliminar"
         />
     <item
         android:id="@+id/ajustesFragment"
-        android:title="Ajustes"
+        android:title="@string/ajustes"
         />
     <item
         android:id="@+id/listarEtiquetasFragment"
-        android:title="Gestionar etiquetas"
+        android:title="@string/gestionar_etiquetas"
         />
     <item
         android:id="@+id/action_limpiar_tareas_completas"
-        android:title="Limpiar tareas Comp."
+        android:title="@string/limpiar_tareas_comp"
         />
 </menu>
