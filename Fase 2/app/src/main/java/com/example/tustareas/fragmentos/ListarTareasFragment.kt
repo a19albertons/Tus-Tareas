@@ -55,7 +55,7 @@ class ListarTareasFragment : Fragment() {
         val adapter = TareasAdapter(model)
         recyclerView.adapter = adapter
         // Actualizado con el nuevo sistema que evita duplicado de observers
-        model.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
+        model.listarTareas.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
             listaTareas ->
             adapter.submitList(listaTareas)
             if (listaTareas.isEmpty()) {
@@ -105,7 +105,7 @@ class ListarTareasFragment : Fragment() {
                     }
                 }
                 // Observa la lista filtrada
-                model.actualizarPrioridadListadoTareas(prioridad)
+                model.listarTareas.actualizarPrioridadListadoTareas(prioridad)
 
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -148,7 +148,7 @@ class ListarTareasFragment : Fragment() {
                     }
                 }
                 // Observa la lista filtrada
-                model.actualizarEstadoListadoTareas(estado)
+                model.listarTareas.actualizarEstadoListadoTareas(estado)
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
@@ -166,7 +166,7 @@ class ListarTareasFragment : Fragment() {
             }
             override fun afterTextChanged(texto: Editable?) {
                 // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.actualizarTextoListadoTareas(texto.toString())
+                model.listarTareas.actualizarTextoListadoTareas(texto.toString())
             }
 
         })
@@ -181,19 +181,19 @@ class ListarTareasFragment : Fragment() {
             desplegable.setOnMenuItemClickListener { clickado ->
                 when (clickado.itemId) {
                     R.id.action_fecha_limite_asc -> {
-                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
+                        model.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
                         true
                     }
                     R.id.action_fecha_limite_des -> {
-                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
+                        model.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
                         true
                     }
                     R.id.action_fecha_creacion_asc -> {
-                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
+                        model.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
                         true
                     }
                     R.id.action_fecha_creacion_des -> {
-                        model.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
+                        model.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
                         true
                     }
                     else -> false

@@ -23,6 +23,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     val inicio = InicioRepository(database)
     val verMas = VerMasRepository(database)
+    val listarTareas = ListarTareasRepository(database)
+
 
 
 
@@ -46,14 +48,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Obtener todas las tareas
     fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
-    // Filtrar tareas
-    fun obtenerTareasFiltradas(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String, orden: OrdenarTareas) =
-        when (orden) {
-            OrdenarTareas.FECHA_CREACION_ASC -> tareaConsultas.obtenerTareasFiltradasFechaCreacionAsc(prioridad, estado, textoTarea)
-            OrdenarTareas.FECHA_CREACION_DES -> tareaConsultas.obtenerTareasFiltradasFechaCreacionDes(prioridad, estado, textoTarea)
-            OrdenarTareas.FECHA_LIMITE_ASC -> tareaConsultas.obtenerTareasFiltradasFechaLimiteAsc(prioridad, estado, textoTarea)
-            OrdenarTareas.FECHA_LIMITE_DES -> tareaConsultas.obtenerTareasFiltradasFechaLimiteDes(prioridad, estado, textoTarea)
-        }
+
 
     // Obtener tarea dto por id
     fun obtenerTareaDTOPorID(id: Int) = tareaConsultas.obtenerTareaDTOPorID(id)
