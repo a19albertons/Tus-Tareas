@@ -75,7 +75,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
                 objectoActual.estado = Estado.Completada
                 scope.launch {
                     try {
-                        model.modificarTarea(objectoActual)
+                        model.verMas.modificarTarea(objectoActual)
                     }
                     catch (_: Exception) {
                         Snackbar.make(it, it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
@@ -92,7 +92,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
                 }
                 scope.launch {
                     try {
-                        model.modificarTarea(objectoActual)
+                        model.verMas.modificarTarea(objectoActual)
                     }
                     catch (_: Exception) {
                         Snackbar.make(it, it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()

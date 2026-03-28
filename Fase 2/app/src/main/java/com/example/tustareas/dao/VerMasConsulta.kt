@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import java.util.Date
@@ -49,4 +50,9 @@ interface VerMasConsulta {
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) " + // El nombre de la etiqueta
             "ORDER BY fechaLimite ASC") // ordenación ascendente
     fun obtenerTareasProximasConFiltro(texto: String, fecha: Date = Date(), estado: Estado = Estado.EnTiempo) : LiveData<List<Tarea>>
+
+    // Modificar una tarea en adapter
+    @Update
+    suspend fun modificarTarea(tarea: Tarea)
+
 }

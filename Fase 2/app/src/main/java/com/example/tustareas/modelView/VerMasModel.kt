@@ -30,4 +30,7 @@ class VerMasModel(private val repository: TusTareasRepository) {
             texto ->
         repository.verMas.obtenerTareasProximasConFiltro(texto)
     }
+
+    // Modificar tarea del adapter
+    suspend fun modificarTarea(tarea: Tarea) = repository.verMas.modificarTarea(tarea)
 }
