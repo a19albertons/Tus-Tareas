@@ -15,7 +15,6 @@ import java.util.Date
 
 class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
-    private val tareaConsultas = database.tareaConsultas()
     private val etiquetaConsultas = database.etiquetaConsultas()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val tareaModificaciones = database.tareaModificaciones()
@@ -50,9 +49,6 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Modificar tarea existente
     suspend fun modificarTarea(tarea: Tarea) = tareaModificaciones.modificarTarea(tarea)
-
-    // Obtener todas las tareas
-    fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
 
 
     suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()

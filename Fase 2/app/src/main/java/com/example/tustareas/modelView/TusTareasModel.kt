@@ -42,7 +42,6 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Metodos de consulta de la base de datos
 
     fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
-    fun obtenerTodasLasTareas() = repository.obtenerTodasLasTareas()
 
 
     // Filtros correctos evita duplicados de observers y aumenta la eficiencia y coherencia de la aplicación

@@ -14,7 +14,6 @@ import com.example.tustareas.dao.ListarTareasConsultas
 import com.example.tustareas.dao.ModificarProyectoConsultas
 import com.example.tustareas.dao.ModificarTareaConsultas
 import com.example.tustareas.dao.ProyectoDetallesConsultas
-import com.example.tustareas.dao.TareaConsultas
 import com.example.tustareas.dao.TareaDetallesConsulta
 import com.example.tustareas.dao.TareaModificaciones
 import com.example.tustareas.dao.VerMasConsulta
@@ -32,7 +31,6 @@ import com.example.tustareas.modelos.TareaEtiqueta
 @TypeConverters(Convertidor::class)
 abstract class TusTareasDatabase : RoomDatabase() {
 
-    abstract fun tareaConsultas(): TareaConsultas
     abstract fun etiquetaConsultas(): EtiquetaConsultas
     abstract fun etiquetaModificaciones(): EtiquetaModificaciones
     abstract fun tareaModificaciones(): TareaModificaciones
