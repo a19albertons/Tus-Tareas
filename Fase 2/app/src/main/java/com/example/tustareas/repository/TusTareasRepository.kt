@@ -1,5 +1,6 @@
 package com.example.tustareas.repository
 
+import com.example.tustareas.dao.EtiquetaConsultas
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
@@ -25,6 +26,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val verMas = VerMasRepository(database)
     val listarTareas = ListarTareasRepository(database)
     val tareaDetalles = TareaDetallesRepository(database)
+    val modificarTareasModel = ModificarTareasRepository(database)
 
 
 
@@ -53,13 +55,9 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-    // Obtener etiquetas restantes
-    fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = etiquetaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
-    // Insertar nueva tarea
-    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.insertarTareaConEtiqueta(tareaDTO)
-    // Modifocar tarea con etiqueta
-    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = tareaModificaciones.modificarTareaConEtiqueta(tareaDTO)
+
+
 
     // Consultar proyectos
     fun obtenerProyectosFiltradas(texto: String, inicio: OrdenarProyectosInicio, fin: OrdenarProyectoFin) =
@@ -110,4 +108,10 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
+
+
+    // Legacy
+
+    // Obtener etiquetas restantes
+    fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = etiquetaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 }

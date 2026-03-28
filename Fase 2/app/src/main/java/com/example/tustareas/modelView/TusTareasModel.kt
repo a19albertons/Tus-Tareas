@@ -13,15 +13,11 @@ import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
-import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.filtros.OrdenarTareas
-import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
 import com.github.mikephil.charting.data.BarEntry
-import java.util.Date
 import kotlin.apply
 import androidx.core.content.edit
 import com.example.tustareas.util.LanguageHelper
@@ -36,6 +32,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val verMas = VerMasModel(repository)
     val listarTareas = ListarTareasModel(repository)
     val tareaDetalles = TareaDetallesModel(repository)
+    val modificarTareasModel = ModificarTareasModel(repository)
 
 
 
@@ -92,15 +89,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    // Filtro etiquetas modificar
-    private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
-    fun actualizarFiltroListaEtiquetaTareas(lista: List<Etiqueta>) {
-        listaEtiqueta.value = lista
-    }
-    fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
-            texto ->
-        repository.obtenerEtiquetasRestantes(texto)
-    }
+
 
     // Obtener tareas restantes
     private val listaTareas = MutableLiveData<List<Tarea>>(emptyList<Tarea>())
@@ -168,13 +157,11 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
-    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
     suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
     // Metodos de moficiación en la base de datos
     suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
     suspend fun modificarTarea(tarea: Tarea) = repository.modificarTarea(tarea)
-    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
     suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
 
 
@@ -208,5 +195,19 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         prefs.edit { putInt("tema", tema) }
         this.tema.value = tema
         AppCompatDelegate.setDefaultNightMode(tema)
+    }
+
+
+
+
+
+    // Legacy
+    private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
+    fun actualizarFiltroListaEtiquetaTareas(lista: List<Etiqueta>) {
+        listaEtiqueta.value = lista
+    }
+    fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
+            texto ->
+        repository.obtenerEtiquetasRestantes(texto)
     }
 }
