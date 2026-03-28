@@ -2,6 +2,45 @@
 
 ## Descrición xeral
 
+## Casos de uso
+
+```mermaid
+flowchart LR
+    %% Definición del Actor usando un icono
+    Usuario((fa:fa-user Usuario))
+    
+    subgraph S["Sistema de Gestion de tus tareas"]
+        %% Definición de los Casos de Uso (forma de píldora/óvalo)
+        Tareas([Manejo tareas])
+        Proyectos([Gestion proyectos])
+        Etiquetas([Etiquetas])
+        RecibirNotificaciones([Recibir notificaciones])
+        VerEstadisticas([Ver estadísticas])
+        EscogerModo([Escoger modo claro/oscuro/sistema])
+        EscogerIdioma([Escoger idioma])
+    
+
+
+
+    end
+
+    
+    %% Relaciones
+    Usuario --> Tareas
+    Usuario --> Proyectos
+    Usuario --> Etiquetas
+    Usuario --> RecibirNotificaciones
+    Usuario --> VerEstadisticas
+    Usuario --> EscogerModo
+    Usuario --> EscogerIdioma
+    Proyectos -. &#60&#60include&#60&#60 .-> Tareas
+    Tareas -. &#60&#60include&#60&#60 .-> Etiquetas
+    Proyectos -. &#60&#60include&#60&#60 .-> Etiquetas
+
+
+
+```
+
 ## Funcionalidades
 
 ### FUNCIONAIS
