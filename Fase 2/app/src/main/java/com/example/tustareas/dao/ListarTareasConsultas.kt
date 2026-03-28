@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
@@ -45,4 +46,8 @@ interface ListarTareasConsultas {
     @Transaction
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion DESC")
     fun obtenerTareasFiltradasFechaCreacionDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
+
+    @Update
+    suspend fun modificarTarea(tarea: Tarea)
+
 }

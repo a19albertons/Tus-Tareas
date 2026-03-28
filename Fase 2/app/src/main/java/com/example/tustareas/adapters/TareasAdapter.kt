@@ -70,7 +70,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
                 objectoActual.estado = Estado.Completada
                 scope.launch {
                     try {
-                        model.modificarTarea(objectoActual)
+                        model.listarTareas.modificarTarea(objectoActual)
                     }
                     catch (_: Exception) {
                         Snackbar.make(it,it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
@@ -87,7 +87,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
                 }
                 scope.launch {
                     try {
-                        model.modificarTarea(objectoActual)
+                        model.listarTareas.modificarTarea(objectoActual)
                     }
                     catch (_: Exception) {
                         Snackbar.make(it,it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()

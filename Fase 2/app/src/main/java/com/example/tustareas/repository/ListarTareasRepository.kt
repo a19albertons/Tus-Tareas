@@ -4,6 +4,7 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
+import com.example.tustareas.modelos.Tarea
 
 /**
  * Clase que va representar el subrepositorio que hara las consultas contra el dao de inicio
@@ -18,4 +19,6 @@ class ListarTareasRepository(database: TusTareasDatabase) {
             OrdenarTareas.FECHA_LIMITE_ASC -> listarTareasConsultas.obtenerTareasFiltradasFechaLimiteAsc(prioridad, estado, textoTarea)
             OrdenarTareas.FECHA_LIMITE_DES -> listarTareasConsultas.obtenerTareasFiltradasFechaLimiteDes(prioridad, estado, textoTarea)
         }
+
+    suspend fun modificarTarea(tarea: Tarea) = listarTareasConsultas.modificarTarea(tarea)
 }

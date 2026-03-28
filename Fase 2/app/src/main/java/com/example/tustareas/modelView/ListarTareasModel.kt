@@ -56,4 +56,7 @@ class ListarTareasModel(private val repository: TusTareasRepository) {
         )
 
     }
+
+    // Modificar tarea del adapter
+    suspend fun modificarTarea(tarea: Tarea) = repository.listarTareas.modificarTarea(tarea)
 }
