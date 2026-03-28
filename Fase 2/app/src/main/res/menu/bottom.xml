@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/inicioFragment"
-        android:title="Inicio"
+        android:title="@string/inicio"
         android:icon="@drawable/ic_inicio_selector"
         />
     <item
         android:id="@+id/listarTareasFragment"
-        android:title="Tareas"
+        android:title="@string/tareas"
         android:icon="@drawable/ic_tareas_selector"
         />
     <item
         android:id="@+id/listarProyectosFragment"
-        android:title="Proyectos"
+        android:title="@string/proyectos"
         android:icon="@drawable/ic_proyectos_selector"
         />
     <item
         android:id="@+id/estadisticasFragment"
-        android:title="Estadisticas"
+        android:title="@string/estadisticas"
         android:icon="@drawable/ic_estadisticas_selector"
         />
 </menu>
