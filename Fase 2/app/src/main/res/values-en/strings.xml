@@ -1,0 +1,143 @@
+<resources>
+    <string name="app_name">Your Tasks</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- General -->
+    <string name="temporal">Temporary</string>
+    <string name="error_navegar">An error occurred while navigating</string>
+    <string name="lupa">magnifier</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Search by title, description and tag</string>
+    <string name="error_modificar_checkbox">An error occurred editing the task</string>
+    <string name="tres_barras">three bars</string>
+    <string name="anadir">+</string>
+    <string name="taza">cup</string>
+    <string name="nombreRequerido">Name*</string>
+    <string name="descripcion">Description</string>
+    <string name="xx_xx_xxxx">XX/XX/XXXX</string>
+    <string name="guardar">Save</string>
+    <string name="descartar">Discard</string>
+    <string name="continuar">Continue</string>
+    <string name="cancelar">Cancel</string>
+    <string name="eliminar">Delete</string>
+    <string name="fecha_creacion">creation date</string>
+    <string name="calendario">calendar</string>
+    <string name="etiqueta">tag</string>
+    <string name="titulo">title</string>
+    <string name="fecha_inicio">start date</string>
+    <string name="fecha_fin">end date</string>
+    <string name="tareas">tasks</string>
+    <string name="no_existen_etiquetas">No tags exist</string>
+
+    <!-- Inicio -->
+    <string name="ver_mas">See more</string>
+    <string name="no_hay_tareas_para_hoy">No pending tasks for today</string>
+    <string name="tienes_una_tarea_para_hoy">You have 1 pending task for today</string>
+    <string name="tienes_tareas_para_hoy">You have %1$d pending tasks for today</string>
+    <string name="no_hay_tareas_retrasadas">No delayed tasks</string>
+    <string name="tienes_una_tarea_retrasada">You have 1 delayed task</string>
+    <string name="tienes_tareas_retrasadas">You have %1$d delayed tasks</string>
+    <string name="no_hay_tareas_proximas">No upcoming tasks</string>
+    <string name="tienes_una_tarea_proxima">You have 1 upcoming task</string>
+    <string name="tienes_tareas_proximas">You have %1$d upcoming tasks</string>
+    <string name="eliminar_simbolo">-</string>
+
+    <!-- Listar tareas -->
+    <string name="estado">Status</string>
+    <string name="prioridad">Priority</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">You have not created tasks yet\nor they do not match the applied filter</string>
+
+    <!-- Estado -->
+    <string name="en_tiempo">On time</string>
+    <string name="retrasada">Delayed</string>
+    <string name="completada">Completed</string>
+
+    <!-- Prioridad -->
+    <string name="baja">Low</string>
+    <string name="media">Medium</string>
+    <string name="alta">High</string>
+    <string name="no_establecido">Not set</string>
+
+    <!-- Modificar tareas -->
+    <string name="error_guardar_tarea">An error occurred saving\nthe new task</string>
+    <string name="error_modificar_tarea">An error occurred saving\nthe modification</string>
+    <string name="confirmar_guardar_tarea">Are you sure you want to save the task</string>
+    <string name="confirmar_modificado_tarea">Are you sure about the changes</string>
+    <string name="fecha_limite">Deadline</string>
+
+    <!-- Tarea detalles -->
+    <string name="error_eliminar_tarea">An error occurred trying\nto delete the task</string>
+    <string name="confirmar_eliminar_tarea">Do you want to delete this task</string>
+
+    <!-- Listar proyectos -->
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">You have not created projects yet\nor they do not match the applied filter</string>
+    <string name="primero_va_fin_despues_inicio">End must come after start</string>
+    <string name="fin">End</string>
+    <string name="inicio">Start</string>
+    <string name="ascendente">Ascending</string>
+    <string name="descendente">Descending</string>
+
+    <!-- Modificar proyectos -->
+    <string name="error_modificar_proyecto">An error occurred saving\nthe modification</string>
+    <string name="confirmar_modificar_proyecto">Are you sure about the changes</string>
+    <string name="error_guardar_proyecto">An error occurred saving\nthe new project</string>
+    <string name="confirmar_guardar_proyecto">Are you sure you want to save the projects</string>
+    <string name="no_existen_tareas">No tasks exist</string>
+
+    <!-- Proyecto detalles -->
+    <string name="error_eliminar_proyecto">An error occurred trying\nto delete the project</string>
+    <string name="confirmar_eliminar_proyecto">Do you want to delete this project</string>
+    <string name="aviso_confirmar_eliminar_proyecto">Note: tasks will not be deleted</string>
+
+    <!-- Estadisticas -->
+    <string name="progreso_semanal">Weekly progress</string>
+    <string name="tareas_completadas_vs_pendientes">Completed vs pending tasks</string>
+    <string name="completas">Completed</string>
+    <string name="pendiente">Pending</string>
+    <string name="retrasadas">Delayed</string>
+    <string name="actividad_semanal">Weekly activity</string>
+    <string-array name="dias_semana_siglas">
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>T</item>
+        <item>F</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+
+    <!-- Ajustes -->
+    <string name="apariencia">Appearance</string>
+    <string name="claro">Light</string>
+    <string name="oscuro">Dark</string>
+    <string name="predeterminados_del_sistema">System defaults</string>
+    <string name="idioma">Language</string>
+    <string-array name="idiomas">
+        <item>System</item>
+        <item>Spanish</item>
+        <item>English</item>
+        <item>Galician</item>
+    </string-array>
+
+    <!-- Lista etiquetas presentes -->
+    <string name="etiqueta_eliminada">Tag deleted</string>
+
+    <!-- Lista tareas presentes -->
+    <string name="tarea_eliminada">Task deleted</string>
+
+    <!-- Listar etiquetas -->
+    <string name="buscar_por_titulo_y_descripci_n">Search by title and description</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">You have not created tags yet\nor they do not match the applied filter</string>
+
+    <!-- Etiqueta detalles -->
+    <string name="error_eliminar_etiqueta">An error occurred trying\nto delete the tag</string>
+    <string name="confirmar_eliminar_etiqueta">Do you want to delete this tag</string>
+
+    <!-- Modificar etiquetas -->
+    <string name="error_modificar_etiqueta">An error occurred saving\nthe modification</string>
+    <string name="confirmar_modificar_etiqueta">Are you sure about the changes</string>
+    <string name="error_guardar_etiqueta">An error occurred saving\nthe new tag</string>
+    <string name="confirmar_guardar_etiqueta">Are you sure you want to save the tag</string>
+
+    <!-- Activity main -->
+    <string name="error_eliminando_tareas">Sorry, an error occurred\ndeleting the tasks</string>
+</resources>
