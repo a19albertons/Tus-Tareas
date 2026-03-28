@@ -28,6 +28,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val listarProyectosModel = ListarProyectosRepository(database)
     val proyectoDetallesModel = ProyectoDetallesRepository(database)
     val modificarProyectosModel = ModificarProyectosRepository(database)
+    val estadisticasModel = EstadisticasRepository(database)
 
 
 
@@ -54,36 +55,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     fun obtenerTodasLasTareas() = tareaConsultas.obtenerTodasLasTareas()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()
-    // Tareas completadas por dia
-    fun tareasCompletadasPorDia(i: Long) = tareaConsultas.tareasCompletadasPorDia(i)
-    // Tareas no completadas por dia
-    fun tareasNoCompletadasPorDia(i: Long) = tareaConsultas.tareasNoCompletadasPorDia(i)
-    // Obtener todas las tareas completadas
-    fun obtenerCantidadTareasCompletas() = tareaConsultas.obtenerCantidadTareasCompletas()
-    // Obtener todas las tareas pendientes
-    fun obtenerCantidadTareasPendientes() = tareaConsultas.obtenerCantidadTareasPendientes()
-    // Obtener todas las tareas retrasadas
-    fun obtenerCantidadTareasRetrasadas() = tareaConsultas.obtenerCantidadTareasRetrasadas()
-
-    // Obtener tareas completas entre 2 fechas
-    fun obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio: Long, fechaFin: Long) = tareaConsultas.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
-
-    // Obtener tareas pendientes entre 2 fechas
-    fun obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio: Long, fechaFin: Long) = tareaConsultas.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
 
 
 

@@ -52,7 +52,7 @@ class EstadisticasFragment : Fragment() {
             timestampDia
         }
 
-        model.obtenerDatosGrafico(timestampDiasSemana).observe(viewLifecycleOwner) {
+        model.estadisticasModel.obtenerDatosGrafico(timestampDiasSemana).observe(viewLifecycleOwner) {
             resultados ->
             // Creamos el dataset de barras
             val dataSet = BarDataSet(resultados, "")
@@ -93,19 +93,19 @@ class EstadisticasFragment : Fragment() {
         }
 
         // Actualizar cantidad completas
-        model.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
+        model.estadisticasModel.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
             cantidad ->
             binding.completas.text = cantidad.toString()
         }
 
         // Actualizar cantidad pendientes
-        model.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
+        model.estadisticasModel.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
             cantidad ->
             binding.pendiente.text = cantidad.toString()
         }
 
         // Actualizar cantidad retrasadas
-        model.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
+        model.estadisticasModel.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
             cantidad ->
             binding.retrasadas.text = cantidad.toString()
         }
@@ -115,7 +115,7 @@ class EstadisticasFragment : Fragment() {
         val fechaFin = timestampDiasSemana.last()
 
 
-        model.obtenerRueda(fechaInicio, fechaFin).observe(viewLifecycleOwner) {
+        model.estadisticasModel.obtenerRueda(fechaInicio, fechaFin).observe(viewLifecycleOwner) {
             valores ->
             val completas = valores.first
             val pendientes = valores.second
