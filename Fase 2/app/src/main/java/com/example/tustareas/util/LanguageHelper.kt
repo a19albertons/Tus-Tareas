@@ -7,15 +7,15 @@ import androidx.core.os.LocaleListCompat
 object LanguageHelper {
     fun etiquetaIdioma(idioma: String): String {
         return when (idioma) {
-            "Sistema" -> "es"
+            "Sistema" -> ""
             "Español" -> "es"
             "Ingles" -> "en"
             "Gallego" -> "gl"
-            else -> "es"
+            else -> ""
         }
     }
     fun aplicarIdioma(siglas: String) {
-        val locale = LocaleListCompat.forLanguageTags(siglas ?: "es")
+        val locale = LocaleListCompat.forLanguageTags(siglas ?: "")
         AppCompatDelegate.setApplicationLocales(locale)
 
     }

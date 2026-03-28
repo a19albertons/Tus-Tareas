@@ -17,6 +17,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.LanguageHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -69,6 +70,10 @@ class MainActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("settings", MODE_PRIVATE)
         val modo = prefs.getInt("tema", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         AppCompatDelegate.setDefaultNightMode(modo)
+
+        // Asegurar aplicación idioma
+        val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
+        LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
 
     }
 
