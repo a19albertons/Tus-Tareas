@@ -62,7 +62,7 @@ class InicioFragment : Fragment() {
             }
         }
 
-        model.obtenerTareasRetrasadas(Date()).observe(viewLifecycleOwner) {
+        model.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
             listadoTareasRetrasadas ->
             // switch
             when (listadoTareasRetrasadas?.size ?: 0) {
