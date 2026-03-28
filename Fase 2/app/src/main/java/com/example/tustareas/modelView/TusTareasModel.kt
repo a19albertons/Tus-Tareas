@@ -4,20 +4,10 @@ import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
 import com.example.tustareas.db.TusTareasDatabase
-import com.example.tustareas.dto.ProyectoDTO
-import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.filtros.OrdenarProyectoFin
-import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.modelos.Proyecto
-import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
-import com.github.mikephil.charting.data.BarEntry
 import kotlin.apply
 import androidx.core.content.edit
 import com.example.tustareas.util.LanguageHelper
@@ -32,12 +22,12 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val verMas = VerMasModel(repository)
     val listarTareas = ListarTareasModel(repository)
     val tareaDetalles = TareaDetallesModel(repository)
-    val modificarTareasModel = ModificarTareasModel(repository)
-    val listarProyectosModel = ListarProyectosModel(repository)
-    val proyectoDetallesModel = ProyectoDetallesModel(repository)
-    val modificarProyectosModel = ModificarProyectosModel(repository)
-    val estadisticasModel = EstadisticasModel(repository)
-    val listarEtiquetasModel = ListarEtiquetasModel(repository)
+    val modificarTareas = ModificarTareasModel(repository)
+    val listarProyectos = ListarProyectosModel(repository)
+    val proyectoDetalles = ProyectoDetallesModel(repository)
+    val modificarProyectos = ModificarProyectosModel(repository)
+    val estadisticas = EstadisticasModel(repository)
+    val listarEtiquetas = ListarEtiquetasModel(repository)
 
 
     // Metodos de consulta de la base de datos

@@ -132,7 +132,7 @@ class ModificarTareasFragment : Fragment() {
             listaEtiquetas.map { it.nombre}
         )
         // Gestionar etiqueta
-        model.modificarTareasModel.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
+        model.modificarTareas.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
             if (etiquetas.isEmpty()) {
                 listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
             }
@@ -151,7 +151,7 @@ class ModificarTareasFragment : Fragment() {
         val adapter = ListaEtiquetasPresentesAdapter {
             listaEtiquetas ->
             tareaDTO.etiquetas = listaEtiquetas
-            model.modificarTareasModel.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+            model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapter
@@ -173,7 +173,7 @@ class ModificarTareasFragment : Fragment() {
                 tareaDTO.etiquetas = nuevasEtiqeutasDTO
                 // Mandamos la lista con las nuevas etiquetas
                 adapter.submitList(tareaDTO.etiquetas.toList())
-                model.modificarTareasModel.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+                model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
             }
         }
 
@@ -228,7 +228,7 @@ class ModificarTareasFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarTareasModel.insertarTareaConEtiqueta(tareaDTO)
+                            model.modificarTareas.insertarTareaConEtiqueta(tareaDTO)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_tarea),
@@ -273,7 +273,7 @@ class ModificarTareasFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarTareasModel.modificarTareaConEtiqueta(tareaDTO)
+                            model.modificarTareas.modificarTareaConEtiqueta(tareaDTO)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_tarea),

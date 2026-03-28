@@ -51,7 +51,7 @@ class ProyectoDetallesFragment : Fragment() {
 
 
         // Obtener el proyecto
-        model.proyectoDetallesModel.obtenerProyectoPorId(id).observe(viewLifecycleOwner) {
+        model.proyectoDetalles.obtenerProyectoPorId(id).observe(viewLifecycleOwner) {
             proyecto ->
             binding.tituloProyecto.text = proyecto.proyecto.nombre
             binding.descipcionProyecto.text = proyecto.proyecto.descripcion
@@ -192,7 +192,7 @@ class ProyectoDetallesFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.proyectoDetallesModel.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+                            model.proyectoDetalles.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),

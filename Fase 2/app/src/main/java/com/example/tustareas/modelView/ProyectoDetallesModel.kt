@@ -8,9 +8,9 @@ import com.example.tustareas.repository.TusTareasRepository
  */
 class ProyectoDetallesModel(private val repository: TusTareasRepository) {
     // Obtieen un proyecto dto por id
-    fun obtenerProyectoPorId(id: Int) = repository.proyectoDetallesModel.obtenerProyectoPorId(id)
+    fun obtenerProyectoPorId(id: Int) = repository.proyectoDetalles.obtenerProyectoPorId(id)
 
     // Elimina un proyecto y sus relaciones
-    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.proyectoDetallesModel.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.proyectoDetalles.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
 
 }

@@ -63,7 +63,7 @@ class ModificarProyectoFragment : Fragment() {
         // spinner tareas
         var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
             Date(), Estado.EnTiempo, null))
-        model.modificarProyectosModel.obtenerTareasRestantes().observe(viewLifecycleOwner) {
+        model.modificarProyectos.obtenerTareasRestantes().observe(viewLifecycleOwner) {
             tareas ->
             if (tareas.isEmpty()) {
                 listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
@@ -83,7 +83,7 @@ class ModificarProyectoFragment : Fragment() {
         val adapterTarea = ListaTareasPresentesAdapter {
                 listaTareas ->
             proyectoDTO.tareas = listaTareas
-            model.modificarProyectosModel.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+            model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
         }
         binding.recyclerViewMostrarTareas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarTareas.adapter = adapterTarea
@@ -91,7 +91,7 @@ class ModificarProyectoFragment : Fragment() {
 
         // spinner etiquetas
         var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
-        model.modificarProyectosModel.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
+        model.modificarProyectos.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
             etiquetas ->
             if (etiquetas.isEmpty()) {
                 listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
@@ -111,7 +111,7 @@ class ModificarProyectoFragment : Fragment() {
         val adapterEtiquetas = ListaEtiquetasPresentesAdapter {
                 listaEtiquetas ->
             proyectoDTO.etiquetas = listaEtiquetas
-            model.modificarProyectosModel.actualizarFiltroListaEtiquetaTareas(proyectoDTO.etiquetas)
+            model.modificarProyectos.actualizarFiltroListaEtiquetaTareas(proyectoDTO.etiquetas)
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
@@ -131,7 +131,7 @@ class ModificarProyectoFragment : Fragment() {
                 proyectoDTO.tareas = nuevasTareasDTO
                 // Mandamos la lista con las nuevas tareas
                 adapterTarea.submitList(proyectoDTO.tareas.toList())
-                model.modificarProyectosModel.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+                model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
             }
         }
 
@@ -149,7 +149,7 @@ class ModificarProyectoFragment : Fragment() {
                 proyectoDTO.etiquetas = nuevasEtiquetas
                 // Mandamos la lista con las nuevas tareas
                 adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
-                model.modificarProyectosModel.actualizarFiltroListaEtiquetaTareas(proyectoDTO.etiquetas)
+                model.modificarProyectos.actualizarFiltroListaEtiquetaTareas(proyectoDTO.etiquetas)
             }
         }
 
@@ -224,7 +224,7 @@ class ModificarProyectoFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarProyectosModel.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+                            model.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
@@ -261,7 +261,7 @@ class ModificarProyectoFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarProyectosModel.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+                            model.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoDTO)
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),

@@ -20,6 +20,6 @@ class ListarEtiquetasModel(private val repository: TusTareasRepository) {
     // Llama a repositorio con el filtro
     fun obtenerEtiquetasFiltradas() : LiveData<List<Etiqueta>> = textoEtiqueta.switchMap {
             texto ->
-        repository.listarEtiquetasModel.obtenerEtiquetasFiltradas(texto)
+        repository.listarEtiquetas.obtenerEtiquetasFiltradas(texto)
     }
 }

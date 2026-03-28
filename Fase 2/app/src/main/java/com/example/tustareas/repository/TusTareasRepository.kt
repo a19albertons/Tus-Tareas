@@ -1,17 +1,7 @@
 package com.example.tustareas.repository
 
-import com.example.tustareas.dao.EtiquetaConsultas
 import com.example.tustareas.db.TusTareasDatabase
-import com.example.tustareas.dto.ProyectoDTO
-import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.filtros.OrdenarProyectoFin
-import com.example.tustareas.filtros.OrdenarProyectosInicio
-import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.filtros.OrdenarTareas
-import com.example.tustareas.modelos.Prioridad
-import com.example.tustareas.modelos.Tarea
-import java.util.Date
 
 class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
@@ -24,12 +14,12 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val verMas = VerMasRepository(database)
     val listarTareas = ListarTareasRepository(database)
     val tareaDetalles = TareaDetallesRepository(database)
-    val modificarTareasModel = ModificarTareasRepository(database)
-    val listarProyectosModel = ListarProyectosRepository(database)
-    val proyectoDetallesModel = ProyectoDetallesRepository(database)
-    val modificarProyectosModel = ModificarProyectosRepository(database)
-    val estadisticasModel = EstadisticasRepository(database)
-    val listarEtiquetasModel = ListarEtiquetasRepository(database)
+    val modificarTareas = ModificarTareasRepository(database)
+    val listarProyectos = ListarProyectosRepository(database)
+    val proyectoDetalles = ProyectoDetallesRepository(database)
+    val modificarProyectos = ModificarProyectosRepository(database)
+    val estadisticas = EstadisticasRepository(database)
+    val listarEtiquetas = ListarEtiquetasRepository(database)
 
 
 

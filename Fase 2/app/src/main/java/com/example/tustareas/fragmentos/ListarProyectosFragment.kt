@@ -47,7 +47,7 @@ class ListarProyectosFragment : Fragment() {
         binding.listaProyectos.layoutManager = LinearLayoutManager(requireContext())
 
         // Observador
-        model.listarProyectosModel.obtenerProyectosFiltradas().observe(viewLifecycleOwner) {
+        model.listarProyectos.obtenerProyectosFiltradas().observe(viewLifecycleOwner) {
             listadoProyectos ->
             if (listadoProyectos.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
@@ -64,7 +64,7 @@ class ListarProyectosFragment : Fragment() {
         // Control filtro texto
         binding.filtro.addTextChangedListener( object : TextWatcher {
             override fun afterTextChanged(texto: Editable?) {
-                model.listarProyectosModel.actualizarTextoListadoProyectos(texto.toString())
+                model.listarProyectos.actualizarTextoListadoProyectos(texto.toString())
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -94,9 +94,9 @@ class ListarProyectosFragment : Fragment() {
                 id: Long
             ) {
                 when (posicion) {
-                    0 -> model.listarProyectosModel.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-                    1 -> model.listarProyectosModel.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-                    2 -> model.listarProyectosModel.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+                    0 -> model.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+                    1 -> model.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+                    2 -> model.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
                 }
                 // Notificación de filtros
                 if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {
@@ -128,9 +128,9 @@ class ListarProyectosFragment : Fragment() {
                 id: Long
             ) {
                 when (posicion) {
-                    0 -> model.listarProyectosModel.actualizarFinProyecto(OrdenarProyectoFin.FIN)
-                    1 -> model.listarProyectosModel.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
-                    2 -> model.listarProyectosModel.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+                    0 -> model.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+                    1 -> model.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+                    2 -> model.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
                 }
                 // Notificación de filtros
                 if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {

@@ -23,7 +23,7 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
     // Obtiene las tareas restantes (libres)
     fun obtenerTareasRestantes() : LiveData<List<Tarea>> = listaTareas.switchMap {
             texto ->
-        repository.modificarProyectosModel.obtenerTareasRestantes(texto)
+        repository.modificarProyectos.obtenerTareasRestantes(texto)
     }
 
     // Tiene la lista inicial vacia
@@ -35,15 +35,15 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
     // Obtiene las etiquetas restantes que no tiene en uso
     fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
             texto ->
-        repository.modificarProyectosModel.obtenerEtiquetasRestantes(texto)
+        repository.modificarProyectos.obtenerEtiquetasRestantes(texto)
     }
 
     // Metodo que inserta un proyecto con sus tarea e etiquetas
-    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectosModel.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
     // Metodo que modifica un proyecto con sus tarea e etiquetas
 
-    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectosModel.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoDTO)
 
 
 }

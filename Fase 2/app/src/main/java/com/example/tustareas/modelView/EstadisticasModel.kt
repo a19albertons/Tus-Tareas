@@ -13,8 +13,8 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
     fun obtenerDatosGrafico(timestampDiasSemana: LongArray): LiveData<List<BarEntry>> {
         // variable base (mediadiador, completa, no completas)
         val resultado = MediatorLiveData<List<BarEntry>>()
-        val completas = timestampDiasSemana.map { it -> repository.estadisticasModel.tareasCompletadasPorDia(it)  }
-        val noCompletas = timestampDiasSemana.map { it -> repository.estadisticasModel.tareasNoCompletadasPorDia(it)  }
+        val completas = timestampDiasSemana.map { it -> repository.estadisticas.tareasCompletadasPorDia(it)  }
+        val noCompletas = timestampDiasSemana.map { it -> repository.estadisticas.tareasNoCompletadasPorDia(it)  }
 
         // Generación dataset
         val nuevoDataset = {
@@ -37,9 +37,9 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
     }
 
     // Funciones centrales de estadisticas
-    fun obtenerCantidadTareasCompletas() = repository.estadisticasModel.obtenerCantidadTareasCompletas()
-    fun obtenerCantidadTareasPendientes() = repository.estadisticasModel.obtenerCantidadTareasPendientes()
-    fun obtenerCantidadTareasRetrasadas() = repository.estadisticasModel.obtenerCantidadTareasRetrasadas()
+    fun obtenerCantidadTareasCompletas() = repository.estadisticas.obtenerCantidadTareasCompletas()
+    fun obtenerCantidadTareasPendientes() = repository.estadisticas.obtenerCantidadTareasPendientes()
+    fun obtenerCantidadTareasRetrasadas() = repository.estadisticas.obtenerCantidadTareasRetrasadas()
 
 
 
@@ -47,8 +47,8 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
     fun obtenerRueda(fechaInicio: Long, fechaFin: Long): LiveData<Pair<Long, Long>> {
         // variable base
         val resultado = MediatorLiveData<Pair<Long, Long>>()
-        val completas = repository.estadisticasModel.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
-        val noCompletas = repository.estadisticasModel.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
+        val completas = repository.estadisticas.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
+        val noCompletas = repository.estadisticas.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
 
         // actualizador
         val valores = {

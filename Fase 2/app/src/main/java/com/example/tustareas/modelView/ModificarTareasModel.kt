@@ -18,11 +18,11 @@ class ModificarTareasModel(private val repository: TusTareasRepository) {
     }
     fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
             texto ->
-        repository.modificarTareasModel.obtenerEtiquetasRestantes(texto)
+        repository.modificarTareas.obtenerEtiquetasRestantes(texto)
     }
     // Insertar una nueva tarea con sus etiquetas
-    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareasModel.insertarTareaConEtiqueta(tareaDTO)
+    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareas.insertarTareaConEtiqueta(tareaDTO)
     // Modificación de una tarea y sus etiquetas
-    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareasModel.modificarTareaConEtiqueta(tareaDTO)
+    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareas.modificarTareaConEtiqueta(tareaDTO)
 
 }
