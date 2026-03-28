@@ -33,6 +33,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Invocacion repositorio
     private val repository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
     val inicio = InicioModel(repository)
+    val verMas = VerMasModel(repository)
 
     // Metodos de consulta de la base de datos
 
@@ -195,23 +196,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    // Filtro para VerMás
-    private val textoVerMas = MutableLiveData("")
-    fun actualizarTextoVerMas(texto: String) {
-        textoVerMas.value = texto
-    }
-    fun obtenerTareasTerminanDiaEspecificoConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
-            texto ->
-        repository.obtenerTareasTerminanDiaEspecificoConFiltro(texto)
-    }
-    fun obtenerTareasRetrasadasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
-            texto ->
-        repository.obtenerTareasRetrasadasConFiltro(texto)
-    }
-    fun obtenerTareasProximasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
-            texto ->
-        repository.obtenerTareasProximasConFiltro(texto)
-    }
+
 
 
     // Metodos de inserción en la base de datos

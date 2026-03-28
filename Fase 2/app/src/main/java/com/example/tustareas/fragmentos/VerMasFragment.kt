@@ -55,7 +55,7 @@ class VerMasFragment : Fragment() {
             }
             override fun afterTextChanged(texto: Editable?) {
                 // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.actualizarTextoVerMas(texto.toString())
+                model.verMas.actualizarTextoVerMas(texto.toString())
             }
 
         })
@@ -63,7 +63,7 @@ class VerMasFragment : Fragment() {
         // consulta en función de origen
         when (origen) {
             1 -> {
-                model.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) {
+                model.verMas.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) {
                     tareas ->
                     if (tareas.isEmpty()) {
                         binding.sinResultados.visibility = View.VISIBLE
@@ -77,7 +77,7 @@ class VerMasFragment : Fragment() {
                 }
             }
             2 -> {
-                model.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) {
+                model.verMas.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) {
                         tareas ->
                     if (tareas.isEmpty()) {
                         binding.sinResultados.visibility = View.VISIBLE
@@ -90,7 +90,7 @@ class VerMasFragment : Fragment() {
                     adapter.submitList(tareas)
                     }
             }
-            3 -> model.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) {
+            3 -> model.verMas.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) {
                 tareas ->
                 if (tareas.isEmpty()) {
                     binding.sinResultados.visibility = View.VISIBLE

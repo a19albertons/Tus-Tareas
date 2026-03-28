@@ -12,6 +12,7 @@ import com.example.tustareas.dao.ProyectoConsultas
 import com.example.tustareas.dao.ProyectoModificaciones
 import com.example.tustareas.dao.TareaConsultas
 import com.example.tustareas.dao.TareaModificaciones
+import com.example.tustareas.dao.VerMasConsulta
 import com.example.tustareas.modelos.Convertidor
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Proyecto
@@ -35,6 +36,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun proyectoModificaciones(): ProyectoModificaciones
 
     abstract fun inicioConsultas(): InicioConsultas
+    abstract fun verMasConsultas(): VerMasConsulta
 
     companion object {
         @Volatile

@@ -22,6 +22,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     private val tareaModificaciones = database.tareaModificaciones()
 
     val inicio = InicioRepository(database)
+    val verMas = VerMasRepository(database)
 
 
 
@@ -112,12 +113,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Obtener tareas pendientes entre 2 fechas
     fun obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio: Long, fechaFin: Long) = tareaConsultas.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
-    // Obtener tareas terminan dia especifico con filtro
-    fun obtenerTareasTerminanDiaEspecificoConFiltro(texto: String) = tareaConsultas.obtenerTareasTerminanDiaEspecificoConFiltro(texto)
-    // Obtener tareas retrasadas con filtro
-    fun obtenerTareasRetrasadasConFiltro(texto: String) = tareaConsultas.obtenerTareasRetrasadasConFiltro(texto)
-    // Obtener tareas proximas con filtro
-    fun obtenerTareasProximasConFiltro(texto: String) = tareaConsultas.obtenerTareasProximasConFiltro(texto)
+
 
 
 }
