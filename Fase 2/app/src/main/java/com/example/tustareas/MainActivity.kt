@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                 try {
                     model.limpiarTareasCompletas()
                 }
-                catch (e: Exception) {
+                catch (_: Exception) {
                     Snackbar.make(findViewById(R.id.main), "Lo sentimos ha habido un \nerror eliminando las tareas", Snackbar.LENGTH_SHORT).show()
                 }
             }
