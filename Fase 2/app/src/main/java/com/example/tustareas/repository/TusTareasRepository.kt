@@ -27,6 +27,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val listarTareas = ListarTareasRepository(database)
     val tareaDetalles = TareaDetallesRepository(database)
     val modificarTareasModel = ModificarTareasRepository(database)
+    val listarProyectosModel = ListarProyectosRepository(database)
 
 
 
@@ -59,23 +60,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-    // Consultar proyectos
-    fun obtenerProyectosFiltradas(texto: String, inicio: OrdenarProyectosInicio, fin: OrdenarProyectoFin) =
-        when (Pair(inicio, fin)) {
-            Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN) -> proyectoConsultas.obtenerProyectosFiltradosPorDefecto(texto) // defecto
-            Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FECHA_ASC) -> proyectoConsultas.obtenerProyectosFiltradosPorFinAsc(texto) // Fin ascendente
-            Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FECHA_DES) -> proyectoConsultas.obtenerProyectosFiltradosPorFinDes(texto) // Fin desdendente
-            Pair(OrdenarProyectosInicio.FECHA_ASC, OrdenarProyectoFin.FIN) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioAsc(texto) // inicio ascendente
-            Pair(OrdenarProyectosInicio.FECHA_ASC, OrdenarProyectoFin.FECHA_ASC) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioYFinAsc(texto) // inicio y fin ascendente
-            Pair(OrdenarProyectosInicio.FECHA_ASC, OrdenarProyectoFin.FECHA_DES) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioAscYFinDes(texto) // inicio ascendente y fin descendente
-            Pair(OrdenarProyectosInicio.FECHA_DES, OrdenarProyectoFin.FIN) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioDes(texto) // inicio descendente
-            Pair(OrdenarProyectosInicio.FECHA_DES, OrdenarProyectoFin.FECHA_ASC) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioDesYFinAsc(texto) // inicio descendente y fin ascendente
-            Pair(OrdenarProyectosInicio.FECHA_DES, OrdenarProyectoFin.FECHA_DES) -> proyectoConsultas.obtenerProyectosFiltradosPorInicioYFinDes(texto) // inicio y fin descendente
 
-            else -> proyectoConsultas.obtenerProyectosFiltradosPorDefecto(texto)
-
-
-        }
 
     // Obtener proyecto por id
     fun obtenerProyectoPorId(id: Int) = proyectoConsultas.obtenerProyectoPorId(id)

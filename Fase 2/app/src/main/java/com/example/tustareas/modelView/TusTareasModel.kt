@@ -33,6 +33,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val listarTareas = ListarTareasModel(repository)
     val tareaDetalles = TareaDetallesModel(repository)
     val modificarTareasModel = ModificarTareasModel(repository)
+    val listarProyectosModel = ListarProyectosModel(repository)
 
 
 
@@ -61,32 +62,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         repository.obtenerEtiquetasFiltradas(texto)
     }
 
-    // Filtro para proyectos
-    private val textoProyecto = MutableLiveData("")
-    private val inicioProyecto = MutableLiveData(OrdenarProyectosInicio.INICIO)
-    private val finProyecto = MutableLiveData(OrdenarProyectoFin.FIN)
-    fun actualizarTextoListadoProyectos(texto: String) {
-        textoProyecto.value = texto
-    }
-    fun actualizarInicioProyecto(inicio: OrdenarProyectosInicio) {
-        inicioProyecto.value = inicio
-    }
-    fun actualizarFinProyecto(fin: OrdenarProyectoFin) {
-        finProyecto.value = fin
-    }
 
-    private val vigiladorFiltrosProyectos = MediatorLiveData<Unit>().apply {
-        addSource(textoProyecto) { value = Unit }
-        addSource(inicioProyecto) { value = Unit }
-        addSource(finProyecto) { value = Unit }
-    }
-    fun obtenerProyectosFiltradas() : LiveData<List<Proyecto>> = vigiladorFiltrosProyectos.switchMap {
-        repository.obtenerProyectosFiltradas(
-            textoProyecto.value ?: "",
-            inicioProyecto.value ?: OrdenarProyectosInicio.INICIO,
-            finProyecto.value ?: OrdenarProyectoFin.FIN
-        )
-    }
 
 
 

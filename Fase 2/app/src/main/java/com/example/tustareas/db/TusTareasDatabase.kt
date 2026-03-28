@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.example.tustareas.dao.EtiquetaConsultas
 import com.example.tustareas.dao.EtiquetaModificaciones
 import com.example.tustareas.dao.InicioConsultas
+import com.example.tustareas.dao.ListarProyectosConsultas
 import com.example.tustareas.dao.ListarTareasConsultas
 import com.example.tustareas.dao.ModificarTareaConsultas
 import com.example.tustareas.dao.ProyectoConsultas
@@ -48,6 +49,8 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun tareaDetallesConsulta(): TareaDetallesConsulta
     // consultas modificar tarea
     abstract fun modificarTareaConsultas(): ModificarTareaConsultas
+    // Consultas listar proyectos
+    abstract fun listarProyectosConsultas(): ListarProyectosConsultas
 
     companion object {
         @Volatile
