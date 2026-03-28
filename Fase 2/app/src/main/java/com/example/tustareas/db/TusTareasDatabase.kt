@@ -11,7 +11,7 @@ import com.example.tustareas.dao.InicioConsultas
 import com.example.tustareas.dao.ListarProyectosConsultas
 import com.example.tustareas.dao.ListarTareasConsultas
 import com.example.tustareas.dao.ModificarTareaConsultas
-import com.example.tustareas.dao.ProyectoConsultas
+import com.example.tustareas.dao.ProyectoDetallesConsultas
 import com.example.tustareas.dao.ProyectoModificaciones
 import com.example.tustareas.dao.TareaConsultas
 import com.example.tustareas.dao.TareaDetallesConsulta
@@ -33,8 +33,6 @@ abstract class TusTareasDatabase : RoomDatabase() {
 
     abstract fun tareaConsultas(): TareaConsultas
     abstract fun etiquetaConsultas(): EtiquetaConsultas
-    abstract fun proyectoConsultas(): ProyectoConsultas
-
     abstract fun etiquetaModificaciones(): EtiquetaModificaciones
     abstract fun tareaModificaciones(): TareaModificaciones
     abstract fun proyectoModificaciones(): ProyectoModificaciones
@@ -51,6 +49,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun modificarTareaConsultas(): ModificarTareaConsultas
     // Consultas listar proyectos
     abstract fun listarProyectosConsultas(): ListarProyectosConsultas
+    abstract fun proyectoDetallesConsultas(): ProyectoDetallesConsultas
 
     companion object {
         @Volatile

@@ -17,7 +17,6 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
     private val tareaConsultas = database.tareaConsultas()
     private val etiquetaConsultas = database.etiquetaConsultas()
-    private val proyectoConsultas = database.proyectoConsultas()
     private val proyectoModificaciones = database.proyectoModificaciones()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
     private val tareaModificaciones = database.tareaModificaciones()
@@ -28,6 +27,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     val tareaDetalles = TareaDetallesRepository(database)
     val modificarTareasModel = ModificarTareasRepository(database)
     val listarProyectosModel = ListarProyectosRepository(database)
+    val proyectoDetallesModel = ProyectoDetallesRepository(database)
 
 
 
@@ -62,8 +62,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-    // Obtener proyecto por id
-    fun obtenerProyectoPorId(id: Int) = proyectoConsultas.obtenerProyectoPorId(id)
+
 
     // Obtener tareas restantes
     fun obtenerTareasRestantes(listaTareas: List<Tarea>) = tareaConsultas.obtenerTareasRestantes(listaTareas.map { it.id })
@@ -71,8 +70,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
     suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.insertarProyectoConTareaYEtiqueta(proyectoDTO)
     // Modificar proyecto existente
     suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = proyectoModificaciones.modificarProyectoConTareaYEtiqueta(proyectoDTO)
-    // Eliminar proyecto
-    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = proyectoModificaciones.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado.proyecto)
+
     suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()
     // Tareas completadas por dia
     fun tareasCompletadasPorDia(i: Long) = tareaConsultas.tareasCompletadasPorDia(i)

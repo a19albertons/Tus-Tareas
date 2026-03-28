@@ -34,6 +34,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     val tareaDetalles = TareaDetallesModel(repository)
     val modificarTareasModel = ModificarTareasModel(repository)
     val listarProyectosModel = ListarProyectosModel(repository)
+    val proyectoDetallesModel = ProyectoDetallesModel(repository)
 
 
 
@@ -41,7 +42,6 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
     fun obtenerTodasLasTareas() = repository.obtenerTodasLasTareas()
-    fun obtenerProyectoPorId(id: Int) = repository.obtenerProyectoPorId(id)
     fun obtenerCantidadTareasCompletas() = repository.obtenerCantidadTareasCompletas()
     fun obtenerCantidadTareasPendientes() = repository.obtenerCantidadTareasPendientes()
     fun obtenerCantidadTareasRetrasadas() = repository.obtenerCantidadTareasRetrasadas()
@@ -145,7 +145,6 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
 
     // Metodos de eliminación en la base de datos
     suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = repository.eliminarEtiqueta(etiqueta)
-    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
     suspend fun limpiarTareasCompletas() = repository.limpiarTareasCompletas()
 
 
