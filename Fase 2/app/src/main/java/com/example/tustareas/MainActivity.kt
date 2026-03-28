@@ -26,7 +26,18 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
     private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private val model : TusTareasModel by viewModels()
+
+    // Listado fragmentos sin flecha de retroceso
+    private val fragmentosSinFlecha = setOf(
+        R.id.inicioFragment,
+        R.id.listarTareasFragment,
+        R.id.listarProyectosFragment,
+        R.id.estadisticasFragment,
+        R.id.ajustesFragment,
+        R.id.listarEtiquetasFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +60,11 @@ class MainActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNav.setupWithNavController(navController)
 
-        // Flecha para atras
-        NavigationUI.setupActionBarWithNavController(this, navController)
+        // Define los destinos principales (sin flecha de retroceso)
+        appBarConfiguration = AppBarConfiguration(fragmentosSinFlecha)
+
+        // Maneja la flecha de retroceso teniendo en cuenta el appbarconfiguration
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
 
         // Habilita el modo oscuro segun la preferencia guardada
@@ -95,6 +109,6 @@ class MainActivity : AppCompatActivity() {
 
     // Modificación logica flecha de retroceso
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
