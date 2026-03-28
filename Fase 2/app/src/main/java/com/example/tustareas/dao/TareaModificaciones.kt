@@ -20,10 +20,7 @@ interface TareaModificaciones {
 
 
 
-    // Legacy
 
-    @Query("select * from etiquetas where id not in (:lista)")
-    fun obtenerEtiquetasRestantes(lista : List<Int>): LiveData<List<Etiqueta>>
 
 
 
