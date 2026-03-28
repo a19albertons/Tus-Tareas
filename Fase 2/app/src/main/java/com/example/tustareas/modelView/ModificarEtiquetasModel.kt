@@ -3,6 +3,9 @@ package com.example.tustareas.modelView
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.repository.TusTareasRepository
 
+/**
+ * Clase que representa al submodelo de modificar etiqueta
+ */
 class ModificarEtiquetasModel(private val repository: TusTareasRepository) {
     // Metodos de inserción en la base de datos
     suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.modificacionEtiqueta.insertarEtiqueta(etiqueta)
