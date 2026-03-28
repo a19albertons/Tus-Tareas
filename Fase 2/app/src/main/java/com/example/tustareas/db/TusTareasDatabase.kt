@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.tustareas.dao.ActivityMainConsultas
 import com.example.tustareas.dao.EstadisticasConsultas
 import com.example.tustareas.dao.EtiquetaConsultas
 import com.example.tustareas.dao.EtiquetaModificaciones
@@ -15,7 +16,6 @@ import com.example.tustareas.dao.ModificarProyectoConsultas
 import com.example.tustareas.dao.ModificarTareaConsultas
 import com.example.tustareas.dao.ProyectoDetallesConsultas
 import com.example.tustareas.dao.TareaDetallesConsulta
-import com.example.tustareas.dao.TareaModificaciones
 import com.example.tustareas.dao.VerMasConsulta
 import com.example.tustareas.modelos.Convertidor
 import com.example.tustareas.modelos.Etiqueta
@@ -33,7 +33,6 @@ abstract class TusTareasDatabase : RoomDatabase() {
 
     abstract fun etiquetaConsultas(): EtiquetaConsultas
     abstract fun etiquetaModificaciones(): EtiquetaModificaciones
-    abstract fun tareaModificaciones(): TareaModificaciones
 
     // Consultas de inicio
     abstract fun inicioConsultas(): InicioConsultas
@@ -50,6 +49,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun proyectoDetallesConsultas(): ProyectoDetallesConsultas
     abstract fun modificarProyectoConsultas(): ModificarProyectoConsultas
     abstract fun estadisticasConsultas(): EstadisticasConsultas
+    abstract fun activityMainConsultas(): ActivityMainConsultas
 
     companion object {
         @Volatile

@@ -17,7 +17,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
     private val etiquetaConsultas = database.etiquetaConsultas()
     private val etiquetaModificaciones = database.etiquetaModificaciones()
-    private val tareaModificaciones = database.tareaModificaciones()
+    private val activityMainConsultas = database.activityMainConsultas()
+
 
     val inicio = InicioRepository(database)
     val verMas = VerMasRepository(database)
@@ -49,8 +50,8 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
 
-
-    suspend fun limpiarTareasCompletas() = tareaModificaciones.limpiarTareasCompletas()
+    // Metodos activity main
+    suspend fun limpiarTareasCompletas() = activityMainConsultas.limpiarTareasCompletas()
 
 
 
