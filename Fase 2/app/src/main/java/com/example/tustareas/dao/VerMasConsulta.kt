@@ -8,6 +8,9 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import java.util.Date
 
+/**
+ * Clase creada especificamente para poseer todas las operaciones sobre bd de consultas en ver mas fragment
+ */
 @Dao
 interface VerMasConsulta {
     @Transaction
