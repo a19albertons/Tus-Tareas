@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_fecha_creacion_asc"
-        android:title="fecha creación asc"
+        android:title="@string/fecha_creaci_n_asc"
         />
     <item
         android:id="@+id/action_fecha_creacion_des"
-        android:title="fecha creación des"
+        android:title="@string/fecha_creaci_n_des"
         />
     <item
         android:id="@+id/action_fecha_limite_asc"
-        android:title="fecha límite asc"
+        android:title="@string/fecha_l_mite_asc"
         />
     <item
         android:id="@+id/action_fecha_limite_des"
-        android:title="fecha límite des"
+        android:title="@string/fecha_l_mite_des"
         />
 </menu>
