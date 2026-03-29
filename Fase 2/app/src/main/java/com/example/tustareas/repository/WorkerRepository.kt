@@ -9,4 +9,6 @@ class WorkerRepository(database: TusTareasDatabase) {
     private val workerConsultas = database.workerConsultas()
 
     fun actualizarEstado() = workerConsultas.actualizarEstado()
+    suspend fun tareasRetrasadasAlarma() = workerConsultas.tareasRetrasadasAlarma()
+
 }
