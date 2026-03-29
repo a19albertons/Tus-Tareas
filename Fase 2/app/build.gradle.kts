@@ -53,6 +53,11 @@ android {
 }
 
 dependencies {
+    // Librerias para el organizador de tareas en segundo plano de tareas proramadas
+    implementation(libs.androidx.work.runtime.ktx)
+    androidTestImplementation(libs.androidx.work.testing)
+    implementation(libs.androidx.work.multiprocess)
+
     // graficos de barra libreria
     implementation(libs.mpandroidchart)
 
