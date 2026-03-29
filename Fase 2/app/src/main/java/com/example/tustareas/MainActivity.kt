@@ -16,11 +16,17 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.LanguageHelper
+import com.example.tustareas.workers.ActualizarEstadoWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
@@ -75,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
         LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
 
+        trabajadores()
+
     }
 
     // Inflado del menu toolbar
@@ -113,5 +121,30 @@ class MainActivity : AppCompatActivity() {
     // Modificación logica flecha de retroceso
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    // Función que gestiona los trabajadores
+    private fun trabajadores() {
+        // trabajador 1 (cambio estados) - Lo configuramos para una ejecución diaria
+        val ahoraMismo = Calendar.getInstance()
+        // Definimos la fecha de configuración
+        val fechaEjecucion = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0) // A las 0 horas
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        // Forzar la primera ejecución a las 0 horas del dia siguiente
+        fechaEjecucion.add(Calendar.DAY_OF_MONTH, 1)
+        val calcularRetraso = fechaEjecucion.timeInMillis - ahoraMismo.timeInMillis
+        // Configuramos el worker
+        val actualizarEstadoWorker = PeriodicWorkRequestBuilder<ActualizarEstadoWorker>(
+            1, TimeUnit.DAYS
+        )
+            .setInitialDelay(calcularRetraso, TimeUnit.MILLISECONDS)
+            .build()
+
+        // Mandamos el trabajo
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("ActualizarEstado", ExistingPeriodicWorkPolicy.KEEP, actualizarEstadoWorker)
     }
 }
