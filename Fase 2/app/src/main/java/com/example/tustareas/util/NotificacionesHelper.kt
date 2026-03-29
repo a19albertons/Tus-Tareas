@@ -36,7 +36,7 @@ object NotificacionesHelper {
 
 
     // Crea una notifiación
-    fun crearNotificacion(contexto: Context, titulo: String, contenido: String ) {
+    fun crearNotificacion(contexto: Context, titulo: String, contenido: String, id: Int) {
         val builder = NotificationCompat.Builder(contexto, CHANNEL_ID)
             .setSmallIcon(R.drawable.fecha_fin) // provisional
             .setContentTitle(titulo)
@@ -47,7 +47,8 @@ object NotificacionesHelper {
 
         with(NotificationManagerCompat.from(contexto)) {
             if (ActivityCompat.checkSelfPermission(contexto, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                notify(System.currentTimeMillis().toInt(), builder.build())
+                // Se tienen que usar ids distintos
+                notify(id, builder.build())
             }
         }
     }
