@@ -2,6 +2,7 @@ package com.example.tustareas.modelos
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 
 /**
  * Clase que representa la relación N:N entre Proyecto y Etiquetas
@@ -22,7 +23,8 @@ import androidx.room.ForeignKey
             childColumns = ["idProyecto"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["idProyecto", "idEtiqueta"])]
 )
 data class ProyectoEtiqueta(
     var idProyecto: Int,
