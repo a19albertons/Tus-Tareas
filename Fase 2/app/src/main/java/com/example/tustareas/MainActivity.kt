@@ -20,6 +20,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.AlarmaHelper
 import com.example.tustareas.util.LanguageHelper
 import com.example.tustareas.workers.ActualizarEstadoWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -81,7 +82,11 @@ class MainActivity : AppCompatActivity() {
         val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
         LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
 
+        // Tareas programadas
         trabajadores()
+
+        // Alertas/notificaciones
+        AlarmaHelper.programarAlarmaDiaria(this)
 
     }
 
