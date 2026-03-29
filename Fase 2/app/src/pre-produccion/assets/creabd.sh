@@ -49,6 +49,15 @@ CREATE TABLE ProyectoEtiquetas (
   FOREIGN KEY(idProyecto) REFERENCES proyectos(id) ON DELETE CASCADE,
   FOREIGN KEY(idEtiqueta) REFERENCES etiquetas(id) ON DELETE CASCADE
 );
+
+-- Índices definidos en los modelos Room (coinciden con @Entity(indices=...))
+-- Usamos nombres exactly como Room genera: index_<table>_<column>[...]
+CREATE INDEX IF NOT EXISTS index_proyectos_id ON proyectos(id);
+CREATE INDEX IF NOT EXISTS index_tareas_id ON tareas(id);
+CREATE INDEX IF NOT EXISTS index_etiquetas_id ON etiquetas(id);
+CREATE INDEX IF NOT EXISTS index_TareaEtiquetas_idTarea_idEtiqueta ON TareaEtiquetas(idTarea, idEtiqueta);
+CREATE INDEX IF NOT EXISTS index_ProyectoEtiquetas_idProyecto_idEtiqueta ON ProyectoEtiquetas(idProyecto, idEtiqueta);
+
 -- datos de ejemplo
 -- generamos timestamps en ms (strftime('%s')*1000) centrados a medianoche
 -- Usamos distintos intervalos para cubrir casos de tareas retrasadas, completadas, sin fecha y con distintos estados/prioridades.
