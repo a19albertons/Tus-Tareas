@@ -2,6 +2,7 @@ package com.example.tustareas.modelos
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 
 /**
  * Clase que representa la relación N:N entre Tarea y Etiquetas
@@ -22,7 +23,8 @@ import androidx.room.ForeignKey
             childColumns = ["idTarea"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["idTarea", "idEtiqueta"])]
 )
 data class TareaEtiqueta(
     var idTarea: Int,
