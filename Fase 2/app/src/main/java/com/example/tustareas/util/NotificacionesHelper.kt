@@ -38,7 +38,7 @@ object NotificacionesHelper {
     // Crea una notifiación
     fun crearNotificacion(contexto: Context, titulo: String, contenido: String, id: Int) {
         val builder = NotificationCompat.Builder(contexto, CHANNEL_ID)
-            .setSmallIcon(R.drawable.fecha_fin) // provisional
+            .setSmallIcon(R.drawable.logo)
             .setContentTitle(titulo)
             .setContentText(contenido)
             .setStyle(NotificationCompat.BigTextStyle().bigText(contenido)) // Para poder mostrar el texto completo y no quedarse en ...
