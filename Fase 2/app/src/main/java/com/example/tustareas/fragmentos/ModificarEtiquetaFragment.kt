@@ -90,6 +90,8 @@ class ModificarEtiquetaFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.modificarEtiquetas.insertarEtiqueta(etiquetaPasada)
+                            // Volvemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
@@ -97,8 +99,7 @@ class ModificarEtiquetaFragment : Fragment() {
                         }
                     }
 
-                    // Volvemos a la vista previa
-                    findNavController().popBackStack()
+
                 }
                 else {
                     Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
@@ -126,6 +127,8 @@ class ModificarEtiquetaFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.modificarEtiquetas.modificarEtiqueta(etiquetaPasada)
+                            // Volvemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
@@ -133,8 +136,7 @@ class ModificarEtiquetaFragment : Fragment() {
                         }
                     }
 
-                    // Volvemos a la vista previa
-                    findNavController().popBackStack()
+
                 }
                 else {
                     Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),

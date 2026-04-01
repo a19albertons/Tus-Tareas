@@ -225,6 +225,8 @@ class ModificarProyectoFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+                            // Vovlemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
@@ -232,8 +234,7 @@ class ModificarProyectoFragment : Fragment() {
                         }
                     }
 
-                    // Vovlemos a la vista previa
-                    findNavController().popBackStack()
+
                 }
                 else {
                     // Mensaje en caso de error controlado
@@ -262,6 +263,8 @@ class ModificarProyectoFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+                            // Vovlemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),
@@ -269,8 +272,6 @@ class ModificarProyectoFragment : Fragment() {
                         }
                     }
 
-                    // Vovlemos a la vista previa
-                    findNavController().popBackStack()
                 }
                 else {
                     // Mensaje en caso de error controlado

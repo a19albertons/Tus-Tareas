@@ -229,6 +229,8 @@ class ModificarTareasFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.modificarTareas.insertarTareaConEtiqueta(tareaDTO)
+                            // Vovlemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_guardar_tarea),
@@ -236,8 +238,7 @@ class ModificarTareasFragment : Fragment() {
                         }
                     }
 
-                    // Vovlemos a la vista previa
-                    findNavController().popBackStack()
+
                 }
                 else {
                     // Mensaje en caso de error controlado
@@ -274,14 +275,15 @@ class ModificarTareasFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.modificarTareas.modificarTareaConEtiqueta(tareaDTO)
+                            // Volvemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_modificar_tarea),
                                 Snackbar.LENGTH_SHORT).show()
                         }
                     }
-                    // Volvemos a la vista previa
-                    findNavController().popBackStack()
+
                 } else {
                     Snackbar.make(
                         binding.root,
