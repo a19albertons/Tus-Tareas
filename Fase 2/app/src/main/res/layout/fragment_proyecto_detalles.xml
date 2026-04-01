@@ -1,153 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".fragmentos.ProyectoDetallesFragment">
-
-    <TextView
-        android:id="@+id/tituloProyecto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/titulo"
-        />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragmentos.ProyectoDetallesFragment"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-
-        tools:ignore="UseCompoundDrawables">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/descripcion"
-            android:src="@drawable/descripcion"
-            android:layout_marginEnd="10dp"
-            />
-        <TextView
-            android:id="@+id/descipcionProyecto"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/temporal"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-
-        tools:ignore="UseCompoundDrawables">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/fecha_creacion"
-            android:src="@drawable/fecha_cracion"
-            android:layout_marginEnd="10dp"
-            />
-        <TextView
-            android:id="@+id/fechaCreacionProyecto"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/temporal"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-
-        tools:ignore="UseCompoundDrawables">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/fecha_inicio"
-            android:src="@drawable/fecha_inicio"
-            android:layout_marginEnd="10dp"
-            />
-        <TextView
-            android:id="@+id/fechaInicioProyecto"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/temporal"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-
-        tools:ignore="UseCompoundDrawables">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/fecha_fin"
-            android:src="@drawable/fecha_fin"
-            android:layout_marginEnd="10dp"
-            />
-        <TextView
-            android:id="@+id/fechaFinProyecto"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/temporal"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-
+        android:layout_margin="20dp"
+        android:orientation="vertical"
         >
-        <ImageView
-            android:layout_width="wrap_content"
+
+        <TextView
+            android:id="@+id/tituloProyecto"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/tareas"
-            android:src="@drawable/tareas_pequeno"
-            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            android:text="@string/titulo"
             />
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/tareaProyectoGroup"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:chipSpacingHorizontal="8dp"
-            app:chipSpacingVertical="4dp"
-            />
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/descripcion"
+                android:src="@drawable/descripcion"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/descipcionProyecto"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/fecha_creacion"
+                android:src="@drawable/fecha_cracion"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/fechaCreacionProyecto"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/fecha_inicio"
+                android:src="@drawable/fecha_inicio"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/fechaInicioProyecto"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/fecha_fin"
+                android:src="@drawable/fecha_fin"
+                android:layout_marginEnd="10dp"
+                />
+            <TextView
+                android:id="@+id/fechaFinProyecto"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/temporal"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/tareas"
+                android:src="@drawable/tareas_pequeno"
+                android:layout_marginEnd="10dp"
+                />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tareaProyectoGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="4dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/etiqueta"
+                android:src="@drawable/etiqueta"
+                android:layout_marginEnd="10dp"
+                />
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/etiquetasProyectoGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="4dp"
+                />
+        </LinearLayout>
+
+
+
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/etiqueta"
-            android:src="@drawable/etiqueta"
-            android:layout_marginEnd="10dp"
-            />
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/etiquetasProyectoGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:chipSpacingHorizontal="8dp"
-            app:chipSpacingVertical="4dp"
-            />
-    </LinearLayout>
-
-
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>
