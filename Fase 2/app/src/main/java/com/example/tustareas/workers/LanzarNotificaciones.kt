@@ -17,12 +17,12 @@ import kotlinx.coroutines.withContext
 class LanzarNotificaciones  : BroadcastReceiver() {
     override fun onReceive(contexto: Context?, intent: Intent?) {
         // Recrear la alarma para mañana
-        AlarmaHelper.programarAlarmaDiaria(contexto!!)
+        AlarmaHelper.programarAlarmaDiaria(contexto?.applicationContext)
         val pendingResult = goAsync() // Permite tareas en segundo plano
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // Variables para las consultas
-                val db = TusTareasDatabase.getDatabase(contexto)
+                val db = TusTareasDatabase.getDatabase(contexto!!)
                 val repository = WorkerRepository(db)
 
                 // Lista necesaria
