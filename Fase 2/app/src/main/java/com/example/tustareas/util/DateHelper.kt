@@ -13,7 +13,7 @@ object DateHelper {
             calendar.time = fecha
             // Obtencion año, mes y dia de la fecha
             val ano = calendar.get(Calendar.YEAR)
-            val mes = calendar.get(Calendar.MONTH)
+            val mes = calendar.get(Calendar.MONTH)+1
             val dia = calendar.get(Calendar.DAY_OF_MONTH)
             devolver = "$dia/$mes/$ano"
         }
