@@ -17,7 +17,6 @@ object AlarmaHelper {
             for (tarea in listaTareasRetrasadas) {
                 // Invocar notificacion
                 NotificacionesHelper.crearNotificacion(context, tarea.nombre, tarea.descripcion ?: "", tarea.id )
-                sleep(10)
             }
         }
     }
