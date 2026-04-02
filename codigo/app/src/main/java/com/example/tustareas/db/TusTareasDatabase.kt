@@ -21,6 +21,7 @@ import com.example.tustareas.dao.VerMasConsulta
 import com.example.tustareas.dao.WorkerConsultas
 import com.example.tustareas.modelos.Convertidor
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.ProyectoEtiqueta
 import com.example.tustareas.modelos.Tarea
@@ -29,7 +30,7 @@ import com.example.tustareas.modelos.TareaEtiqueta
 /**
  * Base de datos de tus tareas
  */
-@Database(entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class], version = 1, exportSchema = false)
+@Database(entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class, Notificacion::class], version = 1, exportSchema = false)
 @TypeConverters(Convertidor::class)
 abstract class TusTareasDatabase : RoomDatabase() {
 
