@@ -21,6 +21,8 @@ object NotificacionesHelper {
 
     // Crea el cana
     fun crearCanalNotificaciones(context: Context) {
+        // Comprueba si la versión es la 8.0 o superior porque hay una obligación de
+        // crear canales a partir de esta versión de la api para notificar
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Definimos la importancia
             val importancia = NotificationManager.IMPORTANCE_DEFAULT
@@ -46,6 +48,7 @@ object NotificacionesHelper {
             .setAutoCancel(true) // Elimina la notificación al acceder a ella
 
         with(NotificationManagerCompat.from(contexto)) {
+            // Comprueba si hay permiso para notificar algo que se empezo a requerir desde android 13
             if (ActivityCompat.checkSelfPermission(contexto, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                 // Se tienen que usar ids distintos
                 notify(id, builder.build())
