@@ -5,19 +5,19 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.workers.LanzarNotificaciones
-import java.lang.Thread.sleep
 import java.util.Calendar
 
 object AlarmaHelper {
-    fun invocarAlarma(context: Context, listaTareasRetrasadas: List<Tarea>) {
-        if (listaTareasRetrasadas.isNotEmpty()) {
+    fun invocarAlarma(context: Context, listaNotificacionesEnviar: List<Notificacion>) {
+        if (listaNotificacionesEnviar.isNotEmpty()) {
             NotificacionesHelper.crearCanalNotificaciones(context)
-            for (tarea in listaTareasRetrasadas) {
-                // Invocar notificacion
-                NotificacionesHelper.crearNotificacion(context, tarea.nombre, tarea.descripcion ?: "", tarea.id )
+            // Bucle que manda las notificaciones a enviar
+            for (notificacion in listaNotificacionesEnviar) {
+                NotificacionesHelper.crearNotificacion(context, notificacion )
             }
+
         }
     }
 
