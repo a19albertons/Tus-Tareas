@@ -1,9 +1,10 @@
 package com.example.tustareas.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import com.example.tustareas.modelos.Estado
+import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.modelos.Tarea
 import java.util.Calendar
 import java.util.Date
@@ -29,4 +30,16 @@ interface WorkerConsultas {
             set(Calendar.MILLISECOND, 0)
         }.time
     }, estado: Estado = Estado.Completada) : List<Tarea>
+
+    // Obtener notificaciones
+    @Query("SELECT * FROM notificaciones")
+    fun obtenerTodasLasNotificaciones() : List<Notificacion>
+
+    @Insert
+    fun anadirNotificacion(notificacion: Notificacion)
+
+    // Se usa 0 en lugar de false porque hay un problema con el soporte api previo a 30 en materia de compatibilidad
+    @Query("Select * from notificaciones where leido = 0")
+    suspend fun enviarNotificaciones() : List<Notificacion>
+
 }
