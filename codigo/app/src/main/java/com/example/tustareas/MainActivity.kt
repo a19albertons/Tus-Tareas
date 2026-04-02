@@ -1,6 +1,7 @@
 package com.example.tustareas
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -88,6 +89,20 @@ class MainActivity : AppCompatActivity() {
         // Alertas/notificaciones
         AlarmaHelper.programarAlarmaDiaria(this)
 
+        // Comprobamos si entramos por notificación
+        val idNotificacion = intent.getIntExtra("idNotificacion",-1)
+        if (idNotificacion != -1) {
+            lifecycleScope.launch {
+                try {
+                    model.marcarNotificacionComoLeida(idNotificacion)
+                }
+                catch (_: Exception) {
+                    Log.e("MainActivity","Error silencioso al fallar en marcar notificacion como leida")
+                }
+            }
+        } else {
+            Log.i("MainActivity","No se ha recibido notificacion")
+        }
     }
 
     // Inflado del menu toolbar
