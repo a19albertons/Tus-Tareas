@@ -1,10 +1,17 @@
 package com.example.tustareas
 
+import android.Manifest
+import android.app.AlarmManager
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -29,6 +36,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import androidx.core.content.edit
 
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
@@ -82,6 +90,43 @@ class MainActivity : AppCompatActivity() {
         // Asegurar aplicación idioma
         val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
         LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
+
+        // Permiso para notificaicones
+        val permisoNotificaciones = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            respuesta: Boolean ->
+            if (respuesta) {
+                Log.i("MainActivity", "Permiso concedido para notificar")
+            } else {
+                Log.i("MainActivity", "Permiso denegado para notificar")
+            }
+        }
+        val notificacionPermiso = prefs.getBoolean("notificacion", false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notificacionPermiso) {
+            // Pasa de false a true una vez preguntado
+            prefs.edit { putBoolean("notificacion", true) }
+            // Pregunta por el permiso de notificaciones
+            permisoNotificaciones.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        // Permiso para alarma
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val alarmManager = getSystemService(AlarmManager::class.java)
+            if (!alarmManager.canScheduleExactAlarms()) {
+                // Valor en caso de no estar preguntado nunca
+                val alarmaPermiso = prefs.getBoolean("alarma", false)
+
+                if (!alarmaPermiso) {
+                    // Pasa de false a true
+                    prefs.edit { putBoolean("alarma", true) }
+                    // Pregunta pro el permiso de alarmas
+                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                        data = Uri.fromParts("package", packageName, null)
+                    }
+                    startActivity(intent)
+                }
+            }
+        }
+
 
         // Tareas programadas
         trabajadores()
