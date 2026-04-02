@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.workers.LanzarNotificaciones
 import java.util.Calendar
@@ -40,13 +41,18 @@ object AlarmaHelper {
             add(Calendar.DAY_OF_MONTH, 1)
         }
 
+        // Comprueba si tiene una versión que no requiere el permiso
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Comprueba si tiene el permiso para alarmas
             if (alarmaManager.canScheduleExactAlarms()) {
                 alarmaManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
                     pendingIntent
                 )
+            }
+            else {
+                Log.d("AlarmaHelper", "No se puede lanzar lar alarma no se tiene el permiso Schedule Exact Alarm")
             }
         }
         else {
@@ -56,6 +62,5 @@ object AlarmaHelper {
                 pendingIntent
             )
         }
-
     }
 }

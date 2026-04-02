@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -64,6 +65,10 @@ object NotificacionesHelper {
             if (ActivityCompat.checkSelfPermission(contexto, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                 // Se tienen que usar ids distintos
                 notify(notificacion.id, builder.build())
+            }
+            else {
+                // Error silencioso cuando no se tiene permiso
+                Log.i("NotificacionesHelper", "No se tiene permiso para notificar")
             }
         }
     }
