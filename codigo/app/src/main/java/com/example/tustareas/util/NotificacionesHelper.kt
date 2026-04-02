@@ -3,13 +3,17 @@ package com.example.tustareas.util
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.tustareas.MainActivity
 import com.example.tustareas.R
+import com.example.tustareas.modelos.Notificacion
 
 /**
  * Helper que gestionara el canal y creacion de notificaciones
@@ -38,20 +42,28 @@ object NotificacionesHelper {
 
 
     // Crea una notifiación
-    fun crearNotificacion(contexto: Context, titulo: String, contenido: String, id: Int) {
+    fun crearNotificacion(contexto: Context, notificacion: Notificacion) {
+        // pending para que la notificación sea clickable
+        val intent = Intent(contexto, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("idNotificacion", notificacion.id)
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(contexto, notificacion.id, intent, PendingIntent.FLAG_IMMUTABLE)
+
         val builder = NotificationCompat.Builder(contexto, CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
-            .setContentTitle(titulo)
-            .setContentText(contenido)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(contenido)) // Para poder mostrar el texto completo y no quedarse en ...
+            .setContentTitle(notificacion.titulo)
+            .setContentText(notificacion.mensaje)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(notificacion.mensaje)) // Para poder mostrar el texto completo y no quedarse en ...
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent) // La notificación es clickable a una acción predeterminada
             .setAutoCancel(true) // Elimina la notificación al acceder a ella
 
         with(NotificationManagerCompat.from(contexto)) {
             // Comprueba si hay permiso para notificar algo que se empezo a requerir desde android 13
             if (ActivityCompat.checkSelfPermission(contexto, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
                 // Se tienen que usar ids distintos
-                notify(id, builder.build())
+                notify(notificacion.id, builder.build())
             }
         }
     }
