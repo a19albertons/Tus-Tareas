@@ -22,12 +22,15 @@ flowchart TB
     end
 
     %% relaciones
-    Cliente -->|interactua| ui
-    ui <-->|intercambio de datos| ViewModel
-    ViewModel <-->|usa| dao
-    dao <-->|interactua| BD
-    ViewModel <-->|usa| ServicioDeNotificaciones
-    ServicioDeNotificaciones <-->|envia notificaciones| SistemaDeNotificaciones
+    Cliente --> |interactua| ui
+    ui <--> |intercambio de datos| ViewModel
+    ViewModel <--> |usa| dao
+    dao <--> |interactua| BD
+    ViewModel --> |usa| ServicioDeNotificaciones
+    ServicioDeNotificaciones --> |envia notificaciones| SistemaDeNotificaciones
+    ServicioDeNotificaciones <--> |usa| dao
+    SistemaDeNotificaciones <--> |usa| dao
+
     
 ```
 
@@ -78,11 +81,18 @@ erDiagram
         Nombre varchar
         Descripcion text
     }
+    Notificaciones {
+        id int PK
+        Titulo varchar
+        Mensaje varchar
+        Leida boolean
+    }
 
     %% relaciones
     Proyectos o|--o{ Tareas : contiene
     Proyectos o{--o{ Etiquetas : tiene
     Tareas o{--o{ Etiquetas : tiene
+    Tareas ||--o| Notificaciones : genera
 ```
 
 ## Diagrama de clases
@@ -98,6 +108,7 @@ classDiagram
         -Date fechaCreacion
         -Estado estado
         -List~Etiqueta~ etiquetas
+        -int idProyecto
     }
 
     class Proyecto {
@@ -116,11 +127,19 @@ classDiagram
         -String nombre
         -String descripcion
     }
+    class Notificacion {
+        -int id
+        -String titulo
+        -String mensaje
+        -boolean leida
+        -int idTarea
+    }
 
     %% Relaciones
     Proyecto "0..1" o-- "0..*" Tarea : contiene
-    Proyecto "0..1" o-- "0..*" Etiqueta : tiene
-    Tarea "0..1" o-- "0..*" Etiqueta : tiene
+    Proyecto "0..*" o-- "0..*" Etiqueta : tiene
+    Tarea "0..*" o-- "0..*" Etiqueta : tiene
+    Tarea "1" o-- "0..1" Notificacion : genera
 
 ```
 
