@@ -24,6 +24,7 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
     // Metodos activity main
     suspend fun limpiarTareasCompletas() = activityMainConsultas.limpiarTareasCompletas()
+    suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = activityMainConsultas.marcarNotificacionComoLeida(idNotificacion)
 
 
 

@@ -59,4 +59,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         this.tema.value = tema
         AppCompatDelegate.setDefaultNightMode(tema)
     }
+
+    suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = repository.marcarNotificacionComoLeida(idNotificacion)
+
 }
