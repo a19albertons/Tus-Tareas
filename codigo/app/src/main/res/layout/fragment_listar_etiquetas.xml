@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
         >
             <ImageView
                 android:layout_width="wrap_content"
@@ -41,6 +43,7 @@
                 android:inputType="text"
                 android:textSize="14sp"
                 android:textColorHint="@color/black"
+                android:background="@null"
             />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -61,6 +64,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="@string/todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado"
             />
     </LinearLayout>
