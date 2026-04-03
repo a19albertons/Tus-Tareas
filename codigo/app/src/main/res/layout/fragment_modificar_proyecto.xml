@@ -21,6 +21,7 @@
             android:inputType="text"
             android:textStyle="bold"
             android:hint="@string/nombreRequerido"
+            android:background="@null"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,6 +45,8 @@
                 android:autofillHints="descripcion"
                 android:inputType="textMultiLine"
                 android:hint="@string/descripcion"
+                android:background="@null"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -67,6 +70,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -89,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/white"
                 android:hint="@string/xx_xx_xxxx"
+                android:layout_gravity="bottom"
                 />
             <ImageView
                 android:id="@+id/calendarioInicio"
@@ -119,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:textColorHint="@color/white"
                 android:hint="@string/xx_xx_xxxx"
+                android:layout_gravity="bottom"
                 />
             <ImageView
                 android:id="@+id/calendarioFin"
@@ -142,6 +148,7 @@
                 android:contentDescription="@string/tareas"
                 android:src="@drawable/tareas_pequeno"
                 android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
                 />
 
             <Spinner
@@ -157,12 +164,14 @@
                 android:text="@string/anadir"
                 android:textColor="@color/greenStats"
                 android:padding="5dp"
+                android:layout_gravity="center"
                 />
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMostrarTareas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
 
             />
         <LinearLayout
@@ -178,6 +187,7 @@
                 android:contentDescription="@string/etiqueta"
                 android:src="@drawable/etiqueta"
                 android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
                 />
 
             <Spinner
@@ -193,12 +203,14 @@
                 android:text="@string/anadir"
                 android:textColor="@color/greenStats"
                 android:padding="5dp"
+                android:layout_gravity="center"
                 />
         </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMostrarEtiquetas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             />
 
     </LinearLayout>

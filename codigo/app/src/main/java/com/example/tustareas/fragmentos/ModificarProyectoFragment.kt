@@ -74,7 +74,7 @@ class ModificarProyectoFragment : Fragment() {
             }
             binding.listaTareas.adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.spinner_personalizado,
                 listaTareas.map { it.nombre }
             )
         }
@@ -101,7 +101,7 @@ class ModificarProyectoFragment : Fragment() {
             }
             binding.listaEtiquetas.adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.spinner_personalizado,
                 listaEtiquetas.map { it.nombre }
             )
 
