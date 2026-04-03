@@ -21,6 +21,7 @@
             android:inputType="text"
             android:textStyle="bold"
             android:hint="@string/nombreRequerido"
+            android:background="@null"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,7 +44,10 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="descripcion"
                 android:hint="@string/descripcion"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:background="@null"
+                android:layout_gravity="bottom"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,6 +70,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -88,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/xx_xx_xxxx"
                 android:textColorHint="@color/white"
+                android:layout_gravity="bottom"
                 />
             <ImageView
                 android:id="@+id/calendario"
@@ -138,6 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -175,7 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-
+            android:nestedScrollingEnabled="false"
             />
 
 

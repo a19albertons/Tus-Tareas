@@ -61,7 +61,7 @@ class ModificarTareasFragment : Fragment() {
         val contenidosSpinerPrioridad = Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             contenidosSpinerPrioridad
         )
         //Despues del adapter
@@ -127,7 +127,7 @@ class ModificarTareasFragment : Fragment() {
         var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
         binding.listaEtiquetas.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             // Muestra solo el nombre, pero internamente es la clase
             listaEtiquetas.map { it.nombre}
         )
