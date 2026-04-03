@@ -26,6 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
             >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -47,6 +49,7 @@
                     android:inputType="text"
                     android:ellipsize="end"
                     android:textColorHint="@color/black"
+                    android:background="@null"
                 />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -82,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:popupBackground="@color/gray"
-            />
+                />
         </com.google.android.material.card.MaterialCardView>
         <Space
             android:layout_width="15dp"
@@ -102,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:popupBackground="@color/gray"
-            />
+                />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
     <LinearLayout

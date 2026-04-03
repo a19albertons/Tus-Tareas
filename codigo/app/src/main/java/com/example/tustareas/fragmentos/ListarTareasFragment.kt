@@ -72,7 +72,7 @@ class ListarTareasFragment : Fragment() {
         val contenidoSpiner = listOf(getString(R.string.prioridad)) + Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             contenidoSpiner
         )
         binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -117,7 +117,7 @@ class ListarTareasFragment : Fragment() {
         val contenidoSpinerEstado = listOf(getString(R.string.estado)) + Estado.entries.map { getString(it.labelRes()) }
         binding.estadoTarea.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             contenidoSpinerEstado
         )
         binding.estadoTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
