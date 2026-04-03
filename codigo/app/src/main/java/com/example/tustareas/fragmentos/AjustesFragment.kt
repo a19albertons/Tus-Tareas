@@ -35,7 +35,7 @@ class AjustesFragment : Fragment() {
         val idioma = resources.getStringArray(R.array.idiomas)
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             idioma
         )
         binding.idioma.adapter = adapter
