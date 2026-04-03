@@ -29,6 +29,7 @@
             android:layout_weight="0.70"
             android:layout_height="wrap_content"
             android:text="@string/temporal"
+            android:ellipsize="end"
         />
         <TextView
             android:id="@+id/otroCampo"
