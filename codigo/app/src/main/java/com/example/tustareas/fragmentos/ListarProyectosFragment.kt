@@ -83,7 +83,7 @@ class ListarProyectosFragment : Fragment() {
         )
         binding.inicioProyecto.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             listaInicio
         )
         binding.inicioProyecto.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -117,7 +117,7 @@ class ListarProyectosFragment : Fragment() {
         )
         binding.finProyecto.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_personalizado,
             listaFin
         )
         binding.finProyecto.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

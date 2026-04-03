@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -40,6 +42,7 @@
                 android:inputType="text"
                 android:textSize="14sp"
                 android:textColorHint="@color/black"
+                android:background="@null"
                 />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
