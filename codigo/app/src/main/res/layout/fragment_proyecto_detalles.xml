@@ -41,6 +41,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -63,6 +64,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -85,6 +87,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
@@ -107,6 +110,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/temporal"
+                android:layout_gravity="bottom"
                 />
         </LinearLayout>
         <LinearLayout
