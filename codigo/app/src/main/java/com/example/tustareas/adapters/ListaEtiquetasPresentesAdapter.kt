@@ -11,6 +11,9 @@ import com.example.tustareas.R
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 
+/**
+ * Clase que gestiona el adaptador de etiquetas presentes.
+ */
 class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etiqueta>) -> Unit) : ListAdapter<Etiqueta, ListaEtiquetasPresentesAdapter.EtiquetaViewHolder>(EtiquetaDiferenciasComprobacion()) {
     // view holder
     class EtiquetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
