@@ -22,7 +22,11 @@ import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
+/**
+ * Clase que gestiona el fragmento de detalles de una etiqueta.
+ */
 class EtiquetaDetallesFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding: FragmentEtiquetaDetallesBinding? = null
     private val binding: FragmentEtiquetaDetallesBinding
         get() = _binding!!
@@ -90,6 +94,7 @@ class EtiquetaDetallesFragment : Fragment() {
         return view
     }
 
+    // Carga el dialogo de borrado
     private fun dialgoEliminacion() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_etiqueta))
@@ -101,14 +106,13 @@ class EtiquetaDetallesFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.etiquetaDetalles.eliminarEtiqueta(etiquetaVisualizada)
+                            // Volvemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_etiqueta), Snackbar.LENGTH_SHORT).show()
                         }
                     }
-
-                    // Volvemos a la vista previa
-                    findNavController().popBackStack()
                 } else {
                     Snackbar.make(
                         binding.root, getString(R.string.error_eliminar_etiqueta),
