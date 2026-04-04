@@ -17,7 +17,11 @@ import com.example.tustareas.modelView.TusTareasModel
 import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
+/**
+ * Clase que gestiona el fragmento de inicio.
+ */
 class InicioFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding: FragmentInicioBinding? = null
     private val binding: FragmentInicioBinding
         get() = _binding!!
@@ -62,6 +66,7 @@ class InicioFragment : Fragment() {
             }
         }
 
+        // Gestiona la sección de tareas retrasadas
         model.inicio.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
             listadoTareasRetrasadas ->
             // switch
@@ -90,6 +95,7 @@ class InicioFragment : Fragment() {
             }
         }
 
+        // Gestiona las tareas futuras
         model.inicio.obtenerTareasProximas(Date()).observe(viewLifecycleOwner) {
             listadoTareasProximas ->
             // switch
