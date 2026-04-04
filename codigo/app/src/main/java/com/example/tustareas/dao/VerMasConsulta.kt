@@ -14,6 +14,7 @@ import java.util.Date
  */
 @Dao
 interface VerMasConsulta {
+    // Obtiene toda las tareas de un dia con el el filtro correspondiente
     @Transaction
     @Query("select * from tareas " + // Obtener todo
             "where fechaLimite = :fecha " + // Fecha limite
@@ -27,6 +28,7 @@ interface VerMasConsulta {
 
 
 
+    // Obtiene toda las tareas retrasadas con el el filtro correspondiente
     @Transaction
     @Query("select * from tareas " + // obtener todo
             "where estado = :estado " + // filtro estado
@@ -39,6 +41,7 @@ interface VerMasConsulta {
 
 
 
+    // Obtiene toda las tareas proximas con el el filtro correspondiente
     @Transaction
     @Query("select * from tareas " + // obtener todo
             "where (fechaLimite > :fecha OR fechaLimite is null) " + // filtro fecha
