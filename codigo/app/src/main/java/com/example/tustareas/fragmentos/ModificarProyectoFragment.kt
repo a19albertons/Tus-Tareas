@@ -28,8 +28,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.util.Date
 
-
+/**
+ * Clase que gestiona el fragmento de modificación de proyectos.
+ */
 class ModificarProyectoFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentModificarProyectoBinding? = null
     private val binding : FragmentModificarProyectoBinding
         get() = _binding!!
@@ -54,12 +57,14 @@ class ModificarProyectoFragment : Fragment() {
         val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
         proyectoDTO = args.proyectoDTO
 
+        // Carga todos los datos recibidos en el fragmento
         binding.tituloProyecto.setText(proyectoDTO.proyecto.nombre)
         binding.descripcionProyecto.setText(proyectoDTO.proyecto.descripcion)
         binding.fechaCreacionTarea.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaCreacion)
         binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaInicio)
         binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
 
+        // Gestiona la addición de tareas
         // spinner tareas
         var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
             Date(), Estado.EnTiempo, null))
@@ -79,6 +84,7 @@ class ModificarProyectoFragment : Fragment() {
             )
         }
 
+        // Gestiona las tareas del proyecto en la opción de eliminar
         // Recycler view para las tareas
         val adapterTarea = ListaTareasPresentesAdapter {
                 listaTareas ->
@@ -89,6 +95,7 @@ class ModificarProyectoFragment : Fragment() {
         binding.recyclerViewMostrarTareas.adapter = adapterTarea
         adapterTarea.submitList(proyectoDTO.tareas.toList())
 
+        // Gestiona la addición de etiquetas
         // spinner etiquetas
         var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
         model.modificarProyectos.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
@@ -107,6 +114,8 @@ class ModificarProyectoFragment : Fragment() {
 
 
         }
+
+        // Gestiona las etiquetas del proyecto en la opción de eliminar
         // Recycler view con las etiquetas del proyecto
         val adapterEtiquetas = ListaEtiquetasPresentesAdapter {
                 listaEtiquetas ->
@@ -117,7 +126,7 @@ class ModificarProyectoFragment : Fragment() {
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
         adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
 
-        // botones añadir tarea y etiqueta
+        // boton añadir tarea
         binding.anadirTarea.setOnClickListener {
             val posicion = binding.listaTareas.selectedItemPosition
             if (listaTareas.isNotEmpty() // Lista vacia
@@ -135,7 +144,7 @@ class ModificarProyectoFragment : Fragment() {
             }
         }
 
-
+        // boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             val posicion = binding.listaEtiquetas.selectedItemPosition
             if (listaEtiquetas.isNotEmpty() // Lista vacia
@@ -153,6 +162,7 @@ class ModificarProyectoFragment : Fragment() {
             }
         }
 
+        // Despliega el calendario
         // Calendario
         binding.calendarioInicio.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
@@ -196,6 +206,7 @@ class ModificarProyectoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Modifica la logica por defecto de la flecha de retroceso
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 0 solo la pueden tener las de nueva creación
@@ -211,6 +222,7 @@ class ModificarProyectoFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
     }
 
+    // Dialogo de guardado
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_guardar_proyecto))
@@ -249,6 +261,7 @@ class ModificarProyectoFragment : Fragment() {
             .show()
     }
 
+    // dialogo de modifiado
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_modificar_proyecto))
