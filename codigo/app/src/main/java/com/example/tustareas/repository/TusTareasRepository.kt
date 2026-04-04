@@ -2,11 +2,15 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 
+/**
+ * Clase que representa al repositorio principal de la bd
+ */
 class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
     private val activityMainConsultas = database.activityMainConsultas()
 
 
+    // Todos los subrepositorios
     val inicio = InicioRepository(database)
     val verMas = VerMasRepository(database)
     val listarTareas = ListarTareasRepository(database)
