@@ -17,7 +17,11 @@ import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
+/**
+ * Clase que gestiona el fragmento de modificación de etiquetas.
+ */
 class ModificarEtiquetaFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding: FragmentModificarEtiquetaBinding? = null
     private val binding: FragmentModificarEtiquetaBinding
         get() = _binding!!
@@ -81,6 +85,7 @@ class ModificarEtiquetaFragment : Fragment() {
             .setTitle(getString(R.string.confirmar_guardar_etiqueta))
             .setMessage("")
             .setPositiveButton(R.string.guardar) { _, _ ->
+                // Logica de guardado y campos que no tolera nulos
                 if (binding.tituloEtiqueta.text.toString().trim().isNotEmpty()) {
                     // Pasamos el filtro de nulos del if y actualizamos la clase etiqueta con los datos del formulario
                     etiquetaPasada.nombre = binding.tituloEtiqueta.text.toString().trim()
