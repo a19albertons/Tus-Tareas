@@ -13,8 +13,11 @@ import com.example.tustareas.adapters.VerMasAdapter
 import com.example.tustareas.databinding.FragmentVerMasBinding
 import com.example.tustareas.modelView.TusTareasModel
 
-
+/**
+ * Clase que gestiona el fragmento de detalles de tareas.
+ */
 class VerMasFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentVerMasBinding?= null
     private val binding : FragmentVerMasBinding
         get() = _binding!!
@@ -44,9 +47,8 @@ class VerMasFragment : Fragment() {
         binding.sinResultados.visibility = View.VISIBLE
         binding.listaTareasConCondicionesEnOrigen.visibility = View.GONE
 
-        // filtro copiado de otro lado
-        val filtro = binding.filtro
-        filtro.addTextChangedListener(object: TextWatcher {
+        // filtro de texto copiado de otra clase de este proyecto
+        binding.filtro.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
 
             }
@@ -62,6 +64,7 @@ class VerMasFragment : Fragment() {
 
         // consulta en función de origen
         when (origen) {
+            // Tarea hoy
             1 -> {
                 model.verMas.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) {
                     tareas ->
@@ -76,6 +79,7 @@ class VerMasFragment : Fragment() {
                     adapter.submitList(tareas)
                 }
             }
+            // Tarea retrasada
             2 -> {
                 model.verMas.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) {
                         tareas ->
@@ -90,6 +94,7 @@ class VerMasFragment : Fragment() {
                     adapter.submitList(tareas)
                     }
             }
+            // Tarea futura
             3 -> model.verMas.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) {
                 tareas ->
                 if (tareas.isEmpty()) {
