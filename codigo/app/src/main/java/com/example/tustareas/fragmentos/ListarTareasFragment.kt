@@ -26,7 +26,11 @@ import com.example.tustareas.modelos.Tarea
 import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
+/**
+ * Clase que gestiona el fragmento de listar tareas.
+ */
 class ListarTareasFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding: FragmentListarTareasBinding? = null
     private val binding: FragmentListarTareasBinding
             get() = _binding!!
@@ -45,26 +49,24 @@ class ListarTareasFragment : Fragment() {
         _binding = FragmentListarTareasBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Obtener recycler view
-        val recyclerView = binding.listaTareas
-
+        // Scroll view de tareas
         // Definir el layout
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.listaTareas.layoutManager = LinearLayoutManager(requireContext())
 
         // Definir el adapter
         val adapter = TareasAdapter(model)
-        recyclerView.adapter = adapter
+        binding.listaTareas.adapter = adapter
         // Actualizado con el nuevo sistema que evita duplicado de observers
         model.listarTareas.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
             listaTareas ->
             adapter.submitList(listaTareas)
             if (listaTareas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
+                binding.listaTareas.visibility = View.GONE
             }
             else  {
                 binding.sinResultados.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+                binding.listaTareas.visibility = View.VISIBLE
             }
         }
 
@@ -156,8 +158,7 @@ class ListarTareasFragment : Fragment() {
         }
 
         // Texto filtro
-        val filtro = binding.filtro
-        filtro.addTextChangedListener(object: TextWatcher {
+        binding.filtro.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
 
             }
@@ -172,13 +173,16 @@ class ListarTareasFragment : Fragment() {
         })
 
         // Desplegable de las tres barras
+        // Muestra un pop up al ser clickado
         binding.menuTareas.setOnClickListener {
+            // Nombre que le damos a las 3 barras para configurar el desplegable
             ancla ->
             val customizarTemaDesplegable = ContextThemeWrapper(requireContext(), R.style.fondoBlancoTareas)
             val desplegable = PopupMenu(customizarTemaDesplegable, ancla)
             desplegable.menuInflater.inflate(R.menu.menu_tareas, desplegable.menu)
 
             desplegable.setOnMenuItemClickListener { clickado ->
+                // Toma de decisiones en función de cual sea clickada en base al id
                 when (clickado.itemId) {
                     R.id.action_fecha_limite_asc -> {
                         model.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
