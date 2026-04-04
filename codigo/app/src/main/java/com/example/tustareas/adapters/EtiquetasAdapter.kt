@@ -12,6 +12,9 @@ import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 
+/**
+ * Clase que gestiona el adaptador de etiquetas.
+ */
 class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adapter<EtiquetasAdapter.EtiquetaViewHolder>() {
     // View Holder
     class EtiquetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
