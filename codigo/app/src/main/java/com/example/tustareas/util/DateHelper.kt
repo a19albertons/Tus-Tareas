@@ -3,8 +3,12 @@ package com.example.tustareas.util
 import java.util.Calendar
 import java.util.Date
 
+/**
+ * Clase que ayuda con las funciones especificas de fechas
+ */
 object DateHelper {
     fun timestampToString(fecha: Date?): String {
+        // Si es nula devuelve vacio
         var devolver = ""
         // Control de la causistica no has definido una fecha (null)
         if (fecha != null) {
