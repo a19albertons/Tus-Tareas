@@ -20,7 +20,10 @@ import kotlinx.parcelize.Parcelize
             childColumns = ["idProyecto"], // FK en tareas (hija)
         )
     ],
-    indices = [Index(value = ["id"])]
+    indices = [
+        Index(value = ["id"]),
+        Index(value = ["idProyecto"])
+    ]
 )
 @Parcelize
 data class Tarea (

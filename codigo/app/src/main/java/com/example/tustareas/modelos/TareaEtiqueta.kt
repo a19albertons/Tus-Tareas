@@ -24,7 +24,10 @@ import androidx.room.Index
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["idTarea", "idEtiqueta"])]
+    indices = [
+        Index(value = ["idTarea"]),
+        Index(value = ["idEtiqueta"])
+    ]
 )
 data class TareaEtiqueta(
     var idTarea: Int,

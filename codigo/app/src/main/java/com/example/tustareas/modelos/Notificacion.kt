@@ -20,7 +20,10 @@ import kotlinx.parcelize.Parcelize
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["id"])]
+    indices = [
+        Index(value = ["id"]),
+        Index(value = ["idTarea"])
+    ]
 )
 @Parcelize
 data class Notificacion(
