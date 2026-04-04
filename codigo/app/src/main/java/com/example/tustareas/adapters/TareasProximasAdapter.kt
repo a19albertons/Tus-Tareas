@@ -9,6 +9,9 @@ import com.example.tustareas.R
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 
+/**
+ * Clase que gestiona el adaptador de tareas proximas.
+ */
 class TareasProximasAdapter(private var tareas:List<Tarea>) : RecyclerView.Adapter<TareasProximasAdapter.TareasViewHolder>() {
 
     // View holder
