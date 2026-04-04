@@ -11,6 +11,7 @@ import com.example.tustareas.repository.WorkerRepository
  * Clase que gestiona el paso de tareas que exceden su tiempo limite y aún no estan completadas de acuerdo al usuario
  */
 class ActualizarEstadoWorker(appContext: Context, workerParams: WorkerParameters): Worker(appContext, workerParams) {
+    // Sobreescribe el metodo que indica el trabajo
     override fun doWork(): Result {
         var devolver = Result.success()
         try {
