@@ -47,6 +47,7 @@ interface ListarTareasConsultas {
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion DESC")
     fun obtenerTareasFiltradasFechaCreacionDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
+    // Gestiona el checkbox
     @Update
     suspend fun modificarTarea(tarea: Tarea)
 
