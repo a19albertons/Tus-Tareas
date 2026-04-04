@@ -23,8 +23,11 @@ import com.example.tustareas.modelos.Proyecto
 import com.google.android.material.snackbar.Snackbar
 import java.util.Date
 
-
+/**
+ * Clase que gestiona el fragmento de listar proyectos.
+ */
 class ListarProyectosFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentListarProyectosBinding ?= null
     private val binding : FragmentListarProyectosBinding
         get() = _binding!!
@@ -44,6 +47,7 @@ class ListarProyectosFragment : Fragment() {
         _binding = FragmentListarProyectosBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Recycler view para mostrar los proyectos
         binding.listaProyectos.layoutManager = LinearLayoutManager(requireContext())
 
         // Observador
