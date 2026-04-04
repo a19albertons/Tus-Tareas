@@ -17,6 +17,7 @@ import com.example.tustareas.util.LanguageHelper
 class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Invocacion repositorio
     private val repository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
+    // Submodelos de los distintos fragmentos del proyecto
     val inicio = InicioModel(repository)
     val verMas = VerMasModel(repository)
     val listarTareas = ListarTareasModel(repository)
@@ -39,6 +40,7 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
     // Ajustes
     private val prefs = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
+    // Idioma
     val idioma = MutableLiveData<String>().apply {
         value = prefs.getString("idioma", "sistema")
     }
@@ -54,12 +56,14 @@ class TusTareasModel(application: Application): AndroidViewModel(application) {
         value = prefs.getInt("tema", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
+    // Modo claro/oscuro/sistema
     fun setTema (tema: Int) {
         prefs.edit { putInt("tema", tema) }
         this.tema.value = tema
         AppCompatDelegate.setDefaultNightMode(tema)
     }
 
+    // Llama al repositorios para marcar como leida
     suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = repository.marcarNotificacionComoLeida(idNotificacion)
 
 }
