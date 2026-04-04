@@ -47,12 +47,14 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
     override fun onBindViewHolder(holder: VerMasViewHolder, posicion: Int) {
         val objectoActual = getItem(posicion)
         holder.nombreTarea.text = objectoActual.nombre
+        // En función de la entrada carga la prioridad o la fecha en texto
         if (verMas == 1) {
             holder.otroCampo.text = objectoActual.prioridad.name
         }
         else {
             holder.otroCampo.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         }
+        // Controla el checkbox
         holder.clickable.setOnClickListener {
             try {
                 it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
