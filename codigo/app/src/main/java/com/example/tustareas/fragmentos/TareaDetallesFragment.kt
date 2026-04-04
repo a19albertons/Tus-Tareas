@@ -24,7 +24,11 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
+/**
+ * Clase que gestiona el fragmento de detalles de tareas.
+ */
 class TareaDetallesFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentTareaDetallesBinding? = null
     private val binding : FragmentTareaDetallesBinding
         get() = _binding!!
@@ -46,6 +50,8 @@ class TareaDetallesFragment : Fragment() {
 
         val args = TareaDetallesFragmentArgs.fromBundle(requireArguments())
         val tareaID = args.id
+
+        // Obtiene los detalles por el id y los asigna al componente visual
         model.tareaDetalles.obtenerTareaDTOPorID(tareaID).observe(viewLifecycleOwner) {
             tarea ->
             binding.tituloTarea.text = tarea.tarea.nombre
@@ -87,6 +93,7 @@ class TareaDetallesFragment : Fragment() {
                     textStartPadding = 0f
                     textEndPadding = 0f
 
+                    // Controla el borde
                     shapeAppearanceModel = shapeAppearanceModel.toBuilder()
                         .setAllCornerSizes(0f)
                         .build()
@@ -143,6 +150,7 @@ class TareaDetallesFragment : Fragment() {
         _binding = null
     }
 
+    // Dialogo de eliminación
     fun dialogoEliminacion() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_tarea))
@@ -153,6 +161,8 @@ class TareaDetallesFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.tareaDetalles.eliminarTarea(tareaVisualizada.tarea)
+                            // Volvemos atras
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
@@ -160,8 +170,6 @@ class TareaDetallesFragment : Fragment() {
                         }
                     }
 
-                    // Volvemos atras
-                    findNavController().popBackStack()
                 }
                 else {
                     Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
