@@ -20,6 +20,7 @@ import com.example.tustareas.modelos.Notificacion
  * Helper que gestionara el canal y creacion de notificaciones
  */
 object NotificacionesHelper {
+    // Constantes necesarias para las notificaciones y sus canales
     private const val CHANNEL_ID = "tusTareasNotificacionesID"
     private const val CHANNEL_NAME = "tusTareasNotificaciones"
     private const val CHANNEL_DESCRIPTION = "Notificaciones para tareas retrasadas"
