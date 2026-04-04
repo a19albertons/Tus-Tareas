@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.modelos.Tarea
 
+/**
+ * Clase que gestiona el adaptador de tareas pendientes de hoy.
+ */
 class TareasHoyPendientesAdapter(private val tareas: List<Tarea>): RecyclerView.Adapter<TareasHoyPendientesAdapter.TareaViewHolder>() {
     // view holder
     class TareaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,6 +31,7 @@ class TareasHoyPendientesAdapter(private val tareas: List<Tarea>): RecyclerView.
         holder.prioridadTarea.text = objetoActual.prioridad.name
     }
 
+    // Tamaño de la lista
     override fun getItemCount(): Int {
         return tareas.size
     }
