@@ -38,6 +38,9 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
 
+/**
+ * Clase principal del proyecto que representa la actividad
+ */
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
     private lateinit var navController: NavController
