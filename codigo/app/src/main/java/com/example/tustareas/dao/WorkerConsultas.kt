@@ -14,6 +14,7 @@ import java.util.Date
  */
 @Dao
 interface WorkerConsultas {
+    // Actualiza todas las tareas retradas de en tiempo a retrasadas cuando corresponde
     @Query("UPDATE tareas SET estado = :estadoNuevo where fechaLimite < :fecha AND estado = :estado")
     fun actualizarEstado(fecha: Date = Date(), estado: Estado = Estado.EnTiempo, estadoNuevo: Estado = Estado.Retrasada)
 
@@ -35,6 +36,7 @@ interface WorkerConsultas {
     @Query("SELECT * FROM notificaciones")
     fun obtenerTodasLasNotificaciones() : List<Notificacion>
 
+    // Añade una notificación a la bd
     @Insert
     fun anadirNotificacion(notificacion: Notificacion)
 
