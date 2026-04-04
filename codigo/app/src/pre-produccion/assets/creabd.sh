@@ -59,13 +59,15 @@ CREATE TABLE notificaciones (
 );
 
 -- Índices definidos en los modelos Room (coinciden con @Entity(indices=...))
--- Usamos nombres exactly como Room genera: index_<table>_<column>[...]
+-- Usamos nombres exactamente como Room genera: index_<table>_<column>[...]
 CREATE INDEX IF NOT EXISTS index_proyectos_id ON proyectos(id);
 CREATE INDEX IF NOT EXISTS index_tareas_id ON tareas(id);
 CREATE INDEX IF NOT EXISTS index_etiquetas_id ON etiquetas(id);
 CREATE INDEX IF NOT EXISTS index_notificaciones_id ON notificaciones(id);
-CREATE INDEX IF NOT EXISTS index_TareaEtiquetas_idTarea_idEtiqueta ON TareaEtiquetas(idTarea, idEtiqueta);
-CREATE INDEX IF NOT EXISTS index_ProyectoEtiquetas_idProyecto_idEtiqueta ON ProyectoEtiquetas(idProyecto, idEtiqueta);
+CREATE INDEX IF NOT EXISTS index_TareaEtiquetas_idTarea ON TareaEtiquetas(idTarea);
+CREATE INDEX IF NOT EXISTS index_TareaEtiquetas_idEtiqueta ON TareaEtiquetas(idEtiqueta);
+CREATE INDEX IF NOT EXISTS index_ProyectoEtiquetas_idProyecto ON ProyectoEtiquetas(idProyecto);
+CREATE INDEX IF NOT EXISTS index_ProyectoEtiquetas_idEtiqueta ON ProyectoEtiquetas(idEtiqueta);
 
 -- datos de ejemplo
 -- generamos timestamps en ms (strftime('%s')*1000) centrados a medianoche
