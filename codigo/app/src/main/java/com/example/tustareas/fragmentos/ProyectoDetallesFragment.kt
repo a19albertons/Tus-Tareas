@@ -25,7 +25,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 
+/**
+ * Clase que gestiona el fragmento de detalles de proyectos.
+ */
 class ProyectoDetallesFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentProyectoDetallesBinding ?= null
     private val binding : FragmentProyectoDetallesBinding
         get() = _binding!!
@@ -87,6 +91,7 @@ class ProyectoDetallesFragment : Fragment() {
                     textStartPadding = 0f
                     textEndPadding = 0f
 
+                    // Controla el borde
                     shapeAppearanceModel = shapeAppearanceModel.toBuilder()
                         .setAllCornerSizes(0f)
                         .build()
@@ -179,6 +184,7 @@ class ProyectoDetallesFragment : Fragment() {
         return view
     }
 
+    // Gestiona el dialogo de borrado
     private fun dialogoBorrado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_proyecto))
@@ -193,6 +199,8 @@ class ProyectoDetallesFragment : Fragment() {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.proyectoDetalles.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+                            // Vovlemos a la vista previa
+                            findNavController().popBackStack()
                         }
                         catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),
@@ -200,8 +208,7 @@ class ProyectoDetallesFragment : Fragment() {
                         }
                     }
 
-                    // Vovlemos a la vista previa
-                    findNavController().popBackStack()
+
                 }
                 else {
                     // Mensaje en caso de error controlado
