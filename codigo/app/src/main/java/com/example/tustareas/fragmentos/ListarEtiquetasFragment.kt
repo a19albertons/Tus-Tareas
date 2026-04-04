@@ -18,7 +18,11 @@ import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 import kotlin.getValue
 
+/**
+ * Clase que gestiona el fragmento de listar etiquetas.
+ */
 class ListarEtiquetasFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding: FragmentListarEtiquetasBinding? = null
     private val binding: FragmentListarEtiquetasBinding
         get() = _binding!!
@@ -53,8 +57,9 @@ class ListarEtiquetasFragment : Fragment() {
             }
             recyclerView.adapter = EtiquetasAdapter(listadoEtiquetas)
         }
-        val filtro = binding.filtro
-        filtro.addTextChangedListener(object: TextWatcher {
+
+        // gestiona el filtro de texto
+        binding.filtro.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
 
             }
@@ -66,9 +71,10 @@ class ListarEtiquetasFragment : Fragment() {
                 model.listarEtiquetas.actualizarTextoListadoEtiqueta(texto.toString())
             }
 
-    })
-        val boton = binding.anadirEtiqueta
-        boton.setOnClickListener {
+        })
+
+        // Gestiona el boton añadir etiqueta
+        binding.anadirEtiqueta.setOnClickListener {
             try {
                 findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
                     Etiqueta(0,"","")))
