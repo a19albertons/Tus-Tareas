@@ -20,5 +20,6 @@ class ListarTareasRepository(database: TusTareasDatabase) {
             OrdenarTareas.FECHA_LIMITE_DES -> listarTareasConsultas.obtenerTareasFiltradasFechaLimiteDes(prioridad, estado, textoTarea)
         }
 
+    // Modificar tarea
     suspend fun modificarTarea(tarea: Tarea) = listarTareasConsultas.modificarTarea(tarea)
 }
