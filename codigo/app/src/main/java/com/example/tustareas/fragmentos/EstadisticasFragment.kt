@@ -16,8 +16,11 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.util.Date
 
-
+/**
+ * Clase que gestiona el fragmento de estadísticas.
+ */
 class EstadisticasFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentEstadisticasBinding? = null
     private val binding : FragmentEstadisticasBinding
         get() = _binding!!
@@ -52,6 +55,7 @@ class EstadisticasFragment : Fragment() {
             timestampDia
         }
 
+        // Generamos el tercer grafico
         model.estadisticas.obtenerDatosGrafico(timestampDiasSemana).observe(viewLifecycleOwner) {
             resultados ->
             // Creamos el dataset de barras
@@ -92,6 +96,7 @@ class EstadisticasFragment : Fragment() {
             binding.grafico.invalidate()
         }
 
+        // Actualizamos los datos centrales
         // Actualizar cantidad completas
         model.estadisticas.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
             cantidad ->
@@ -115,6 +120,7 @@ class EstadisticasFragment : Fragment() {
         val fechaFin = timestampDiasSemana.last()
 
 
+        // Obtiene el primer grafico
         model.estadisticas.obtenerRueda(fechaInicio, fechaFin).observe(viewLifecycleOwner) {
             valores ->
             val completas = valores.first
