@@ -11,6 +11,9 @@ import com.example.tustareas.R
 import com.example.tustareas.modelos.Tarea
 import com.google.android.material.snackbar.Snackbar
 
+/**
+ * Clase que gestiona el adaptador de tareas presentes.
+ */
 class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> Unit) : ListAdapter<Tarea, ListaTareasPresentesAdapter.TareaViewHolder>(TareaDiferenciasComprobacion()) {
     // view holder
     class TareaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
