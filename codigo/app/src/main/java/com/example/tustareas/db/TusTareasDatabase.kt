@@ -47,13 +47,21 @@ abstract class TusTareasDatabase : RoomDatabase() {
     abstract fun modificarTareaConsultas(): ModificarTareaConsultas
     // Consultas listar proyectos
     abstract fun listarProyectosConsultas(): ListarProyectosConsultas
+    // Consultas proyecto detalles
     abstract fun proyectoDetallesConsultas(): ProyectoDetallesConsultas
+    // Consultas modificar proyecto
     abstract fun modificarProyectoConsultas(): ModificarProyectoConsultas
+    // Consultas de estadisticas
     abstract fun estadisticasConsultas(): EstadisticasConsultas
+    // Consultas de activity main
     abstract fun activityMainConsultas(): ActivityMainConsultas
+    // Consultas de listar etiquetas
     abstract fun listarEtiquetasConsultas(): ListarEtiquetasConsultas
+    // Consultas de etiqueta detalles
     abstract fun etiquetaDetallesConsultas(): EtiquetaDetallesConsultas
+    // Consultas de modificar etiqueta
     abstract fun modificarEtiquetaConsultas(): ModificarEtiquetaConsultas
+    // Consultas de worker
     abstract fun workerConsultas(): WorkerConsultas
 
     companion object {
