@@ -27,8 +27,11 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import java.util.Date
 
-
+/**
+ * Clase que gestiona el fragmento de modificación de tareas.
+ */
 class ModificarTareasFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding: FragmentModificarTareasBinding? = null
     private val binding: FragmentModificarTareasBinding
         get() = _binding!!
@@ -57,6 +60,7 @@ class ModificarTareasFragment : Fragment() {
         binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
         binding.estadoTarea.text = tareaDTO.tarea.estado.name
 
+        // Gestión spinner de prioridad
         // Spinner prioridad
         val contenidosSpinerPrioridad = Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
@@ -73,6 +77,7 @@ class ModificarTareasFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
+                // getion de prioridad
                 when (position) {
                     0-> {
                         binding.prioridadTarea.setSelection(0)
@@ -185,6 +190,7 @@ class ModificarTareasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Modifica la logica por defecto de la flecha de retroceso
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 0 solo la pueden tener las de nueva creación
@@ -253,6 +259,7 @@ class ModificarTareasFragment : Fragment() {
             .show()
     }
 
+    // dialogo de modificado
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_modificado_tarea))
