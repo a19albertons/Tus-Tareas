@@ -15,16 +15,22 @@ import com.example.tustareas.modelos.Tarea
 @Dao
 interface ModificarProyectoConsultas {
     // Solo usar aqui los seis primeros metodos son para los transaction
+    // Inserta un proyecto
     @Insert
     suspend fun insertarProyecto(proyecto: Proyecto) : Long
+    // Modifica un proyecto
     @Update
     suspend fun modificarProyecto(proyecto: Proyecto)
+    // Inserta una relacion proyecto-etiqueta
     @Insert
     suspend fun insertarProyectoEtiqueta(proyectoEtiqueta: ProyectoEtiqueta)
+    // Actualiza el id de proyecto en una tarea
     @Query("UPDATE tareas SET idProyecto = :idProyecto where id = :id")
     suspend fun modificarProyectoID(id: Int, idProyecto: Int)
+    // Borra en la relacion N:N donde corresponda
     @Query("DELETE FROM ProyectoEtiquetas WHERE idProyecto = :id")
     suspend fun eliminarRelacionProyectoEtiqueta(id: Int)
+    // Borra el id de proyecto en una tarea
     @Query("UPDATE tareas SET idProyecto = null where idProyecto = :id")
     suspend fun eliminarProyectoID(id: Int)
 
