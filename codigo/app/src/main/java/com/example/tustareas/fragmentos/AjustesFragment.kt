@@ -13,8 +13,11 @@ import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentAjustesBinding
 import com.example.tustareas.modelView.TusTareasModel
 
-
+/**
+ * Clase que gestiona el fragmento de ajustes.
+ */
 class AjustesFragment : Fragment() {
+    // Variables generales de la clase
     private var _binding : FragmentAjustesBinding ?= null
     private val binding : FragmentAjustesBinding
         get() = _binding!!
@@ -32,6 +35,7 @@ class AjustesFragment : Fragment() {
         _binding = FragmentAjustesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Spinner de idiomas
         val idioma = resources.getStringArray(R.array.idiomas)
         val adapter = ArrayAdapter(
             requireContext(),
@@ -72,6 +76,8 @@ class AjustesFragment : Fragment() {
             }
 
         }
+
+        // Gestiona la elección del modo claro/oscuro/sistema
         // Radio Buttons
         binding.claro.setOnClickListener {
             model.setTema(AppCompatDelegate.MODE_NIGHT_NO)
