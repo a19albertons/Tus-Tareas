@@ -14,8 +14,10 @@ import com.example.tustareas.modelos.Proyecto
 @Dao
 interface ProyectoDetallesConsultas {
     // Metodos que usan internamente solo aqui
+    // Restablece en todas las tareas el id proyecto
     @Query("UPDATE tareas SET idProyecto = null where idProyecto = :id")
     suspend fun eliminarProyectoID(id: Int)
+    // Elimina un proyecto
     @Delete
     suspend fun eliminarProyecto(proyecto: Proyecto)
 
