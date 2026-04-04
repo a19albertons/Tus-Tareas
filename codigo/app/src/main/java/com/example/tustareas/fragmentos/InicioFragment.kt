@@ -49,19 +49,16 @@ class InicioFragment : Fragment() {
             }
 
             // scroll view
-            // obtener referencia
-            val primerRecyclerView = binding.tareasHoy
-
             // definir layout
-            primerRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            binding.tareasHoy.layoutManager = LinearLayoutManager(requireContext())
 
             // Asignar el adapter - diferenciamos si hay más o menos de 3 tareas
             if (listadoTareasHoyFechaLimite.size > 3) {
-                primerRecyclerView.adapter = TareasHoyPendientesAdapter(listadoTareasHoyFechaLimite.subList(0,3))
+                binding.tareasHoy.adapter = TareasHoyPendientesAdapter(listadoTareasHoyFechaLimite.subList(0,3))
                 binding.verMas1.visibility = View.VISIBLE
             }
             else {
-                primerRecyclerView.adapter = TareasHoyPendientesAdapter(listadoTareasHoyFechaLimite)
+                binding.tareasHoy.adapter = TareasHoyPendientesAdapter(listadoTareasHoyFechaLimite)
                 binding.verMas1.visibility = View.GONE
             }
         }
@@ -77,20 +74,17 @@ class InicioFragment : Fragment() {
             }
 
             // Scroll view
-            // obtener referencia
-            val segundoRecyclerView = binding.tareasRetrasadas
-
             // definir layout
-            segundoRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            binding.tareasRetrasadas.layoutManager = LinearLayoutManager(requireContext())
 
             // Asignar el adapter
             if (listadoTareasRetrasadas.size > 3) {
-                segundoRecyclerView.adapter =
+                binding.tareasRetrasadas.adapter =
                     TareasRetrasadasAdapter(listadoTareasRetrasadas.subList(0, 3))
                 binding.verMas2.visibility = View.VISIBLE
             }
             else {
-                segundoRecyclerView.adapter = TareasRetrasadasAdapter(listadoTareasRetrasadas)
+                binding.tareasRetrasadas.adapter = TareasRetrasadasAdapter(listadoTareasRetrasadas)
                 binding.verMas2.visibility = View.GONE
             }
         }
@@ -106,20 +100,17 @@ class InicioFragment : Fragment() {
             }
 
             // scroll view
-            // obtener referencia
-            val terceroRecyclerView = binding.tareasProximas
-
             // definir layout
-            terceroRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            binding.tareasProximas.layoutManager = LinearLayoutManager(requireContext())
 
             // Asignar el adapter
             if (listadoTareasProximas.size > 3) {
-                terceroRecyclerView.adapter =
+                binding.tareasProximas.adapter =
                     TareasProximasAdapter(listadoTareasProximas.subList(0, 3))
                 binding.verMas3.visibility = View.VISIBLE
             }
             else {
-                terceroRecyclerView.adapter = TareasProximasAdapter(listadoTareasProximas)
+                binding.tareasProximas.adapter = TareasProximasAdapter(listadoTareasProximas)
                 binding.verMas3.visibility = View.GONE
             }
 
