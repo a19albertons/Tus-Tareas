@@ -13,6 +13,7 @@ interface ActivityMainConsultas {
     @Query("DELETE FROM tareas WHERE estado = :estado")
     suspend fun limpiarTareasCompletas(estado: Estado = Estado.Completada)
 
+    // Actualiza la notificación leida al valor 1 (true)
     @Query("UPDATE notificaciones SET leido = 1 where id = :idNotificacion")
     suspend fun marcarNotificacionComoLeida(idNotificacion: Int)
 }
