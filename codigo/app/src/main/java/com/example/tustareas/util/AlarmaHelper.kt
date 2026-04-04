@@ -10,8 +10,13 @@ import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.workers.LanzarNotificaciones
 import java.util.Calendar
 
+/**
+ * Clase que gestiona ciertas funciones especificas ligadas a alarmas
+ */
 object AlarmaHelper {
+    // Invocar las alarmas
     fun invocarAlarma(context: Context, listaNotificacionesEnviar: List<Notificacion>) {
+        // Comprueba si esta vacio
         if (listaNotificacionesEnviar.isNotEmpty()) {
             NotificacionesHelper.crearCanalNotificaciones(context)
             // Bucle que manda las notificaciones a enviar
@@ -22,7 +27,9 @@ object AlarmaHelper {
         }
     }
 
+    // Programa la alarma diaria para el siguiente dia
     fun programarAlarmaDiaria(context: Context?) {
+        // Obtiene el alarm manager, crea el intent y pending intent
         val alarmaManager = (context?.getSystemService(Context.ALARM_SERVICE)) as AlarmManager
         val intent = Intent(context, LanzarNotificaciones::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
@@ -32,6 +39,7 @@ object AlarmaHelper {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Prepara la fecha del siguiente dia
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 0)
