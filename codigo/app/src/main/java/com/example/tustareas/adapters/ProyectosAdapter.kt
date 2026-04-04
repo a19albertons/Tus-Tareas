@@ -13,6 +13,9 @@ import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 
+/**
+ * Clase que gestiona el adaptador de proyectos.
+ */
 class ProyectosAdapter(private val proyectos: List<Proyecto>): RecyclerView.Adapter<ProyectosAdapter.ProyectoViewHolder>() {
     // View holder
     class ProyectoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
