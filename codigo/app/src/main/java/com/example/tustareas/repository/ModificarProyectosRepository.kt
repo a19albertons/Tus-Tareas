@@ -5,6 +5,9 @@ import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Tarea
 
+/**
+ * Clase que representa al subrepositorio de modificar proyectos
+ */
 class ModificarProyectosRepository(database: TusTareasDatabase) {
     private val modificarProyectoConsultas = database.modificarProyectoConsultas()
 
