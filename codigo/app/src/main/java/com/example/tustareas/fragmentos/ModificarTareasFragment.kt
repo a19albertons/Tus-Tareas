@@ -60,6 +60,9 @@ class ModificarTareasFragment : Fragment() {
         binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
         binding.estadoTarea.text = tareaDTO.tarea.estado.name
 
+        // Refrescar tareas
+        model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+
         // Gestión spinner de prioridad
         // Spinner prioridad
         val contenidosSpinerPrioridad = Prioridad.entries.map { getString(it.labelRes()) }
