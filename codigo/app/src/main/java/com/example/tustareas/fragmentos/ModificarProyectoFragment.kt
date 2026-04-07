@@ -148,8 +148,8 @@ class ModificarProyectoFragment : Fragment() {
         binding.anadirEtiqueta.setOnClickListener {
             val posicion = binding.listaEtiquetas.selectedItemPosition
             if (listaEtiquetas.isNotEmpty() // Lista vacia
-                && posicion >= 0 && posicion < listaTareas.size // Protegerse de fuera de limites
-                && listaTareas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
+                && posicion >= 0 && posicion < listaEtiquetas.size // Protegerse de fuera de limites
+                && listaEtiquetas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
             ) {
                 // Obtener nueva etiqueta, la lista de etiquetas y añadirla actualizando las disponibles)
                 val etiquetasAnadir = listaEtiquetas[posicion]
