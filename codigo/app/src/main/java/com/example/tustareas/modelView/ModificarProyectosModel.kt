@@ -29,7 +29,7 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
     // Tiene la lista inicial vacia
     private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
     // Actualiza el filtro de la lista
-    fun actualizarFiltroListaEtiquetaTareas(lista: List<Etiqueta>) {
+    fun actualizarFiltroListaEtiquetaProyecto(lista: List<Etiqueta>) {
         listaEtiqueta.value = lista
     }
     // Obtiene las etiquetas restantes que no tiene en uso

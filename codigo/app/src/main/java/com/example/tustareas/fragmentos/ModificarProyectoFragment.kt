@@ -64,6 +64,10 @@ class ModificarProyectoFragment : Fragment() {
         binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaInicio)
         binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
 
+        // Refrescar tareas y etiquetas
+        model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+        model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+
         // Gestiona la addición de tareas
         // spinner tareas
         var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
@@ -120,7 +124,7 @@ class ModificarProyectoFragment : Fragment() {
         val adapterEtiquetas = ListaEtiquetasPresentesAdapter {
                 listaEtiquetas ->
             proyectoDTO.etiquetas = listaEtiquetas
-            model.modificarProyectos.actualizarFiltroListaEtiquetaTareas(proyectoDTO.etiquetas)
+            model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
@@ -158,7 +162,7 @@ class ModificarProyectoFragment : Fragment() {
                 proyectoDTO.etiquetas = nuevasEtiquetas
                 // Mandamos la lista con las nuevas tareas
                 adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
-                model.modificarProyectos.actualizarFiltroListaEtiquetaTareas(proyectoDTO.etiquetas)
+                model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
             }
         }
 
