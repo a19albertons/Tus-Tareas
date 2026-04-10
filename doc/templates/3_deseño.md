@@ -10,67 +10,66 @@ flowchart TB
     Cliente[Usuario]
 
     %% app
-    subgraph El dispositivo del usuario
-        subgraph Aplicacion
-            ui[ui]
+    subgraph O dispositivo do usuario
+        subgraph Aplicación
+            ui[UI]
             ViewModel[ViewModel]
-            dao[dao]
-            ServicioDeNotificaciones[Servicio de notificaciones]
+            dao[DAO]
+            ServicioDeNotificaciones[Servizo de notificacións]
         end
-        SistemaDeNotificaciones[Sistema de notificaciones]
+        SistemaDeNotificaciones[Sistema de notificacións]
         BD[Base de datos]
     end
 
-    %% relaciones
-    Cliente --> |interactua| ui
+    %% relacións
+    Cliente --> |interactúa| ui
     ui <--> |intercambio de datos| ViewModel
     ViewModel <--> |usa| dao
-    dao <--> |interactua| BD
+    dao <--> |interactúa| BD
     ViewModel --> |usa| ServicioDeNotificaciones
-    ServicioDeNotificaciones --> |envia notificaciones| SistemaDeNotificaciones
+    ServicioDeNotificaciones --> |envía notificacións| SistemaDeNotificaciones
     ServicioDeNotificaciones <--> |usa| dao
     SistemaDeNotificaciones <--> |usa| dao
 
     
 ```
 
-### Diagrama de Despliegue
+### Diagrama de Despregamento
 ```mermaid
 flowchart TD
     %% nodo
     Usuario[Usuario]
-    subgraph El dispositivo
-        subgraph Sistema operativo android
+    subgraph O dispositivo
+        subgraph Sistema operativo Android
             Aplicacion[Aplicación]
             Bd[Base de datos]
-            SistemaNotificaciones[Sistema de notificaciones]
+            SistemaNotificaciones[Sistema de notificacións]
         end
     end
 
-    %% relaciones
+    %% relacións
     Usuario -->|usa| Aplicacion
     Aplicacion -->|usa| Bd
-    Aplicacion -->|envia notificaciones| SistemaNotificaciones
+    Aplicacion -->|envía notificacións| SistemaNotificaciones
 ```
 
 ## Diagrama de Base de Datos
 
 ```mermaid
 erDiagram
-    %% tablas
+    %% taboas
     Tareas {
         id int PK
-        Nombre varchar
+        Nome varchar
         Descripcion text
         fechaLimite date
-        Prioridad String "(alto, media, baja, ninguna)"
+        Prioridade String "(alto, media, baixa, ningunha)"
         fechaCreacion date
-        Estado String "(en tiempo, retrasada, completada)"
-
+        Estado String "(en tempo, retrasada, completada)"
     }
     Proyectos {
         id int PK
-        Nombre varchar
+        Nome varchar
         Descripcion text
         fechaCreacion date
         fechaInicio date
@@ -78,21 +77,21 @@ erDiagram
     }
     Etiquetas {
         id int PK
-        Nombre varchar
+        Nome varchar
         Descripcion text
     }
     Notificaciones {
         id int PK
         Titulo varchar
-        Mensaje varchar
+        Mensaxe varchar
         Leida boolean
     }
 
-    %% relaciones
-    Proyectos o|--o{ Tareas : contiene
-    Proyectos o{--o{ Etiquetas : tiene
-    Tareas o{--o{ Etiquetas : tiene
-    Tareas ||--o| Notificaciones : genera
+    %% relacións
+    Proyectos o|--o{ Tareas : contén
+    Proyectos o{--o{ Etiquetas : ten
+    Tareas o{--o{ Etiquetas : ten
+    Tareas ||--o| Notificaciones : xera
 ```
 
 ## Diagrama de clases
@@ -135,14 +134,14 @@ classDiagram
         -int idTarea
     }
 
-    %% Relaciones
-    Proyecto "0..1" o-- "0..*" Tarea : contiene
-    Proyecto "0..*" o-- "0..*" Etiqueta : tiene
-    Tarea "0..*" o-- "0..*" Etiqueta : tiene
-    Tarea "1" o-- "0..1" Notificacion : genera
+    %% Relacións
+    Proyecto "0..1" o-- "0..*" Tarea : contén
+    Proyecto "0..*" o-- "0..*" Etiqueta : ten
+    Tarea "0..*" o-- "0..*" Etiqueta : ten
+    Tarea "1" o-- "0..1" Notificacion : xera
 
 ```
 
-## Deseño de interface de usuarios
+## Deseño da interface de usuario
 
-[enlace a figma](https://www.figma.com/design/VZCQcw7a7B60PrGtjRBL0c/El-proyecto?node-id=0-1&p=f&t=KTdcYnHBGH3pHU1V-0)
+[Enlace a Figma](https://www.figma.com/design/VZCQcw7a7B60PrGtjRBL0c/El-proyecto?node-id=0-1&p=f&t=KTdcYnHBGH3pHU1V-0)
