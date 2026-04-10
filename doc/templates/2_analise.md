@@ -6,18 +6,18 @@
 
 ```mermaid
 flowchart LR
-    %% Definición del Actor usando un icono
+    %% Definición do actor usando un icono
     Usuario((fa:fa-user Usuario))
-    
-    subgraph S["Sistema de Gestion de tus tareas"]
-        %% Definición de los Casos de Uso (forma de píldora/óvalo)
-        Tareas([Manejo tareas])
-        Proyectos([Gestion proyectos])
+
+    subgraph S["Sistema de xestión das tarefas"]
+        %% Definición dos casos de uso (forma de píldora/óvalo)
+        Tarefas([Xestión de tarefas])
+        Proxectos([Xestión de proxectos])
         Etiquetas([Etiquetas])
-        RecibirNotificaciones([Recibir notificaciones])
-        VerEstadisticas([Ver estadísticas])
-        EscogerModo([Escoger modo claro/oscuro/sistema])
-        EscogerIdioma([Escoger idioma])
+        RecibirNotificacions([Recibir notificacións])
+        VerEstadisticas([Ver estatísticas])
+        EscollerModo([Escoller modo claro/oscuro/sistema])
+        EscollerIdioma([Escoller idioma])
     
 
 
@@ -25,17 +25,17 @@ flowchart LR
     end
 
     
-    %% Relaciones
-    Usuario --> Tareas
-    Usuario --> Proyectos
+    %% Relacións
+    Usuario --> Tarefas
+    Usuario --> Proxectos
     Usuario --> Etiquetas
-    Usuario --> RecibirNotificaciones
+    Usuario --> RecibirNotificacions
     Usuario --> VerEstadisticas
-    Usuario --> EscogerModo
-    Usuario --> EscogerIdioma
-    Proyectos -. &#60&#60include&#60&#60 .-> Tareas
-    Tareas -. &#60&#60include&#60&#60 .-> Etiquetas
-    Proyectos -. &#60&#60include&#60&#60 .-> Etiquetas
+    Usuario --> EscollerModo
+    Usuario --> EscollerIdioma
+    Proxectos -. &#60&#60include&#62&#62 .-> Tarefas
+    Tarefas -. &#60&#60include&#62&#62 .-> Etiquetas
+    Proxectos -. &#60&#60include&#62&#62 .-> Etiquetas
 
 
 
@@ -48,30 +48,30 @@ flowchart LR
 - Crear, modificar e eliminar tarefas
 - Crear, modificar e eliminar proxectos.
 - Administrar etiquetas.
-- Posibilidade de marcar tarefas como completas, a sua prioridade e data de vencemento.
-- Sistema de notificacións para avisar si esta retrasada ou cerca da data de vencemento.
-- Sistema de estadísticas con información sobre as tarefas da semana actual
-- Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descipción...
-- Filtrado de proxectos por nome, etiquetas...
-- Filtrado de etiquetas por nome e descipción
-- O usuario poderá escoller entre modo claro, oscuro o sistema
-- O usuario poderá escoller entre varios idiomas disponibles ou deixar o default do sistema
+- Posibilidade de marcar tarefas como completas, establecer a súa prioridade e data de vencemento
+- Sistema de notificacións para avisar se unha tarefa está retrasada ou se está próxima á data de vencemento
+- Sistema de estatísticas con información sobre as tarefas da semana actual
+- Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descrición...
+- Filtrado de proxectos por nome e etiquetas
+- Filtrado de etiquetas por nome e descrición
+- O usuario poderá escoller entre modo claro, escuro ou modo do sistema
+- O usuario poderá escoller entre varios idiomas dispoñibles ou deixar o idioma predeterminado do sistema
 
 ### NON FUNCIONAIS
 
-- A aplicación preguntara se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e se houbese algun problema ao facelo.
+- A aplicación preguntará se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e avisará se xurde algun problema ao facelo.
 
-- As notificacións serán enviadas ainda que a aplicación estea pechada
+- As notificacións serán enviadas aínda que a aplicación estea pechada.
 
-- Ainda que a aplicación se caese, o dispositivo de apagase... os datos gardados non se veran afectados.
+- Aínda que a aplicación se caese ou o dispositivo se apague, os datos gardados non verán afectados.
 
-- Los colores deben ofrecer una experiencia de usuario agradable en ambos modos.
+- As cores deben ofrecer unha experiencia de usuario agradable en ambos modos.
 
-- La aplicación dispondrá de varios idiomas.
+- A aplicación dispoñerá de varios idiomas.
 
 ## Tipos de usuarios
 
-- Usuario: pode crear, modificar, eliminar tarefas, organizala en proxectos e asignar etiquetas, marcar tarefas como completas, a sua prioridade...
+- Usuario: pode crear, modificar e eliminar tarefas, organizalas en proxectos, asignar etiquetas, marcar tarefas como completas e establecer a súa prioridade...
 
 ## Normativa
 
