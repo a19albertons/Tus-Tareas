@@ -50,7 +50,7 @@ flowchart LR
 - Administrar etiquetas. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link)
 - Posibilidade de marcar tarefas como completas, establecer a súa prioridade e data de vencemento [Marcado, prioridade, fecha vencemento PoC](https://drive.google.com/file/d/1l7w7DawecqOutT4nIQbjyNSiTtYdy_MC/view?usp=drive_link)
 - Sistema de notificacións para avisar se unha tarefa está retrasada ou se está próxima á data de vencemento
-- Sistema de estatísticas con información sobre as tarefas da semana actual
+- Sistema de estatísticas con información sobre as tarefas da semana actual. [Ver estadísticas PoC](https://drive.google.com/file/d/1XHZJsKTAUBqZc5RZPeVQO2i_RD2kw4-c/view?usp=drive_link)
 - Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descrición...
 - Filtrado de proxectos por nome e etiquetas
 - Filtrado de etiquetas por nome e descrición
