@@ -49,7 +49,7 @@ flowchart LR
 - Crear, modificar e eliminar proxectos. [Proxectos PoC](https://drive.google.com/file/d/1sFjTHIioWkQT2HVKD8_WSxGvlJDKaTsE/view?usp=drive_link)
 - Administrar etiquetas. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link)
 - Posibilidade de marcar tarefas como completas, establecer a súa prioridade e data de vencemento [Marcado, prioridade, fecha vencemento PoC](https://drive.google.com/file/d/1l7w7DawecqOutT4nIQbjyNSiTtYdy_MC/view?usp=drive_link)
-- Sistema de notificacións para avisar se unha tarefa está retrasada ou se está próxima á data de vencemento
+- Sistema de notificacións para avisar se unha tarefa está retrasada ou se está próxima á data de vencemento. [Notificaciones PoC](https://drive.google.com/file/d/16b3_HJWF__BHgyDhwnF1UIZuL8dsid1c/view?usp=drive_link)
 - Sistema de estatísticas con información sobre as tarefas da semana actual. [Ver estadísticas PoC](https://drive.google.com/file/d/1XHZJsKTAUBqZc5RZPeVQO2i_RD2kw4-c/view?usp=drive_link)
 - Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descrición... [Filtro de tareas PoC](https://drive.google.com/file/d/1n51ntH4h5BVUSQfP99LAhdQzmkKMlX1i/view?usp=drive_link)
 - Filtrado de proxectos por nome e etiquetas. [Filtro de proxectos PoC](https://drive.google.com/file/d/1kP9rzHeSJddtu2FJYghjuFKuQ-164FjN/view?usp=drive_link)
@@ -61,9 +61,9 @@ flowchart LR
 
 - A aplicación preguntará se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e avisará se xurde algun problema ao facelo. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link), [Tarefas PoC](https://drive.google.com/file/d/1l6-JIwkPN8tUMeBW-1mx0AA5za6trHCq/view?usp=drive_link), [Proxectos PoC](https://drive.google.com/file/d/1sFjTHIioWkQT2HVKD8_WSxGvlJDKaTsE/view?usp=drive_link)
 
-- As notificacións serán enviadas aínda que a aplicación estea pechada.
+- As notificacións serán enviadas aínda que a aplicación estea pechada. [Notificaciones PoC](https://drive.google.com/file/d/16b3_HJWF__BHgyDhwnF1UIZuL8dsid1c/view?usp=drive_link)
 
-- Aínda que a aplicación se caese ou o dispositivo se apague, os datos gardados non verán afectados.
+- Aínda que a aplicación se caese ou o dispositivo se apague, os datos gardados non verán afectados. [Notificaciones PoC](https://drive.google.com/file/d/16b3_HJWF__BHgyDhwnF1UIZuL8dsid1c/view?usp=drive_link)
 
 - As cores deben ofrecer unha experiencia de usuario agradable en ambos modos. [Modo claro e oscuro PoC](https://drive.google.com/file/d/16DYkbe-72X63gSte5_-VhEDfxo2WH3qK/view?usp=drive_link)
 
