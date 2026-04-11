@@ -55,7 +55,7 @@ flowchart LR
 - Filtrado de proxectos por nome e etiquetas
 - Filtrado de etiquetas por nome e descrición
 - O usuario poderá escoller entre modo claro, escuro ou modo do sistema. [Modo claro e oscuro PoC](https://drive.google.com/file/d/16DYkbe-72X63gSte5_-VhEDfxo2WH3qK/view?usp=drive_link)
-- O usuario poderá escoller entre varios idiomas dispoñibles ou deixar o idioma predeterminado do sistema
+- O usuario poderá escoller entre varios idiomas dispoñibles ou deixar o idioma predeterminado do sistema. [Idiomas PoC](https://drive.google.com/file/d/1qqwEuglcoXCCyXh3WkJ9ljuAf-6og61I/view?usp=drive_link)
 
 ### NON FUNCIONAIS
 
@@ -67,7 +67,7 @@ flowchart LR
 
 - As cores deben ofrecer unha experiencia de usuario agradable en ambos modos. [Modo claro e oscuro PoC](https://drive.google.com/file/d/16DYkbe-72X63gSte5_-VhEDfxo2WH3qK/view?usp=drive_link)
 
-- A aplicación dispoñerá de varios idiomas.
+- A aplicación dispoñerá de varios idiomas. [Idiomas PoC](https://drive.google.com/file/d/1qqwEuglcoXCCyXh3WkJ9ljuAf-6og61I/view?usp=drive_link)
 
 ## Tipos de usuarios
 
