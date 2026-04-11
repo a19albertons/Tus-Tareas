@@ -46,7 +46,7 @@ flowchart LR
 ### FUNCIONAIS
 
 - Crear, modificar e eliminar tarefas. [Tarefas PoC](https://drive.google.com/file/d/1l6-JIwkPN8tUMeBW-1mx0AA5za6trHCq/view?usp=drive_link)
-- Crear, modificar e eliminar proxectos.
+- Crear, modificar e eliminar proxectos. [Proxectos PoC](https://drive.google.com/file/d/1sFjTHIioWkQT2HVKD8_WSxGvlJDKaTsE/view?usp=drive_link)
 - Administrar etiquetas. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link)
 - Posibilidade de marcar tarefas como completas, establecer a súa prioridade e data de vencemento
 - Sistema de notificacións para avisar se unha tarefa está retrasada ou se está próxima á data de vencemento
@@ -59,7 +59,7 @@ flowchart LR
 
 ### NON FUNCIONAIS
 
-- A aplicación preguntará se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e avisará se xurde algun problema ao facelo. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link), [Tarefas PoC](https://drive.google.com/file/d/1l6-JIwkPN8tUMeBW-1mx0AA5za6trHCq/view?usp=drive_link)
+- A aplicación preguntará se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e avisará se xurde algun problema ao facelo. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link), [Tarefas PoC](https://drive.google.com/file/d/1l6-JIwkPN8tUMeBW-1mx0AA5za6trHCq/view?usp=drive_link), [Proxectos PoC](https://drive.google.com/file/d/1sFjTHIioWkQT2HVKD8_WSxGvlJDKaTsE/view?usp=drive_link)
 
 - As notificacións serán enviadas aínda que a aplicación estea pechada.
 
