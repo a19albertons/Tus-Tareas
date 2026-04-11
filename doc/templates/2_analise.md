@@ -54,7 +54,7 @@ flowchart LR
 - Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descrición...
 - Filtrado de proxectos por nome e etiquetas
 - Filtrado de etiquetas por nome e descrición
-- O usuario poderá escoller entre modo claro, escuro ou modo do sistema
+- O usuario poderá escoller entre modo claro, escuro ou modo do sistema. [Modo claro e oscuro PoC](https://drive.google.com/file/d/16DYkbe-72X63gSte5_-VhEDfxo2WH3qK/view?usp=drive_link)
 - O usuario poderá escoller entre varios idiomas dispoñibles ou deixar o idioma predeterminado do sistema
 
 ### NON FUNCIONAIS
@@ -65,7 +65,7 @@ flowchart LR
 
 - Aínda que a aplicación se caese ou o dispositivo se apague, os datos gardados non verán afectados.
 
-- As cores deben ofrecer unha experiencia de usuario agradable en ambos modos.
+- As cores deben ofrecer unha experiencia de usuario agradable en ambos modos. [Modo claro e oscuro PoC](https://drive.google.com/file/d/16DYkbe-72X63gSte5_-VhEDfxo2WH3qK/view?usp=drive_link)
 
 - A aplicación dispoñerá de varios idiomas.
 
