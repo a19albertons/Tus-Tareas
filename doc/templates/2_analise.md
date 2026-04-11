@@ -47,7 +47,7 @@ flowchart LR
 
 - Crear, modificar e eliminar tarefas
 - Crear, modificar e eliminar proxectos.
-- Administrar etiquetas.
+- Administrar etiquetas. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link)
 - Posibilidade de marcar tarefas como completas, establecer a súa prioridade e data de vencemento
 - Sistema de notificacións para avisar se unha tarefa está retrasada ou se está próxima á data de vencemento
 - Sistema de estatísticas con información sobre as tarefas da semana actual
@@ -59,7 +59,7 @@ flowchart LR
 
 ### NON FUNCIONAIS
 
-- A aplicación preguntará se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e avisará se xurde algun problema ao facelo.
+- A aplicación preguntará se queres gardar, modificar ou eliminar unha tarefa, proxecto ou etiqueta e avisará se xurde algun problema ao facelo. [Etiquetas PoC](https://drive.google.com/file/d/1sLHvg22oigaUGgdMy45UHzQUbfJ7E8gH/view?usp=drive_link)
 
 - As notificacións serán enviadas aínda que a aplicación estea pechada.
 
