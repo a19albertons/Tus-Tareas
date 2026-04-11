@@ -53,7 +53,7 @@ flowchart LR
 - Sistema de estatísticas con información sobre as tarefas da semana actual. [Ver estadísticas PoC](https://drive.google.com/file/d/1XHZJsKTAUBqZc5RZPeVQO2i_RD2kw4-c/view?usp=drive_link)
 - Filtrado de tarefas por distintos criterios como nome, prioridade, etiquetas, descrición... [Filtro de tareas PoC](https://drive.google.com/file/d/1n51ntH4h5BVUSQfP99LAhdQzmkKMlX1i/view?usp=drive_link)
 - Filtrado de proxectos por nome e etiquetas. [Filtro de proxectos PoC](https://drive.google.com/file/d/1kP9rzHeSJddtu2FJYghjuFKuQ-164FjN/view?usp=drive_link)
-- Filtrado de etiquetas por nome e descrición
+- Filtrado de etiquetas por nome e descrición. [Filtro de etiquetas PoC](https://drive.google.com/file/d/1_oDzPfAPodH7EgaS_Hbyuxw3lGQ-aS26/view?usp=drive_link)
 - O usuario poderá escoller entre modo claro, escuro ou modo do sistema. [Modo claro e oscuro PoC](https://drive.google.com/file/d/16DYkbe-72X63gSte5_-VhEDfxo2WH3qK/view?usp=drive_link)
 - O usuario poderá escoller entre varios idiomas dispoñibles ou deixar o idioma predeterminado do sistema. [Idiomas PoC](https://drive.google.com/file/d/1qqwEuglcoXCCyXh3WkJ9ljuAf-6og61I/view?usp=drive_link)
 
