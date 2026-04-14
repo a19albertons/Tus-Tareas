@@ -13,7 +13,6 @@ class DateHelperTest {
     fun testTimestamp1() {
         val timestamp = 1776031200000
         val fecha = DateHelper.timestampToString(Date(timestamp))
-        println(fecha)
         assert(fecha == "13/04/2026")
     }
 
