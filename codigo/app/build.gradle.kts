@@ -69,6 +69,11 @@ dependencies {
     // Live data
     implementation(libs.androidx.lifecycle.livedata.core.ktx)
 
+    // Librerias para pruebas unitarias
+    testImplementation(libs.androidx.arch.core.testing)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
