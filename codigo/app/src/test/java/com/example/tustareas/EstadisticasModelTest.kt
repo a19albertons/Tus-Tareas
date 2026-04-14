@@ -48,7 +48,6 @@ class EstadisticasModelTest {
 
         // Comprobación del resultado
         val resultado = liveData.value
-        println(resultado)
         assert(resultado == Pair(5L, 10L))
 
     }
