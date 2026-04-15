@@ -18,7 +18,7 @@ ksp = "2.3.4"
 workManager = "2.11.2"
 archCoreTesting = "2.2.0"
 mockito = "5.23.0"
-mockitoKotlin = "5.4.0"
+mockitoKotlin = "6.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
