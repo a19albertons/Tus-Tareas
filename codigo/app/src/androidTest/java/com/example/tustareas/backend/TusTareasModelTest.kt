@@ -25,7 +25,7 @@ import org.junit.runner.RunWith
 import java.util.Date
 
 /**
- * Clase que gestiona las pruebas unitarias del modelo tus tareas
+ * Clase que gestiona las pruebas integración del modelo tus tareas
  */
 @RunWith(AndroidJUnit4::class)
 class TusTareasModelTest {
