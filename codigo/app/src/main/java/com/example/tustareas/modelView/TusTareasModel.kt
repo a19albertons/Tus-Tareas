@@ -14,9 +14,14 @@ import com.example.tustareas.util.LanguageHelper
 /**
  * ViewModel que une la aplicacion con la base de datos
  */
-class TusTareasModel(application: Application): AndroidViewModel(application) {
+class TusTareasModel(
+    application: Application,
     // Invocacion repositorio
-    private val repository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
+    // si no le pasamos nada mantiene la retrocompatiblidad. Solo pasarle algo en pruebas de integració y otros tipos
+    private val repository : TusTareasRepository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
+): AndroidViewModel(application) {
+
+
     // Submodelos de los distintos fragmentos del proyecto
     val inicio = InicioModel(repository)
     val verMas = VerMasModel(repository)
