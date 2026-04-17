@@ -19,6 +19,10 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.tustareas", appContext.packageName)
+        when (appContext.packageName) {
+            "com.example.tustareas" -> { assertEquals("com.example.tustareas", appContext.packageName) }
+            "com.example.tustareas.pre" -> { assertEquals("com.example.tustareas.pre", appContext.packageName) }
+            else -> { fail("El package name no es correcto") }
+        }
     }
 }
