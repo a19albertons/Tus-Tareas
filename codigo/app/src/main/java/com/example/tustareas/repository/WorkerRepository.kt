@@ -1,13 +1,17 @@
 package com.example.tustareas.repository
 
+import com.example.tustareas.dao.WorkerConsultas
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Notificacion
 
 /**
  * Clase que representa al repositorio de las tareas programadas
  */
-class WorkerRepository(database: TusTareasDatabase) {
-    private val workerConsultas = database.workerConsultas()
+class WorkerRepository(
+    database: TusTareasDatabase,
+    private val workerConsultas : WorkerConsultas= database.workerConsultas()
+) {
+
 
     // Actualzia los estados de las taras
     fun actualizarEstado() = workerConsultas.actualizarEstado()
