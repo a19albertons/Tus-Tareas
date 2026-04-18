@@ -16,7 +16,7 @@ import kotlinx.parcelize.Parcelize
     )
 data class Etiqueta(
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var id: Int = 0,
     var nombre: String,
     var descripcion: String? = null
 ) : Parcelable
