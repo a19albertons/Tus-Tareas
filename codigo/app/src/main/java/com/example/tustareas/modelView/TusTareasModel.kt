@@ -14,7 +14,9 @@ import com.example.tustareas.util.LanguageHelper
 /**
  * ViewModel que une la aplicacion con la base de datos
  */
-class TusTareasModel(
+// El @JvmOverloads constructor es necesario porque por defecto parece
+// no aceptar el constructor con un parámetros por defecto
+class TusTareasModel @JvmOverloads constructor(
     application: Application,
     // Invocacion repositorio
     // si no le pasamos nada mantiene la retrocompatiblidad. Solo pasarle algo en pruebas de integració y otros tipos
