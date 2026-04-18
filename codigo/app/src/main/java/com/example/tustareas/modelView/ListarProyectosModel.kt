@@ -38,9 +38,9 @@ class ListarProyectosModel(private val repository: TusTareasRepository) {
     // Aplica el cambio en los filtros
     fun obtenerProyectosFiltradas() : LiveData<List<Proyecto>> = vigiladorFiltrosProyectos.switchMap {
         repository.listarProyectos.obtenerProyectosFiltradas(
-            textoProyecto.value ?: "",
-            inicioProyecto.value ?: OrdenarProyectosInicio.INICIO,
-            finProyecto.value ?: OrdenarProyectoFin.FIN
+            textoProyecto.value!!,
+            inicioProyecto.value!!,
+            finProyecto.value!!
         )
     }
 }
