@@ -12,7 +12,7 @@ import com.example.tustareas.repository.TusTareasRepository
  */
 class ModificarTareasModel(private val repository: TusTareasRepository) {
     // Filtro etiquetas modificar
-    private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList<Etiqueta>())
+    private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList())
     fun actualizarFiltroListaEtiquetaTareas(lista: List<Etiqueta>) {
         listaEtiqueta.value = lista
     }
