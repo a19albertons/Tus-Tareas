@@ -49,10 +49,10 @@ class ListarTareasModel(private val repository: TusTareasRepository) {
     // Si hay cambios en los filtros actualiza el resultado consultado en la base de datos
     fun obtenerTareasFiltradas() : LiveData<List<Tarea>> = vigiladorFiltrosTareas.switchMap {
         repository.listarTareas.obtenerTareasFiltradas(
-            prioridadTarea.value ?: Prioridad.entries.toTypedArray(),
-            estadoTarea.value ?: Estado.entries.toTypedArray(),
-            textoTarea.value ?: "",
-            textoOrdenación.value ?: OrdenarTareas.FECHA_CREACION_ASC
+            prioridadTarea.value!!,
+            estadoTarea.value!!,
+            textoTarea.value!!,
+            textoOrdenación.value!!
         )
 
     }
