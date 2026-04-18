@@ -31,6 +31,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -69,10 +73,13 @@ dependencies {
     // Live data
     implementation(libs.androidx.lifecycle.livedata.core.ktx)
 
-    // Librerias para pruebas unitarias
+    // Librerias para pruebas unitarias y de android test
     testImplementation(libs.androidx.arch.core.testing)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.androidx.arch.core.testing)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
