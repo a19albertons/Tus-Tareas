@@ -60,10 +60,6 @@ CREATE TABLE notificaciones (
 
 -- Índices definidos en los modelos Room (coinciden con @Entity(indices=...))
 -- Usamos nombres exactamente como Room genera: index_<table>_<column>[...]
-CREATE INDEX IF NOT EXISTS index_proyectos_id ON proyectos(id);
-CREATE INDEX IF NOT EXISTS index_tareas_id ON tareas(id);
-CREATE INDEX IF NOT EXISTS index_etiquetas_id ON etiquetas(id);
-CREATE INDEX IF NOT EXISTS index_notificaciones_id ON notificaciones(id);
 CREATE INDEX IF NOT EXISTS index_TareaEtiquetas_idTarea ON TareaEtiquetas(idTarea);
 CREATE INDEX IF NOT EXISTS index_TareaEtiquetas_idEtiqueta ON TareaEtiquetas(idEtiqueta);
 CREATE INDEX IF NOT EXISTS index_ProyectoEtiquetas_idProyecto ON ProyectoEtiquetas(idProyecto);
