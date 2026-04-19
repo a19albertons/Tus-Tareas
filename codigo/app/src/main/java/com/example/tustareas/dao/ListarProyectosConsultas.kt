@@ -21,39 +21,30 @@ interface ListarProyectosConsultas {
                 "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) " // Filtro etiquetas
     }
     // Filtros de ordenación
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS")
     fun obtenerProyectosFiltradosPorDefecto(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin ASC")
     fun obtenerProyectosFiltradosPorFinAsc(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin DESC")
     fun obtenerProyectosFiltradosPorFinDes(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaInicio ASC")
     fun obtenerProyectosFiltradosPorInicioAsc(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin ASC, fechaInicio ASC")
     fun obtenerProyectosFiltradosPorInicioYFinAsc(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin DESC, fechaInicio ASC")
     fun obtenerProyectosFiltradosPorInicioAscYFinDes(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaInicio DESC")
     fun obtenerProyectosFiltradosPorInicioDes(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin ASC, fechaInicio DESC")
     fun obtenerProyectosFiltradosPorInicioDesYFinAsc(texto: String): LiveData<List<Proyecto>>
 
-    @Transaction
     @Query("$BASE_FILTRADO_PROYECTOS ORDER BY fechaFin DESC, fechaInicio DESC")
     fun obtenerProyectosFiltradosPorInicioYFinDes(texto: String): LiveData<List<Proyecto>>
 }
