@@ -13,7 +13,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(
     tableName = "proyectos",
-    indices = [Index(value = ["id"])]
     )
 data class Proyecto (
     @PrimaryKey(autoGenerate = true)

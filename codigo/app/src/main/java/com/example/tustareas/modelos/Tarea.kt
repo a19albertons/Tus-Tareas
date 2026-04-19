@@ -21,7 +21,6 @@ import kotlinx.parcelize.Parcelize
         )
     ],
     indices = [
-        Index(value = ["id"]),
         Index(value = ["idProyecto"])
     ]
 )
