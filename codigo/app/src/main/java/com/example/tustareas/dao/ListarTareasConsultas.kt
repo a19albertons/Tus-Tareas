@@ -28,22 +28,18 @@ interface ListarTareasConsultas {
     }
 
     // Ordenacion fecha creación ascendente
-    @Transaction
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaLimite ASC")
     fun obtenerTareasFiltradasFechaLimiteAsc(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
     // Ordenacion fecha creación descendente
-    @Transaction
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaLimite DESC")
     fun obtenerTareasFiltradasFechaLimiteDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
     // Ordenacion fecha limite ascendente
-    @Transaction
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion ASC")
     fun obtenerTareasFiltradasFechaCreacionAsc(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
     // Ordenacion fecha limite descendente
-    @Transaction
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion DESC")
     fun obtenerTareasFiltradasFechaCreacionDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
