@@ -4,6 +4,10 @@
 
 Gracias por tu interes en contriburitu en Tus Tareas. A continuación, se presenta una pequeña guia para darte unas pautas.
 
+## Desarrollo
+
+Instrucciones para configurar el entorno de desarrollo, compilar la aplicación... Ver [desarrollo.md](desarrollo.md) para más detalles.
+
 ## issues
 
 - Bugs: fallos donde el programa no se comporte como se espera o donde surjan ralentizaciones excesivas.
