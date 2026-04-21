@@ -2,6 +2,8 @@ package com.example.tustareas.modelView
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +11,18 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.repository.TusTareasRepository
 import kotlin.apply
 import androidx.core.content.edit
+import androidx.lifecycle.application
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.example.tustareas.util.AlarmaHelper
 import com.example.tustareas.util.LanguageHelper
+import com.example.tustareas.workers.ActualizarEstadoWorker
+import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 /**
  * ViewModel que une la aplicacion con la base de datos
@@ -71,6 +84,51 @@ class TusTareasModel @JvmOverloads constructor(
     }
 
     // Llama al repositorios para marcar como leida
-    suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = repository.marcarNotificacionComoLeida(idNotificacion)
+    private suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = repository.marcarNotificacionComoLeida(idNotificacion)
+
+    fun trabajadores () {
+        // trabajador 1 (cambio estados) - Lo configuramos para una ejecución diaria
+        val ahoraMismo = Calendar.getInstance()
+        // Definimos la fecha de configuración
+        val fechaEjecucion = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0) // A las 0 horas
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        // Forzar la primera ejecución a las 0 horas del dia siguiente
+        fechaEjecucion.add(Calendar.DAY_OF_MONTH, 1)
+        val calcularRetraso = fechaEjecucion.timeInMillis - ahoraMismo.timeInMillis
+        // Configuramos el worker
+        val actualizarEstadoWorker = PeriodicWorkRequestBuilder<ActualizarEstadoWorker>(
+            1, TimeUnit.DAYS
+        )
+            .setInitialDelay(calcularRetraso, TimeUnit.MILLISECONDS)
+            .build()
+
+        // Mandamos el trabajo
+        WorkManager.getInstance(application).enqueueUniquePeriodicWork("ActualizarEstado", ExistingPeriodicWorkPolicy.KEEP, actualizarEstadoWorker)
+    }
+
+    fun notificaciones(intent: Intent) {
+        // Alertas/notificaciones
+        AlarmaHelper.programarAlarmaDiaria(application)
+
+        // Comprobamos si entramos por notificación
+        val idNotificacion = intent.getIntExtra("idNotificacion",-1)
+        if (idNotificacion != -1) {
+            // Marcamos como leida
+            viewModelScope.launch {
+                try {
+                    marcarNotificacionComoLeida(idNotificacion)
+                }
+                catch (_: Exception) {
+                    Log.e("MainActivity","Error silencioso al fallar en marcar notificacion como leida")
+                }
+            }
+        } else {
+            Log.i("MainActivity","No se ha recibido notificacion")
+        }
+    }
 
 }

@@ -130,27 +130,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Llama a la logica de trabajadores
+        model.trabajadores()
 
-        // Tareas programadas
-        trabajadores()
-
-        // Alertas/notificaciones
-        AlarmaHelper.programarAlarmaDiaria(this)
-
-        // Comprobamos si entramos por notificación
-        val idNotificacion = intent.getIntExtra("idNotificacion",-1)
-        if (idNotificacion != -1) {
-            lifecycleScope.launch {
-                try {
-                    model.marcarNotificacionComoLeida(idNotificacion)
-                }
-                catch (_: Exception) {
-                    Log.e("MainActivity","Error silencioso al fallar en marcar notificacion como leida")
-                }
-            }
-        } else {
-            Log.i("MainActivity","No se ha recibido notificacion")
-        }
+        // Llama a la logica de notificaciones
+        model.notificaciones(intent)
     }
 
     // Inflado del menu toolbar
@@ -189,30 +173,5 @@ class MainActivity : AppCompatActivity() {
     // Modificación logica flecha de retroceso
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    // Función que gestiona los trabajadores
-    private fun trabajadores() {
-        // trabajador 1 (cambio estados) - Lo configuramos para una ejecución diaria
-        val ahoraMismo = Calendar.getInstance()
-        // Definimos la fecha de configuración
-        val fechaEjecucion = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0) // A las 0 horas
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-        // Forzar la primera ejecución a las 0 horas del dia siguiente
-        fechaEjecucion.add(Calendar.DAY_OF_MONTH, 1)
-        val calcularRetraso = fechaEjecucion.timeInMillis - ahoraMismo.timeInMillis
-        // Configuramos el worker
-        val actualizarEstadoWorker = PeriodicWorkRequestBuilder<ActualizarEstadoWorker>(
-            1, TimeUnit.DAYS
-        )
-            .setInitialDelay(calcularRetraso, TimeUnit.MILLISECONDS)
-            .build()
-
-        // Mandamos el trabajo
-        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork("ActualizarEstado", ExistingPeriodicWorkPolicy.KEEP, actualizarEstadoWorker)
     }
 }
