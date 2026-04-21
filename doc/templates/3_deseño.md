@@ -87,8 +87,8 @@ erDiagram
         Leida boolean
     }
 
-    %% relacións
-    Proyectos o|--o{ Tareas : contén
+    %% relacións  --- Actualizar la versión mermaid no le gustan las tildes, pero las versiones as más reciente si.
+    Proyectos o|--o{ Tareas : conten
     Proyectos o{--o{ Etiquetas : ten
     Tareas o{--o{ Etiquetas : ten
     Tareas ||--o| Notificaciones : xera
