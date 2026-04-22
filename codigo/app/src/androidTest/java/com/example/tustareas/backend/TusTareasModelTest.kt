@@ -2,6 +2,7 @@ package com.example.tustareas.backend
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -119,7 +120,9 @@ class TusTareasModelTest {
         WorkerRepository(db).anadirNotificacion(notificacion)
 
         // actualizacion de notificacion
-        modelo.marcarNotificacionComoLeida(1)
+        modelo.notificaciones(intent = Intent().apply {
+            putExtra("idNotificacion", 1)
+        })
 
         // vigilar notificaciones
         val notificaicones = WorkerRepository(db).obtenerTodasLasNotificaciones()
