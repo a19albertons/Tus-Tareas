@@ -81,6 +81,9 @@ dependencies {
     androidTestImplementation(libs.androidx.arch.core.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
 
+    // Cifrado bd
+    implementation(libs.sqlcipher.android)
+
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
