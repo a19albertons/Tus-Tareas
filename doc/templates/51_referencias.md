@@ -7,3 +7,4 @@
 - claude
 - qwen
 - kimi
+- proandroiddev.com
