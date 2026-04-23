@@ -8,3 +8,4 @@
 - qwen
 - kimi
 - proandroiddev.com
+- gitlab.com
