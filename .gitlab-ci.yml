@@ -62,32 +62,32 @@ before_script:
 
 # Basic android and gradle stuff
 # Check linting
-# lintDebug:
-#   interruptible: true
-#   stage: build
-#   script:
-#     - cd codigo
-#     - ./gradlew -Pci --console=plain :app:lintProduccionDebug -PbuildDir=lint
-#   artifacts:
-#     paths:
-#       - codigo/app/lint/reports/lint-results-debug.html
-#     expose_as: "lint-report"
-#     when: always
+lintDebug:
+  interruptible: true
+  stage: build
+  script:
+    - cd codigo
+    - ./gradlew -Pci --console=plain :app:lintProduccionDebug -PbuildDir=lint
+  artifacts:
+    paths:
+      - codigo/app/lint/reports/lint-results-debug.html
+    expose_as: "lint-report"
+    when: always
 
-# # Make Project
-# assembleDebug:
-#   interruptible: true
-#   stage: build
-#   script:
-#     - cd codigo
-#     - ./gradlew assembleDebug
-#   artifacts:
-#     paths:
-#       - codigo/app/build/outputs/
+# Make Project
+assembleDebug:
+  interruptible: true
+  stage: build
+  script:
+    - cd codigo
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+      - codigo/app/build/outputs/
 
 # Run all tests, if any fails, interrupt the pipeline(fail it)
 debugTests:
-  # needs: [lintDebug, assembleDebug]
+  needs: [lintDebug, assembleDebug]
   interruptible: true
   stage: test
   script:
