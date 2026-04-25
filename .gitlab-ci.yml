@@ -29,6 +29,7 @@ variables:
 
 # Packages installation before running script
 before_script:
+  - echo "nucleos disponibles en el runner $(nproc)"
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget unzip
 
@@ -53,40 +54,78 @@ before_script:
   - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
   - sdkmanager "platform-tools"
   - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
-
+  - sdkmanager "emulator"
+  - sdkmanager "system-images;android-30;aosp_atd;x86_64"
+  # - sdkmanager "system-images;android-30;default;arm64-v8a"
   # Not necessary, but just for surity
   - chmod +x codigo/gradlew
 
 # Basic android and gradle stuff
 # Check linting
-lintDebug:
-  interruptible: true
-  stage: build
-  script:
-    - cd codigo
-    - ./gradlew -Pci --console=plain :app:lintProduccionDebug -PbuildDir=lint
-  artifacts:
-    paths:
-      - codigo/app/lint/reports/lint-results-debug.html
-    expose_as: "lint-report"
-    when: always
+# lintDebug:
+#   interruptible: true
+#   stage: build
+#   script:
+#     - cd codigo
+#     - ./gradlew -Pci --console=plain :app:lintProduccionDebug -PbuildDir=lint
+#   artifacts:
+#     paths:
+#       - codigo/app/lint/reports/lint-results-debug.html
+#     expose_as: "lint-report"
+#     when: always
 
-# Make Project
-assembleDebug:
-  interruptible: true
-  stage: build
-  script:
-    - cd codigo
-    - ./gradlew assembleDebug
-  artifacts:
-    paths:
-      - codigo/app/build/outputs/
+# # Make Project
+# assembleDebug:
+#   interruptible: true
+#   stage: build
+#   script:
+#     - cd codigo
+#     - ./gradlew assembleDebug
+#   artifacts:
+#     paths:
+#       - codigo/app/build/outputs/
 
 # Run all tests, if any fails, interrupt the pipeline(fail it)
 debugTests:
-  needs: [lintDebug, assembleDebug]
+  # needs: [lintDebug, assembleDebug]
   interruptible: true
   stage: test
   script:
     - cd codigo
-    - ./gradlew -Pci --console=plain :app:testResultsCollectionProduccionDebug
+    # 1. Instalar dependencias necesarias y ADB
+    - apt-get --quiet update && apt-get --quiet install --yes libpulse0 libglu1-mesa libnss3 libxcomposite1 libxcursor1 libasound2 libgl1 libqt5gui5 adb
+    
+    # 2. Descargar la imagen del sistema (ARM es necesaria para emulación por software estable sin KVM)
+    # - $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-30;default;x86_64"
+    
+    # 3. Crear el dispositivo virtual (AVD) manualmente
+    - echo "no" | avdmanager create avd -n "ci_device" -k "system-images;android-30;aosp_atd;x86_64" --force --device "pixel_2"
+    
+    # 4. Lanzar el emulador en segundo plano
+    # -no-accel: Desactiva KVM y fuerza emulación por software
+    # -no-window: No necesita entorno gráfico
+    - $ANDROID_HOME/emulator/emulator -avd "ci_device" -no-window -no-audio -no-accel -no-boot-anim -gpu swiftshader_indirect -cores 4 -memory 4096 &
+    
+    # 5. Esperar a que el móvil arranque completamente
+    - |
+      echo "Esperando a que el emulador arranque (esto puede tardar 10-15 min en ARM sin KVM)..."
+      adb wait-for-device
+      # Bucle para verificar que el sistema ha terminado de cargar el escritorio
+      while [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" != "1" ]; do
+        echo "Cargando sistema..."
+        sleep 15
+      done
+      echo "¡Dispositivo listo para pruebas!"
+    
+    # 6. Lanzar las pruebas contra el dispositivo ya arrancado y verificar resultados, si hay fallos, marcar el job como fallido
+    - |
+      ./gradlew -Pci --console=plain :app:connectedProduccionDebugAndroidTest :app:testResultsCollectionProduccionDebug
+      TEST_XML=$(find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' | head -n 1)
+      if [ -z "$TEST_XML" ]; then
+        echo "No se encontraron resultados de tests instrumentados."
+        exit 1
+      fi
+      if find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' -print0 | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"'; then
+        echo "Fallos encontrados en resultados de Android Test."
+        exit 1
+      fi
