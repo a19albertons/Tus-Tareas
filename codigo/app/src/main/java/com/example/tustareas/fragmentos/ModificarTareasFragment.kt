@@ -226,7 +226,7 @@ class ModificarTareasFragment : Fragment() {
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
                     tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
                     if (tareaDTO.tarea.estado != Estado.Completada) {
-                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(Date())) {
+                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(DateHelper.fechaMediaNocheUTC())) {
                             tareaDTO.tarea.estado = Estado.EnTiempo
                         }
                         else {
@@ -273,7 +273,7 @@ class ModificarTareasFragment : Fragment() {
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
                     tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
                     if (tareaDTO.tarea.estado != Estado.Completada) {
-                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(Date())) {
+                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(DateHelper.fechaMediaNocheUTC())) {
                             tareaDTO.tarea.estado = Estado.EnTiempo
                         }
                         else {

@@ -59,7 +59,7 @@ class ProyectoDetallesFragment : Fragment() {
             proyecto ->
             binding.tituloProyecto.text = proyecto.proyecto.nombre
             binding.descipcionProyecto.text = proyecto.proyecto.descripcion
-            binding.fechaCreacionProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaInicio)
+            binding.fechaCreacionProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaCreacion)
             binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaInicio)
             binding.fechaFinProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaFin)
 

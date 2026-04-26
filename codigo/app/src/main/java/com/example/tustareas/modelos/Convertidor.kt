@@ -3,6 +3,7 @@ package com.example.tustareas.modelos
 import androidx.room.TypeConverter
 import java.util.Calendar
 import java.util.Date
+import java.util.TimeZone
 
 /**
  * Clase que gestiona las conversiones que requiere room para los enums y tipos especificos
@@ -34,8 +35,8 @@ class Convertidor {
     @TypeConverter
     fun fromDate(value: Date?): Long? {
         if (value == null) return null
-        // Conversion datetime a date
-        val cal = Calendar.getInstance()
+        // Conversion datetime a date normalizada a UTC para evitar desfases de zona horaria
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         cal.time = value
         cal.set(Calendar.HOUR_OF_DAY, 0)
         cal.set(Calendar.MINUTE, 0)

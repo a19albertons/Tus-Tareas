@@ -14,8 +14,8 @@ import com.example.tustareas.adapters.TareasProximasAdapter
 import com.example.tustareas.adapters.TareasRetrasadasAdapter
 import com.example.tustareas.databinding.FragmentInicioBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
-import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de inicio.
@@ -38,8 +38,10 @@ class InicioFragment : Fragment() {
         _binding = FragmentInicioBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        val hoy = DateHelper.fechaMediaNocheUTC()
+
         // observar tareas pendientes para hoy
-        model.inicio.obtenerTareasTerminanDiaEspecifico(Date()).observe(viewLifecycleOwner) {
+        model.inicio.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) {
             listadoTareasHoyFechaLimite ->
             // switch
             when (listadoTareasHoyFechaLimite?.size ?: 0) {
@@ -90,7 +92,7 @@ class InicioFragment : Fragment() {
         }
 
         // Gestiona las tareas futuras
-        model.inicio.obtenerTareasProximas(Date()).observe(viewLifecycleOwner) {
+        model.inicio.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) {
             listadoTareasProximas ->
             // switch
             when (listadoTareasProximas?.size ?: 0) {

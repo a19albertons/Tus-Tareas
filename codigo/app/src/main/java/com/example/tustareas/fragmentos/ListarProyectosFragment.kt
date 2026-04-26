@@ -20,8 +20,8 @@ import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Proyecto
+import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
-import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de listar proyectos.
@@ -151,7 +151,7 @@ class ListarProyectosFragment : Fragment() {
         binding.anadirProyecto.setOnClickListener {
             // Mandamos un valor de proyectoDTO totalmente vacio con valores por defecto
             val proyectoDTO = ProyectoDTO(
-                proyecto = Proyecto(0,"", "", Date(), null, null),
+                proyecto = Proyecto(0,"", "", DateHelper.fechaMediaNocheUTC(), null, null),
                 etiquetas = emptyList(),
                 tareas = emptyList()
             )

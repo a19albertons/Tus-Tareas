@@ -1,6 +1,8 @@
 package com.example.tustareas.fragmentos
 
-import android.icu.util.Calendar
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +16,6 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de estadísticas.
@@ -38,10 +39,9 @@ class EstadisticasFragment : Fragment() {
         _binding = FragmentEstadisticasBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00
-        val calendar = Calendar.getInstance()
-        val timestamp = Date()
-        calendar.time = timestamp
+        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 en UTC
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+        calendar.time = Date()
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)

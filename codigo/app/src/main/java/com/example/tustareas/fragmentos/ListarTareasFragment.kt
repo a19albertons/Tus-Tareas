@@ -23,8 +23,8 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
-import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de listar tareas.
@@ -209,7 +209,7 @@ class ListarTareasFragment : Fragment() {
 
         // Boton añadir tareas
         binding.anadirTarea.setOnClickListener {
-            val tarea = Tarea(0, "", null, null, Prioridad.Alta, Date(), Estado.EnTiempo, null)
+            val tarea = Tarea(0, "", null, null, Prioridad.Alta, DateHelper.fechaMediaNocheUTC(), Estado.EnTiempo, null)
             val dto = TareaDTO(tarea, emptyList())
             try {
                 findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
