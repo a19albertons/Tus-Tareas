@@ -110,7 +110,7 @@ class TusTareasModel @JvmOverloads constructor(
         WorkManager.getInstance(application).enqueueUniquePeriodicWork("ActualizarEstado", ExistingPeriodicWorkPolicy.KEEP, actualizarEstadoWorker)
     }
 
-    fun notificaciones(intent: Intent) {
+    suspend fun notificaciones(intent: Intent) {
         // Alertas/notificaciones
         AlarmaHelper.programarAlarmaDiaria(application)
 
@@ -118,13 +118,11 @@ class TusTareasModel @JvmOverloads constructor(
         val idNotificacion = intent.getIntExtra("idNotificacion",-1)
         if (idNotificacion != -1) {
             // Marcamos como leida
-            viewModelScope.launch {
-                try {
-                    marcarNotificacionComoLeida(idNotificacion)
-                }
-                catch (_: Exception) {
-                    Log.e("MainActivity","Error silencioso al fallar en marcar notificacion como leida")
-                }
+            try {
+                marcarNotificacionComoLeida(idNotificacion)
+            }
+            catch (_: Exception) {
+                Log.e("MainActivity","Error silencioso al fallar en marcar notificacion como leida")
             }
         } else {
             Log.i("MainActivity","No se ha recibido notificacion")

@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
+import androidx.lifecycle.viewModelScope
 
 /**
  * Clase principal del proyecto que representa la actividad
@@ -134,7 +135,9 @@ class MainActivity : AppCompatActivity() {
         model.trabajadores()
 
         // Llama a la logica de notificaciones
-        model.notificaciones(intent)
+        lifecycleScope.launch {
+            model.notificaciones(intent)
+        }
     }
 
     // Inflado del menu toolbar
