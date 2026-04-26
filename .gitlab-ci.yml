@@ -38,10 +38,13 @@ variables:
 before_script:
   - echo "nucleos disponibles en el runner $(nproc)"
   - apt-get --quiet update --yes
-  - apt-get --quiet install --yes wget unzip
-  - curl -Lo glab.tar.gz https://gitlab.com/gitlab-org/cli/-/releases/v1.47.0/downloads/glab_1.47.0_linux_amd64.tar.gz
-  - tar -xzf glab.tar.gz
-  - mv bin/glab /usr/local/bin/.
+  - apt-get --quiet install --yes git wget unzip ca-certificates dpkg curl jq
+
+  # Install GitLab CLI (glab) for securefile download and other GitLab operations
+  - GLAB_VERSION=$(curl -sSL https://api.github.com/repos/profclems/glab/releases/latest | jq -r '.tag_name | ltrimstr("v")')
+  - GLAB_DEB="glab_${GLAB_VERSION}_Linux_x86_64.deb"
+  - wget --quiet --output-document="/tmp/$GLAB_DEB" "https://github.com/profclems/glab/releases/latest/download/$GLAB_DEB"
+  - dpkg --install "/tmp/$GLAB_DEB" || apt-get --quiet install --yes -f
 
   # Setup path as android_home for moving/exporting the downloaded sdk into it
   - export ANDROID_HOME="${PWD}/android-sdk-root"
