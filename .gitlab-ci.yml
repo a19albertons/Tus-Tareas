@@ -74,7 +74,7 @@ lintDebug:
     expose_as: "lint-report"
     when: always
 
-# Make Project
+# # Make Project
 assembleDebug:
   interruptible: true
   stage: build
@@ -85,9 +85,32 @@ assembleDebug:
     paths:
       - codigo/app/build/outputs/
 
+# Genera el APK de produccion firmada
+assembleRelease:
+  interruptible: true
+  stage: build
+  script:
+    - cd codigo
+    - ./gradlew assembleRelease
+    # Ruta del APK generado sin firmar
+    - RUTA_APK=$(find app/build/outputs/apk/produccion/release -name "*.apk" | head -n 1)
+    # Comando para firmar el APK
+    - |
+      $ANDROID_HOME/build-tools/${ANDROID_BUILD_TOOLS}/apksigner \
+      sign \
+      --ks "$CI_KEYSTORE_FILE" \
+      --ks-pass pass:"$CI_KEYSTORE_PASSWORD" \
+      --ks-key-alias "$CI_KEY_ALIAS" \
+      --key-pass pass:"$CI_KEY_PASSWORD" \
+      --out app-signed.apk \
+      "$RUTA_APK"
+  artifacts:
+    paths:
+      - codigo/app-signed.apk
+
 # Run all tests, if any fails, interrupt the pipeline(fail it)
-debugTests:
-  needs: [lintDebug, assembleDebug]
+Tests:
+  needs: [lintDebug, assembleDebug, assembleRelease]
   interruptible: true
   stage: test
   script:
