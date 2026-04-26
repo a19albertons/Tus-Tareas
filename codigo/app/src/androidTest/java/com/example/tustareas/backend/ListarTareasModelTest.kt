@@ -41,7 +41,7 @@ class ListarTareasModelTest {
     private lateinit var modelo: TusTareasModel
 
 
-    private val diaReferencia = 1735686000000
+    private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before

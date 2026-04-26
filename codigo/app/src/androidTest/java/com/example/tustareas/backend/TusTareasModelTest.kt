@@ -17,13 +17,13 @@ import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.repository.WorkerRepository
+import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Date
 
 /**
  * Clase que gestiona las pruebas integración del modelo tus tareas
@@ -62,14 +62,14 @@ class TusTareasModelTest {
         val tareaCompleta = Tarea(
             nombre = "tarea completa",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             estado = Estado.Completada
         )
         val tareaCompletaDto = TareaDTO(tareaCompleta, emptyList())
         val tareaIncompleta = Tarea(
             nombre = "tarea incompleta",
             prioridad = Prioridad.Baja,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             estado = Estado.EnTiempo
         )
         val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
@@ -105,7 +105,7 @@ class TusTareasModelTest {
         val tarea = Tarea(
             nombre = "tarea",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             estado = Estado.EnTiempo
         )
         val tareaDTO = TareaDTO(tarea, emptyList())

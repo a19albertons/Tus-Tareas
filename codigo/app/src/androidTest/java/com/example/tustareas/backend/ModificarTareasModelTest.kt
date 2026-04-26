@@ -14,6 +14,7 @@ import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -37,7 +38,7 @@ class ModificarTareasModelTest {
     private lateinit var modelo: TusTareasModel
 
 
-    private val diaReferencia = 1735686000000
+    private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
@@ -86,7 +87,7 @@ class ModificarTareasModelTest {
         val tareaRetrasada = Tarea(
             nombre = "tareaRetrasada",
             prioridad = Prioridad.Media,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia - 86400000), // Un día antes
             estado = Estado.Retrasada
         )
@@ -109,9 +110,9 @@ class ModificarTareasModelTest {
             0,
             "prueba",
             "descripcion",
-            Date(),
+            DateHelper.fechaMediaNocheUTC(),
             Prioridad.NoEstablecido,
-            Date(),
+            DateHelper.fechaMediaNocheUTC(),
             Estado.EnTiempo,
             null
         )
@@ -141,9 +142,9 @@ class ModificarTareasModelTest {
             0,
             "prueba",
             "descripcion",
-            Date(),
+            DateHelper.fechaMediaNocheUTC(),
             Prioridad.NoEstablecido,
-            Date(),
+            DateHelper.fechaMediaNocheUTC(),
             Estado.EnTiempo,
             null
         )

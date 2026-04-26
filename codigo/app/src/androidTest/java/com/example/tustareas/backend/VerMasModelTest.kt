@@ -13,6 +13,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -38,7 +39,7 @@ class VerMasModelTest {
 
 
     // En esta clase de pruebas no se usa
-    private val diaReferencia = 1735686000000
+    private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
@@ -62,8 +63,8 @@ class VerMasModelTest {
         val tarea2 = Tarea(
             nombre = "tarea2",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
-            fechaLimite = Date(Date().time + 86400000), // Un día después
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
             estado = Estado.EnTiempo
         )
         val tarea2DTO = TareaDTO(tarea2, emptyList())
@@ -71,8 +72,8 @@ class VerMasModelTest {
         val tareaHoy = Tarea(
             nombre = "tareaHoy",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
-            fechaLimite = Date(), // Hoy
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = DateHelper.fechaMediaNocheUTC(), // Hoy
             estado = Estado.EnTiempo
         )
         val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
@@ -80,8 +81,8 @@ class VerMasModelTest {
         val tareaRetrasada = Tarea(
             nombre = "tareaRetrasada",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
-            fechaLimite = Date(Date().time - 86400000), // Un día antes
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time - 86400000), // Un día antes
             // Es el campo se mira.
             estado = Estado.Retrasada
         )

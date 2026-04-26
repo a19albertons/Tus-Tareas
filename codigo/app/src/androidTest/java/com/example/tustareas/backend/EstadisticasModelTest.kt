@@ -2,7 +2,6 @@ package com.example.tustareas.backend
 
 import android.app.Application
 import android.content.Context
-import android.icu.util.Calendar
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -15,6 +14,7 @@ import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -22,7 +22,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
 import java.util.Date
+import java.util.TimeZone
 
 /**
  * Clase que gestiona las pruebas de integración de estadísticas model
@@ -40,8 +42,8 @@ class EstadisticasModelTest {
 
 
 
-    // Miercoles 1/1/2025 en horario español peninsular
-    private val diaReferencia = 1735686000000
+    // Miercoles 1/1/2025 00:00:00 UTC
+    private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
@@ -76,7 +78,7 @@ class EstadisticasModelTest {
             nombre = "tareaHoy",
             descripcion = "descripcion",
             prioridad = Prioridad.Alta,
-            fechaCreacion = Date(Date().time - 86400000),
+            fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
             fechaLimite = Date(diaReferencia), // Hoy
             estado = Estado.Completada
         )
@@ -90,7 +92,7 @@ class EstadisticasModelTest {
         val tareaRetrasada = Tarea(
             nombre = "tareaRetrasada",
             prioridad = Prioridad.Media,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia - 86400000), // Un día antes
             estado = Estado.Retrasada
         )
@@ -149,7 +151,7 @@ class EstadisticasModelTest {
         val tarea7 = Tarea(
             nombre = "tarea7",
             prioridad = Prioridad.Alta,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia + 3 * 86400000),
             estado = Estado.EnTiempo
         )
@@ -255,8 +257,8 @@ class EstadisticasModelTest {
 
     @Test
     fun obtenerRuedaCompletas() = runTest {
-        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00
-        val calendar = Calendar.getInstance()
+        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 UTC
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.time = Date(diaReferencia)
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -283,8 +285,8 @@ class EstadisticasModelTest {
 
     @Test
     fun obtenerRuedaEnTiempo() = runTest {
-        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00
-        val calendar = Calendar.getInstance()
+        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 UTC
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.time = Date(diaReferencia)
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -310,8 +312,8 @@ class EstadisticasModelTest {
 
     @Test
     fun obtenerDatosGrafico() = runTest {
-        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00
-        val calendar = Calendar.getInstance()
+        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 UTC
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.time = Date(diaReferencia)
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
