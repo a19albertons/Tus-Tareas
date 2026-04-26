@@ -143,7 +143,7 @@ assembleRelease:
     # Ruta del APK generado sin firmar
     - RUTA_APK=$(find app/build/outputs/apk/produccion/release -name "*.apk" | head -n 1)
     # Obtener el jks en base 64 y guardarlo en un archivo temporal
-    - echo "${CI_KEYSTORE_FILE}" | base64 -d > fichero.jks
+    - base64 -d ${CI_KEYSTORE_FILE} > fichero.jks
     # Comando para firmar el APK
     - |
       $ANDROID_HOME/build-tools/${ANDROID_BUILD_TOOLS}/apksigner \
