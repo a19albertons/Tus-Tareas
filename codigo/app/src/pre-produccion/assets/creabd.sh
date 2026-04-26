@@ -1,11 +1,13 @@
 #!/bin/bash
 # Script para crear una base de datos SQLite con la estructura de las entidades Room
-# y poblarla con unos datos de ejemplo. Las fechas se guardan como INTEGER
-# en formato timestamp (milisegundos) correspondiente a la fecha
-# año/mes/día (hora normalizada a 00:00). Es decir, igual que usa el
+# de la aplicación y poblarla con unos datos de ejemplo. Se basa en el esquema actual de
+# gestión de tareas y horario de la aplicación.
+#
+# Las fechas se guardan como INTEGER en formato timestamp (milisegundos) correspondiente a la fecha
+# normalizada a medianoche UTC. Es decir, igual que usa el
 # TypeConverter de la aplicación.
 # Colocar este fichero en la raíz del proyecto y ejecutar:
-#   bash create_database.sh
+#   bash creabd.sh
 # Generará un archivo "baseDatos.db" en la misma carpeta.
 DB="baseDatos.db"
 # eliminar si existe para recrear desde cero
