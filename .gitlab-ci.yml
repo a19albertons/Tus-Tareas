@@ -85,34 +85,11 @@ assembleDebug:
     paths:
       - codigo/app/build/outputs/
 
-# Genera el APK de produccion firmada
-assembleRelease:
-  interruptible: true
-  stage: build
-  script:
-    - cd codigo
-    - ./gradlew assembleRelease
-    # Ruta del APK generado sin firmar
-    - RUTA_APK=$(find app/build/outputs/apk/produccion/release -name "*.apk" | head -n 1)
-    # Obtener el jks en base 64 y guardarlo en un archivo temporal
-    - echo "${CI_KEYSTORE_FILE}" | base64 -d > fichero.jks
-    # Comando para firmar el APK
-    - |
-      $ANDROID_HOME/build-tools/${ANDROID_BUILD_TOOLS}/apksigner \
-      sign \
-      --ks "fichero.jks" \
-      --ks-pass pass:"${CI_KEYSTORE_PASSWORD}" \
-      --ks-key-alias "${CI_KEY_ALIAS}" \
-      --key-pass pass:"${CI_KEY_PASSWORD}" \
-      --out app-signed.apk \
-      "$RUTA_APK"
-  artifacts:
-    paths:
-      - codigo/app-signed.apk
+
 
 # Run all tests, if any fails, interrupt the pipeline(fail it)
 Tests:
-  needs: [lintDebug, assembleDebug, assembleRelease]
+  needs: [lintDebug, assembleDebug]
   interruptible: true
   stage: test
   script:
@@ -154,3 +131,31 @@ Tests:
         echo "Fallos encontrados en resultados de Android Test."
         exit 1
       fi
+
+# Genera el APK de produccion firmada
+assembleRelease:
+  needs: [Tests]
+  interruptible: true
+  stage: sign
+  script:
+    - cd codigo
+    - ./gradlew assembleRelease
+    # Ruta del APK generado sin firmar
+    - RUTA_APK=$(find app/build/outputs/apk/produccion/release -name "*.apk" | head -n 1)
+    # Obtener el jks en base 64 y guardarlo en un archivo temporal
+    - echo "${CI_KEYSTORE_FILE}" | base64 -d > fichero.jks
+    # Comando para firmar el APK
+    - |
+      $ANDROID_HOME/build-tools/${ANDROID_BUILD_TOOLS}/apksigner \
+      sign \
+      --ks "fichero.jks" \
+      --ks-pass pass:"${CI_KEYSTORE_PASSWORD}" \
+      --ks-key-alias "${CI_KEY_ALIAS}" \
+      --key-pass pass:"${CI_KEY_PASSWORD}" \
+      --out app-signed.apk \
+      "$RUTA_APK"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+  artifacts:
+    paths:
+      - codigo/app-signed.apk
