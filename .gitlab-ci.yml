@@ -39,6 +39,9 @@ before_script:
   - echo "nucleos disponibles en el runner $(nproc)"
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes wget unzip
+  - curl -Lo glab.tar.gz https://gitlab.com/gitlab-org/cli/-/releases/v1.47.0/downloads/glab_1.47.0_linux_amd64.tar.gz
+  - tar -xzf glab.tar.gz
+  - mv bin/glab /usr/local/bin/.
 
   # Setup path as android_home for moving/exporting the downloaded sdk into it
   - export ANDROID_HOME="${PWD}/android-sdk-root"
