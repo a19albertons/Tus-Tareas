@@ -94,14 +94,16 @@ assembleRelease:
     - ./gradlew assembleRelease
     # Ruta del APK generado sin firmar
     - RUTA_APK=$(find app/build/outputs/apk/produccion/release -name "*.apk" | head -n 1)
+    # Obtener el jks en base 64 y guardarlo en un archivo temporal
+    - echo "${CI_KEYSTORE_FILE}" | base64 -d > fichero.jks
     # Comando para firmar el APK
     - |
       $ANDROID_HOME/build-tools/${ANDROID_BUILD_TOOLS}/apksigner \
       sign \
-      --ks "$CI_KEYSTORE_FILE" \
-      --ks-pass pass:"$CI_KEYSTORE_PASSWORD" \
-      --ks-key-alias "$CI_KEY_ALIAS" \
-      --key-pass pass:"$CI_KEY_PASSWORD" \
+      --ks "fichero.jks" \
+      --ks-pass pass:"${CI_KEYSTORE_PASSWORD}" \
+      --ks-key-alias "${CI_KEY_ALIAS}" \
+      --key-pass pass:"${CI_KEY_PASSWORD}" \
       --out app-signed.apk \
       "$RUTA_APK"
   artifacts:
