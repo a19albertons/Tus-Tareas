@@ -38,12 +38,12 @@ variables:
 before_script:
   - echo "nucleos disponibles en el runner $(nproc)"
   - apt-get --quiet update --yes
-  - apt-get --quiet install --yes git wget unzip ca-certificates dpkg curl jq
+  - apt-get --quiet install --yes git wget unzip ca-certificates dpkg curl jq python3
 
-  # Install GitLab CLI (glab) for securefile download and other GitLab operations
-  - GLAB_VERSION=$(curl -sSL https://api.github.com/repos/profclems/glab/releases/latest | jq -r '.tag_name | ltrimstr("v")')
-  - GLAB_DEB="glab_${GLAB_VERSION}_Linux_x86_64.deb"
-  - wget --quiet --output-document="/tmp/$GLAB_DEB" "https://github.com/profclems/glab/releases/latest/download/$GLAB_DEB"
+  # Install official GitLab CLI (glab) for securefile download and other GitLab operations
+  - GLAB_VERSION=$(curl -sSL https://gitlab.com/api/v4/projects/$(python3 -c 'import urllib.parse; print(urllib.parse.quote("gitlab-org/cli", safe=""))')/releases | jq -r '.[0].tag_name | ltrimstr("v")')
+  - GLAB_DEB="glab_${GLAB_VERSION}_linux_amd64.deb"
+  - wget --quiet --output-document="/tmp/$GLAB_DEB" "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/$GLAB_DEB"
   - dpkg --install "/tmp/$GLAB_DEB" || apt-get --quiet install --yes -f
 
   # Setup path as android_home for moving/exporting the downloaded sdk into it
