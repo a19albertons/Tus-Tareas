@@ -60,8 +60,18 @@ class MainActivity : AppCompatActivity() {
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Habilita el modo oscuro segun la preferencia guardada
+        val prefs = getSharedPreferences("settings", MODE_PRIVATE)
+        val modo = prefs.getInt("tema", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(modo)
+
+        // Asegurar aplicación idioma
+        val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
+        LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
+
         // Muestra la pantalla de carga antes de que se empiece a dibujar el primer frame del activyty y su fragmento
         installSplashScreen()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -87,16 +97,6 @@ class MainActivity : AppCompatActivity() {
 
         // Maneja la flecha de retroceso teniendo en cuenta el appbarconfiguration
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-
-
-        // Habilita el modo oscuro segun la preferencia guardada
-        val prefs = getSharedPreferences("settings", MODE_PRIVATE)
-        val modo = prefs.getInt("tema", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        AppCompatDelegate.setDefaultNightMode(modo)
-
-        // Asegurar aplicación idioma
-        val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
-        LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
 
         // Permiso para notificaicones
         val permisoNotificaciones = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
