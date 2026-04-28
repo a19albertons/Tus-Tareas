@@ -85,6 +85,9 @@ dependencies {
     // Cifrado bd
     implementation(libs.sqlcipher.android)
 
+    // Pantalla de carga aplicación
+    implementation(libs.androidx.core.splashscreen)
+
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
