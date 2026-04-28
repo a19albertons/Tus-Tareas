@@ -52,4 +52,12 @@
         <!-- Color de fondo -->
         <item name="android:itemBackground">@color/grayStatsToolbar</item>
     </style>
+
+    <!-- Customización del splash screen -->
+    <style name="Theme.TusTareas.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_circular</item>
+        <item name="windowSplashScreenAnimationDuration">500</item>
+        <item name="postSplashScreenTheme">@style/Theme.TusTareas</item>
+    </style>
 </resources>
