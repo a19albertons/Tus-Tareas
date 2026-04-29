@@ -73,7 +73,7 @@ class ModificarTareasModelTest {
             nombre = "tareaHoy",
             descripcion = "descripcion",
             prioridad = Prioridad.Alta,
-            fechaCreacion = Date(Date().time - 86400000),
+            fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
             fechaLimite = Date(diaReferencia), // Hoy
             estado = Estado.Completada
         )
