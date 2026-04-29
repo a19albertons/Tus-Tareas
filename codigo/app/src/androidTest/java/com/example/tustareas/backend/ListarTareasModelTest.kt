@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.filtros.OrdenarTareas
+import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
@@ -34,6 +35,9 @@ class ListarTareasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     // Variables comunes
     private lateinit var db: TusTareasDatabase
@@ -666,7 +670,7 @@ class ListarTareasModelTest {
         assert(resultado!!.last().nombre == "tareaHoy")
     }
 
-    // test modificar tarea (marcar como completada
+    // test modificar tarea (marcar como completada)
     @Test
     fun marcarTareaComoCompletada() = runTest {
         // Obtener datos 1
@@ -677,7 +681,9 @@ class ListarTareasModelTest {
         val modificada = liveData.value?.get(0)
         modificada!!.estado = Estado.Completada
 
-        modelo.listarTareas.modificarTarea(modificada)
+        val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
+        checkBox.isChecked = true
+        modelo.listarTareas.clickCheckbox(modificada, checkBox)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
@@ -686,5 +692,29 @@ class ListarTareasModelTest {
         // Resultado
         val resultado = liveData2.value
         assert(resultado!!.first().estado == Estado.Completada)
+    }
+
+    // test modificar tarea (marcar como no completada)
+    @Test
+    fun marcarTareaComoNoCompletada() = runTest {
+        // Obtener datos 1
+        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        liveData.observeForever {  }
+
+        // modificacion
+        val modificada = liveData.value?.get(2)
+        modificada!!.estado = Estado.Completada
+
+        val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
+        checkBox.isChecked = false
+        modelo.listarTareas.clickCheckbox(modificada, checkBox)
+
+        // Obtener datos 2
+        val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
+        liveData2.observeForever {  }
+
+        // Resultado
+        val resultado = liveData2.value
+        assert(resultado!!.get(2).estado != Estado.Completada)
     }
 }
