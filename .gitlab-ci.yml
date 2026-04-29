@@ -130,9 +130,18 @@ Tests:
         echo "Cargando sistema..."
         sleep 15
       done
-      echo "¡Dispositivo listo para pruebas!"
+      echo "¡Dispositivo iniciado!"
+
+    # 6. Comprobar que el movil esta listo para recibir comando ADB
+    - |
+      while [ "$(adb shell getprop dev.bootcomplete | tr -d '\r')" != "1" ]; do
+        echo "Cargando envio de comandos ADB..."
+        sleep 15
+      done
+      echo "¡Dispositivo iniciado!"
+
     
-    # 6. Lanzar las pruebas contra el dispositivo ya arrancado y verificar resultados, si hay fallos, marcar el job como fallido
+    # 7. Lanzar las pruebas contra el dispositivo ya arrancado y verificar resultados, si hay fallos, marcar el job como fallido
     - |
       ./gradlew -Pci --console=plain :app:connectedProduccionDebugAndroidTest :app:testResultsCollectionProduccionDebug
       TEST_XML=$(find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' | head -n 1)
