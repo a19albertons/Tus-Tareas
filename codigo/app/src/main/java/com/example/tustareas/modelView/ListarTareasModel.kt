@@ -11,10 +11,10 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.Date
 
 /**
  * Clase que gestiona el submodelo del fragmento listar tareas
@@ -84,7 +84,7 @@ class ListarTareasModel(
         }
         else {
             // Control de la fecha EnTiempo o Retrasada
-            if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! > Date()) {
+            if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! >= DateHelper.fechaMediaNocheUTC()) {
                 objectoActual.estado = Estado.EnTiempo
             }
             else {
