@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
@@ -31,6 +32,10 @@ class VerMasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    // Necesario para saltarse los scope que se ejecutan en hilos secundarios
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     // Variables comunes
     private lateinit var db: TusTareasDatabase
@@ -110,11 +115,12 @@ class VerMasModelTest {
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
-        // modificacion
+        // Obtenemos la tarea a modificar
         val modificada = liveData.value?.get(0)
-        modificada!!.estado = Estado.Completada
 
-        modelo.verMas.modificarTarea(modificada)
+        val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
+        checkBox.isChecked = true
+        modelo.verMas.clickCheckbox(modificada!!, checkBox)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
