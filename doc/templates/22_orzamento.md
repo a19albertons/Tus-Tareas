@@ -3,14 +3,14 @@
 ## Financiamento
 
 O proxecto está financiado íntegramente por recursos propios. Como o utilizamento de ordenadores preexistentes, unha parte da tua vivenda e os aforros persoais, o custo do proxecto ten un caracter máis de tempo ca de necesidade de investimento económico
-
+Isto non é así Que pagou os teus ordenadores? Que paga as facturas do teu domicilio? quen paga intenet por exemplo? Cal é o valor dos sistemas informaticos que usas? Que aforros tes? Isto debe reflexarse partida por partida no oramento
 ## Plan de inversión
 
 Seguindo o modelo americano, empezase desde o garaxe da casa dos teus pais ou unha habitación, polo tanto, non ten un custo de alugamento. Como equipos informáticos usaranse os mesmos ordenadores persoais que se empregaron para facer estes estudos previos, así como software gratuíto.
 
-O valor dos pcs é o seguinte:
+O valor dos pcs é o seguinte: Onde está a xustificiación destes valores? debe estar ao final nun apartado chamado referencias ou bibliografía
 
-- Portátil: 100.00 € (ram non incluida)
+- Portátil: 100.00 € (ram non incluida) 
 - Sobremesa: 250.00 € (ram, ssd e dgpu non incluida)
 - Ram: 260€
 - SSD: 50€
@@ -20,6 +20,8 @@ Como modelo empresarial, empezaríamos sendo autónomos/empresa individual segui
 [Fonte](https://portal.seg-social.gob.es/wps/portal/importass/importass/Categorias/Altas%2C+bajas+y+modificaciones/Altas+y+afiliacion+de+trabajadores/Alta_trabajo_autonomo)
 
 ## Conta de perdas e ganancias
+
+Por que estes datos e non outros de onde salen? Non os xustificas
 | | Ingresos | Gastos |
 | --- | --- | --- |
 | Ano 1 | 5000,00 € | 2470,56 + 867,77 € |
