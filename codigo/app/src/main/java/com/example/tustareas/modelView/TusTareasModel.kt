@@ -40,7 +40,7 @@ class TusTareasModel @JvmOverloads constructor(
     // Submodelos de los distintos fragmentos del proyecto
     val inicio = InicioModel(repository)
     val verMas = VerMasModel(repository)
-    val listarTareas = ListarTareasModel(repository)
+    val listarTareas = ListarTareasModel(repository, viewModelScope)
     val tareaDetalles = TareaDetallesModel(repository)
     val modificarTareas = ModificarTareasModel(repository)
     val listarProyectos = ListarProyectosModel(repository)
