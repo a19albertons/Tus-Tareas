@@ -72,34 +72,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
-            if (holder.checkbox.isChecked) {
-                objectoActual.estado = Estado.Completada
-                scope.launch {
-                    try {
-                        model.verMas.modificarTarea(objectoActual)
-                    }
-                    catch (_: Exception) {
-                        Snackbar.make(it, it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            else {
-                // Control de la fecha EnTiempo o Retrasada
-                if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! >= DateHelper.fechaMediaNocheUTC()) {
-                    objectoActual.estado = Estado.EnTiempo
-                }
-                else {
-                    objectoActual.estado = Estado.Retrasada
-                }
-                scope.launch {
-                    try {
-                        model.verMas.modificarTarea(objectoActual)
-                    }
-                    catch (_: Exception) {
-                        Snackbar.make(it, it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-            }
+            model.verMas.clickCheckbox(objectoActual, holder.checkbox)
         }
 
     }
