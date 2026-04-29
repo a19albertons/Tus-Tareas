@@ -79,7 +79,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
             }
             else {
                 // Control de la fecha EnTiempo o Retrasada
-                if (objectoActual.fechaLimite != null && objectoActual.fechaLimite!! > Date()) {
+                if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! > Date()) {
                     objectoActual.estado = Estado.EnTiempo
                 }
                 else {

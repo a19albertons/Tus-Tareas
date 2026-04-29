@@ -86,7 +86,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
             }
             else {
                 // Control de la fecha EnTiempo o Retrasada
-                if (objectoActual.fechaLimite != null && objectoActual.fechaLimite!! > Date()) {
+                if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! > Date()) {
                     objectoActual.estado = Estado.EnTiempo
                 }
                 else {
