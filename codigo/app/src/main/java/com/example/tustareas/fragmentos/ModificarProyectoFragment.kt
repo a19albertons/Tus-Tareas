@@ -76,7 +76,7 @@ class ModificarProyectoFragment : Fragment() {
             tareas ->
             if (tareas.isEmpty()) {
                 listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
-                    Date(), Estado.EnTiempo, null))
+                    DateHelper.fechaMediaNocheUTC(), Estado.EnTiempo, null))
             }
             else {
                 listaTareas = tareas
