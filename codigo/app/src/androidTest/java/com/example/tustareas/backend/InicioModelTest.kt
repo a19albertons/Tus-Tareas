@@ -13,6 +13,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -52,7 +53,7 @@ class InicioModelTest {
         val tarea1 = Tarea(
             nombre = "tarea1",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = null,
             estado = Estado.EnTiempo
         )
@@ -61,7 +62,7 @@ class InicioModelTest {
         val tarea2 = Tarea(
             nombre = "tarea2",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia + 86400000), // Un día después
             estado = Estado.EnTiempo
         )
@@ -70,7 +71,7 @@ class InicioModelTest {
         val tareaHoy = Tarea(
             nombre = "tareaHoy",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia), // Hoy
             estado = Estado.EnTiempo
         )
@@ -79,7 +80,7 @@ class InicioModelTest {
         val tareaRetrasada = Tarea(
             nombre = "tareaRetrasada",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia - 86400000), // Un día antes
             // Es el campo se mira.
             estado = Estado.Retrasada
