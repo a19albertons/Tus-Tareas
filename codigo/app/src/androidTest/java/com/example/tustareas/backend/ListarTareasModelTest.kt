@@ -37,6 +37,7 @@ class ListarTareasModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarse los scope que se ejecutan en hilos secundarios
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
@@ -678,13 +679,12 @@ class ListarTareasModelTest {
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
-        // modificacion
+        // Obtener tarea a modificar
         val modificada = liveData.value?.get(0)
-        modificada!!.estado = Estado.Completada
 
         val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
         checkBox.isChecked = true
-        modelo.listarTareas.clickCheckbox(modificada, checkBox)
+        modelo.listarTareas.clickCheckbox(modificada!!, checkBox)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
@@ -702,13 +702,12 @@ class ListarTareasModelTest {
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
-        // modificacion
+        // Obtener tarea a modificar
         val modificada = liveData.value?.get(2)
-        modificada!!.estado = Estado.Completada
 
         val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
         checkBox.isChecked = false
-        modelo.listarTareas.clickCheckbox(modificada, checkBox)
+        modelo.listarTareas.clickCheckbox(modificada!!, checkBox)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
