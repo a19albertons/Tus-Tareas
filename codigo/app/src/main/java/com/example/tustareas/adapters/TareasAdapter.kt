@@ -66,34 +66,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
-            if (holder.checkbox.isChecked) {
-                objectoActual.estado = Estado.Completada
-                scope.launch {
-                    try {
-                        model.listarTareas.modificarTarea(objectoActual)
-                    }
-                    catch (_: Exception) {
-                        Snackbar.make(it,it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            else {
-                // Control de la fecha EnTiempo o Retrasada
-                if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! > Date()) {
-                    objectoActual.estado = Estado.EnTiempo
-                }
-                else {
-                    objectoActual.estado = Estado.Retrasada
-                }
-                scope.launch {
-                    try {
-                        model.listarTareas.modificarTarea(objectoActual)
-                    }
-                    catch (_: Exception) {
-                        Snackbar.make(it,it.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-            }
+            model.listarTareas.clickCheckbox(objectoActual, holder.checkbox)
         }
 
     }
