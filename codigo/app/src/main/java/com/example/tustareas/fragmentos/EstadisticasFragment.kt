@@ -1,7 +1,6 @@
 package com.example.tustareas.fragmentos
 
 import java.util.Calendar
-import java.util.Date
 import java.util.TimeZone
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentEstadisticasBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.DateHelper
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -41,7 +41,7 @@ class EstadisticasFragment : Fragment() {
 
         // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 en UTC
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-        calendar.time = Date()
+        calendar.time = DateHelper.fechaMediaNocheUTC()
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
