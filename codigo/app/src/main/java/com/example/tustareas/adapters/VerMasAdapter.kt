@@ -19,7 +19,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import java.util.Date
 
 /**
  * Clase que define el adapter de ver más
@@ -86,7 +85,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
             }
             else {
                 // Control de la fecha EnTiempo o Retrasada
-                if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! > Date()) {
+                if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! >= DateHelper.fechaMediaNocheUTC()) {
                     objectoActual.estado = Estado.EnTiempo
                 }
                 else {
