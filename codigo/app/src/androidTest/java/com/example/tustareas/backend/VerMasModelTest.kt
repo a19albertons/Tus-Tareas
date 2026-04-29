@@ -54,7 +54,7 @@ class VerMasModelTest {
         val tarea1 = Tarea(
             nombre = "tarea1",
             prioridad = Prioridad.NoEstablecido,
-            fechaCreacion = Date(),
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = null,
             estado = Estado.EnTiempo
         )
