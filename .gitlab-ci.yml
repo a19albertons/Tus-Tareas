@@ -9,15 +9,20 @@
 # Declaracion de stages
 
 stages:
+  - image
   - build
   - test
   - sign
+  - limpieza
 
 
 # Tiene que concordar con la versión de Java del gradle
-image: eclipse-temurin:21-jdk-jammy
+image: docker:24
 
 variables:
+
+  # Nombre de la imagen temporal que se va a usar el CD/ID
+  TEMP_IMAGE: $CI_REGISTRY_IMAGE/temp:$CI_PIPELINE_ID
 
   # ANDROID_COMPILE_SDK is the version of Android you're compiling with.
   # It should match compileSdkVersion.
@@ -35,50 +40,30 @@ variables:
   ANDROID_SDK_TOOLS: "14742923"
 
 # Packages installation before running script
-before_script:
-  - echo "nucleos disponibles en el runner $(nproc)"
-  - apt-get --quiet update --yes
-  - apt-get --quiet install --yes git wget unzip ca-certificates dpkg curl jq python3
+imagenPreparacion:
+  stage: image
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.0-debug
+    entrypoint: [""]
+  script:
+    - /kaniko/executor
+        --context $CI_PROJECT_DIR
+        --dockerfile herramientas/Dockerfile
+        --build-arg ANDROID_COMPILE_SDK=$ANDROID_COMPILE_SDK
+        --build-arg ANDROID_BUILD_TOOLS=$ANDROID_BUILD_TOOLS
+        --build-arg ANDROID_SDK_TOOLS=$ANDROID_SDK_TOOLS
+        --destination $TEMP_IMAGE
 
-  # Install official GitLab CLI (glab) for securefile download and other GitLab operations
-  - GLAB_VERSION=$(curl -sSL https://gitlab.com/api/v4/projects/$(python3 -c 'import urllib.parse; print(urllib.parse.quote("gitlab-org/cli", safe=""))')/releases | jq -r '.[0].tag_name | ltrimstr("v")')
-  - GLAB_DEB="glab_${GLAB_VERSION}_linux_amd64.deb"
-  - wget --quiet --output-document="/tmp/$GLAB_DEB" "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/$GLAB_DEB"
-  - dpkg --install "/tmp/$GLAB_DEB" || apt-get --quiet install --yes -f
 
-  # Setup path as android_home for moving/exporting the downloaded sdk into it
-  - export ANDROID_HOME="${PWD}/android-sdk-root"
-  # Create a new directory at specified location
-  - install -d $ANDROID_HOME
-  # Here we are installing androidSDK tools from official source,
-  # (the key thing here is the url from where you are downloading these sdk tool for command line, so please do note this url pattern there and here as well)
-  # after that unzipping those tools and
-  # then running a series of SDK manager commands to install necessary android SDK packages that'll allow the app to build
-  - wget --no-verbose --output-document=$ANDROID_HOME/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS}_latest.zip
-  - unzip -q -d "$ANDROID_HOME/cmdline-tools" "$ANDROID_HOME/cmdline-tools.zip"
-  - mv -T "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/tools"
-  - export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/cmdline-tools/tools/bin
-
-  # Nothing fancy here, just checking sdkManager version
-  - sdkmanager --version
-
-  # use yes to accept all licenses
-  - yes | sdkmanager --licenses > /dev/null || true
-  - sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
-  - sdkmanager "platform-tools"
-  - sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
-  - sdkmanager "emulator"
-  - sdkmanager "system-images;android-30;aosp_atd;x86_64"
-  # - sdkmanager "system-images;android-30;default;arm64-v8a"
-  # Not necessary, but just for surity
-  - chmod +x codigo/gradlew
 
 # Basic android and gradle stuff
 # Check linting
 lintDebug:
   interruptible: true
+  image: $TEMP_IMAGE
   stage: build
   script:
+    - chmod +x codigo/gradlew
     - cd codigo
     - ./gradlew -Pci --console=plain :app:lintProduccionDebug -PbuildDir=lint
   artifacts:
@@ -90,6 +75,7 @@ lintDebug:
 # # Make Project
 assembleDebug:
   interruptible: true
+  image: $TEMP_IMAGE
   stage: build
   script:
     - cd codigo
@@ -104,11 +90,11 @@ assembleDebug:
 Tests:
   needs: [lintDebug, assembleDebug]
   interruptible: true
+  image: $TEMP_IMAGE
   stage: test
   script:
+    - chmod +x codigo/gradlew
     - cd codigo
-    # 1. Instalar dependencias necesarias y ADB
-    - apt-get --quiet update && apt-get --quiet install --yes libpulse0 libglu1-mesa libnss3 libxcomposite1 libxcursor1 libasound2 libgl1 libqt5gui5 adb
     
     # 2. Descargar la imagen del sistema (ARM es necesaria para emulación por software estable sin KVM)
     # - $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "system-images;android-30;default;x86_64"
@@ -159,7 +145,9 @@ assembleRelease:
   needs: [Tests]
   interruptible: true
   stage: sign
+  image: $TEMP_IMAGE
   script:
+    - chmod +x codigo/gradlew
     - cd codigo
     - ./gradlew assembleRelease
     # Ruta del APK generado sin firmar
@@ -182,3 +170,12 @@ assembleRelease:
   artifacts:
     paths:
       - codigo/app-signed.apk
+      
+
+limpieza:
+  stage: limpieza
+  when: always  # se ejecuta aunque falle el pipeline
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker rmi $TEMP_IMAGE || true  # || true para que no falle si ya no existe
+    - docker manifest rm $TEMP_IMAGE || true
