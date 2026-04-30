@@ -30,25 +30,19 @@ class EstadisticasModelTest {
         // Definición modelo
         val estadisticasModel = EstadisticasModel(repositorio)
 
-        // fecha inicio 6 abril 2026
-        val inicio = 1775426400000L
-
-        // fecha fin 12 abril 2026
-        val fin = 1775944800000L
-
         // Definición respuestas
-        `when`(estadisticasRepositorio.obtenerCantidadTareasCompletasEntre2Fechas(inicio, fin))
-            .thenReturn(MutableLiveData(5L))
-        `when`(estadisticasRepositorio.obtenerCantidadTareasPendientesEntre2Fechas(inicio, fin))
+        `when`(estadisticasRepositorio.obtenerCantidadTareasCompletasEntre2Fechas(anyLong(), anyLong()))
+            .thenReturn(MutableLiveData(10L))
+        `when`(estadisticasRepositorio.obtenerCantidadTareasPendientesEntre2Fechas(anyLong(), anyLong()))
             .thenReturn(MutableLiveData(10L))
 
         // Obtener dato del observer
-        val liveData = estadisticasModel.obtenerRueda(inicio, fin)
+        val liveData = estadisticasModel.obtenerRueda()
         liveData.observeForever {}
 
         // Comprobación del resultado
         val resultado = liveData.value
-        assert(resultado == Pair(5L, 10L))
+        assert(resultado == 50f)
 
     }
 }
