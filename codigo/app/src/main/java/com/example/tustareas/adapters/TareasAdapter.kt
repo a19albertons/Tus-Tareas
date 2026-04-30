@@ -66,7 +66,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
-            model.listarTareas.clickCheckbox(objectoActual, holder.checkbox)
+            model.listarTareas.actualizarEstadoTarea(objectoActual, holder.checkbox.isChecked)
         }
 
     }

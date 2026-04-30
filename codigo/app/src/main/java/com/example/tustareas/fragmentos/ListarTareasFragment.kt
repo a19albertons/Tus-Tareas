@@ -70,6 +70,16 @@ class ListarTareasFragment : Fragment() {
             }
         }
 
+        // Observar errores del listado de tareas
+        model.listarTareas.mensajeError.observe(viewLifecycleOwner) {
+            error ->
+            error?.let {
+                Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
+                // Restaurar a null tras ser mostrado
+                model.listarTareas.mensajeError.value = null
+            }
+        }
+
         // spinner prioridad tareas
         val contenidoSpiner = listOf(getString(R.string.prioridad)) + Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
@@ -112,6 +122,15 @@ class ListarTareasFragment : Fragment() {
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
 
+            }
+        }
+
+        // Observar errores del listado de tareas
+        model.listarTareas.mensajeError.observe(viewLifecycleOwner) { errorResId ->
+            errorResId?.let {
+                Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
+                // Limpiar el error después de mostrarlo para evitar duplicados al rotar o volver
+                model.listarTareas.mensajeError.value = null
             }
         }
 

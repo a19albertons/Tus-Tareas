@@ -2,6 +2,7 @@ package com.example.tustareas.backend
 
 import android.app.Application
 import android.content.Context
+import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -682,9 +683,10 @@ class ListarTareasModelTest {
         // Obtener tarea a modificar
         val modificada = liveData.value?.get(0)
 
-        val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
-        checkBox.isChecked = true
-        modelo.listarTareas.clickCheckbox(modificada!!, checkBox)
+
+
+        val boolean =  true
+        modelo.listarTareas.actualizarEstadoTarea(modificada!!, boolean)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
@@ -705,9 +707,8 @@ class ListarTareasModelTest {
         // Obtener tarea a modificar
         val modificada = liveData.value?.get(2)
 
-        val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
-        checkBox.isChecked = false
-        modelo.listarTareas.clickCheckbox(modificada!!, checkBox)
+        val boolean = false
+        modelo.listarTareas.actualizarEstadoTarea(modificada!!, boolean)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()

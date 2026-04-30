@@ -1,6 +1,5 @@
 package com.example.tustareas.modelView
 
-import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +11,6 @@ import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.util.DateHelper
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -69,16 +67,19 @@ class ListarTareasModel(
     // Modificar tarea del adapter
     private suspend fun modificarTarea(tarea: Tarea) = repository.listarTareas.modificarTarea(tarea)
 
+    // Variable para gestionar errores desde el ViewModel
+    val mensajeError = MutableLiveData<Int?>(null)
+
     // Gestiona el click en el checkbox de la tarea. Se mueve la lógica de negocio al view Model
-    fun clickCheckbox(objectoActual: Tarea, checkBox: CheckBox) {
-        if (checkBox.isChecked) {
+    fun actualizarEstadoTarea(objectoActual: Tarea, isChecked: Boolean) {
+        if (isChecked) {
             objectoActual.estado = Estado.Completada
             scope.launch {
                 try {
                     modificarTarea(objectoActual)
                 }
                 catch (_: Exception) {
-                    Snackbar.make(checkBox,checkBox.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
+                    mensajeError.value = R.string.error_modificar_checkbox
                 }
             }
         }
@@ -95,7 +96,7 @@ class ListarTareasModel(
                     modificarTarea(objectoActual)
                 }
                 catch (_: Exception) {
-                    Snackbar.make(checkBox,checkBox.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
+                    mensajeError.value = R.string.error_modificar_checkbox
                 }
             }
         }
