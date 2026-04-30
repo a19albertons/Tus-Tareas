@@ -174,8 +174,20 @@ assembleRelease:
 
 limpieza:
   stage: limpieza
+  image: $TEMP_IMAGE
   when: always  # se ejecuta aunque falle el pipeline
   script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker rmi $TEMP_IMAGE || true  # || true para que no falle si ya no existe
-    - docker manifest rm $TEMP_IMAGE || true
+    - |
+      REPO_ID=$(curl --silent --header "JOB-TOKEN: $CI_JOB_TOKEN" \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/registry/repositories?per_page=100" \
+        | grep -B2 "\"path\":\"$CI_REGISTRY_IMAGE/temp\"" \
+        | grep '"id"' \
+        | head -n1 \
+        | sed -E 's/[^0-9]*([0-9]+).*/\1/')
+      if [ -n "$REPO_ID" ]; then
+        curl --silent --header "JOB-TOKEN: $CI_JOB_TOKEN" -X DELETE \
+          "$CI_API_V4_URL/projects/$CI_PROJECT_ID/registry/repositories/$REPO_ID/tags/$CI_PIPELINE_ID" \
+          || true
+      else
+        echo "No se encontró el repositorio de registro temporal para borrar con curl."
+      fi
