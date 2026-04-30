@@ -1,17 +1,14 @@
 package com.example.tustareas.fragmentos
 
-import java.util.Calendar
-import java.util.TimeZone
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentEstadisticasBinding
 import com.example.tustareas.modelView.TusTareasModel
-import com.example.tustareas.util.DateHelper
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -39,24 +36,8 @@ class EstadisticasFragment : Fragment() {
         _binding = FragmentEstadisticasBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 en UTC
-        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-        calendar.time = DateHelper.fechaMediaNocheUTC()
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
-
-        // Obtener los timestamps de los días de la semana de lunes a domingo
-        val timestampDiasSemana = LongArray(7) {
-            val timestampDia = calendar.timeInMillis
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            timestampDia
-        }
-
         // Generamos el tercer grafico
-        model.estadisticas.obtenerDatosGrafico(timestampDiasSemana).observe(viewLifecycleOwner) {
+        model.estadisticas.obtenerDatosGrafico().observe(viewLifecycleOwner) {
             resultados ->
             // Creamos el dataset de barras
             val dataSet = BarDataSet(resultados, "")
@@ -115,17 +96,9 @@ class EstadisticasFragment : Fragment() {
             binding.retrasadas.text = cantidad.toString()
         }
 
-        // Primer grafico
-        val fechaInicio = timestampDiasSemana.first()
-        val fechaFin = timestampDiasSemana.last()
-
-
         // Obtiene el primer grafico
-        model.estadisticas.obtenerRueda(fechaInicio, fechaFin).observe(viewLifecycleOwner) {
-            valores ->
-            val completas = valores.first
-            val pendientes = valores.second
-            val progreso = completas.toFloat() / (completas + pendientes).toFloat() * 100
+        model.estadisticas.obtenerRueda().observe(viewLifecycleOwner) {
+            progreso ->
             binding.graficoRedondo.progress = progreso.toInt()
             binding.graficoRedondoTexto.text = progreso.toInt().toString()
         }
