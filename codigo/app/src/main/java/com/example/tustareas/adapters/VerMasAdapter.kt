@@ -18,7 +18,6 @@ import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 
 /**
  * Clase que define el adapter de ver más
@@ -72,7 +71,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
-            model.verMas.clickCheckbox(objectoActual, holder.checkbox)
+            model.verMas.actualizarEstado(objectoActual, holder.checkbox.isChecked)
         }
 
     }

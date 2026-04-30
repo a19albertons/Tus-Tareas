@@ -44,16 +44,19 @@ class VerMasModel(
     // Modificar tarea del adapter
     private suspend fun modificarTarea(tarea: Tarea) = repository.verMas.modificarTarea(tarea)
 
+    // Variable para gestionar errores desde el ViewModel
+    val mensajeError = MutableLiveData<Int?>(null)
+
     // Gestiona el click en el checkbox de la tarea. Se mueve la lógica de negocio al view Model
-    fun clickCheckbox(objectoActual: Tarea, checkBox: CheckBox) {
-        if (checkBox.isChecked) {
+    fun actualizarEstado(objectoActual: Tarea, booleano: Boolean) {
+        if (booleano) {
             objectoActual.estado = Estado.Completada
             scope.launch {
                 try {
                     modificarTarea(objectoActual)
                 }
                 catch (_: Exception) {
-                    Snackbar.make(checkBox,checkBox.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
+                    mensajeError.value = R.string.error_modificar_checkbox
                 }
             }
         }
@@ -70,7 +73,7 @@ class VerMasModel(
                     modificarTarea(objectoActual)
                 }
                 catch (_: Exception) {
-                    Snackbar.make(checkBox,checkBox.context.getString(R.string.error_modificar_checkbox), Snackbar.LENGTH_SHORT).show()
+                    mensajeError.value = R.string.error_modificar_checkbox
                 }
             }
         }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.adapters.VerMasAdapter
 import com.example.tustareas.databinding.FragmentVerMasBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Clase que gestiona el fragmento de detalles de tareas.
@@ -106,6 +107,16 @@ class VerMasFragment : Fragment() {
                     binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
                 }
                 adapter.submitList(tareas)
+            }
+        }
+
+        // Observar errores del listado de tareas
+        model.verMas.mensajeError.observe(viewLifecycleOwner) {
+                error ->
+            error?.let {
+                Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
+                // Restaurar a null tras ser mostrado
+                model.listarTareas.mensajeError.value = null
             }
         }
 

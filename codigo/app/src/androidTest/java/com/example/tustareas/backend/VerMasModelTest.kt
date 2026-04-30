@@ -118,9 +118,8 @@ class VerMasModelTest {
         // Obtenemos la tarea a modificar
         val modificada = liveData.value?.get(0)
 
-        val checkBox = androidx.appcompat.widget.AppCompatCheckBox(ApplicationProvider.getApplicationContext())
-        checkBox.isChecked = true
-        modelo.verMas.clickCheckbox(modificada!!, checkBox)
+        val booleano = true
+        modelo.verMas.actualizarEstado(modificada!!, booleano)
 
         // Obtener datos 2
         val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
