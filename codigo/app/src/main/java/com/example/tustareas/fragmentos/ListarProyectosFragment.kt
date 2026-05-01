@@ -25,6 +25,8 @@ import com.google.android.material.snackbar.Snackbar
 
 /**
  * Clase que gestiona el fragmento de listar proyectos.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ListarProyectosFragment : Fragment() {
     // Variables generales de la clase
@@ -37,8 +39,15 @@ class ListarProyectosFragment : Fragment() {
     )
 
 
-
-
+    /**
+     * Crea la vista del fragmento de listar proyectos y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de listar proyectos.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,11 +94,13 @@ class ListarProyectosFragment : Fragment() {
             getString(R.string.ascendente),
             getString(R.string.descendente)
         )
+        // Define el adaptador para el spinner de inicio
         binding.inicioProyecto.adapter = ArrayAdapter(
             requireContext(),
             R.layout.spinner_personalizado,
             listaInicio
         )
+        // Gestiona la selección del filtro de fecha inicio
         binding.inicioProyecto.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -119,11 +130,13 @@ class ListarProyectosFragment : Fragment() {
             getString(R.string.ascendente),
             getString(R.string.descendente)
         )
+        // Define el adaptador para el spinner de fin
         binding.finProyecto.adapter = ArrayAdapter(
             requireContext(),
             R.layout.spinner_personalizado,
             listaFin
         )
+        // Gestiona la selección del filtro de fecha fin
         binding.finProyecto.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -166,6 +179,11 @@ class ListarProyectosFragment : Fragment() {
         return view
     }
 
+    /**
+     * Destruye la vista del fragmento de listar proyectos y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

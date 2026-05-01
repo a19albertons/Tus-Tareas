@@ -29,6 +29,8 @@ import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de modificación de tareas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ModificarTareasFragment : Fragment() {
     // Variables generales de la clase
@@ -42,6 +44,15 @@ class ModificarTareasFragment : Fragment() {
 
     private lateinit var tareaDTO : TareaDTO
 
+    /**
+     * Crea la vista del fragmento de modificación de tareas y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de modificación de tareas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +61,7 @@ class ModificarTareasFragment : Fragment() {
         _binding = FragmentModificarTareasBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Recuperamos la tarea pasada por argumentos
         val args = ModificarTareasFragmentArgs.fromBundle(requireArguments())
         tareaDTO = args.tareaDTO
 
@@ -190,6 +202,13 @@ class ModificarTareasFragment : Fragment() {
         return view
     }
 
+    /**
+     * Hace modificaciones en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     *
+     * @param view La vista del fragmento de modificación de tareas.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -210,12 +229,21 @@ class ModificarTareasFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
     }
 
+    /**
+     * Destruye la vista del fragmento de modificación de tareas y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    // Dialogo guardado
+    /**
+     * Muestra un diálogo que se encarga del guardado de una tarea nueva.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_guardar_tarea))
@@ -262,7 +290,11 @@ class ModificarTareasFragment : Fragment() {
             .show()
     }
 
-    // dialogo de modificado
+    /**
+     * Muestra un diálogo que se encarga de la modificación de una tarea existente.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_modificado_tarea))

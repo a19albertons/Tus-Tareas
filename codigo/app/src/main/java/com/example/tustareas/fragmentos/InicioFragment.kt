@@ -19,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 
 /**
  * Clase que gestiona el fragmento de inicio.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemen.net
  */
 class InicioFragment : Fragment() {
     // Variables generales de la clase
@@ -30,6 +32,15 @@ class InicioFragment : Fragment() {
     )
 
 
+    /**
+     * Crea la vista del fragmento de inicio y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de inicio.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -151,6 +162,11 @@ class InicioFragment : Fragment() {
         return view
     }
 
+    /**
+     * Destruye la vista del fragmento de inicio y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

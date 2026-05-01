@@ -27,6 +27,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Clase que gestiona el fragmento de detalles de proyectos.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ProyectoDetallesFragment : Fragment() {
     // Variables generales de la clase
@@ -41,6 +43,15 @@ class ProyectoDetallesFragment : Fragment() {
     private lateinit var proyectoVisualizado : ProyectoDTO
 
 
+    /**
+     * Crea la vista del fragmento detalles de un proyecto y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento detalles de un proyecto.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -142,6 +153,7 @@ class ProyectoDetallesFragment : Fragment() {
         // Menu toolbar especifico
         // Invocar el menu del activity
         val activityMenu : MenuHost = requireActivity()
+
         // Crear un modificador del menu (toolbar)
         activityMenu.addMenuProvider( object : MenuProvider {
             // Reemplaza el menu
@@ -185,6 +197,12 @@ class ProyectoDetallesFragment : Fragment() {
     }
 
     // Gestiona el dialogo de borrado
+    /**
+     * Carga un dialogo de confirmación para eliminar un proyecto
+     * Si se confirma la eliminación, se lanza una petición para eliminar el proyecto en la base de datos
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoBorrado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_proyecto))
@@ -220,6 +238,11 @@ class ProyectoDetallesFragment : Fragment() {
             .show()
     }
 
+    /**
+     * Destruye la vista del fragmento detalles de un proyecto y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

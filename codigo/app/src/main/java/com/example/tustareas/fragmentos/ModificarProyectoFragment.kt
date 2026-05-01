@@ -30,6 +30,8 @@ import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de modificación de proyectos.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ModificarProyectoFragment : Fragment() {
     // Variables generales de la clase
@@ -44,8 +46,15 @@ class ModificarProyectoFragment : Fragment() {
     private lateinit var proyectoDTO : ProyectoDTO
 
 
-
-
+    /**
+     * Crea la vista del fragmento de modificación de proyectos y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de modificación de proyectos.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +63,7 @@ class ModificarProyectoFragment : Fragment() {
         _binding = FragmentModificarProyectoBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Recuperamos el proyecto pasado por argumentos
         val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
         proyectoDTO = args.proyectoDTO
 
@@ -207,6 +217,14 @@ class ModificarProyectoFragment : Fragment() {
 
         return view
     }
+
+    /**
+     * Hace modificacines en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     *
+     * @param view La vista del fragmento de modificación de proyectos.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -226,7 +244,11 @@ class ModificarProyectoFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
     }
 
-    // Dialogo de guardado
+    /**
+     * Muestra un diálogo que se encarga del guardado de un proyecto nuevo.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_guardar_proyecto))
@@ -265,7 +287,11 @@ class ModificarProyectoFragment : Fragment() {
             .show()
     }
 
-    // dialogo de modifiado
+    /**
+     * Muestra un diálogo que se encarga de la confirmación de las modificaciones realizadas a un proyecto existente.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_modificar_proyecto))
@@ -301,6 +327,16 @@ class ModificarProyectoFragment : Fragment() {
             }
             .setNeutralButton(getString(R.string.continuar), null)
             .show()
+    }
+
+    /**
+     * Destruye la vista del fragmento de modificación de proyectos y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

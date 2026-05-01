@@ -16,6 +16,8 @@ import com.google.android.material.snackbar.Snackbar
 
 /**
  * Clase que gestiona el fragmento de detalles de tareas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class VerMasFragment : Fragment() {
     // Variables generales de la clase
@@ -27,6 +29,15 @@ class VerMasFragment : Fragment() {
         ownerProducer = {requireActivity()}
     )
 
+    /**
+     * Crea la vista del fragmento detalles de tareas y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento detalles de tareas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -123,5 +134,13 @@ class VerMasFragment : Fragment() {
         return  view
     }
 
-
+    /**
+     * Destruye la vista del fragmento detalles de tareas y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

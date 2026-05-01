@@ -15,6 +15,8 @@ import com.example.tustareas.modelView.TusTareasModel
 
 /**
  * Clase que gestiona el fragmento de ajustes.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class AjustesFragment : Fragment() {
     // Variables generales de la clase
@@ -27,6 +29,15 @@ class AjustesFragment : Fragment() {
     )
 
 
+    /**
+     * Crea la vista del fragmento ajustes y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento ajustes.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +66,7 @@ class AjustesFragment : Fragment() {
         }
         binding.idioma.setSelection(posicionInicial, false)
 
+        // Gestiona la elección del idioma
         binding.idioma.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -100,6 +112,11 @@ class AjustesFragment : Fragment() {
         return view
     }
 
+    /**
+     * Destruye la vista del fragmento ajustes y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

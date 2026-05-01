@@ -16,6 +16,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 /**
  * Clase que gestiona el fragmento de estadísticas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class EstadisticasFragment : Fragment() {
     // Variables generales de la clase
@@ -27,7 +29,15 @@ class EstadisticasFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
-
+    /**
+     * Crea la vista del fragmento estadísticas y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento estadísticas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,13 +113,14 @@ class EstadisticasFragment : Fragment() {
             binding.graficoRedondoTexto.text = progreso.toInt().toString()
         }
 
-
-
-
-
         return view
     }
 
+    /**
+     * Destruye la vista del fragmento estadísticas y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

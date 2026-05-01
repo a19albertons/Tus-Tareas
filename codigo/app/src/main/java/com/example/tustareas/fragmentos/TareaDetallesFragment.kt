@@ -26,6 +26,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Clase que gestiona el fragmento de detalles de tareas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class TareaDetallesFragment : Fragment() {
     // Variables generales de la clase
@@ -39,7 +41,15 @@ class TareaDetallesFragment : Fragment() {
     private lateinit var tareaVisualizada : TareaDTO
 
 
-
+    /**
+     * Crea la vista del fragmento detalles de una tarea y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento detalles de una tarea.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +58,7 @@ class TareaDetallesFragment : Fragment() {
         _binding = FragmentTareaDetallesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Obtiene el id de la tarea a mostrar
         val args = TareaDetallesFragmentArgs.fromBundle(requireArguments())
         val tareaID = args.id
 
@@ -145,12 +156,22 @@ class TareaDetallesFragment : Fragment() {
         return view
     }
 
+    /**
+     * Destruye la vista del fragmento de detalles de una tarea y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    // Dialogo de eliminación
+    /**
+     * Carga un dialogo de confirmación para eliminar una tarea
+     * Si se confirma la eliminación, se lanza una petición para eliminar la tarea en la base de datos
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun dialogoEliminacion() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_tarea))

@@ -24,6 +24,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Clase que gestiona el fragmento de detalles de una etiqueta.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class EtiquetaDetallesFragment : Fragment() {
     // Variables generales de la clase
@@ -37,7 +39,15 @@ class EtiquetaDetallesFragment : Fragment() {
 
     lateinit var etiquetaVisualizada : Etiqueta
 
-
+    /**
+     * Crea la vista del fragmento detalles de una etiqueta y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento detalles de una etiqueta.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,7 +104,12 @@ class EtiquetaDetallesFragment : Fragment() {
         return view
     }
 
-    // Carga el dialogo de borrado
+    /**
+     * Carga un dialogo de confirmación para eliminar una etiqueta
+     * Si se confirma la eliminación, se lanza una petición para eliminar la etiqueta en la base de datos
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialgoEliminacion() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_etiqueta))
@@ -124,6 +139,11 @@ class EtiquetaDetallesFragment : Fragment() {
             .show()
     }
 
+    /**
+     * Destruye la vista del fragmento detalles de una etiqueta y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

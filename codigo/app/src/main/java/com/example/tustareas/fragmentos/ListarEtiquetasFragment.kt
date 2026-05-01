@@ -20,6 +20,8 @@ import kotlin.getValue
 
 /**
  * Clase que gestiona el fragmento de listar etiquetas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ListarEtiquetasFragment : Fragment() {
     // Variables generales de la clase
@@ -31,6 +33,15 @@ class ListarEtiquetasFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
+    /**
+     * Crea la vista del fragmento de listar etiquetas y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de listar etiquetas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +99,11 @@ class ListarEtiquetasFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Destruye la vista del fragmento de listar etiquetas y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

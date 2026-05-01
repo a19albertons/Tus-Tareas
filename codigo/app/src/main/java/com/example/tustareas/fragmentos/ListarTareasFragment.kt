@@ -28,6 +28,8 @@ import com.google.android.material.snackbar.Snackbar
 
 /**
  * Clase que gestiona el fragmento de listar tareas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ListarTareasFragment : Fragment() {
     // Variables generales de la clase
@@ -40,7 +42,15 @@ class ListarTareasFragment : Fragment() {
     )
 
 
-
+    /**
+     * Crea la vista del fragmento de listar tareas y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de listar tareas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +66,7 @@ class ListarTareasFragment : Fragment() {
         // Definir el adapter
         val adapter = TareasAdapter(model)
         binding.listaTareas.adapter = adapter
+
         // Actualizado con el nuevo sistema que evita duplicado de observers
         model.listarTareas.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
             listaTareas ->
@@ -87,6 +98,8 @@ class ListarTareasFragment : Fragment() {
             R.layout.spinner_personalizado,
             contenidoSpiner
         )
+
+        // Gestiona el evento de selección del spinner de prioridad
         binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -141,6 +154,8 @@ class ListarTareasFragment : Fragment() {
             R.layout.spinner_personalizado,
             contenidoSpinerEstado
         )
+
+        // Gestiona el evento de selección del spinner de estado
         binding.estadoTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -241,6 +256,11 @@ class ListarTareasFragment : Fragment() {
         return view
     }
 
+    /**
+     * Destruye la vista del fragmento de listar tareas y libera los recursos asociados a la vista.
+      *
+      * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

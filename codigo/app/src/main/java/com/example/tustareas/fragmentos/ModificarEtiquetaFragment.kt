@@ -19,6 +19,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Clase que gestiona el fragmento de modificación de etiquetas.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ModificarEtiquetaFragment : Fragment() {
     // Variables generales de la clase
@@ -33,7 +35,15 @@ class ModificarEtiquetaFragment : Fragment() {
     lateinit var etiquetaPasada : Etiqueta
 
 
-
+    /**
+     * Crea la vista del fragmento de modificación de etiquetas y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de modificación de etiquetas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,8 +51,12 @@ class ModificarEtiquetaFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentModificarEtiquetaBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        // Recuperamos la etiqueta pasada por argumentos
         val args = ModificarEtiquetaFragmentArgs.fromBundle(requireArguments())
         etiquetaPasada = args.etiqueta
+
+        // Rellenamos los campos con los datos de la etiqueta pasada por argumentos
         binding.tituloEtiqueta.setText(etiquetaPasada.nombre)
         binding.descipcionEtiqueta.setText(etiquetaPasada.descripcion)
 
@@ -51,7 +65,13 @@ class ModificarEtiquetaFragment : Fragment() {
         return view
     }
 
-    // Metodo sobreescrito para controlar los modales de guardado y modicación de etiquetas
+    /**
+     * Hace modificaciones en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     *
+     * @param view La vista del fragmento de modificación de etiquetas.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
 
@@ -74,12 +94,21 @@ class ModificarEtiquetaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    /**
+     * Destruye la vista del fragmento de modificación de etiquetas y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    // Dialogo de guardado
+    /**
+     * Muestra un diálogo que se encarga del guardado de una etiqueta nueva.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoGuardado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_guardar_etiqueta))
@@ -117,7 +146,12 @@ class ModificarEtiquetaFragment : Fragment() {
             .setNeutralButton(getString(R.string.continuar),null)
             .show()
     }
-    // Dialogo de modificación
+
+    /**
+     * Muestra un diálogo que se encarga de la modificación de una etiqueta existente.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun dialogoModificado() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_modificar_etiqueta))
