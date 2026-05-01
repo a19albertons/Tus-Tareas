@@ -11,10 +11,14 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Clase que representa el Data Transfer Object entre Tarea y la lista de etiquetas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Parcelize
 data class TareaDTO (
+    // Integra una tarea
     @Embedded var tarea: Tarea,
+    // Obtiene una lista de etiquetas relacionada con la tarea a través de la tabla de relación TareaEtiqueta
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
