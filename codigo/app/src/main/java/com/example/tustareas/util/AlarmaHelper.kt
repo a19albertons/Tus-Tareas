@@ -12,9 +12,17 @@ import java.util.Calendar
 
 /**
  * Clase que gestiona ciertas funciones especificas ligadas a alarmas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 object AlarmaHelper {
-    // Invocar las alarmas
+    /**
+     * Invoca las alarmas que se le pasan por parámetro
+     *
+     * @param context El contexto de la aplicación
+     * @param listaNotificacionesEnviar La lista de notificaciones a enviar
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun invocarAlarma(context: Context, listaNotificacionesEnviar: List<Notificacion>) {
         // Comprueba si esta vacio
         if (listaNotificacionesEnviar.isNotEmpty()) {
@@ -28,6 +36,13 @@ object AlarmaHelper {
     }
 
     // Programa la alarma diaria para el siguiente dia
+    /**
+     * Programa la alarma diaria para el siguiente dia a las 00:00 horas.
+     * Teniendo en cuenta los permisos requeridos de la documentación
+     *
+     * @param context El contexto de la aplicación
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun programarAlarmaDiaria(context: Context?) {
         // Obtiene el alarm manager, crea el intent y pending intent
         val alarmaManager = (context?.getSystemService(Context.ALARM_SERVICE)) as AlarmManager

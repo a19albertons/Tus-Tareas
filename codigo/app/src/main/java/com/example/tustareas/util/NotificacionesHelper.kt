@@ -18,6 +18,8 @@ import com.example.tustareas.modelos.Notificacion
 
 /**
  * Helper que gestionara el canal y creacion de notificaciones
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 object NotificacionesHelper {
     // Constantes necesarias para las notificaciones y sus canales
@@ -25,7 +27,14 @@ object NotificacionesHelper {
     private const val CHANNEL_NAME = "tusTareasNotificaciones"
     private const val CHANNEL_DESCRIPTION = "Notificaciones para tareas retrasadas"
 
-    // Crea el cana
+
+    /**
+     * Crea el canal de notificaciones para la aplicación.
+     * Requisito de android 8.0 o superior para poder notificar.
+     *
+     * @param context El contexto de la aplicación
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun crearCanalNotificaciones(context: Context) {
         // Comprueba si la versión es la 8.0 o superior porque hay una obligación de
         // crear canales a partir de esta versión de la api para notificar
@@ -43,7 +52,13 @@ object NotificacionesHelper {
     }
 
 
-    // Crea una notifiación
+    /**
+     * Crea una notificación con el título y mensaje proporcionados en el objeto Notificacion.
+     *
+     * @param contexto El contexto de la aplicación
+     * @param notificacion El objeto Notificacion que contiene el título, mensaje e id de la notificación
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun crearNotificacion(contexto: Context, notificacion: Notificacion) {
         // pending para que la notificación sea clickable
         val intent = Intent(contexto, MainActivity::class.java).apply {

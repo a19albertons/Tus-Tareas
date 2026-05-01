@@ -8,8 +8,17 @@ import java.util.TimeZone
 
 /**
  * Clase que ayuda con las funciones especificas de fechas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 object DateHelper {
+    /**
+     * Convierte un Date a String con el formato dd/MM/yyyy
+     *
+     * @param fecha El Date a convertir
+     * @return El String con el formato dd/MM/yyyy o vacio si la fecha es nula
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun timestampToString(fecha: Date?): String {
         // Si es nula devuelve vacio
         var devolver = ""
@@ -26,6 +35,9 @@ object DateHelper {
 
     /**
      * Devuelve la fecha de hoy (medianoche) normalizada a UTC para evitar desfases
+     *
+     * @return La fecha de hoy (medianoche) normalizada a UTC
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun fechaMediaNocheUTC(): Date {
         val cal = Calendar.getInstance()
