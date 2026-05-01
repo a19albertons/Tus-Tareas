@@ -42,6 +42,8 @@ import androidx.lifecycle.viewModelScope
 
 /**
  * Clase principal del proyecto que representa la actividad
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
@@ -59,6 +61,12 @@ class MainActivity : AppCompatActivity() {
         R.id.listarEtiquetasFragment
     )
 
+    /**
+     * Metodo que crea la actividad y configura la base de la aplicación
+     *
+     * @param savedInstanceState El estado guardado de la actividad, si existe
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         // Habilita el modo oscuro segun la preferencia guardada
         val prefs = getSharedPreferences("settings", MODE_PRIVATE)
@@ -143,13 +151,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Inflado del menu toolbar
+    /**
+     * Infla el menú de opciones en la barra de herramientas (toolbar) de la actividad.
+     *
+     * @param menu El menú en el que se inflará el archivo de menú XML
+     * @return true para mostrar el menú, false para no mostrarlo
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_general, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
-    // Navegacion del menu toolbar
+    /**
+     * Gestiona la selección de elementos del menú en la toolbar.
+     *
+     * @param item El elemento del menú seleccionado
+     * @return true si el evento fue manejado, false para permitir que otros lo manejen
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Controlar a android id home
         if (item.itemId == android.R.id.home) {
@@ -176,7 +196,12 @@ class MainActivity : AppCompatActivity() {
         ) || super.onOptionsItemSelected(item)
     }
 
-    // Modificación logica flecha de retroceso
+    /**
+     * Gestiona la acción de navegación hacia arriba (flecha de retroceso) en la barra de herramientas.
+     *
+     * @return true si la navegación hacia arriba fue manejada, false para permitir que otros lo manejen
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
     }
