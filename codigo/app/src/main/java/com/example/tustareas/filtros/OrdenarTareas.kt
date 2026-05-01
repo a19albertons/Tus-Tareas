@@ -2,6 +2,8 @@ package com.example.tustareas.filtros
 
 /**
  * Clase que define las posibilidades de ordenación de tareas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 enum class OrdenarTareas {
     FECHA_CREACION_ASC,
