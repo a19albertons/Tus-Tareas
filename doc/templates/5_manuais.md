@@ -15,3 +15,9 @@ Lanzamiento públicos y oficiales de la aplicación [releases](https://gitlab.ie
 
 
 ## Melloras futuras
+
+- Soporte para actualizaciones desde ajustes
+
+- Lanzamiento en tiendas de aplicaciones
+
+- Soporte para más idiomas
