@@ -65,6 +65,8 @@ class TareaDetallesFragment : Fragment() {
         // Obtiene los detalles por el id y los asigna al componente visual
         model.tareaDetalles.obtenerTareaDTOPorID(tareaID).observe(viewLifecycleOwner) {
             tarea ->
+
+            // Define los datos de la tarea en los componentes visuales
             binding.tituloTarea.text = tarea.tarea.nombre
             binding.descipcionTarea.text = tarea.tarea.descripcion
             binding.fechaCreacionTarea.text = DateHelper.timestampToString(tarea.tarea.fechaCreacion)
@@ -75,14 +77,19 @@ class TareaDetallesFragment : Fragment() {
             }
             binding.prioridadTarea.text = tarea.tarea.prioridad.name
             binding.estadoTarea.text = tarea.tarea.estado.name
-            // Falta definir etiquetas
+
+            // Crea un chip por cada etiqueta de la tarea y los añade al grupo de chips
             binding.etiquetasTareaGroup.removeAllViews()
             tarea.etiquetas.forEach {
                 etiqueta ->
+                // Define la composición del chip
                 val chip = Chip(requireContext()).apply {
+                    // Define el texto del chip como el nombre de la etiqueta
                     text = etiqueta.nombre
                     setChipBackgroundColorResource(R.color.gray)
                     setTextColor(resources.getColor(R.color.black, null))
+
+                    // Deshabilitamos la interacción del chip
                     isClickable = false
                     isFocusable = false
                     isCheckable = false
