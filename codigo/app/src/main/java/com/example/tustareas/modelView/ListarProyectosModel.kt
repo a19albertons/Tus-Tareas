@@ -10,7 +10,10 @@ import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.repository.TusTareasRepository
 
 /**
- * Clase que gestiona el submodelo de listar proyectos
+ * Clase que gestiona el submodelo de listar proyectos.
+ *
+ * @param repository Repositorio de la aplicación
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ListarProyectosModel(private val repository: TusTareasRepository) {
     // Filtro para proyectos
@@ -18,13 +21,32 @@ class ListarProyectosModel(private val repository: TusTareasRepository) {
     private val textoProyecto = MutableLiveData("")
     private val inicioProyecto = MutableLiveData(OrdenarProyectosInicio.INICIO)
     private val finProyecto = MutableLiveData(OrdenarProyectoFin.FIN)
-    // Actualización valores filtros
+
+    /**
+     * Actualiza el valor del filtro de texto para los proyectos
+     *
+     * @param texto El nuevo valor del filtro de texto para los proyectos
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun actualizarTextoListadoProyectos(texto: String) {
         textoProyecto.value = texto
     }
+
+    /**
+     * Actualiza el valor del filtro de ordenación por fecha de inicio para los proyectos
+     *
+     * @param inicio El nuevo valor del filtro de ordenación por fecha de inicio para los proyectos
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun actualizarInicioProyecto(inicio: OrdenarProyectosInicio) {
         inicioProyecto.value = inicio
     }
+    /**
+     * Actualiza el valor del filtro de ordenación por fecha de fin para los proyectos
+     *
+     * @param fin El nuevo valor del filtro de ordenación por fecha de fin para los proyectos
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun actualizarFinProyecto(fin: OrdenarProyectoFin) {
         finProyecto.value = fin
     }
@@ -35,7 +57,14 @@ class ListarProyectosModel(private val repository: TusTareasRepository) {
         addSource(inicioProyecto) { value = Unit }
         addSource(finProyecto) { value = Unit }
     }
-    // Aplica el cambio en los filtros
+
+    /**
+     * Obtiene la lista de proyectos filtrados según los filtros de texto, ordenación por fecha de inicio y ordenación por fecha de fin
+     *
+     * @return Un LiveData que contiene una lista de proyectos filtrados según los filtros de texto,
+     * ordenación por fecha de inicio y ordenación por fecha de fin
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerProyectosFiltradas() : LiveData<List<Proyecto>> = vigiladorFiltrosProyectos.switchMap {
         repository.listarProyectos.obtenerProyectosFiltradas(
             textoProyecto.value!!,

@@ -7,15 +7,24 @@ import com.example.tustareas.util.DateHelper
 import com.github.mikephil.charting.data.BarEntry
 import java.util.Calendar
 import java.util.TimeZone
-import kotlin.div
-import kotlin.text.toFloat
-import kotlin.times
 
 /**
  * Clase que gestiona  el submodelo de estadisticas
+ *
+ * @param repository El repositorio de datos de TusTareas, que se utiliza para acceder a los datos necesarios para calcular las estadísticas.
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class EstadisticasModel(private val repository: TusTareasRepository) {
     // Generación tercera grafica de estadisticas
+
+    /**
+     * Obtiene los datos necesarios para generar el gráfico de barras que muestre la cantidad de
+     * tareas completas y no completas por dia en la actual semana.
+     *
+     * @return Un LiveData que contiene una lista de BarEntry, donde cada BarEntry representa
+     * un dia con ambos valores (completas y no completas) para ese dia.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerDatosGrafico(): LiveData<List<BarEntry>> {
         // Obtener timestamp de la semana
         val timestampDiasSemana = obtenerTimestampsDiasSemana()
@@ -45,14 +54,40 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
         return resultado
     }
 
-    // Funciones centrales de estadisticas
+    /**
+     * Obtiene la cantidad de tareas completadas a lo largo del tiempo.
+     *
+     * @return Un LiveData que contiene un Long con la cantidad total de tareas completadas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerCantidadTareasCompletas() = repository.estadisticas.obtenerCantidadTareasCompletas()
+
+    /**
+     * Obtiene la cantidad de tareas pendientes a lo largo del tiempo.
+     *
+     * @return Un LiveData que contiene un Long con la cantidad total de tareas pendientes.
+     * @author Alberto Noceda <a19albertons@iessanclement
+     */
     fun obtenerCantidadTareasPendientes() = repository.estadisticas.obtenerCantidadTareasPendientes()
+
+    /**
+     * Obtiene la cantidad de tareas retrasadas a lo largo del tiempo.
+     *
+     * @return Un LiveData que contiene un Long con la cantidad total de tareas retrasadas.
+     * @author Alberto Noceda <a19albertons@iessanclement
+     */
     fun obtenerCantidadTareasRetrasadas() = repository.estadisticas.obtenerCantidadTareasRetrasadas()
 
 
 
-    // Generacion rueda (primer grafico)
+    /**
+     * Obtiene el porcentaje de tareas completadas en la semana actual, calculado a partir de la
+     * cantidad de tareas completadas y pendientes entre las fechas de inicio y fin de la semana.
+     *
+     * @return Un LiveData que contiene un Float con el porcentaje de tareas completadas en la semana actual,
+     * calculado a partir de la cantidad de tareas completadas y pendientes entre las fechas de inicio y fin de la semana.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerRueda(): LiveData<Float> {
         // Obtener timestamp de la semana
         val timestampDiasSemana = obtenerTimestampsDiasSemana()
@@ -87,7 +122,12 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
 
     }
 
-    // Calculo de los timestamps de cada dia de la semana actual (lunes a domingo) con 00:00:00 en UTC y devuelve el array con los valores
+    /**
+     * Obtiene los timestamps de cada dia de la semana actual (lunes a domingo) con 00:00:00 en UTC y devuelve el array con los valores.
+     *
+     * @return Un LongArray que contiene los timestamps de cada dia de la semana actual, comenzando por el lunes y terminando por el domingo, con 00:00:00 en UTC.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private fun obtenerTimestampsDiasSemana(): LongArray {
         // Configurar el calendar para que se situe en el lunes de la actual semana con 00:00:00 en UTC
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))

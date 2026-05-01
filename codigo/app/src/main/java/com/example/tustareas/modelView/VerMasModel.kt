@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 
 /**
  * Clase que gestiona el submodelo del fragmento ver mas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class VerMasModel(
     private val repository: TusTareasRepository,
@@ -21,34 +23,72 @@ class VerMasModel(
     // Guarda la variable de texto del filtro
     private val textoVerMas = MutableLiveData("")
 
-    // Actualiza el texto si hay actualización
+    /**
+     * Actualiza el valor del filtro de texto para las tareas
+     *
+     * @param texto El nuevo valor del filtro de texto para las tareas
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun actualizarTextoVerMas(texto: String) {
         textoVerMas.value = texto
     }
-    // Mandan la petición al repositorio correspondiente para obtener los datos de la bd
+
+    /**
+     * Obtiene las tareas que terminan en un día específico con el filtro de texto
+     *
+     * @return Un LiveData que contiene una lista de tareas que terminan en un día específico con el filtro de texto
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerTareasTerminanDiaEspecificoConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
             texto ->
         repository.verMas.obtenerTareasTerminanDiaEspecificoConFiltro(texto)
     }
+
+    /**
+     * Obtiene las tareas retrasadas con el filtro de texto
+     *
+     * @return Un LiveData que contiene una lista de tareas retrasadas con el filtro de texto
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerTareasRetrasadasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
             texto ->
         repository.verMas.obtenerTareasRetrasadasConFiltro(texto)
     }
+
+    /**
+     * Obtiene las tareas próximas con el filtro de texto
+     *
+     * @return Un LiveData que contiene una lista de tareas próximas con el filtro de texto
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerTareasProximasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
             texto ->
         repository.verMas.obtenerTareasProximasConFiltro(texto)
     }
 
-    // Modificar tarea del adapter
+    /**
+     * Modifica una tarea en la base de datos
+     *
+     * @param tarea La tarea a modificar
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     private suspend fun modificarTarea(tarea: Tarea) = repository.verMas.modificarTarea(tarea)
 
     // Variable para gestionar errores desde el ViewModel
     val mensajeError = MutableLiveData<Int?>(null)
 
-    // Gestiona el click en el checkbox de la tarea. Se mueve la lógica de negocio al view Model
+    /**
+     * Actualiza el estado de una tarea según el valor del checkbox.
+     *
+     * @param objectoActual La tarea que se desea actualizar.
+     * @param booleano Actualiza el estaod en función del valor de booleano
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun actualizarEstado(objectoActual: Tarea, booleano: Boolean) {
         if (booleano) {
             objectoActual.estado = Estado.COMPLETADA
+
+            // Control de errores y ejecución de la modificación en segundo plano
             scope.launch {
                 try {
                     modificarTarea(objectoActual)
@@ -66,6 +106,8 @@ class VerMasModel(
             else {
                 objectoActual.estado = Estado.RETRASADA
             }
+
+            // Control de errores y ejecución de la modificación en segundo plan
             scope.launch {
                 try {
                     modificarTarea(objectoActual)
