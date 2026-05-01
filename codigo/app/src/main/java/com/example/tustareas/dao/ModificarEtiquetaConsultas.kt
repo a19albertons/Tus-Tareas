@@ -7,14 +7,26 @@ import com.example.tustareas.modelos.Etiqueta
 
 /**
  * Clase que representa las consultas contra la bd en modificar etiqueta
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Dao
 interface ModificarEtiquetaConsultas {
-    // Inserta una etiqueta
+    /**
+     * Inserta una etiqueta
+     *
+     * @param etiqueta La etiqueta a insertar.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Insert
     suspend fun insertarEtiqueta(etiqueta: Etiqueta)
 
-    // Modifica una etiqueta
+    /**
+     * Modifica una etiqueta
+     *
+     * @param etiqueta La etiqueta a modificar.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Update
     suspend fun modificarEtiqueta(etiqueta: Etiqueta)
 }

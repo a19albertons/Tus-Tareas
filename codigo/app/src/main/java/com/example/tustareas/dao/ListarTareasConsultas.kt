@@ -11,6 +11,8 @@ import com.example.tustareas.modelos.Tarea
 
 /**
  * Clase creada especificamente para poseer todas las operaciones sobre bd de consultas en listar tareas fragment
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Dao
 interface ListarTareasConsultas {
@@ -27,23 +29,60 @@ interface ListarTareasConsultas {
 
     }
 
-    // Ordenacion fecha creación ascendente
+    /**
+     * Ordenacion fecha limite ascendente
+     *
+     * @param prioridad El array de prioridades a filtrar
+     * @param estado El array de estados a filtrar
+     * @param textoTarea El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y ordenadas por fecha límite ascendente
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaLimite ASC")
     fun obtenerTareasFiltradasFechaLimiteAsc(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
-    // Ordenacion fecha creación descendente
+    /**
+     * Ordenacion fecha limite descendente
+     *
+     * @param prioridad El array de prioridades a filtrar
+     * @param estado El array de estados a filtrar
+     * @param textoTarea El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y ordenadas por fecha límite descendente
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaLimite DESC")
     fun obtenerTareasFiltradasFechaLimiteDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
-    // Ordenacion fecha limite ascendente
+    /**
+     * Ordenacion fecha creación ascendente
+     *
+     * @param prioridad El array de prioridades a filtrar
+     * @param estado El array de estados a filtrar
+     * @param textoTarea El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y ordenadas por fecha creación ascendente
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion ASC")
     fun obtenerTareasFiltradasFechaCreacionAsc(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
-    // Ordenacion fecha limite descendente
+    /**
+     * Ordenacion fecha creación descendente
+     *
+     * @param prioridad El array de prioridades a filtrar
+     * @param estado El array de estados a filtrar
+     * @param textoTarea El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y ordenadas por fecha creación descendente
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion DESC")
     fun obtenerTareasFiltradasFechaCreacionDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
 
-    // Gestiona el checkbox
+    /**
+     * Gestiona el cambio de estado de una tarea tras clickar en el checkbox de la tarea en base de datos
+     *
+     * @param tarea La tarea a modificar con el nuevo estado
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Update
     suspend fun modificarTarea(tarea: Tarea)
 
