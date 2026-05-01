@@ -8,6 +8,8 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Clase que representa la tabla etiquetas en la bd
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Parcelize
 @Entity(

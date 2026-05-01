@@ -5,11 +5,15 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Date
+import com.example.tustareas.dto.TareaDTO
 import kotlinx.parcelize.Parcelize
+import java.util.Date
 
 /**
- * Clase que representa la tabla tareas en la bd
+ * Clase que representa la tabla tareas en la bd.
+ *
+ * Para crear la tarea con sus etiquetas usar [TareaDTO]
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Entity(
     tableName = "tareas",

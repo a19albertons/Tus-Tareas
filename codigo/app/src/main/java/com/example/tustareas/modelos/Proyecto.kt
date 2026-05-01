@@ -2,13 +2,16 @@ package com.example.tustareas.modelos
 
 import android.os.Parcelable
 import androidx.room.Entity
-import androidx.room.Index
+import com.example.tustareas.dto.ProyectoDTO
 import androidx.room.PrimaryKey
 import java.util.Date
 import kotlinx.parcelize.Parcelize
 
 /**
  * Clase que representa la tabla proyectos en la bd
+ *
+ * Para crear un proyecto con sus tareas y etiquetas usar [ProyectoDTO]
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Parcelize
 @Entity(

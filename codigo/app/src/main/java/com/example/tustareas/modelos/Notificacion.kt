@@ -9,6 +9,8 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Clase que getiona la tabla de notificaciones en la bd
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Entity(
     tableName = "notificaciones",

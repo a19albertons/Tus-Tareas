@@ -4,6 +4,8 @@ import com.example.tustareas.R
 
 /**
  * Clase que representa el enum Estado
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 enum class Estado {
     EnTiempo,

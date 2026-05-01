@@ -6,6 +6,8 @@ import androidx.room.Index
 
 /**
  * Clase que representa la relación N:N entre Proyecto y Etiquetas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Entity(
     tableName = "ProyectoEtiquetas",
