@@ -4,6 +4,9 @@ import com.example.tustareas.db.TusTareasDatabase
 
 /**
  * Clase que representa al repositorio principal de la bd
+ *
+ * @param database La base de datos de la aplicación
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class TusTareasRepository(database: TusTareasDatabase) {
     // Imporaction daos
@@ -27,7 +30,19 @@ class TusTareasRepository(database: TusTareasDatabase) {
 
 
     // Metodos activity main
+    /**
+     * Elimina todas las tareas completadas de la base de datos
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     suspend fun limpiarTareasCompletas() = activityMainConsultas.limpiarTareasCompletas()
+
+    /**
+     * Marca una notificación como leída en la base de datos
+     *
+     * @param idNotificacion El ID de la notificación a marcar como leída
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = activityMainConsultas.marcarNotificacionComoLeida(idNotificacion)
 
 

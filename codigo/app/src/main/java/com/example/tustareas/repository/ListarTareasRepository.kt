@@ -11,7 +11,17 @@ import com.example.tustareas.modelos.Tarea
  */
 class ListarTareasRepository(database: TusTareasDatabase) {
     private val listarTareasConsultas = database.listarTareasConsultas()
-    // Filtrar tareas
+
+    /**
+     * Obtiene las tareas filtradas por prioridad, estado y texto, ordenadas por el orden especificado
+     *
+     * @param prioridad El array de prioridades a filtrar
+     * @param estado El array de estados a filtrar
+     * @param textoTarea El texto a filtrar por el nombre de la tarea
+     * @param orden El orden en el que se deben ordenar las tareas
+     * @return Las tareas filtradas por prioridad, estado y texto, ordenadas por el orden especificado
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerTareasFiltradas(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String, orden: OrdenarTareas) =
         when (orden) {
             OrdenarTareas.FECHA_CREACION_ASC -> listarTareasConsultas.obtenerTareasFiltradasFechaCreacionAsc(prioridad, estado, textoTarea)
@@ -20,6 +30,11 @@ class ListarTareasRepository(database: TusTareasDatabase) {
             OrdenarTareas.FECHA_LIMITE_DES -> listarTareasConsultas.obtenerTareasFiltradasFechaLimiteDes(prioridad, estado, textoTarea)
         }
 
-    // Modificar tarea
+    /**
+     * Modifica una tarea en la base de datos
+     *
+     * @param tarea La tarea a modificar
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     suspend fun modificarTarea(tarea: Tarea) = listarTareasConsultas.modificarTarea(tarea)
 }

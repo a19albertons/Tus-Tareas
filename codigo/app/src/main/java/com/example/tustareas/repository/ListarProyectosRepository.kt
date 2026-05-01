@@ -6,11 +6,22 @@ import com.example.tustareas.filtros.OrdenarProyectosInicio
 
 /**
  * Clase que gestions los subrepositorios de listar proyectos
+ *
+ * @param database La base de datos de la aplicación
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class ListarProyectosRepository(database: TusTareasDatabase) {
     private val listarProyectosConsultas = database.listarProyectosConsultas()
 
-    // Consultar proyectos
+    /**
+     * Obtiene los proyectos filtrados por un texto y ordenados por fecha de inicio y fecha de fin
+     *
+     * @param texto El texto a filtrar
+     * @param inicio La forma de ordenar por fecha de inicio
+     * @param fin La forma de ordenar por fecha de fin
+     * @return Los proyectos filtrados y ordenados
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     fun obtenerProyectosFiltradas(texto: String, inicio: OrdenarProyectosInicio, fin: OrdenarProyectoFin) =
         when (Pair(inicio, fin)) {
             Pair(OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN) -> listarProyectosConsultas.obtenerProyectosFiltradosPorDefecto(texto) // defecto
