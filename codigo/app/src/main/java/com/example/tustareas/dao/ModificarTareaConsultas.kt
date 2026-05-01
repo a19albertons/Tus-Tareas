@@ -13,31 +13,65 @@ import com.example.tustareas.modelos.TareaEtiqueta
 
 /**
  * Clase que gestiona todas las consultas contra la base de datos
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Dao
 interface ModificarTareaConsultas {
     // Usar solo aqui porque devuelve el id interno para transaction
-    // Inserta una tarea y devuelve su id
+    /**
+     * Inserta una tarea y devuelve su id. Solo usar en las transaciones
+     *
+     * @param tarea La tarea a insertar.
+     * @return Long con el ID de la tarea insertada.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Insert
     suspend fun insertarTarea(tarea: Tarea) : Long
-    // Modificar una tarea
+
+    /**
+     * Modifica una tarea. Solo usar en las transaciones
+     *
+     * @param tarea La tarea a modificar.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Update
     suspend fun modificarTarea(tarea: Tarea)
 
-    // Usar solo aqui porque se us para la inserción de las relacion tarea etiqueta internamente
+    /**
+     * Inserta una relación tarea-etiqueta. Solo usar en las transaciones
+     *
+     * @param tareaEtiqueta La relación tarea-etiqueta a insertar.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Insert
     suspend fun insertarTareaEtiqueta(tareaEtiqueta: TareaEtiqueta)
-    // Usar solo aqui para eliminar las relaciones preexistentes y crear las nuevas
+
+    /**
+     * Elimina las relaciones tarea-etiqueta de una tarea. Solo usar en las transaciones
+     *
+     * @param id El ID de la tarea a eliminar sus relaciones.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Query("DELETE FROM TareaEtiquetas WHERE idTarea = :id")
     suspend fun eliminarRelacionesTarea(id: Int)
-    // Debería hacer un borrado recursivo en cascada
 
-
-    // Obtiene las etiquetas restantes
+    /**
+     * Obtiene las etiquetas restantes que no están asociadas a la tarea.
+     *
+     * @param lista La lista de IDs de las etiquetas asociadas a la tarea.
+     * @return LiveData<List<Etiqueta>> devuelve una lista de etiquetas que no están asociadas a la tarea.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Query("select * from etiquetas where id not in (:lista)")
     fun obtenerEtiquetasRestantes(lista : List<Int>): LiveData<List<Etiqueta>>
 
-    // Inserta las tareas con sus etiquetas
+    /**
+     * Inserta la tarea junto con sus etiquetas.
+     *
+     * @param tareaDTO El objeto TareaDTO que contiene la tarea y sus etiquetas a insertar.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Transaction
     suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) {
         val id = insertarTarea(tareaDTO.tarea).toInt()
@@ -46,7 +80,13 @@ interface ModificarTareaConsultas {
             insertarTareaEtiqueta(TareaEtiqueta(id, etiqueta.id))
         }
     }
-    // Modifica las tareas con sus etiquetas
+
+    /**
+     * Modifica la tarea junto con sus etiquetas.
+     *
+     * @param tareaDTO El objeto TareaDTO que contiene la tarea y sus etiquetas a modificar.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Transaction
     suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) {
         modificarTarea(tareaDTO.tarea)

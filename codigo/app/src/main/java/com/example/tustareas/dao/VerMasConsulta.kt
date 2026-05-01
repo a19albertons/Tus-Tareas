@@ -15,7 +15,16 @@ import java.util.Date
  */
 @Dao
 interface VerMasConsulta {
-    // Obtiene toda las tareas de un dia con el el filtro correspondiente
+
+    /**
+     * Obtiene toda las tareas de un dia con el el filtro correspondiente
+     *
+     * @param texto El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @param fecha La fecha límite a filtrar (por defecto, la fecha actual a las 00:00 UTC). No pasar un parametro distinto dejar el valor por defecto.
+     * @param estado El estado a filtrar (por defecto, Estado.EnTiempo). No pasar un parametro distinto dejar el valor por defecto.
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y que terminan en el día especificado
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Transaction
     @Query("select * from tareas " + // Obtener todo
             "where fechaLimite = :fecha " + // Fecha limite
@@ -29,7 +38,14 @@ interface VerMasConsulta {
 
 
 
-    // Obtiene toda las tareas retrasadas con el el filtro correspondiente
+    /**
+     * Obtiene toda las tareas retrasadas con el el filtro correspondiente
+     *
+     * @param texto El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @param estado El estado a filtrar (por defecto, Estado.Retrasada). No pasar un parametro distinto dejar el valor por defecto.
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y que están retrasadas
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Transaction
     @Query("select * from tareas " + // obtener todo
             "where estado = :estado " + // filtro estado
@@ -42,7 +58,15 @@ interface VerMasConsulta {
 
 
 
-    // Obtiene toda las tareas proximas con el el filtro correspondiente
+    /**
+     * Obtiene toda las tareas proximas con el el filtro correspondiente
+     *
+     * @param texto El texto a filtrar en el nombre, descripción o etiquetas de la tarea
+     * @param fecha La fecha límite a filtrar (por defecto, la fecha actual a las 00:00 UTC). No pasar un parametro distinto dejar el valor por defecto.
+     * @param estado El estado a filtrar (por defecto, Estado.EnTiempo). No pasar un parametro distinto dejar el valor por defecto.
+     * @return LiveData<List<Tarea>> devuelve una lista de tareas que cumplen con los filtros y que están próximas a vencer
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     @Transaction
     @Query("select * from tareas " + // obtener todo
             "where (fechaLimite > :fecha OR fechaLimite is null) " + // filtro fecha
@@ -55,7 +79,13 @@ interface VerMasConsulta {
             "ORDER BY fechaLimite ASC") // ordenación ascendente
     fun obtenerTareasProximasConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EnTiempo) : LiveData<List<Tarea>>
 
-    // Modificar una tarea en adapter
+
+    /**
+     * Modifica una tarea en la base de datos.
+     *
+     * @param tarea La tarea a modificar su estado en la base datos.
+     * @author Alberto Noceda <a19albetons@iessanclemente.net>
+     */
     @Update
     suspend fun modificarTarea(tarea: Tarea)
 
