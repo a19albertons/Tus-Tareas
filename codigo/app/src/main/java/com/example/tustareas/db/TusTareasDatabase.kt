@@ -31,48 +31,142 @@ import com.example.tustareas.security.SqlCipherKeyManager
 
 /**
  * Base de datos de tus tareas
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Database(entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class, Notificacion::class], version = 1, exportSchema = false)
 @TypeConverters(Convertidor::class)
 abstract class TusTareasDatabase : RoomDatabase() {
 
 
-    // Consultas de inicio
+    /**
+     * Obtiene las consultas de inicio
+     *
+     * @return InicioConsultas devuelve las consultas de inicio.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun inicioConsultas(): InicioConsultas
-    // Consultas de ver mas
+
+    /**
+     * Obtiene las consultas de ver mas
+     *
+     * @return VerMasConsulta devuelve las consultas de ver mas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun verMasConsultas(): VerMasConsulta
-    // Consultas de listar tareas
+
+    /**
+     * Obtiene las consultas de listar tareas
+     *
+     * @return ListarTareasConsultas devuelve las consultas de listar tareas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun listarTareasConsultas(): ListarTareasConsultas
-    // Consultas de tarea detalles
+
+    /**
+     * Obtiene las consultas de tarea detalles
+     *
+     * @return TareaDetallesConsulta devuelve las consultas de tarea detalles.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun tareaDetallesConsulta(): TareaDetallesConsulta
-    // consultas modificar tarea
+
+    /**
+     * Obtiene las consultas de modificar tarea
+     *
+     * @return ModificarTareaConsultas devuelve las consultas de modificar tarea.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun modificarTareaConsultas(): ModificarTareaConsultas
-    // Consultas listar proyectos
+
+    /**
+     * Obtiene las consultas de listar proyectos
+     *
+     * @return ListarProyectosConsultas devuelve las consultas de listar proyectos.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun listarProyectosConsultas(): ListarProyectosConsultas
-    // Consultas proyecto detalles
+
+    /**
+     * Obtiene las consultas de proyecto detalles
+     *
+     * @return ProyectoDetallesConsultas devuelve las consultas de proyecto detalles.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun proyectoDetallesConsultas(): ProyectoDetallesConsultas
-    // Consultas modificar proyecto
+
+    /**
+     * Obtiene las consultas de modificar proyecto
+     *
+     * @return ModificarProyectoConsultas devuelve las consultas de modificar proyecto.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun modificarProyectoConsultas(): ModificarProyectoConsultas
-    // Consultas de estadisticas
+
+    /**
+     * Obtiene las consultas de estadisticas
+     *
+     * @return EstadisticasConsultas devuelve las consultas de estadisticas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun estadisticasConsultas(): EstadisticasConsultas
-    // Consultas de activity main
+
+    /**
+     * Obtiene las consultas de activity main
+     *
+     * @return ActivityMainConsultas devuelve las consultas de activity main.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun activityMainConsultas(): ActivityMainConsultas
-    // Consultas de listar etiquetas
+
+    /**
+     * Obtiene las consultas de listar etiquetas
+     *
+     * @return ListarEtiquetasConsultas devuelve las consultas de listar etiquetas.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun listarEtiquetasConsultas(): ListarEtiquetasConsultas
-    // Consultas de etiqueta detalles
+
+    /**
+     * Obtiene las consultas de etiqueta detalles
+     *
+     * @return EtiquetaDetallesConsultas devuelve las consultas de etiqueta detalles.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun etiquetaDetallesConsultas(): EtiquetaDetallesConsultas
-    // Consultas de modificar etiqueta
+
+    /**
+     * Obtiene las consultas de modificar etiqueta
+     *
+     * @return ModificarEtiquetaConsultas devuelve las consultas de modificar etiqueta.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun modificarEtiquetaConsultas(): ModificarEtiquetaConsultas
-    // Consultas de worker
+
+    /**
+     * Obtiene las consultas de worker
+     *
+     * @return WorkerConsultas devuelve las consultas de worker.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     abstract fun workerConsultas(): WorkerConsultas
 
     companion object {
         @Volatile
         private var INSTANCE: TusTareasDatabase? = null
 
+        /**
+         * Obtiene la instancia de la base de datos. Si no existe, la crea.
+         *
+         * @param context El contexto de la aplicación.
+         * @return TusTareasDatabase devuelve la instancia de la base de datos.
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
         fun getDatabase(context: Context): TusTareasDatabase {
             return INSTANCE ?: synchronized(this) {
                 when (context.packageName) {
+                    // Si el paquete es el de producción carga la base de datos cifrada,
+                    // si no carga la base de datos sin cifrar desde el asset y sin cifrar
                     "com.example.tustareas" -> {
                         // Carga la libreria de sqlcipher
                         System.loadLibrary("sqlcipher")
