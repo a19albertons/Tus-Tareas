@@ -260,7 +260,7 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes
         modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes()
+        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -280,6 +280,7 @@ class ModificarProyectosModelTest {
         assert(resultado!!.tareas.size == 1)
     }
 
+    // Tareas restantes para una misma
     @Test
     fun modificarProyectoConTareaYEtiqueta3() = runTest {
         // Anadir proyecto
@@ -294,7 +295,7 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes
         modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes()
+        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -308,8 +309,10 @@ class ModificarProyectosModelTest {
         // Obtener datos modificados
         val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
         liveData.observeForever {  }
+
+        // Cantidad de tareas restantes
         modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(liveData.value!!.tareas)
-        val liveData2 = modelo.modificarProyectos.obtenerTareasRestantes()
+        val liveData2 = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         liveData2.observeForever {  }
 
         // Resultado
@@ -330,12 +333,12 @@ class ModificarProyectosModelTest {
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
-        // Gestion de obtención de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        // Gestion de obtención de etiquetas restantes
+        modelo.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoModificado.etiquetas)
         val etiquetasRestantes = modelo.modificarProyectos.obtenerEtiquetasRestantes()
         etiquetasRestantes.observeForever {  }
 
-        // Insercion una tarea
+        // Insercion una etiqueta
         val etiquetasRestantesValue = etiquetasRestantes.value!!
         val etiquetas = proyectoModificado.etiquetas.plus(etiquetasRestantesValue.first())
         proyectoModificado.etiquetas = etiquetas
@@ -352,6 +355,7 @@ class ModificarProyectosModelTest {
         assert(resultado!!.etiquetas.size == 1)
     }
 
+    // Etiquetas restantes para una misma
     @Test
     fun modificarProyectoConTareaYEtiqueta5() = runTest {
         // Anadir proyecto
@@ -364,12 +368,12 @@ class ModificarProyectosModelTest {
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
-        // Gestion de obtención de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        // Gestion de obtención de etiquetas restantes
+        modelo.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoModificado.etiquetas)
         val etiquetasRestantes = modelo.modificarProyectos.obtenerEtiquetasRestantes()
         etiquetasRestantes.observeForever {  }
 
-        // Insercion una tarea
+        // Insercion una etiqueta
         val etiquetasRestantesValue = etiquetasRestantes.value!!
         val etiquetas = proyectoModificado.etiquetas.plus(etiquetasRestantesValue.first())
         proyectoModificado.etiquetas = etiquetas
@@ -380,6 +384,8 @@ class ModificarProyectosModelTest {
         // Obtener datos modificados
         val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
         liveData.observeForever {  }
+
+        // Cantidad de etiquetas restantes
         modelo.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(liveData.value!!.etiquetas)
         val liveData2 = modelo.modificarProyectos.obtenerEtiquetasRestantes()
         liveData2.observeForever {  }
@@ -388,5 +394,99 @@ class ModificarProyectosModelTest {
         val resultado = liveData2.value
         assert(resultado!!.size == 1)
     }
+
+    // Comprueba que la tarea ya asignada de las 2 existente en un proyecto nuevo no aparece en las tareas restantes
+    @Test
+    fun obtenerTareasRestantes() = runTest {
+        // Anadir proyecto
+        anadirProyecto()
+
+        // Obtener proyecto
+        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        proyectoInicial.observeForever {  }
+
+        // modificar
+        val proyectoModificado = proyectoInicial.value!!
+
+        // Gestion de obtención de tareas restantes
+        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        tareasRestantes.observeForever {  }
+
+        // Insercion una tarea
+        val tareasRestantesValue = tareasRestantes.value!!
+        val tareas = proyectoModificado.tareas.plus(tareasRestantesValue.first())
+        proyectoModificado.tareas = tareas
+
+        // Actualizar
+        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+
+        // otro proyecto
+        val proyecto2 = Proyecto(
+            id = 2,
+            nombre = "Proyecto 2",
+            descripcion = "descripcion",
+            fechaCreacion = Date(diaReferencia),
+            fechaInicio = Date(diaReferencia),
+            fechaFin = Date(diaReferencia)
+        )
+        val proyectoDTO2 = ProyectoDTO(
+            proyecto2,
+            emptyList(),
+            emptyList()
+        )
+        // Insertar
+        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
+
+        // Gestion de obtención de tareas restantes en otra proyecto inexistente (lista vacia)
+        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(emptyList())
+        val tareasRestantesFinales = modelo.modificarProyectos.obtenerTareasRestantes(proyectoDTO2.proyecto.id)
+        tareasRestantesFinales.observeForever {  }
+
+        // Resultado
+        val resultado = tareasRestantesFinales.value
+        assert(resultado!!.size == 1)
+
+    }
+
+    // Comprueba que una tarea aún asignada en base de datos, esta disponible para volver
+    // a ser añadida a un proyecto tras eliminarla de la lista en memoria que hay en el fragmento
+    @Test
+    fun obtenerTareasRestantes2() = runTest {
+        // Anadir proyecto
+        anadirProyecto()
+
+        // Obtener proyecto
+        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        proyectoInicial.observeForever {  }
+
+        // modificar
+        val proyectoModificado = proyectoInicial.value!!
+
+        // Gestion de obtención de tareas restantes
+        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        tareasRestantes.observeForever {  }
+
+        // Insercion una tarea
+        val tareasRestantesValue = tareasRestantes.value!!
+        val tareas = proyectoModificado.tareas.plus(tareasRestantesValue.first())
+        proyectoModificado.tareas = tareas
+
+        // Actualizar
+        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+
+        // Gestion de obtención de tareas restantes en el mismo proyecto para lista vacia (eliminar la tarea de la lista en memoria del fragmento)
+        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(emptyList())
+        val tareasRestantesFinales = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        tareasRestantesFinales.observeForever {  }
+
+        // Resultado
+        val resultado = tareasRestantesFinales.value
+        assert(resultado!!.size == 2)
+
+    }
+
+
 
 }

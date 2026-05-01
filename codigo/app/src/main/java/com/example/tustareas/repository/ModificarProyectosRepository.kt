@@ -12,7 +12,7 @@ class ModificarProyectosRepository(database: TusTareasDatabase) {
     private val modificarProyectoConsultas = database.modificarProyectoConsultas()
 
     // Obtener tareas restantes
-    fun obtenerTareasRestantes(listaTareas: List<Tarea>) = modificarProyectoConsultas.obtenerTareasRestantes(listaTareas.map { it.id })
+    fun obtenerTareasRestantes(listaTareas: List<Tarea>, idProyecto: Int) = modificarProyectoConsultas.obtenerTareasRestantes(listaTareas.map { it.id }, idProyecto)
 
     // Obtener etiquetas restantes
     fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) = modificarProyectoConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })

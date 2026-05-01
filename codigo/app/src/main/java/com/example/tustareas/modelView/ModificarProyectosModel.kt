@@ -21,9 +21,9 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
         listaTareas.value = lista
     }
     // Obtiene las tareas restantes (libres)
-    fun obtenerTareasRestantes() : LiveData<List<Tarea>> = listaTareas.switchMap {
+    fun obtenerTareasRestantes(idProyecto: Int) : LiveData<List<Tarea>> = listaTareas.switchMap {
             texto ->
-        repository.modificarProyectos.obtenerTareasRestantes(texto)
+        repository.modificarProyectos.obtenerTareasRestantes(texto, idProyecto)
     }
 
     // Tiene la lista inicial vacia

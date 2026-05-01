@@ -72,7 +72,7 @@ class ModificarProyectoFragment : Fragment() {
         // spinner tareas
         var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
             DateHelper.fechaMediaNocheUTC(), Estado.EnTiempo, null))
-        model.modificarProyectos.obtenerTareasRestantes().observe(viewLifecycleOwner) {
+        model.modificarProyectos.obtenerTareasRestantes(proyectoDTO.proyecto.id).observe(viewLifecycleOwner) {
             tareas ->
             if (tareas.isEmpty()) {
                 listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,

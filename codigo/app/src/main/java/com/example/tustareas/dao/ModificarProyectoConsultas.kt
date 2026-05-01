@@ -84,8 +84,8 @@ interface ModificarProyectoConsultas {
      * @return LiveData<List<Tarea>> con las tareas que no tienen asignado un proyecto y que no están en la lista de IDs proporcionada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    @Query("select * from tareas where id not in (:lista)")
-    fun obtenerTareasRestantes(lista : List<Int>): LiveData<List<Tarea>>
+    @Query("select * from tareas where id not in (:lista) AND (idProyecto is null OR idProyecto = :idProyecto)")
+    fun obtenerTareasRestantes(lista : List<Int>, idProyecto: Int): LiveData<List<Tarea>>
 
     /**
      * Obtiene las etiquetas que no están asignadas al proyecto
