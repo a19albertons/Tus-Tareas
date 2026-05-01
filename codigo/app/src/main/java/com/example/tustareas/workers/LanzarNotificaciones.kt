@@ -14,8 +14,19 @@ import kotlinx.coroutines.withContext
 
 /**
  * Clase que gestiona la alarma y la ejecuta
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net
  */
 class LanzarNotificaciones  : BroadcastReceiver() {
+
+    /**
+     * Metodo que se ejecuta cuando se recibe la alarma, se encarga de lanzar las notificaiones
+     * y de programar la siguiente alarma para el día siguiente
+     *
+     * @param contexto El contexto de la aplicación
+     * @param intent El intent recibido con la alarma
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
     override fun onReceive(contexto: Context?, intent: Intent?) {
         // Recrear la alarma para mañana
         AlarmaHelper.programarAlarmaDiaria(contexto?.applicationContext)
