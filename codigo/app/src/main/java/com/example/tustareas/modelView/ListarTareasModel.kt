@@ -73,7 +73,7 @@ class ListarTareasModel(
     // Gestiona el click en el checkbox de la tarea. Se mueve la lógica de negocio al view Model
     fun actualizarEstadoTarea(objectoActual: Tarea, isChecked: Boolean) {
         if (isChecked) {
-            objectoActual.estado = Estado.Completada
+            objectoActual.estado = Estado.COMPLETADA
             scope.launch {
                 try {
                     modificarTarea(objectoActual)
@@ -86,10 +86,10 @@ class ListarTareasModel(
         else {
             // Control de la fecha EnTiempo o Retrasada
             if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! >= DateHelper.fechaMediaNocheUTC()) {
-                objectoActual.estado = Estado.EnTiempo
+                objectoActual.estado = Estado.EN_TIEMPO
             }
             else {
-                objectoActual.estado = Estado.Retrasada
+                objectoActual.estado = Estado.RETRASADA
             }
             scope.launch {
                 try {

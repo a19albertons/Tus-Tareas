@@ -114,16 +114,16 @@ class ListarTareasFragment : Fragment() {
                         prioridad = Prioridad.entries.toTypedArray()
                     }
                     1-> {
-                        prioridad = Array(1) { Prioridad.Alta }
+                        prioridad = Array(1) { Prioridad.ALTA }
                     }
                     2-> {
-                        prioridad = Array(1) { Prioridad.Media }
+                        prioridad = Array(1) { Prioridad.MEDIA }
                     }
                     3-> {
-                        prioridad = Array(1) { Prioridad.Baja }
+                        prioridad = Array(1) { Prioridad.BAJA }
                     }
                     4-> {
-                        prioridad = Array(1) { Prioridad.NoEstablecido }
+                        prioridad = Array(1) { Prioridad.NO_ESTABLECIDO }
                     }
                     else -> {
                         prioridad = Prioridad.entries.toTypedArray()
@@ -170,14 +170,14 @@ class ListarTareasFragment : Fragment() {
                         estado = Estado.entries.toTypedArray()
                     }
                     1-> {
-                        estado = Array(1) { Estado.EnTiempo }
+                        estado = Array(1) { Estado.EN_TIEMPO }
                     }
                     2-> {
-                        estado = Array(1) { Estado.Retrasada }
+                        estado = Array(1) { Estado.RETRASADA }
 
                     }
                     3-> {
-                        estado = Array(1) { Estado.Completada }
+                        estado = Array(1) { Estado.COMPLETADA }
                     }
                     else -> {
                         estado = Estado.entries.toTypedArray()
@@ -243,7 +243,7 @@ class ListarTareasFragment : Fragment() {
 
         // Boton añadir tareas
         binding.anadirTarea.setOnClickListener {
-            val tarea = Tarea(0, "", null, null, Prioridad.Alta, DateHelper.fechaMediaNocheUTC(), Estado.EnTiempo, null)
+            val tarea = Tarea(0, "", null, null, Prioridad.ALTA, DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null)
             val dto = TareaDTO(tarea, emptyList())
             try {
                 findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))

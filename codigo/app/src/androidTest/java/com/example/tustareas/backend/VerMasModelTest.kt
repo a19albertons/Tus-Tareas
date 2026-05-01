@@ -58,40 +58,40 @@ class VerMasModelTest {
         // Tarea sin fecha limite
         val tarea1 = Tarea(
             nombre = "tarea1",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = null,
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea1DTO = TareaDTO(tarea1, emptyList())
         // Tarea con fecha limite, pero no retrasada
         val tarea2 = Tarea(
             nombre = "tarea2",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea2DTO = TareaDTO(tarea2, emptyList())
         // Tarea hoy
         val tareaHoy = Tarea(
             nombre = "tareaHoy",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = DateHelper.fechaMediaNocheUTC(), // Hoy
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
         // Tarea retrasada
-        val tareaRetrasada = Tarea(
+        val tareaRETRASADA = Tarea(
             nombre = "tareaRetrasada",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time - 86400000), // Un día antes
             // Es el campo se mira.
-            estado = Estado.Retrasada
+            estado = Estado.RETRASADA
         )
-        val tareaRetrasadaDTO = TareaDTO(tareaRetrasada, emptyList())
+        val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas
         repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
@@ -127,7 +127,7 @@ class VerMasModelTest {
 
         // Resultado
         val resultado = liveData2.value
-        assert(resultado!!.first().estado == Estado.Completada)
+        assert(resultado!!.first().estado == Estado.COMPLETADA)
     }
 
     // Tareas para hoy -- cantidad

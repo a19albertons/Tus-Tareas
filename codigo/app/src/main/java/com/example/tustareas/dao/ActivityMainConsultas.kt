@@ -18,7 +18,7 @@ interface ActivityMainConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("DELETE FROM tareas WHERE estado = :estado")
-    suspend fun limpiarTareasCompletas(estado: Estado = Estado.Completada)
+    suspend fun limpiarTareasCompletas(estado: Estado = Estado.COMPLETADA)
 
     /**
      * Marca una notificación como leída en la base de datos.

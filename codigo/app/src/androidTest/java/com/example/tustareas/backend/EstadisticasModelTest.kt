@@ -22,9 +22,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Calendar
 import java.util.Date
-import java.util.TimeZone
 
 /**
  * Clase que gestiona las pruebas de integración de estadísticas model
@@ -61,29 +59,29 @@ class EstadisticasModelTest {
         val tarea1 = Tarea(
             id = 1,
             nombre = "tarea1",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia - 86400000),
             fechaLimite = null,
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea1DTO = TareaDTO(tarea1, emptyList())
         // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
         val tarea2 = Tarea(
             nombre = "tarea2",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = Date(diaReferencia),
             fechaLimite = Date(diaReferencia + 86400000), // Un día después
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea2DTO = TareaDTO(tarea2, emptyList())
         // Completada, priroridad alta, descripcion
         val tareaHoy = Tarea(
             nombre = "tareaHoy",
             descripcion = "descripcion",
-            prioridad = Prioridad.Alta,
+            prioridad = Prioridad.ALTA,
             fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
             fechaLimite = Date(diaReferencia), // Hoy
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val etiqueta = Etiqueta(
             // Id interno manual para base de pruebas
@@ -92,14 +90,14 @@ class EstadisticasModelTest {
         )
         val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
         // Tarea retrasada, prioridad media y retrasada
-        val tareaRetrasada = Tarea(
+        val tareaRETRASADA = Tarea(
             nombre = "tareaRetrasada",
-            prioridad = Prioridad.Media,
+            prioridad = Prioridad.MEDIA,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-            estado = Estado.Retrasada
+            estado = Estado.RETRASADA
         )
-        val tareaRetrasadaDTO = TareaDTO(tareaRetrasada, emptyList())
+        val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
         repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
@@ -111,37 +109,37 @@ class EstadisticasModelTest {
         // Tareas adicionales creadas/asistidas por IA
         val tarea3 = Tarea(
             nombre = "tarea3",
-            prioridad = Prioridad.Media,
+            prioridad = Prioridad.MEDIA,
             fechaCreacion = Date(diaReferencia + 2 * 86400000),
             fechaLimite = Date(diaReferencia + 3 * 86400000),
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea3DTO = TareaDTO(tarea3, emptyList())
 
         val tarea4 = Tarea(
             nombre = "tarea4",
-            prioridad = Prioridad.Alta,
+            prioridad = Prioridad.ALTA,
             fechaCreacion = Date(diaReferencia - 3 * 86400000),
             fechaLimite = Date(diaReferencia - 2 * 86400000),
-            estado = Estado.Retrasada
+            estado = Estado.RETRASADA
         )
         val tarea4DTO = TareaDTO(tarea4, emptyList())
 
         val tarea5 = Tarea(
             nombre = "tarea5",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = Date(diaReferencia + 86400000),
             fechaLimite = Date(diaReferencia + 5 * 86400000),
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea5DTO = TareaDTO(tarea5, emptyList())
 
         val tarea6 = Tarea(
             nombre = "tarea6",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia - 10 * 86400000),
             fechaLimite = null,
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val tarea6DTO = TareaDTO(tarea6, emptyList())
 
@@ -153,55 +151,55 @@ class EstadisticasModelTest {
 
         val tarea7 = Tarea(
             nombre = "tarea7",
-            prioridad = Prioridad.Alta,
+            prioridad = Prioridad.ALTA,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia + 3 * 86400000),
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea7DTO = TareaDTO(tarea7, listOf(etiqueta))
 
         val tarea8 = Tarea(
             nombre = "tarea8",
-            prioridad = Prioridad.Media,
+            prioridad = Prioridad.MEDIA,
             fechaCreacion = Date(diaReferencia - 5 * 86400000),
             fechaLimite = Date(diaReferencia),
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val tarea8DTO = TareaDTO(tarea8, listOf(etiqueta2))
 
         val tarea9 = Tarea(
             nombre = "tarea9",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = Date(diaReferencia - 2 * 86400000),
             fechaLimite = Date(diaReferencia + 86400000),
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea9DTO = TareaDTO(tarea9, emptyList())
 
         val tarea10 = Tarea(
             nombre = "tarea10",
-            prioridad = Prioridad.Alta,
+            prioridad = Prioridad.ALTA,
             fechaCreacion = Date(diaReferencia - 2 * 86400000),
             fechaLimite = Date(diaReferencia - 2 * 86400000),
-            estado = Estado.Retrasada
+            estado = Estado.RETRASADA
         )
         val tarea10DTO = TareaDTO(tarea10, listOf(etiqueta))
 
         val tarea11 = Tarea(
             nombre = "tarea11",
-            prioridad = Prioridad.Media,
+            prioridad = Prioridad.MEDIA,
             fechaCreacion = Date(diaReferencia - 7 * 86400000),
             fechaLimite = null,
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea11DTO = TareaDTO(tarea11, emptyList())
 
         val tarea12 = Tarea(
             nombre = "tarea12",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = Date(diaReferencia - 86400000),
             fechaLimite = Date(diaReferencia + 10 * 86400000),
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val tarea12DTO = TareaDTO(tarea12, listOf(etiqueta2))
 

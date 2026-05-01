@@ -61,16 +61,16 @@ class TusTareasModelTest {
         // Crear tareas
         val tareaCompleta = Tarea(
             nombre = "tarea completa",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val tareaCompletaDto = TareaDTO(tareaCompleta, emptyList())
         val tareaIncompleta = Tarea(
             nombre = "tarea incompleta",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
 
@@ -104,9 +104,9 @@ class TusTareasModelTest {
         // Creación datos bd
         val tarea = Tarea(
             nombre = "tarea",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tareaDTO = TareaDTO(tarea, emptyList())
         val notificacion = Notificacion(

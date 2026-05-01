@@ -2,7 +2,6 @@ package com.example.tustareas.backend
 
 import android.app.Application
 import android.content.Context
-import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -63,29 +62,29 @@ class ListarTareasModelTest {
         val tarea1 = Tarea(
             id = 1,
             nombre = "tarea1",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia - 86400000),
             fechaLimite = null,
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea1DTO = TareaDTO(tarea1, emptyList())
         // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
         val tarea2 = Tarea(
             nombre = "tarea2",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = Date(diaReferencia),
             fechaLimite = Date(diaReferencia + 86400000), // Un día después
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea2DTO = TareaDTO(tarea2, emptyList())
         // Completada, priroridad alta, descripcion
         val tareaHoy = Tarea(
             nombre = "tareaHoy",
             descripcion = "descripcion",
-            prioridad = Prioridad.Alta,
+            prioridad = Prioridad.ALTA,
             fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
             fechaLimite = Date(diaReferencia), // Hoy
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val etiqueta = Etiqueta(
             // Id interno manual para base de pruebas
@@ -94,14 +93,14 @@ class ListarTareasModelTest {
         )
         val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
         // Tarea retrasada, prioridad media y retrasada
-        val tareaRetrasada = Tarea(
+        val tareaRETRASADA = Tarea(
             nombre = "tareaRetrasada",
-            prioridad = Prioridad.Media,
+            prioridad = Prioridad.MEDIA,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-            estado = Estado.Retrasada
+            estado = Estado.RETRASADA
         )
-        val tareaRetrasadaDTO = TareaDTO(tareaRetrasada, emptyList())
+        val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
         repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
@@ -157,7 +156,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadNoEstablecidoCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NoEstablecido).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -169,7 +168,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadNoEstablecidoPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NoEstablecido).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -181,7 +180,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadNoEstablecidoUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NoEstablecido).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -194,7 +193,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadBajaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Baja).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -206,7 +205,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadBajaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Baja).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -218,7 +217,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadBajaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Baja).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -231,7 +230,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadMediaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Media).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -243,7 +242,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadMediaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Media).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -255,7 +254,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadMediaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Media).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -268,7 +267,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadAltaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Alta).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -280,7 +279,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadAltaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Alta).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -292,7 +291,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadAltaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Alta).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -339,7 +338,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoEnTiempoCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EnTiempo).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -351,7 +350,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoEnTiempoPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EnTiempo).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -363,7 +362,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoEnTiempoUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EnTiempo).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -376,7 +375,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoCompletadaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Completada).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -388,7 +387,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoCompletadaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Completada).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -400,7 +399,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoCompletadaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Completada).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -413,7 +412,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoRetrasadaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Retrasada).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -425,7 +424,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoRetrasadaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Retrasada).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -437,7 +436,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoRetrasadaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Retrasada).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
@@ -662,8 +661,8 @@ class ListarTareasModelTest {
     fun filtroMasCompleto() {
         // Obtener datos
         modelo.listarTareas.actualizarTextoListadoTareas("ETIQUETA")
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.Completada).toTypedArray())
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.Alta).toTypedArray())
+        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
+        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
         modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
         val liveData = modelo.listarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
@@ -694,7 +693,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData2.value
-        assert(resultado!!.first().estado == Estado.Completada)
+        assert(resultado!!.first().estado == Estado.COMPLETADA)
     }
 
     // test modificar tarea (marcar como no completada)
@@ -716,6 +715,6 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData2.value
-        assert(resultado!!.get(2).estado != Estado.Completada)
+        assert(resultado!!.get(2).estado != Estado.COMPLETADA)
     }
 }

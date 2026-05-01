@@ -33,7 +33,7 @@ class Convertidor {
      */
     @TypeConverter
     fun toPrioridad(value: String): Prioridad {
-        return runCatching { Prioridad.valueOf(value) }.getOrDefault(Prioridad.NoEstablecido )
+        return runCatching { Prioridad.valueOf(value) }.getOrDefault(Prioridad.NO_ESTABLECIDO )
     }
 
     /**
@@ -57,7 +57,7 @@ class Convertidor {
      */
     @TypeConverter
     fun toEstado(value: String): Estado {
-        return runCatching { Estado.valueOf(value) }.getOrDefault( Estado.EnTiempo )
+        return runCatching { Estado.valueOf(value) }.getOrDefault( Estado.EN_TIEMPO )
     }
 
     /**

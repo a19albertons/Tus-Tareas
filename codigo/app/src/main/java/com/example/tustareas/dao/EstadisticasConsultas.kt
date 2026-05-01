@@ -21,7 +21,7 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where fechaLimite = :i and estado = :estado")
-    fun tareasCompletadasPorDia(i: Long, estado: Estado = Estado.Completada): LiveData<Float>
+    fun tareasCompletadasPorDia(i: Long, estado: Estado = Estado.COMPLETADA): LiveData<Float>
 
     /**
      * Hace una consulta a las tareas devolviendo aquellas que no estén completas.
@@ -32,7 +32,7 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where fechaLimite = :i and estado != :estado")
-    fun tareasNoCompletadasPorDia(i: Long, estado: Estado = Estado.Completada): LiveData<Float>
+    fun tareasNoCompletadasPorDia(i: Long, estado: Estado = Estado.COMPLETADA): LiveData<Float>
 
     /**
      * Hace una consulta a las tareas devolviendo aquellas que estén completas.
@@ -42,7 +42,7 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where estado = :estado")
-    fun obtenerCantidadTareasCompletas(estado: Estado = Estado.Completada): LiveData<Int>
+    fun obtenerCantidadTareasCompletas(estado: Estado = Estado.COMPLETADA): LiveData<Int>
 
     /**
      * Hace una consulta a las tareas devolviendo aquellas que estén en tiempo.
@@ -52,7 +52,7 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where estado = :estado")
-    fun obtenerCantidadTareasPendientes(estado: Estado = Estado.EnTiempo): LiveData<Int>
+    fun obtenerCantidadTareasPendientes(estado: Estado = Estado.EN_TIEMPO): LiveData<Int>
 
     /**
      * Hace una consulta a las tareas devolviendo aquellas que estén retrasadas.
@@ -62,7 +62,7 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where estado = :estado")
-    fun obtenerCantidadTareasRetrasadas(estado: Estado = Estado.Retrasada): LiveData<Int>
+    fun obtenerCantidadTareasRetrasadas(estado: Estado = Estado.RETRASADA): LiveData<Int>
 
     /**
      * Hace una consulta buscando aquellas que estean entre dos fechas y completas
@@ -74,7 +74,7 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where fechaLimite between :fechaInicio and :fechaFin and estado = :estado")
-    fun obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio: Long, fechaFin: Long, estado: Estado = Estado.Completada): LiveData<Long>
+    fun obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio: Long, fechaFin: Long, estado: Estado = Estado.COMPLETADA): LiveData<Long>
 
     /**
      * Hace una consulta buscando aquellas que estean entre dos fechas y en tiempo
@@ -86,5 +86,5 @@ interface EstadisticasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select count(*) from tareas where fechaLimite between :fechaInicio and :fechaFin and estado = :estado")
-    fun obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio: Long, fechaFin: Long, estado: Estado = Estado.EnTiempo): LiveData<Long>
+    fun obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio: Long, fechaFin: Long, estado: Estado = Estado.EN_TIEMPO): LiveData<Long>
 }

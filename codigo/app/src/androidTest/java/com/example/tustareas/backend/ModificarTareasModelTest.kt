@@ -53,29 +53,29 @@ class ModificarTareasModelTest {
         val tarea1 = Tarea(
             id = 1,
             nombre = "tarea1",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia - 86400000),
             fechaLimite = null,
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea1DTO = TareaDTO(tarea1, emptyList())
         // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
         val tarea2 = Tarea(
             nombre = "tarea2",
-            prioridad = Prioridad.Baja,
+            prioridad = Prioridad.BAJA,
             fechaCreacion = Date(diaReferencia),
             fechaLimite = Date(diaReferencia + 86400000), // Un día después
-            estado = Estado.EnTiempo
+            estado = Estado.EN_TIEMPO
         )
         val tarea2DTO = TareaDTO(tarea2, emptyList())
         // Completada, priroridad alta, descripcion
         val tareaHoy = Tarea(
             nombre = "tareaHoy",
             descripcion = "descripcion",
-            prioridad = Prioridad.Alta,
+            prioridad = Prioridad.ALTA,
             fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
             fechaLimite = Date(diaReferencia), // Hoy
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val etiqueta = Etiqueta(
             // Id interno manual para base de pruebas
@@ -84,14 +84,14 @@ class ModificarTareasModelTest {
         )
         val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
         // Tarea retrasada, prioridad media y retrasada
-        val tareaRetrasada = Tarea(
+        val tareaRETRASADA = Tarea(
             nombre = "tareaRetrasada",
-            prioridad = Prioridad.Media,
+            prioridad = Prioridad.MEDIA,
             fechaCreacion = DateHelper.fechaMediaNocheUTC(),
             fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-            estado = Estado.Retrasada
+            estado = Estado.RETRASADA
         )
-        val tareaRetrasadaDTO = TareaDTO(tareaRetrasada, emptyList())
+        val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
         repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
@@ -111,9 +111,9 @@ class ModificarTareasModelTest {
             "prueba",
             "descripcion",
             DateHelper.fechaMediaNocheUTC(),
-            Prioridad.NoEstablecido,
+            Prioridad.NO_ESTABLECIDO,
             DateHelper.fechaMediaNocheUTC(),
-            Estado.EnTiempo,
+            Estado.EN_TIEMPO,
             null
         )
         val etiqueta1 = Etiqueta(2, "etiqueta1")
@@ -143,9 +143,9 @@ class ModificarTareasModelTest {
             "prueba",
             "descripcion",
             DateHelper.fechaMediaNocheUTC(),
-            Prioridad.NoEstablecido,
+            Prioridad.NO_ESTABLECIDO,
             DateHelper.fechaMediaNocheUTC(),
-            Estado.EnTiempo,
+            Estado.EN_TIEMPO,
             null
         )
         val etiqueta1 = Etiqueta(2, "etiqueta1")

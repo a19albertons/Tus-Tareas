@@ -3,7 +3,6 @@ package com.example.tustareas.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import java.util.Date
@@ -24,7 +23,7 @@ interface InicioConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from tareas where fechaLimite = :fecha AND estado = :estado")
-    fun obtenerTareasTerminanDiaEspecifico(fecha: Date, estado: Estado = Estado.EnTiempo): LiveData<List<Tarea>>
+    fun obtenerTareasTerminanDiaEspecifico(fecha: Date, estado: Estado = Estado.EN_TIEMPO): LiveData<List<Tarea>>
 
     /**
      * Obtiene todas las tareas retrasadas.
@@ -34,7 +33,7 @@ interface InicioConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from tareas where estado = :estado")
-    fun obtenerTareasRetrasadas(estado: Estado = Estado.Retrasada): LiveData<List<Tarea>>
+    fun obtenerTareasRetrasadas(estado: Estado = Estado.RETRASADA): LiveData<List<Tarea>>
 
     /**
      * Obtiene todas las tareas futuras no finalizadas.
@@ -45,5 +44,5 @@ interface InicioConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from tareas where (fechaLimite > :fecha OR fechaLimite is null) AND estado = :estado ORDER BY fechaLimite ASC")
-    fun obtenerTareasProximas(fecha: Date, estado: Estado = Estado.EnTiempo): LiveData<List<Tarea>>
+    fun obtenerTareasProximas(fecha: Date, estado: Estado = Estado.EN_TIEMPO): LiveData<List<Tarea>>
 }

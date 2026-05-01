@@ -80,13 +80,13 @@ class ModificarProyectoFragment : Fragment() {
 
         // Gestiona la addición de tareas
         // spinner tareas
-        var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
-            DateHelper.fechaMediaNocheUTC(), Estado.EnTiempo, null))
+        var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
+            DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
         model.modificarProyectos.obtenerTareasRestantes(proyectoDTO.proyecto.id).observe(viewLifecycleOwner) {
             tareas ->
             if (tareas.isEmpty()) {
-                listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NoEstablecido,
-                    DateHelper.fechaMediaNocheUTC(), Estado.EnTiempo, null))
+                listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
+                    DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
             }
             else {
                 listaTareas = tareas

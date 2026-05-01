@@ -17,7 +17,6 @@ import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.MainScope
 
 /**
  * Clase que define el adapter de ver más
@@ -85,7 +84,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
         }
         // Gestiona el estado de la tarea
         // Comprueba el estado
-        if (objectoActual.estado == Estado.Completada) {
+        if (objectoActual.estado == Estado.COMPLETADA) {
             holder.checkbox.isChecked = true
         }
         else {

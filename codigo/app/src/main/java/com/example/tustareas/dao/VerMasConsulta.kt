@@ -34,7 +34,7 @@ interface VerMasConsulta {
             "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
             "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids en la relacion many to many
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ") // El nombre de la etiqueta
-    fun obtenerTareasTerminanDiaEspecificoConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EnTiempo): LiveData<List<Tarea>>
+    fun obtenerTareasTerminanDiaEspecificoConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EN_TIEMPO): LiveData<List<Tarea>>
 
 
 
@@ -54,7 +54,7 @@ interface VerMasConsulta {
             "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
             "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids en la relacion many to many
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ") // El nombre de la etiqueta
-    fun obtenerTareasRetrasadasConFiltro(texto: String, estado: Estado = Estado.Retrasada): LiveData<List<Tarea>>
+    fun obtenerTareasRetrasadasConFiltro(texto: String, estado: Estado = Estado.RETRASADA): LiveData<List<Tarea>>
 
 
 
@@ -77,7 +77,7 @@ interface VerMasConsulta {
             "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids en la relacion many to many
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) " + // El nombre de la etiqueta
             "ORDER BY fechaLimite ASC") // ordenación ascendente
-    fun obtenerTareasProximasConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EnTiempo) : LiveData<List<Tarea>>
+    fun obtenerTareasProximasConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EN_TIEMPO) : LiveData<List<Tarea>>
 
 
     /**

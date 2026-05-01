@@ -55,17 +55,17 @@ class ProyectoDetallesModelTest {
         val tarea1 = Tarea(
             id = 1,
             nombre = "tarea 1",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia),
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val tareaDTO1 = TareaDTO(tarea1, emptyList())
         val tarea2 = Tarea(
             id = 2,
             nombre = "tarea 2",
-            prioridad = Prioridad.NoEstablecido,
+            prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia),
-            estado = Estado.Completada
+            estado = Estado.COMPLETADA
         )
         val tareaDTO2 = TareaDTO(tarea2, emptyList())
         val etiqueta1 = Etiqueta(

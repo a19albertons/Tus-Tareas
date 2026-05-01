@@ -17,9 +17,6 @@ import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import java.util.Date
 
 /**
  * Clase que define el adapter de las tareas.
@@ -80,7 +77,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
         }
         // Gestiona el estado de la tarea
         // Comprueba el estado
-        if (objectoActual.estado == Estado.Completada) {
+        if (objectoActual.estado == Estado.COMPLETADA) {
             holder.checkbox.isChecked = true
         }
         else {

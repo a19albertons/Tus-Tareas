@@ -8,15 +8,15 @@ import com.example.tustareas.R
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 enum class Prioridad {
-    Alta,
-    Media,
-    Baja,
-    NoEstablecido;
+    ALTA,
+    MEDIA,
+    BAJA,
+    NO_ESTABLECIDO;
 
     fun labelRes(): Int = when (this) {
-        Alta -> R.string.alta
-        Media -> R.string.media
-        Baja -> R.string.baja
-        NoEstablecido -> R.string.no_establecido
+        ALTA -> R.string.alta
+        MEDIA -> R.string.media
+        BAJA -> R.string.baja
+        NO_ESTABLECIDO -> R.string.no_establecido
     }
 }

@@ -1,6 +1,5 @@
 package com.example.tustareas.modelView
 
-import android.widget.CheckBox
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
@@ -9,7 +8,6 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.util.DateHelper
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -50,7 +48,7 @@ class VerMasModel(
     // Gestiona el click en el checkbox de la tarea. Se mueve la lógica de negocio al view Model
     fun actualizarEstado(objectoActual: Tarea, booleano: Boolean) {
         if (booleano) {
-            objectoActual.estado = Estado.Completada
+            objectoActual.estado = Estado.COMPLETADA
             scope.launch {
                 try {
                     modificarTarea(objectoActual)
@@ -63,10 +61,10 @@ class VerMasModel(
         else {
             // Control de la fecha EnTiempo o Retrasada
             if (objectoActual.fechaLimite == null || objectoActual.fechaLimite!! >= DateHelper.fechaMediaNocheUTC()) {
-                objectoActual.estado = Estado.EnTiempo
+                objectoActual.estado = Estado.EN_TIEMPO
             }
             else {
-                objectoActual.estado = Estado.Retrasada
+                objectoActual.estado = Estado.RETRASADA
             }
             scope.launch {
                 try {

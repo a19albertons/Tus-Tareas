@@ -96,23 +96,23 @@ class ModificarTareasFragment : Fragment() {
                 when (position) {
                     0-> {
                         binding.prioridadTarea.setSelection(0)
-                        tareaDTO.tarea.prioridad = Prioridad.Alta
+                        tareaDTO.tarea.prioridad = Prioridad.ALTA
                     }
                     1-> {
                         binding.prioridadTarea.setSelection(1)
-                        tareaDTO.tarea.prioridad = Prioridad.Media
+                        tareaDTO.tarea.prioridad = Prioridad.MEDIA
                     }
                     2-> {
                         binding.prioridadTarea.setSelection(2)
-                        tareaDTO.tarea.prioridad = Prioridad.Baja
+                        tareaDTO.tarea.prioridad = Prioridad.BAJA
                     }
                     3-> {
                         binding.prioridadTarea.setSelection(3)
-                        tareaDTO.tarea.prioridad = Prioridad.NoEstablecido
+                        tareaDTO.tarea.prioridad = Prioridad.NO_ESTABLECIDO
                     }
                     else -> {
                         binding.prioridadTarea.setSelection(0)
-                        tareaDTO.tarea.prioridad = Prioridad.Alta
+                        tareaDTO.tarea.prioridad = Prioridad.ALTA
                     }
                 }
             }
@@ -253,12 +253,12 @@ class ModificarTareasFragment : Fragment() {
                     // Actualizamos los campos de texto con los ultimo
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
                     tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
-                    if (tareaDTO.tarea.estado != Estado.Completada) {
+                    if (tareaDTO.tarea.estado != Estado.COMPLETADA) {
                         if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(DateHelper.fechaMediaNocheUTC())) {
-                            tareaDTO.tarea.estado = Estado.EnTiempo
+                            tareaDTO.tarea.estado = Estado.EN_TIEMPO
                         }
                         else {
-                            tareaDTO.tarea.estado = Estado.Retrasada
+                            tareaDTO.tarea.estado = Estado.RETRASADA
                         }
                     }
 
@@ -304,12 +304,12 @@ class ModificarTareasFragment : Fragment() {
                     // Actualizamos los campos de texto con los ultimo
                     tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
                     tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
-                    if (tareaDTO.tarea.estado != Estado.Completada) {
+                    if (tareaDTO.tarea.estado != Estado.COMPLETADA) {
                         if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(DateHelper.fechaMediaNocheUTC())) {
-                            tareaDTO.tarea.estado = Estado.EnTiempo
+                            tareaDTO.tarea.estado = Estado.EN_TIEMPO
                         }
                         else {
-                            tareaDTO.tarea.estado = Estado.Retrasada
+                            tareaDTO.tarea.estado = Estado.RETRASADA
                         }
                     }
 

@@ -26,7 +26,7 @@ interface WorkerConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("UPDATE tareas SET estado = :estadoNuevo where fechaLimite < :fecha AND estado = :estado")
-    fun actualizarEstado(fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EnTiempo, estadoNuevo: Estado = Estado.Retrasada)
+    fun actualizarEstado(fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EN_TIEMPO, estadoNuevo: Estado = Estado.RETRASADA)
 
 
     /**
@@ -37,7 +37,7 @@ interface WorkerConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("SELECT * FROM tareas WHERE fechaLimite < :date AND estado != :estado")
-    suspend fun tareasRetrasadasAlarma(date: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.Completada) : List<Tarea>
+    suspend fun tareasRetrasadasAlarma(date: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.COMPLETADA) : List<Tarea>
 
 
     /**
