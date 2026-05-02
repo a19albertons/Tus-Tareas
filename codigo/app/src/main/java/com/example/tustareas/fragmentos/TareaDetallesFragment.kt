@@ -38,6 +38,8 @@ class TareaDetallesFragment : Fragment() {
     val model : TusTareasModel by viewModels(
         ownerProducer = { this.requireActivity() }
     )
+
+    private lateinit var args : TareaDetallesFragmentArgs
     private lateinit var tareaVisualizada : TareaDTO
 
 
@@ -56,14 +58,27 @@ class TareaDetallesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTareaDetallesBinding.inflate(inflater, container, false)
-        val view = binding.root
 
         // Obtiene el id de la tarea a mostrar
-        val args = TareaDetallesFragmentArgs.fromBundle(requireArguments())
-        val tareaID = args.id
+        args = TareaDetallesFragmentArgs.fromBundle(requireArguments())
 
+        // Carga la tarea a mostrar
+        cargarTarea()
+
+        // Configura un menu toolbar personalizado para el fragmento
+        configurarMenu()
+
+        return binding.root
+    }
+
+    /**
+     * Función que carga los detalles de una tarea a mostrar en el fragmento detalles de una tarea.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun cargarTarea() {
         // Obtiene los detalles por el id y los asigna al componente visual
-        model.tareaDetalles.obtenerTareaDTOPorID(tareaID).observe(viewLifecycleOwner) {
+        model.tareaDetalles.obtenerTareaDTOPorID(args.id).observe(viewLifecycleOwner) {
             tarea ->
 
             // Define los datos de la tarea en los componentes visuales
@@ -78,50 +93,68 @@ class TareaDetallesFragment : Fragment() {
             binding.prioridadTarea.text = tarea.tarea.prioridad.name
             binding.estadoTarea.text = tarea.tarea.estado.name
 
-            // Crea un chip por cada etiqueta de la tarea y los añade al grupo de chips
-            binding.etiquetasTareaGroup.removeAllViews()
-            tarea.etiquetas.forEach {
-                etiqueta ->
-                // Define la composición del chip
-                val chip = Chip(requireContext()).apply {
-                    // Define el texto del chip como el nombre de la etiqueta
-                    text = etiqueta.nombre
-                    setChipBackgroundColorResource(R.color.gray)
-                    setTextColor(resources.getColor(R.color.black, null))
+            // Añade las etiquetas de la tarea al grupo de chips
+            anadirEtiquetas(tarea)
 
-                    // Deshabilitamos la interacción del chip
-                    isClickable = false
-                    isFocusable = false
-                    isCheckable = false
-                    chipStrokeWidth = 0f
-
-                    // Deshabilitamos los minimos de toque de material 3d
-                    setEnsureMinTouchTargetSize(false)
-                    // Modificamos los minimos
-                    chipMinHeight = 0f
-                    minHeight = 0
-
-                    // Definimos 2dp
-                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
-
-                    // Configuramos el padding
-                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
-
-                    // Otros paddings
-                    textStartPadding = 0f
-                    textEndPadding = 0f
-
-                    // Controla el borde
-                    shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                        .setAllCornerSizes(0f)
-                        .build()
-
-                }
-                binding.etiquetasTareaGroup.addView(chip)
-            }
             tareaVisualizada = tarea
         }
+    }
 
+    /**
+     * Función de apoyo de [cargarTarea] que se encarga de añadir las etiquetas de una tarea al grupo de chips de la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun anadirEtiquetas(tarea: TareaDTO) {
+        // Crea un chip por cada etiqueta de la tarea y los añade al grupo de chips
+        binding.etiquetasTareaGroup.removeAllViews()
+        tarea.etiquetas.forEach {
+                etiqueta ->
+            // Define la composición del chip
+            val chip = Chip(requireContext()).apply {
+                // Define el texto del chip como el nombre de la etiqueta
+                text = etiqueta.nombre
+                setChipBackgroundColorResource(R.color.gray)
+                setTextColor(resources.getColor(R.color.black, null))
+
+                // Deshabilitamos la interacción del chip
+                isClickable = false
+                isFocusable = false
+                isCheckable = false
+                chipStrokeWidth = 0f
+
+                // Deshabilitamos los minimos de toque de material 3d
+                setEnsureMinTouchTargetSize(false)
+                // Modificamos los minimos
+                chipMinHeight = 0f
+                minHeight = 0
+
+                // Definimos 2dp
+                val paddingPx = (2 * resources.displayMetrics.density).toInt()
+
+                // Configuramos el padding
+                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+
+                // Otros paddings
+                textStartPadding = 0f
+                textEndPadding = 0f
+
+                // Controla el borde
+                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+                    .setAllCornerSizes(0f)
+                    .build()
+
+            }
+            binding.etiquetasTareaGroup.addView(chip)
+        }
+    }
+
+    /**
+     * Configura un menú personalizado para el fragmento detalles de una tarea, con opciones para modificar o eliminar la tarea.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarMenu() {
         // Invocar el menu del activity
         val activityMenu : MenuHost = requireActivity()
         // Crear un modificador del menu (toolbar)
@@ -160,7 +193,6 @@ class TareaDetallesFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        return view
     }
 
     /**
