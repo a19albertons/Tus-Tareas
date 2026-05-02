@@ -83,7 +83,7 @@ assembleDebug:
   artifacts:
     paths:
       - codigo/app/build/outputs/apk/pre-produccion/debug/app-pre-produccion-debug.apk
-    expose_as: "debug.apk"
+    expose_as: "debug"
     when: always
 
 
@@ -172,7 +172,7 @@ assembleRelease:
   artifacts:
     paths:
       - codigo/app-signed.apk
-    expose_as: "release.apk"
+    expose_as: "release"
     when: always
       
 
