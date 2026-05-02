@@ -44,6 +44,10 @@ class ModificarTareasFragment : Fragment() {
 
     private lateinit var tareaDTO : TareaDTO
 
+    // Variables para la gestión de etiquetas
+    private lateinit var listaEtiquetas: List<Etiqueta>
+    private lateinit var adapter: ListaEtiquetasPresentesAdapter
+
     /**
      * Crea la vista del fragmento de modificación de tareas y gestiona los eventos de los elementos de la vista.
      *
@@ -65,6 +69,58 @@ class ModificarTareasFragment : Fragment() {
         val args = ModificarTareasFragmentArgs.fromBundle(requireArguments())
         tareaDTO = args.tareaDTO
 
+        // Rellenamos los campos con los datos de la tarea pasada
+        rellenarCampos()
+
+        // Gestiona el spinner de prioridad
+        gestionarSpinnerPrioridad()
+
+        // Gestiona el calendario de fecha limite
+        gestionarCalendarioFechaLimite()
+
+        // Gestiona la lista de etiquetas disponibles y presentes
+        gestionarMostrarEtiquetas()
+
+        // Gestiona el boton de añadir etiqueta
+        gestionarAnadirEtiqueta()
+
+
+        return view
+    }
+
+    /**
+     * Hace modificaciones en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     *
+     * @param view La vista del fragmento de modificación de tareas.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Modifica la logica por defecto de la flecha de retroceso
+        val flechaRetroceso = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 0 solo la pueden tener las de nueva creación
+                if (tareaDTO.tarea.id == 0) {
+                    dialogoGuardado()
+                }
+                else {
+                    dialogoModificado()
+                }
+            }
+        }
+
+        // Modifica el comportamiento en el activity
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
+    }
+
+    /**
+     * Función que se encarga de rellenar los campos del formulario con los datos de la tarea pasada por argumentos.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun rellenarCampos() {
         // Valores del dto
         binding.tituloTarea.setText(tareaDTO.tarea.nombre)
         binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
@@ -74,7 +130,14 @@ class ModificarTareasFragment : Fragment() {
 
         // Refrescar tareas
         model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+    }
 
+    /**
+     * Función que se encarga de gestionar el spinner de prioridad para mostrar las opciones de prioridad disponibles y actualizar la prioridad de la tarea según la selección del usuario.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarSpinnerPrioridad() {
         // Gestión spinner de prioridad
         // Spinner prioridad
         val contenidosSpinerPrioridad = Prioridad.entries.map { getString(it.labelRes()) }
@@ -121,8 +184,14 @@ class ModificarTareasFragment : Fragment() {
 
             }
         }
+    }
 
-
+    /**
+     * Función que se encarga de gestionar el calendario de fecha límite para mostrar un selector de fecha al usuario y actualizar la fecha límite de la tarea según la selección del usuario.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarCalendarioFechaLimite() {
         // calendario de fecha limite. No es como en el diseño de Figma
         binding.calendario.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
@@ -136,15 +205,23 @@ class ModificarTareasFragment : Fragment() {
 
                 val fechaEscogidaPorUsuario = Date(eleccion)
                 tareaDTO.tarea.fechaLimite = fechaEscogidaPorUsuario
-                binding.fechaLimiteTarea.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
+                binding.fechaLimiteTarea.text =
+                    DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
 
             // Mostramos el datePicker
             picker.show(parentFragmentManager, "escoger fecha")
         }
+    }
 
+    /**
+     * Lista de etiquetas disponibles para añadir a la tarea. Se obtiene del modelo y se actualiza cada vez que se modifica la lista de etiquetas de la tarea.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarMostrarEtiquetas() {
         // valor por defecto vacio
-        var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
+        listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
         binding.listaEtiquetas.adapter = ArrayAdapter(
             requireContext(),
             R.layout.spinner_personalizado,
@@ -168,7 +245,7 @@ class ModificarTareasFragment : Fragment() {
         }
 
         // Recycler View etiquetas presentes
-        val adapter = ListaEtiquetasPresentesAdapter {
+        adapter = ListaEtiquetasPresentesAdapter {
             listaEtiquetas ->
             tareaDTO.etiquetas = listaEtiquetas
             model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
@@ -176,16 +253,21 @@ class ModificarTareasFragment : Fragment() {
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapter
         adapter.submitList(tareaDTO.etiquetas.toList())
+    }
 
-
-
+    /**
+     * Función que se encarga de gestionar el botón de añadir etiqueta para añadir una etiqueta seleccionada de la lista de etiquetas disponibles a la lista de etiquetas de la tarea y actualizar la vista en consecuencia.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarAnadirEtiqueta() {
         // Boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             val posicion = binding.listaEtiquetas.selectedItemPosition
             if (listaEtiquetas.isNotEmpty() // Lista vacia protección
                 && posicion >= 0 && posicion < listaEtiquetas.size // Protegerse de fuera de limites
                 && listaEtiquetas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
-                ) {
+            ) {
                 // Obtener nueva etiqueta, la lista de etqiuetas y añadirla actualizando las disponibles
                 val etiquetaAnadir = listaEtiquetas[posicion]
                 val nuevasEtiqeutasDTO = tareaDTO.etiquetas.toMutableList()
@@ -196,37 +278,6 @@ class ModificarTareasFragment : Fragment() {
                 model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
             }
         }
-
-
-
-        return view
-    }
-
-    /**
-     * Hace modificaciones en la vista ya creada para gestionar los eventos de los elementos de la vista.
-     *
-     * @param view La vista del fragmento de modificación de tareas.
-     * @param savedInstanceState El estado guardado de la vista.
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Modifica la logica por defecto de la flecha de retroceso
-        val flechaRetroceso = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 0 solo la pueden tener las de nueva creación
-                if (tareaDTO.tarea.id == 0) {
-                    dialogoGuardado()
-                }
-                else {
-                    dialogoModificado()
-                }
-            }
-        }
-
-        // Modifica el comportamiento en el activity
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
     }
 
     /**
