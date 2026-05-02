@@ -4,8 +4,8 @@
 # gestión de tareas y horario de la aplicación.
 #
 # Las fechas se guardan como INTEGER en formato timestamp (milisegundos) correspondiente a la fecha
-# normalizada a medianoche UTC. Es decir, igual que usa el
-# TypeConverter de la aplicación.
+# normalizada a medianoche UTC. La aplicación centraliza todas las fechas en UTC para controlar la zona horaria.
+# Es decir, igual que usa el TypeConverter de la aplicación.
 # Colocar este fichero en la raíz del proyecto y ejecutar:
 #   bash creabd.sh
 # Generará un archivo "baseDatos.db" en la misma carpeta.
@@ -73,21 +73,21 @@ CREATE INDEX IF NOT EXISTS index_ProyectoEtiquetas_idEtiqueta ON ProyectoEtiquet
 
 INSERT INTO proyectos (nombre, descripcion, fechaCreacion, fechaInicio, fechaFin) VALUES
     ('Proyecto Alpha', 'Primer proyecto de ejemplo',
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         strftime('%s','now','localtime','+14 days','start of day','utc')*1000),
+         strftime('%s','now','utc','start of day')*1000,
+         strftime('%s','now','utc','start of day')*1000,
+         strftime('%s','now','utc','+14 days','start of day')*1000),
     ('Proyecto Beta', 'Proyecto completado',
-         strftime('%s','now','localtime','-30 days','start of day','utc')*1000,
-         strftime('%s','now','localtime','-30 days','start of day','utc')*1000,
-         strftime('%s','now','localtime','-1 day','start of day','utc')*1000),
+         strftime('%s','now','utc','-30 days','start of day')*1000,
+         strftime('%s','now','utc','-30 days','start of day')*1000,
+         strftime('%s','now','utc','-1 day','start of day')*1000),
     ('Proyecto Sin Descripción', NULL,
-         strftime('%s','now','localtime','start of day','utc')*1000,
+         strftime('%s','now','utc','start of day')*1000,
          NULL,
          NULL),
     ('Proyecto Hogar', 'Tareas de casa y vida diaria',
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         strftime('%s','now','localtime','+60 days','start of day','utc')*1000);
+         strftime('%s','now','utc','start of day')*1000,
+         strftime('%s','now','utc','start of day')*1000,
+         strftime('%s','now','utc','+60 days','start of day')*1000);
 
 INSERT INTO etiquetas (nombre, descripcion) VALUES
     ('Urgente', 'Tarea urgente'),
@@ -99,58 +99,58 @@ INSERT INTO etiquetas (nombre, descripcion) VALUES
 
 INSERT INTO tareas (nombre, descripcion, fechaLimite, prioridad, fechaCreacion, estado, idProyecto) VALUES
     ('Tarea 1', 'Descripción de tarea 1',
-         strftime('%s','now','localtime','+7 days','start of day','utc')*1000,
-         'ALTA', strftime('%s','now','localtime','start of day','utc')*1000, 'EN_TIEMPO', 1),
-    ('Tarea 2', NULL, NULL, 'MEDIA', strftime('%s','now','localtime','start of day','utc')*1000, 'COMPLETADA', 1),
+         strftime('%s','now','utc','+7 days','start of day')*1000,
+         'ALTA', strftime('%s','now','utc','start of day')*1000, 'EN_TIEMPO', 1),
+    ('Tarea 2', NULL, NULL, 'MEDIA', strftime('%s','now','utc','start of day')*1000, 'COMPLETADA', 1),
     ('Tarea Hoy 1', 'Vencimiento hoy',
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         'BAJA', strftime('%s','now','localtime','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','start of day')*1000,
+         'BAJA', strftime('%s','now','utc','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea Hoy 2', 'Otra tarea de hoy',
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         'MEDIA', strftime('%s','now','localtime','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','start of day')*1000,
+         'MEDIA', strftime('%s','now','utc','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea Hoy 3', 'Tercera tarea hoy',
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         'ALTA', strftime('%s','now','localtime','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','start of day')*1000,
+         'ALTA', strftime('%s','now','utc','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea Hoy 4', 'Cuarta tarea hoy',
-         strftime('%s','now','localtime','start of day','utc')*1000,
-         'BAJA', strftime('%s','now','localtime','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','start of day')*1000,
+         'BAJA', strftime('%s','now','utc','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea Retrasada', 'Debería aparecer en la lista de tareas retrasadas',
-         strftime('%s','now','localtime','-1 day','start of day','utc')*1000,
-         'ALTA', strftime('%s','now','localtime','-7 days','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','-1 day','start of day')*1000,
+         'ALTA', strftime('%s','now','utc','-7 days','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea Retrasada (estado)', 'Tiene estado Retrasada explícito',
-         strftime('%s','now','localtime','-7 days','start of day','utc')*1000,
-         'MEDIA', strftime('%s','now','localtime','-14 days','start of day','utc')*1000, 'RETRASADA', 1),
+         strftime('%s','now','utc','-7 days','start of day')*1000,
+         'MEDIA', strftime('%s','now','utc','-14 days','start of day')*1000, 'RETRASADA', 1),
     ('Tarea sin prioridad', NULL,
-         strftime('%s','now','localtime','+3 days','start of day','utc')*1000,
-         'NO_ESTABLECIDO', strftime('%s','now','localtime','-1 day','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','+3 days','start of day')*1000,
+         'NO_ESTABLECIDO', strftime('%s','now','utc','-1 day','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea sin descripción', NULL,
-         strftime('%s','now','localtime','+3 days','start of day','utc')*1000,
-         'MEDIA', strftime('%s','now','localtime','-2 days','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','+3 days','start of day')*1000,
+         'MEDIA', strftime('%s','now','utc','-2 days','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea larga', 'Esta es una descripción muy larga para comprobar que las vistas y búsquedas funcionan correctamente en todo el texto. ' ||
                       'Incluye comas, saltos de línea, y una mezcla de caracteres: ñ, á, é, í, ó, ú, ü.',
-         strftime('%s','now','localtime','+5 days','start of day','utc')*1000,
-         'BAJA', strftime('%s','now','localtime','-3 days','start of day','utc')*1000, 'EN_TIEMPO', 1),
+         strftime('%s','now','utc','+5 days','start of day')*1000,
+         'BAJA', strftime('%s','now','utc','-3 days','start of day')*1000, 'EN_TIEMPO', 1),
     ('Tarea completada vieja', 'Tarea de proyecto ya finalizado',
-         strftime('%s','now','localtime','-30 days','start of day','utc')*1000,
-         'ALTA', strftime('%s','now','localtime','-31 days','start of day','utc')*1000, 'COMPLETADA', 2),
+         strftime('%s','now','utc','-30 days','start of day')*1000,
+         'ALTA', strftime('%s','now','utc','-31 days','start of day')*1000, 'COMPLETADA', 2),
     ('Tarea sin fecha', 'Esta tarea no tiene fecha límite establecida',
          NULL,
-         'BAJA', strftime('%s','now','localtime','-5 days','start of day','utc')*1000, 'EN_TIEMPO', 2),
+         'BAJA', strftime('%s','now','utc','-5 days','start of day')*1000, 'EN_TIEMPO', 2),
     ('Tarea futuro', 'Planificada para dentro de un mes',
-         strftime('%s','now','localtime','+30 days','start of day','utc')*1000,
-         'MEDIA', strftime('%s','now','localtime','-1 day','start of day','utc')*1000, 'EN_TIEMPO', 2),
+         strftime('%s','now','utc','+30 days','start of day')*1000,
+         'MEDIA', strftime('%s','now','utc','-1 day','start of day')*1000, 'EN_TIEMPO', 2),
     ('Tarea proyecto sin descripcion', NULL,
-         strftime('%s','now','localtime','+1 day','start of day','utc')*1000,
-         'NO_ESTABLECIDO', strftime('%s','now','localtime','start of day','utc')*1000, 'EN_TIEMPO', 3),
+         strftime('%s','now','utc','+1 day','start of day')*1000,
+         'NO_ESTABLECIDO', strftime('%s','now','utc','start of day')*1000, 'EN_TIEMPO', 3),
     ('Tarea sin fecha 2', 'Tarea sin vencimiento pero con estado Retrasada',
          NULL,
-         'NO_ESTABLECIDO', strftime('%s','now','localtime','-2 days','start of day','utc')*1000, 'RETRASADA', 3),
+         'NO_ESTABLECIDO', strftime('%s','now','utc','-2 days','start of day')*1000, 'RETRASADA', 3),
     ('Tarea con varias etiquetas', 'Relacionada con cliente y urgente',
-         strftime('%s','now','localtime','+2 days','start of day','utc')*1000,
-         'ALTA', strftime('%s','now','localtime','-1 day','start of day','utc')*1000, 'EN_TIEMPO', 4),
+         strftime('%s','now','utc','+2 days','start of day')*1000,
+         'ALTA', strftime('%s','now','utc','-1 day','start of day')*1000, 'EN_TIEMPO', 4),
     ('Tarea caracteres especiales', 'Título y descripción con acentos y símbolos: ñ, á, ¿, ¡, €, @',
-         strftime('%s','now','localtime','+4 days','start of day','utc')*1000,
-         'MEDIA', strftime('%s','now','localtime','-2 days','start of day','utc')*1000, 'EN_TIEMPO', 4);
+         strftime('%s','now','utc','+4 days','start of day')*1000,
+         'MEDIA', strftime('%s','now','utc','-2 days','start of day')*1000, 'EN_TIEMPO', 4);
 
 INSERT INTO TareaEtiquetas (idTarea, idEtiqueta) VALUES
     (1,1), (1,2),  -- Tarea 1: Urgente + Importante
