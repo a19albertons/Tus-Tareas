@@ -54,14 +54,36 @@ class ListarProyectosFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarProyectosBinding.inflate(inflater, container, false)
-        val view = binding.root
 
+        // Configura el RecyclerView para mostrar los proyectos
+        configurarRecyclerView()
+
+        // Configurar el filtro de texto para los proyectos
+        actualizarFiltroTexto()
+
+        // Gestiona el filtro de fecha inicio
+        configurarFiltroFechaInicio()
+
+        // Gestiona el filtro de fecha fin
+        configurarFiltroFechaFin()
+
+        // Gestiona el botón de añadir proyecto
+
+        return binding.root
+    }
+
+    /**
+     * Función privada que configura el RecyclerView para mostrar los proyectos. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarRecyclerView() {
         // Recycler view para mostrar los proyectos
         binding.listaProyectos.layoutManager = LinearLayoutManager(requireContext())
 
         // Observador
         model.listarProyectos.obtenerProyectosFiltradas().observe(viewLifecycleOwner) {
-            listadoProyectos ->
+                listadoProyectos ->
             if (listadoProyectos.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
                 binding.listaProyectos.visibility = View.GONE
@@ -73,7 +95,14 @@ class ListarProyectosFragment : Fragment() {
             }
             binding.listaProyectos.adapter = ProyectosAdapter(listadoProyectos)
         }
+    }
 
+    /**
+     * Función privada que actualiza el filtro de texto para los proyectos. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun actualizarFiltroTexto() {
         // Control filtro texto
         binding.filtro.addTextChangedListener( object : TextWatcher {
             override fun afterTextChanged(texto: Editable?) {
@@ -87,7 +116,14 @@ class ListarProyectosFragment : Fragment() {
 
             }
         })
+    }
 
+    /**
+     * Función privada que configura el filtro de fecha inicio para los proyectos. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iesanclemente.net>
+     */
+    private fun configurarFiltroFechaInicio() {
         // Filtro por fecha inicio
         val listaInicio = listOf(
             getString(R.string.inicio),
@@ -123,7 +159,14 @@ class ListarProyectosFragment : Fragment() {
 
             }
         }
+    }
 
+    /**
+     * Función privada que configura el filtro de fecha fin para los proyectos. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarFiltroFechaFin() {
         // Filtro por fecha fin
         val listaFin = listOf(
             getString(R.string.fin),
@@ -159,7 +202,14 @@ class ListarProyectosFragment : Fragment() {
 
             }
         }
+    }
 
+    /**
+     * Función privada que gestiona el botón de añadir proyecto. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código. Se encarga de gestionar el evento de click en el botón de añadir proyecto y de navegar a la vista de modificar proyecto para crear un nuevo proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarBotonAnadirProyecto() {
         // Boton añadir
         binding.anadirProyecto.setOnClickListener {
             // Mandamos un valor de proyectoDTO totalmente vacio con valores por defecto
@@ -175,8 +225,6 @@ class ListarProyectosFragment : Fragment() {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
-
-        return view
     }
 
     /**
