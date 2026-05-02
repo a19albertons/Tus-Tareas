@@ -44,7 +44,7 @@ class EstadisticasFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEstadisticasBinding.inflate(inflater, container, false)
-        val view = binding.root
+
 
         // Gestion de la estadistica semanal
         gestionEstadisticaSemanal()
@@ -55,7 +55,7 @@ class EstadisticasFragment : Fragment() {
         // Gestion del grafico en forma de rueda
         gestionGraficoRueda()
 
-        return view
+        return binding.root
     }
 
     /**

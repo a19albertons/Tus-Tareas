@@ -44,7 +44,6 @@ class AjustesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAjustesBinding.inflate(inflater, container, false)
-        val view = binding.root
 
         // Gestiona el idioma
         gestionIdioma()
@@ -53,7 +52,7 @@ class AjustesFragment : Fragment() {
         gestionTema()
 
 
-        return view
+        return binding.root
     }
 
     /**

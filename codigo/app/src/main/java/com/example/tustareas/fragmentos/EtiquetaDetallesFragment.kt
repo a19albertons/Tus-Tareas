@@ -56,7 +56,7 @@ class EtiquetaDetallesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEtiquetaDetallesBinding.inflate(inflater, container, false)
-        val view = binding.root
+
 
         // Definición de args
         args = EtiquetaDetallesFragmentArgs.fromBundle(requireArguments())
@@ -69,7 +69,7 @@ class EtiquetaDetallesFragment : Fragment() {
         configurarMenu()
 
 
-        return view
+        return binding.root
     }
 
     /**

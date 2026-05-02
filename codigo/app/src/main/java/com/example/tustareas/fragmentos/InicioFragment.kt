@@ -50,7 +50,7 @@ class InicioFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentInicioBinding.inflate(inflater, container, false)
-        val view = binding.root
+
 
         // Definimos una única vez la fecha para las siguientes consultas, para evitar peticiones adicionales innecesarias internamente.
         hoy = DateHelper.fechaMediaNocheUTC()
@@ -65,10 +65,11 @@ class InicioFragment : Fragment() {
         gestionarTareasProximas()
 
         // Gestión textos de ver más
+        gestionarTextosVerMas()
 
 
 
-        return view
+        return binding.root
     }
 
     /**
