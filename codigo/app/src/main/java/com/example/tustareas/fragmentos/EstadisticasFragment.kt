@@ -46,9 +46,27 @@ class EstadisticasFragment : Fragment() {
         _binding = FragmentEstadisticasBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Gestion de la estadistica semanal
+        gestionEstadisticaSemanal()
+
+        // Gestion de los datos centrales
+        gestionDatosCentrales()
+
+        // Gestion del grafico en forma de rueda
+        gestionGraficoRueda()
+
+        return view
+    }
+
+    /**
+     * Funcion privada que genera la estadística semanal. Su mision es reducir el llamado codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionEstadisticaSemanal() {
         // Generamos el tercer grafico
         model.estadisticas.obtenerDatosGrafico().observe(viewLifecycleOwner) {
-            resultados ->
+                resultados ->
             // Creamos el dataset de barras
             val dataSet = BarDataSet(resultados, "")
 
@@ -86,34 +104,46 @@ class EstadisticasFragment : Fragment() {
             binding.grafico.data = barData
             binding.grafico.invalidate()
         }
+    }
 
+    /**
+     * Funcion privada que gestiona los datos centrales. Su mision es reducir el llamado codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionDatosCentrales() {
         // Actualizamos los datos centrales
         // Actualizar cantidad completas
         model.estadisticas.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
-            cantidad ->
+                cantidad ->
             binding.completas.text = cantidad.toString()
         }
 
         // Actualizar cantidad pendientes
         model.estadisticas.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
-            cantidad ->
+                cantidad ->
             binding.pendiente.text = cantidad.toString()
         }
 
         // Actualizar cantidad retrasadas
         model.estadisticas.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
-            cantidad ->
+                cantidad ->
             binding.retrasadas.text = cantidad.toString()
         }
+    }
 
+    /**
+     * Funcion privada que gestiona el grafico en forma de rueda. Su mision es reducir el llamado codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionGraficoRueda() {
         // Obtiene el primer grafico
         model.estadisticas.obtenerRueda().observe(viewLifecycleOwner) {
-            progreso ->
+                progreso ->
             binding.graficoRedondo.progress = progreso.toInt()
             binding.graficoRedondoTexto.text = progreso.toInt().toString()
         }
-
-        return view
     }
 
     /**
