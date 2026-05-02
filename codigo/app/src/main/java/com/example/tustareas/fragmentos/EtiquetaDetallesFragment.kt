@@ -39,7 +39,7 @@ class EtiquetaDetallesFragment : Fragment() {
 
     private lateinit var args : EtiquetaDetallesFragmentArgs
 
-    lateinit var etiquetaVisualizada : Etiqueta
+    private lateinit var etiquetaVisualizada : Etiqueta
 
     /**
      * Crea la vista del fragmento detalles de una etiqueta y gestiona los eventos de los elementos de la vista.
