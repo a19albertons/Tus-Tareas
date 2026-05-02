@@ -16,6 +16,7 @@ import com.example.tustareas.databinding.FragmentInicioBinding
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
+import java.util.Date
 
 /**
  * Clase que gestiona el fragmento de inicio.
@@ -30,6 +31,8 @@ class InicioFragment : Fragment() {
     val model: TusTareasModel by viewModels(
         ownerProducer = { this.requireActivity() }
     )
+
+    private lateinit var hoy : Date
 
 
     /**
@@ -49,11 +52,34 @@ class InicioFragment : Fragment() {
         _binding = FragmentInicioBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val hoy = DateHelper.fechaMediaNocheUTC()
+        // Definimos una única vez la fecha para las siguientes consultas, para evitar peticiones adicionales innecesarias internamente.
+        hoy = DateHelper.fechaMediaNocheUTC()
 
+        // Gestiona la sección de tareas para hoy
+        gestionarTareasHoy()
+
+        // Gestiona las tareas retrasadas
+        gestionarTareasRetrasadas()
+
+        // Gestiona las tareas próximas
+        gestionarTareasProximas()
+
+        // Gestión textos de ver más
+
+
+
+        return view
+    }
+
+    /**
+     * Función privada que gestiona la sección de tareas para hoy. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarTareasHoy() {
         // observar tareas pendientes para hoy
         model.inicio.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) {
-            listadoTareasHoyFechaLimite ->
+                listadoTareasHoyFechaLimite ->
             // switch
             when (listadoTareasHoyFechaLimite?.size ?: 0) {
                 0 -> binding.tareasHoyTexto.text = getString(R.string.no_hay_tareas_para_hoy)
@@ -75,10 +101,17 @@ class InicioFragment : Fragment() {
                 binding.verMas1.visibility = View.GONE
             }
         }
+    }
 
+    /**
+     * Función privada que gestiona la sección de tareas retrasadas. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarTareasRetrasadas() {
         // Gestiona la sección de tareas retrasadas
         model.inicio.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
-            listadoTareasRetrasadas ->
+                listadoTareasRetrasadas ->
             // switch
             when (listadoTareasRetrasadas?.size ?: 0) {
                 0 -> binding.tareasRetrasadasTexto.text = getString(R.string.no_hay_tareas_retrasadas)
@@ -101,10 +134,17 @@ class InicioFragment : Fragment() {
                 binding.verMas2.visibility = View.GONE
             }
         }
+    }
 
+    /**
+     * Función privada que gestiona la sección de tareas próximas. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarTareasProximas() {
         // Gestiona las tareas futuras
         model.inicio.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) {
-            listadoTareasProximas ->
+                listadoTareasProximas ->
             // switch
             when (listadoTareasProximas?.size ?: 0) {
                 0 -> binding.tareasProximasTexto.text = getString(R.string.no_hay_tareas_proximas)
@@ -128,8 +168,17 @@ class InicioFragment : Fragment() {
             }
 
         }
+    }
+
+    /**
+     * Función privada que gestiona los textos de ver más. Su misión es reducir el llamado código spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarTextosVerMas() {
 
         // Textos ver más
+        // Gestiona el ver más de tareas para hoy
         binding.verMas1.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
@@ -138,6 +187,8 @@ class InicioFragment : Fragment() {
                     .show()
             }
         }
+
+        // Gestiona el ver más de tareas retrasadas
         binding.verMas2.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
@@ -147,6 +198,8 @@ class InicioFragment : Fragment() {
                     .show()
             }
         }
+
+        // Gestiona el ver más de tareas próximas
         binding.verMas3.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
@@ -156,10 +209,6 @@ class InicioFragment : Fragment() {
                     .show()
             }
         }
-
-
-
-        return view
     }
 
     /**
