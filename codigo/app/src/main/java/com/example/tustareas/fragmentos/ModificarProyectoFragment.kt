@@ -45,6 +45,15 @@ class ModificarProyectoFragment : Fragment() {
 
     private lateinit var proyectoDTO : ProyectoDTO
 
+    // Variables comunes tareas
+    private lateinit var listaTareas : List<Tarea>
+    private lateinit var adapterTarea : ListaTareasPresentesAdapter
+
+    //Variables comunes etiquetas
+    private lateinit var listaEtiquetas : List<Etiqueta>
+    private lateinit var adapterEtiquetas : ListaEtiquetasPresentesAdapter
+
+
 
     /**
      * Crea la vista del fragmento de modificación de proyectos y gestiona los eventos de los elementos de la vista.
@@ -67,6 +76,54 @@ class ModificarProyectoFragment : Fragment() {
         val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
         proyectoDTO = args.proyectoDTO
 
+        // Gestionar el llenado de los campos
+        rellenarCampos()
+
+        // Gestiona la lógica de añadir nuevas tareas a un proyecto
+        gestionarMostradoTareas()
+
+        // Gestiona la lógica de eliminar tareas del proyecto
+        gestionarEliminacionTareas()
+
+        // Gestiona la lógica de añadir nuevas etiquetas a un proyecto
+         gestionarMostradoEtiquetas()
+
+        // Gestiona la lógica de eliminar etiquetas del proyecto
+        gestionarEliminacionEtiquetas()
+
+        // Gestiona el boton de añadir tarea
+        gestionarAnadirTarea()
+
+        // Gestiona el boton de añadir etiqueta
+        gestionarAnadirEtiqueta()
+
+        // Gestiona los calendarios de inicio y fin del proyecto
+        gestionarCalendarios()
+
+
+        return view
+    }
+
+    /**
+     * Hace modificacines en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     *
+     * @param view La vista del fragmento de modificación de proyectos.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Gestiona la lógica de la flecha de retroceso
+        gestionarFlechaRetroceso()
+    }
+
+    /**
+     * Función que se encarga de rellenar los campos del formulario con los datos del proyecto pasado por argumentos.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun rellenarCampos() {
         // Carga todos los datos recibidos en el fragmento
         binding.tituloProyecto.setText(proyectoDTO.proyecto.nombre)
         binding.descripcionProyecto.setText(proyectoDTO.proyecto.descripcion)
@@ -77,13 +134,20 @@ class ModificarProyectoFragment : Fragment() {
         // Refrescar tareas y etiquetas
         model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
         model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de añadir nuevas tareas a un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net
+     */
+    private fun gestionarMostradoTareas() {
         // Gestiona la addición de tareas
         // spinner tareas
-        var listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
+        listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
             DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
         model.modificarProyectos.obtenerTareasRestantes(proyectoDTO.proyecto.id).observe(viewLifecycleOwner) {
-            tareas ->
+                tareas ->
             if (tareas.isEmpty()) {
                 listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
                     DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
@@ -97,10 +161,17 @@ class ModificarProyectoFragment : Fragment() {
                 listaTareas.map { it.nombre }
             )
         }
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de eliminar tareas de un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarEliminacionTareas() {
         // Gestiona las tareas del proyecto en la opción de eliminar
         // Recycler view para las tareas
-        val adapterTarea = ListaTareasPresentesAdapter {
+        adapterTarea = ListaTareasPresentesAdapter {
                 listaTareas ->
             proyectoDTO.tareas = listaTareas
             model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
@@ -108,12 +179,19 @@ class ModificarProyectoFragment : Fragment() {
         binding.recyclerViewMostrarTareas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarTareas.adapter = adapterTarea
         adapterTarea.submitList(proyectoDTO.tareas.toList())
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de añadir nuevas etiquetas a un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarMostradoEtiquetas() {
         // Gestiona la addición de etiquetas
         // spinner etiquetas
-        var listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
+        listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
         model.modificarProyectos.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
-            etiquetas ->
+                etiquetas ->
             if (etiquetas.isEmpty()) {
                 listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
             }
@@ -128,10 +206,17 @@ class ModificarProyectoFragment : Fragment() {
 
 
         }
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de eliminar etiquetas de un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarEliminacionEtiquetas() {
         // Gestiona las etiquetas del proyecto en la opción de eliminar
         // Recycler view con las etiquetas del proyecto
-        val adapterEtiquetas = ListaEtiquetasPresentesAdapter {
+        adapterEtiquetas = ListaEtiquetasPresentesAdapter {
                 listaEtiquetas ->
             proyectoDTO.etiquetas = listaEtiquetas
             model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
@@ -139,7 +224,14 @@ class ModificarProyectoFragment : Fragment() {
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
         adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de añadir una tarea a un proyecto al pulsar el botón de añadir tarea.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarAnadirTarea() {
         // boton añadir tarea
         binding.anadirTarea.setOnClickListener {
             val posicion = binding.listaTareas.selectedItemPosition
@@ -157,7 +249,14 @@ class ModificarProyectoFragment : Fragment() {
                 model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
             }
         }
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de añadir una etiqueta a un proyecto al pulsar el botón de añadir etiqueta.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarAnadirEtiqueta() {
         // boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             val posicion = binding.listaEtiquetas.selectedItemPosition
@@ -175,9 +274,17 @@ class ModificarProyectoFragment : Fragment() {
                 model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
             }
         }
+    }
 
+    /**
+     * Función que se encarga de gestionar la lógica de los calendarios de inicio y fin del proyecto al pulsar los botones correspondientes.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarCalendarios() {
         // Despliega el calendario
         // Calendario
+        // Fecha inicio
         binding.calendarioInicio.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
             val builder = MaterialDatePicker.Builder.datePicker()
@@ -196,6 +303,8 @@ class ModificarProyectoFragment : Fragment() {
             // Mostramos el datePicker
             picker.show(parentFragmentManager, "escoger fecha inicio")
         }
+
+        // Fecha fin
         binding.calendarioFin.setOnClickListener {
             // Creamos una instancia de MaterialDatePicker
             val builder = MaterialDatePicker.Builder.datePicker()
@@ -214,20 +323,14 @@ class ModificarProyectoFragment : Fragment() {
             // Mostramos el datePicker
             picker.show(parentFragmentManager, "escoger fecha fin")
         }
-
-        return view
     }
 
     /**
-     * Hace modificacines en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     * Función que se encarga de gestionar la lógica de la flecha de retroceso para mostrar un diálogo de confirmación al usuario antes de salir del fragmento.
      *
-     * @param view La vista del fragmento de modificación de proyectos.
-     * @param savedInstanceState El estado guardado de la vista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun gestionarFlechaRetroceso() {
         // Modifica la logica por defecto de la flecha de retroceso
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
