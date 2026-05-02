@@ -40,6 +40,7 @@ class ProyectoDetallesFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
+    private lateinit var args : ProyectoDetallesFragmentArgs
     private lateinit var proyectoVisualizado : ProyectoDTO
 
 
@@ -58,98 +59,139 @@ class ProyectoDetallesFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentProyectoDetallesBinding.inflate(inflater, container, false)
-        val view = binding.root
 
         // Obtener argumentos e id del pryecto
-        val args = ProyectoDetallesFragmentArgs.fromBundle(requireArguments())
-        val id = args.id
+        args = ProyectoDetallesFragmentArgs.fromBundle(requireArguments())
 
+        // Carga el proyecto a visualizar
+        cargarProyecto()
 
+        // Gestiona el menu de opciones
+        configurarMenu()
+
+        return binding.root
+    }
+
+    /**
+     * Función privada que carga el proyecto a visualizar en el fragmento detalles de un proyecto. Obtiene el proyecto por su id de los args y actualiza la vista con los datos del proyecto, las tareas asociadas al proyecto y las etiquetas asociadas al proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun cargarProyecto() {
         // Obtener el proyecto
-        model.proyectoDetalles.obtenerProyectoPorId(id).observe(viewLifecycleOwner) {
-            proyecto ->
+        model.proyectoDetalles.obtenerProyectoPorId(args.id).observe(viewLifecycleOwner) {
+                proyecto ->
             binding.tituloProyecto.text = proyecto.proyecto.nombre
             binding.descipcionProyecto.text = proyecto.proyecto.descripcion
             binding.fechaCreacionProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaCreacion)
             binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaInicio)
             binding.fechaFinProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaFin)
 
-            // Añadir tareas
-            proyecto.tareas.forEach {
-                tarea->
-                val chip = Chip(requireContext()).apply {
-                    text = tarea.nombre
-                    setChipBackgroundColorResource(R.color.gray)
-                    setTextColor(resources.getColor(R.color.black, null))
-                    isClickable = false
-                    isFocusable = false
-                    isCheckable = false
-                    chipStrokeWidth = 0f
+            // Gestiona añadido tareas
+            anadirTareas(proyecto)
 
-                    // Deshabilitamos los minimos de toque de material 3d
-                    setEnsureMinTouchTargetSize(false)
-                    // Modificamos los minimos
-                    chipMinHeight = 0f
-                    minHeight = 0
-
-                    // Definimos 2dp
-                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
-
-                    // Configuramos el padding
-                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
-
-                    // Otros paddings
-                    textStartPadding = 0f
-                    textEndPadding = 0f
-
-                    // Controla el borde
-                    shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                        .setAllCornerSizes(0f)
-                        .build()
-
-                }
-                binding.tareaProyectoGroup.addView(chip)
-            }
-
-            // Añadir etiquetas
-            proyecto.etiquetas.forEach { etiqueta ->
-                val chip = Chip(requireContext()).apply {
-                    text = etiqueta.nombre
-                    setChipBackgroundColorResource(R.color.gray)
-                    setTextColor(resources.getColor(R.color.black, null))
-                    isClickable = false
-                    isFocusable = false
-                    isCheckable = false
-                    chipStrokeWidth = 0f
-
-                    // Deshabilitamos los minimos de toque de material 3d
-                    setEnsureMinTouchTargetSize(false)
-                    // Modificamos los minimos
-                    chipMinHeight = 0f
-                    minHeight = 0
-
-                    // Definimos 2dp
-                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
-
-                    // Configuramos el padding
-                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
-
-                    // Otros paddings
-                    textStartPadding = 0f
-                    textEndPadding = 0f
-
-                    shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                        .setAllCornerSizes(0f)
-                        .build()
-
-                }
-                binding.etiquetasProyectoGroup.addView(chip)
-            }
+            // Gestiona añadido etiquetas
+            anadirEtiquetas(proyecto)
 
             // damos valor a proyecto
             proyectoVisualizado = proyecto
         }
+    }
 
+    /**
+     * Función de apoyo usada por [cargarProyecto] que se encarga de añadir las tareas asociadas a un proyecto a la vista del fragmento detalles de un proyecto. Crea un chip por cada tarea y lo añade al grupo de chips de tareas.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun anadirTareas(proyecto: ProyectoDTO) {
+        // Añadir tareas
+        proyecto.tareas.forEach {
+                tarea->
+            val chip = Chip(requireContext()).apply {
+                text = tarea.nombre
+                setChipBackgroundColorResource(R.color.gray)
+                setTextColor(resources.getColor(R.color.black, null))
+
+                // Deshabilitamos la interaccion con las chips
+                isClickable = false
+                isFocusable = false
+                isCheckable = false
+                chipStrokeWidth = 0f
+
+                // Deshabilitamos los minimos de toque de material 3d
+                setEnsureMinTouchTargetSize(false)
+                // Modificamos los minimos
+                chipMinHeight = 0f
+                minHeight = 0
+
+                // Definimos 2dp
+                val paddingPx = (2 * resources.displayMetrics.density).toInt()
+
+                // Configuramos el padding
+                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+
+                // Otros paddings
+                textStartPadding = 0f
+                textEndPadding = 0f
+
+                // Controla el borde
+                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+                    .setAllCornerSizes(0f)
+                    .build()
+
+            }
+            binding.tareaProyectoGroup.addView(chip)
+        }
+    }
+
+    /**
+     * Función de apoyo usada por [cargarProyecto] que se encarga de añadir las etiquetas asociadas a un proyecto a la vista del fragmento detalles de un proyecto. Crea un chip por cada etiqueta y lo añade al grupo de chips de etiquetas.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun anadirEtiquetas(proyecto: ProyectoDTO) {
+        // Añadir etiquetas
+        proyecto.etiquetas.forEach { etiqueta ->
+            val chip = Chip(requireContext()).apply {
+                text = etiqueta.nombre
+                setChipBackgroundColorResource(R.color.gray)
+                setTextColor(resources.getColor(R.color.black, null))
+                isClickable = false
+                isFocusable = false
+                isCheckable = false
+                chipStrokeWidth = 0f
+
+                // Deshabilitamos los minimos de toque de material 3d
+                setEnsureMinTouchTargetSize(false)
+                // Modificamos los minimos
+                chipMinHeight = 0f
+                minHeight = 0
+
+                // Definimos 2dp
+                val paddingPx = (2 * resources.displayMetrics.density).toInt()
+
+                // Configuramos el padding
+                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+
+                // Otros paddings
+                textStartPadding = 0f
+                textEndPadding = 0f
+
+                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
+                    .setAllCornerSizes(0f)
+                    .build()
+
+            }
+            binding.etiquetasProyectoGroup.addView(chip)
+        }
+    }
+
+    /**
+     * Función privada que configura el menu toolbar personalizado para el fragmento detalles de un proyecto. Reemplaza el menu del activity por un menu personalizado para el fragmento detalles y gestiona la navegación a la vista de edición y la eliminación del proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarMenu() {
         // Menu toolbar especifico
         // Invocar el menu del activity
         val activityMenu : MenuHost = requireActivity()
@@ -190,13 +232,8 @@ class ProyectoDetallesFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-
-
-        return view
     }
 
-    // Gestiona el dialogo de borrado
     /**
      * Carga un dialogo de confirmación para eliminar un proyecto
      * Si se confirma la eliminación, se lanza una petición para eliminar el proyecto en la base de datos
