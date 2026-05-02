@@ -49,6 +49,25 @@ class ListarEtiquetasFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentListarEtiquetasBinding.inflate(inflater, container, false)
 
+        // Configura el RecyclerView para mostrar las etiquetas
+        configurarRecyclerView()
+
+        // Actualizar filtro de texto para las etiquetas
+        actualizarFiltroTexto()
+
+        // Gestiona el botón de añadir etiqueta
+        gestionarBotonAnadirEtiqueta()
+
+
+        return binding.root
+    }
+
+    /**
+     * Función privada que configura el RecyclerView para mostrar la lista de etiquetas. Se encarga de establecer el layout manager y el adapter para el RecyclerView, así como de gestionar la visibilidad de los elementos en función de si hay resultados o no.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarRecyclerView() {
         // Obtenemos la referncia
         val recyclerView = binding.listaEtiquetas
 
@@ -68,7 +87,14 @@ class ListarEtiquetasFragment : Fragment() {
             }
             recyclerView.adapter = EtiquetasAdapter(listadoEtiquetas)
         }
+    }
 
+    /**
+     * Función privada que actualiza el filtro de texto para las etiquetas. Se encarga de gestionar el evento de cambio de texto en el campo de filtro y de actualizar el texto del filtro en el modelo para que este pueda filtrar las etiquetas en función del texto introducido.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun actualizarFiltroTexto() {
         // gestiona el filtro de texto
         binding.filtro.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
@@ -83,7 +109,14 @@ class ListarEtiquetasFragment : Fragment() {
             }
 
         })
+    }
 
+    /**
+     * Función privada que gestiona el botón de añadir etiqueta. Se encarga de gestionar el evento de click en el botón de añadir etiqueta y de navegar a la vista de modificar etiqueta para crear una nueva etiqueta.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarBotonAnadirEtiqueta() {
         // Gestiona el boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             try {
@@ -95,8 +128,6 @@ class ListarEtiquetasFragment : Fragment() {
             }
 
         }
-
-        return binding.root
     }
 
     /**
