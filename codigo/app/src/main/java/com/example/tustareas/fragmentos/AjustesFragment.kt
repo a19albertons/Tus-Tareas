@@ -46,6 +46,22 @@ class AjustesFragment : Fragment() {
         _binding = FragmentAjustesBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        // Gestiona el idioma
+        gestionIdioma()
+
+        // Gestiona el tema
+        gestionTema()
+
+
+        return view
+    }
+
+    /**
+     * Funcion privada que gestiona el Idioma. Su mision es reducir el llamado codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iesanclemente.net>
+     */
+    private fun gestionIdioma() {
         // Spinner de idiomas
         val idioma = resources.getStringArray(R.array.idiomas)
         val adapter = ArrayAdapter(
@@ -88,7 +104,14 @@ class AjustesFragment : Fragment() {
             }
 
         }
+    }
 
+    /**
+     * Funcion privada que gestiona el tema. Su mision es reducir el llamado codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iesanclemente.net>
+     */
+    private fun gestionTema() {
         // Gestiona la elección del modo claro/oscuro/sistema
         // Radio Buttons
         binding.claro.setOnClickListener {
@@ -107,9 +130,6 @@ class AjustesFragment : Fragment() {
             binding.oscuro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_YES)
             binding.sistema.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
-
-
-        return view
     }
 
     /**
