@@ -37,6 +37,8 @@ class EtiquetaDetallesFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
+    private lateinit var args : EtiquetaDetallesFragmentArgs
+
     lateinit var etiquetaVisualizada : Etiqueta
 
     /**
@@ -55,14 +57,42 @@ class EtiquetaDetallesFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentEtiquetaDetallesBinding.inflate(inflater, container, false)
         val view = binding.root
-        val args = EtiquetaDetallesFragmentArgs.fromBundle(requireArguments())
+
+        // Definición de args
+        args = EtiquetaDetallesFragmentArgs.fromBundle(requireArguments())
+
+        // Carga la etiqueta a visualizar
+        cargarEtiqueta()
+
+
+        // Configurar menu toolbar personalizado para el fragmento detalles
+        configurarMenu()
+
+
+        return view
+    }
+
+    /**
+     * Función privada que carga la etiqueta a visualizar en el fragmento detalles de una etiqueta. Obtiene la etiqueta por su id de los args y actualiza la vista con los datos de la etiqueta.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun cargarEtiqueta() {
+        // Obtiene la etiqueta por su id de los args
         model.etiquetaDetalles.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
-            etiqueta ->
+                etiqueta ->
             binding.tituloEtiqueta.text = etiqueta.nombre
             binding.descipcionEtiqueta.text = etiqueta.descripcion
             etiquetaVisualizada = etiqueta
         }
+    }
 
+    /**
+     * Función privada que configura el menu toolbar personalizado para el fragmento detalles de una etiqueta. Reemplaza el menu del activity por un menu personalizado para el fragmento detalles y gestiona la navegación a la vista de edición y la eliminación de la etiqueta.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarMenu() {
         // Invocar el menu del activity
         val activityMenu : MenuHost = requireActivity()
         // Crear un modificador del menu (toolbar)
@@ -99,9 +129,6 @@ class EtiquetaDetallesFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-
-        return view
     }
 
     /**
