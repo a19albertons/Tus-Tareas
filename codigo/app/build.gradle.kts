@@ -109,3 +109,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+// https://github.com/Kotlin/dokka/issues/4472
+// o error en terminal
+dokka {
+    dokkaSourceSets.configureEach {
+        suppress.set(name != "produccionRelease")
+    }
+}
