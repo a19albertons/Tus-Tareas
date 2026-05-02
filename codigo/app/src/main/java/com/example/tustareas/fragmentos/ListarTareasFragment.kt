@@ -57,8 +57,38 @@ class ListarTareasFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarTareasBinding.inflate(inflater, container, false)
-        val view = binding.root
 
+        // Configura el RecyclerView para mostrar las tareas
+        configurarRecyclerView()
+
+        // Gestiona los errores del adapter
+        gestionErrorAdapter()
+
+        // Gestiona el spinner de prioridad
+        gestinarSpinnerPrioridad()
+
+        // Gestionar el spinner de estado
+        gestionarSpinnerEstado()
+
+        // Gestiona el filtro de texto para las tareas
+        gestionarFiltroTexto()
+
+        // Configura que la imagen de tres barras muestre un menú
+        configurarMenuTresBarras()
+
+        // Gestiona el botón de añadir tarea
+        gestionarBotonAnadirTarea()
+
+
+        return binding.root
+    }
+
+    /**
+     * Función privada que configura el RecyclerView para mostrar las tareas. Define el layout, el adapter y observa los cambios en la lista de tareas filtradas para actualizar el adapter y mostrar un mensaje si no hay resultados.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarRecyclerView() {
         // Scroll view de tareas
         // Definir el layout
         binding.listaTareas.layoutManager = LinearLayoutManager(requireContext())
@@ -69,7 +99,7 @@ class ListarTareasFragment : Fragment() {
 
         // Actualizado con el nuevo sistema que evita duplicado de observers
         model.listarTareas.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
-            listaTareas ->
+                listaTareas ->
             adapter.submitList(listaTareas)
             if (listaTareas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
@@ -80,17 +110,30 @@ class ListarTareasFragment : Fragment() {
                 binding.listaTareas.visibility = View.VISIBLE
             }
         }
+    }
 
+    /**
+     * Función privada que gestiona los errores del adapter. Observa los errores del listado de tareas y muestra un mensaje de error utilizando un Snackbar. Después de mostrar el error, limpia el valor del error para evitar mostrar mensajes duplicados al rotar o volver al fragmento.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionErrorAdapter() {
         // Observar errores del listado de tareas
-        model.listarTareas.mensajeError.observe(viewLifecycleOwner) {
-            error ->
-            error?.let {
+        model.listarTareas.mensajeError.observe(viewLifecycleOwner) { errorResId ->
+            errorResId?.let {
                 Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
-                // Restaurar a null tras ser mostrado
+                // Limpiar el error después de mostrarlo para evitar duplicados al rotar o volver
                 model.listarTareas.mensajeError.value = null
             }
         }
+    }
 
+    /**
+     * Función privada que gestiona el spinner de prioridad. Configura el contenido del spinner con las opciones de prioridad y un valor por defecto, y gestiona el evento de selección para actualizar la lista de tareas filtradas en función de la prioridad seleccionada.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestinarSpinnerPrioridad() {
         // spinner prioridad tareas
         val contenidoSpiner = listOf(getString(R.string.prioridad)) + Prioridad.entries.map { getString(it.labelRes()) }
         binding.prioridadTarea.adapter = ArrayAdapter(
@@ -137,16 +180,14 @@ class ListarTareasFragment : Fragment() {
 
             }
         }
+    }
 
-        // Observar errores del listado de tareas
-        model.listarTareas.mensajeError.observe(viewLifecycleOwner) { errorResId ->
-            errorResId?.let {
-                Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
-                // Limpiar el error después de mostrarlo para evitar duplicados al rotar o volver
-                model.listarTareas.mensajeError.value = null
-            }
-        }
-
+    /**
+     * Función privada que gestiona el spinner de estado. Configura el contenido del spinner con las opciones de estado y un valor por defecto, y gestiona el evento de selección para actualizar la lista de tareas filtradas en función del estado seleccionado.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarSpinnerEstado() {
         // spinner prioridad tareas
         val contenidoSpinerEstado = listOf(getString(R.string.estado)) + Estado.entries.map { getString(it.labelRes()) }
         binding.estadoTarea.adapter = ArrayAdapter(
@@ -190,7 +231,14 @@ class ListarTareasFragment : Fragment() {
 
             }
         }
+    }
 
+    /**
+     * Función privada que gestiona el filtro de texto para las tareas. Gestiona el evento de cambio de texto en el campo de filtro y actualiza el texto del filtro en el modelo para que este pueda filtrar las tareas en función del texto introducido.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarFiltroTexto() {
         // Texto filtro
         binding.filtro.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
@@ -205,12 +253,19 @@ class ListarTareasFragment : Fragment() {
             }
 
         })
+    }
 
+    /**
+     * Función privada que configura el menú desplegable de las tres barras. Gestiona el evento de click en la imagen de las tres barras para mostrar un menú desplegable con opciones de ordenación, y gestiona el evento de selección de cada opción para actualizar el texto de ordenación en el modelo y filtrar las tareas en función del criterio seleccionado.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun configurarMenuTresBarras() {
         // Desplegable de las tres barras
         // Muestra un pop up al ser clickado
         binding.menuTareas.setOnClickListener {
             // Nombre que le damos a las 3 barras para configurar el desplegable
-            ancla ->
+                ancla ->
             val customizarTemaDesplegable = ContextThemeWrapper(requireContext(), R.style.fondoBlancoTareas)
             val desplegable = PopupMenu(customizarTemaDesplegable, ancla)
             desplegable.menuInflater.inflate(R.menu.menu_tareas, desplegable.menu)
@@ -239,8 +294,14 @@ class ListarTareasFragment : Fragment() {
             }
             desplegable.show()
         }
+    }
 
-
+    /**
+     * Función privada que gestiona el botón de añadir tarea. Gestiona el evento de click en el botón de añadir tarea para navegar a la vista de modificar tarea con un objeto TareaDTO vacío para crear una nueva tarea.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarBotonAnadirTarea() {
         // Boton añadir tareas
         binding.anadirTarea.setOnClickListener {
             val tarea = Tarea(0, "", null, null, Prioridad.ALTA, DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null)
@@ -253,7 +314,6 @@ class ListarTareasFragment : Fragment() {
                     .show()
             }
         }
-        return view
     }
 
     /**
