@@ -68,11 +68,11 @@ lintDebug:
     - ./gradlew -Pci --console=plain :app:lintProduccionDebug -PbuildDir=lint
   artifacts:
     paths:
-      - codigo/app/lint/reports/lint-results-debug.html
+      - codigo/app/lint/reports/lint-results-produccionDebug.html
     expose_as: "lint-report"
     when: always
 
-# # Make Project
+# Make Project (pre-produccion no firmada)
 assembleDebug:
   interruptible: true
   image: $TEMP_IMAGE
@@ -82,7 +82,9 @@ assembleDebug:
     - ./gradlew assembleDebug
   artifacts:
     paths:
-      - codigo/app/build/outputs/
+      - codigo/app/build/outputs/apk/pre-produccion/debug/app-pre-produccion-debug.apk
+    expose_as: "debug.apk"
+    when: always
 
 
 
@@ -170,6 +172,8 @@ assembleRelease:
   artifacts:
     paths:
       - codigo/app-signed.apk
+    expose_as: "release.apk"
+    when: always
       
 
 limpieza:
