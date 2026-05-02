@@ -22,6 +22,7 @@ workManager = "2.11.2"
 archCoreTesting = "2.2.0"
 mockito = "5.23.0"
 mockitoKotlin = "6.3.0"
+dokka = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,3 +55,4 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigationFragmentKtx" }
+kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

@@ -1,8 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
+
+    // KSP procesa las anotacioones de Room.
     alias(libs.plugins.ksp)
+
+    // Safe Args para pasar parametro de una clase a otra
     alias(libs.plugins.androidx.navigation.safeargs)
+
+    // Parcelize para poder pasar un clase con @Parcelize a otro fragmento o actividad
     alias(libs.plugins.kotlin.parcelize)
+
+    // Generación de documentación con Dokka
+    alias(libs.plugins.kotlin.dokka)
 }
 
 android {
