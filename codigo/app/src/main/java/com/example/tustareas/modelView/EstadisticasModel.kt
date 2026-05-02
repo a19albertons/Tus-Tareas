@@ -133,10 +133,6 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
         val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
         calendar.time = DateHelper.fechaMediaNocheUTC()
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        calendar.set(Calendar.HOUR_OF_DAY, 0)
-        calendar.set(Calendar.MINUTE, 0)
-        calendar.set(Calendar.SECOND, 0)
-        calendar.set(Calendar.MILLISECOND, 0)
 
         val devolver = LongArray(7) {
             val timestampDia = calendar.timeInMillis
