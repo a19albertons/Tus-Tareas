@@ -50,7 +50,6 @@ class ModificarEtiquetaFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarEtiquetaBinding.inflate(inflater, container, false)
-        val view = binding.root
 
         // Recuperamos la etiqueta pasada por argumentos
         val args = ModificarEtiquetaFragmentArgs.fromBundle(requireArguments())
@@ -59,7 +58,7 @@ class ModificarEtiquetaFragment : Fragment() {
         // Rellenamos los campos con los datos de la etiqueta pasada
         rellenarCampos()
 
-        return view
+        return binding.root
     }
 
     /**

@@ -63,7 +63,6 @@ class ModificarTareasFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarTareasBinding.inflate(inflater, container, false)
-        val view = binding.root
 
         // Recuperamos la tarea pasada por argumentos
         val args = ModificarTareasFragmentArgs.fromBundle(requireArguments())
@@ -85,7 +84,7 @@ class ModificarTareasFragment : Fragment() {
         gestionarAnadirEtiqueta()
 
 
-        return view
+        return binding.root
     }
 
     /**

@@ -70,7 +70,6 @@ class ModificarProyectoFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarProyectoBinding.inflate(inflater, container, false)
-        val view = binding.root
 
         // Recuperamos el proyecto pasado por argumentos
         val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
@@ -101,7 +100,7 @@ class ModificarProyectoFragment : Fragment() {
         gestionarCalendarios()
 
 
-        return view
+        return binding.root
     }
 
     /**
