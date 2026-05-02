@@ -56,11 +56,8 @@ class ModificarEtiquetaFragment : Fragment() {
         val args = ModificarEtiquetaFragmentArgs.fromBundle(requireArguments())
         etiquetaPasada = args.etiqueta
 
-        // Rellenamos los campos con los datos de la etiqueta pasada por argumentos
-        binding.tituloEtiqueta.setText(etiquetaPasada.nombre)
-        binding.descipcionEtiqueta.setText(etiquetaPasada.descripcion)
-
-
+        // Rellenamos los campos con los datos de la etiqueta pasada
+        rellenarCampos()
 
         return view
     }
@@ -73,8 +70,29 @@ class ModificarEtiquetaFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        // Gestiona la lógica de la flecha de retroceso
+        gestionarFlechaRetroceso()
+    }
 
+    /**
+     * Función que se encarga de rellenar los campos del formulario con los datos de la etiqueta pasada por argumentos.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun rellenarCampos() {
+        // Rellenamos los campos con los datos de la etiqueta pasada por argumentos
+        binding.tituloEtiqueta.setText(etiquetaPasada.nombre)
+        binding.descipcionEtiqueta.setText(etiquetaPasada.descripcion)
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de la flecha de retroceso para mostrar un diálogo de confirmación al usuario antes de salir del fragmento.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarFlechaRetroceso() {
         // Variable que controla que modal
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -90,8 +108,6 @@ class ModificarEtiquetaFragment : Fragment() {
 
         // Modifica el comportamiento en el activity
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
-
-        super.onViewCreated(view, savedInstanceState)
     }
 
     /**
