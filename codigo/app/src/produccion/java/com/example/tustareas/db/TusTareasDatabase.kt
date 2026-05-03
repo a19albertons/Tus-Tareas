@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tustareas.dao.ActivityMainConsultas
 import com.example.tustareas.dao.EstadisticasConsultas
 import com.example.tustareas.dao.EtiquetaDetallesConsultas
@@ -30,7 +29,8 @@ import com.example.tustareas.modelos.TareaEtiqueta
 import com.example.tustareas.security.SqlCipherKeyManager
 
 /**
- * Base de datos de tus tareas
+ * Base de datos de tus tareas.
+ * Ramificación especifica de TusTareasDatabase paara el entorno de producción. La principal diferencia es gestionar el sqlCypher y el control de si esta inicializado o no.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
@@ -151,9 +151,22 @@ abstract class TusTareasDatabase : RoomDatabase() {
      */
     abstract fun workerConsultas(): WorkerConsultas
 
+
+
     companion object {
         @Volatile
         private var INSTANCE: TusTareasDatabase? = null
+
+        @Volatile
+        private var isReady: Boolean = false
+
+        /**
+         * Comprueba si la base de datos está lista (instanciada y con SQLCipher inicializado)
+         *
+         * @return Boolean true si está lista, false en caso contrario
+         * @author Alberto Noceda <a19albertons@iessanclemente.net
+         */
+        fun baseDatosCargada(): Boolean = isReady
 
         /**
          * Obtiene la instancia de la base de datos. Si no existe, la crea.
@@ -164,42 +177,25 @@ abstract class TusTareasDatabase : RoomDatabase() {
          */
         fun getDatabase(context: Context): TusTareasDatabase {
             return INSTANCE ?: synchronized(this) {
-                when (context.packageName) {
-                    // Si el paquete es el de producción carga la base de datos cifrada,
-                    // si no carga la base de datos sin cifrar desde el asset y sin cifrar
-                    "com.example.tustareas" -> {
-                        // Carga la libreria de sqlcipher
-                        System.loadLibrary("sqlcipher")
-                        // Obtiene las preferencias
-                        val sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-                        // Instancia al gesto del cifrado
-                        val sqlCipherKeyManager = SqlCipherKeyManager(sharedPreferences)
-                        val instance = Room.databaseBuilder(
-                            context.applicationContext,
-                            TusTareasDatabase::class.java,
-                            "baseDatos.db"
-                        )
-                            // Impelmenta el cifrado
-                            .openHelperFactory(sqlCipherKeyManager.getSupportFactory())
-                            // La construye
-                            .build()
-                        INSTANCE = instance
-                        instance
-                    }
-                    else -> {
-                        val instance = Room.databaseBuilder(
-                            context.applicationContext,
-                            TusTareasDatabase::class.java,
-                            "baseDatos.db"
-                        )
-                            // Crea la base de datos desde el asset
-                            .createFromAsset("baseDatos.db")
-                            // La construye
-                            .build()
-                        INSTANCE = instance
-                        instance
-                    }
-                }
+
+                // Carga la libreria de sqlcipher
+                System.loadLibrary("sqlcipher")
+                // Obtiene las preferencias
+                val sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+                // Instancia al gesto del cifrado
+                val sqlCipherKeyManager = SqlCipherKeyManager(sharedPreferences)
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    TusTareasDatabase::class.java,
+                    "baseDatos.db"
+                )
+                    // Impelmenta el cifrado
+                    .openHelperFactory(sqlCipherKeyManager.getSupportFactory())
+                    // La construye
+                    .build()
+                INSTANCE = instance
+                isReady = true
+                instance
 
             }
         }

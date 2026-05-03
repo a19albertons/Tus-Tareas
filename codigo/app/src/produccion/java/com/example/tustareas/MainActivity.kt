@@ -24,24 +24,18 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.tustareas.modelView.TusTareasModel
-import com.example.tustareas.util.AlarmaHelper
 import com.example.tustareas.util.LanguageHelper
-import com.example.tustareas.workers.ActualizarEstadoWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewModelScope
+import com.example.tustareas.db.TusTareasDatabase
 
 /**
- * Clase principal del proyecto que representa la actividad
+ * Clase principal del proyecto que representa la actividad.
+ * Ramificación del Main Activity original para el entorno de producción. La principal diferencia es la gestión de sqlCypher en el splash screen.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
@@ -78,7 +72,11 @@ class MainActivity : AppCompatActivity() {
         LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
 
         // Muestra la pantalla de carga antes de que se empiece a dibujar el primer frame del activyty y su fragmento
-        installSplashScreen()
+        // Adiconalmente espera a que la base de datos este lista para ocultar la pantalla de carga.
+        val splashScreen = installSplashScreen()
+        splashScreen.setKeepOnScreenCondition {
+            !TusTareasDatabase.baseDatosCargada()
+        }
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
