@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.70"
             android:layout_height="wrap_content"
-            android:text="@string/temporal"
+            android:text="@string/cargando"
             android:ellipsize="end"
             android:maxLines="1"
             />
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.30"
             android:layout_height="wrap_content"
-            android:text="@string/temporal"
+            android:text="@string/cargando"
             />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

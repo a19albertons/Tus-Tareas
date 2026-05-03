@@ -4,7 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- General -->
-    <string name="temporal">Temporal</string>
+    <string name="cargando">Cargando</string>
     <string name="error_navegar">Ha habido un error al navegar</string>
     <string name="lupa">lupa</string>
     <string name="buscar_por_titulo_descripci_n_y_etiqueta">Buscar por titulo, descripción y etiqueta</string>

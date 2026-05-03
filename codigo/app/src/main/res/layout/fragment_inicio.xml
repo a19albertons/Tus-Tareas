@@ -30,7 +30,7 @@
                     android:id="@+id/tareasHoyTexto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/temporal"
+                    android:text="@string/cargando"
                     android:textSize="24sp"
                     android:textColor="@color/black"
                 />
@@ -81,7 +81,7 @@
                     android:id="@+id/tareasRetrasadasTexto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/temporal"
+                    android:text="@string/cargando"
                     android:textSize="24sp"
                     android:textColor="@color/black" />
 
@@ -128,7 +128,7 @@
                     android:id="@+id/tareasProximasTexto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/temporal"
+                    android:text="@string/cargando"
                     android:textSize="24sp"
                     android:textColor="@color/black" />
 

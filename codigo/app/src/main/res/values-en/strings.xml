@@ -3,7 +3,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- General -->
-    <string name="temporal">Temporary</string>
+    <string name="cargando">Loading</string>
     <string name="error_navegar">An error occurred while navigating</string>
     <string name="lupa">magnifier</string>
     <string name="buscar_por_titulo_descripci_n_y_etiqueta">Search by title, description and tag</string>
