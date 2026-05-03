@@ -51,7 +51,7 @@ class TareasHoyPendientesAdapter(private val tareas: List<Tarea>): RecyclerView.
     override fun onBindViewHolder(holder: TareaViewHolder, position: Int) {
         val objetoActual = tareas[position]
         holder.nombreTarea.text = objetoActual.nombre
-        holder.prioridadTarea.text = objetoActual.prioridad.name
+        holder.prioridadTarea.text = holder.itemView.context.getString(objetoActual.prioridad.labelRes())
     }
 
     /**
