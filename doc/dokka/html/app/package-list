@@ -189,6 +189,7 @@ $dokka.location:com.example.tustareas.dao/WorkerConsultas/obtenerTodasLasNotific
 $dokka.location:com.example.tustareas.dao/WorkerConsultas/tareasRetrasadasAlarma/#java.util.Date#com.example.tustareas.modelos.Estado/PointingToDeclaration/app/com.example.tustareas.dao/-worker-consultas/tareas-retrasadas-alarma.html
 $dokka.location:com.example.tustareas.db////PointingToDeclaration/app/com.example.tustareas.db/index.html
 $dokka.location:com.example.tustareas.db/TusTareasDatabase.Companion///PointingToDeclaration/app/com.example.tustareas.db/-tus-tareas-database/-companion/index.html
+$dokka.location:com.example.tustareas.db/TusTareasDatabase.Companion/baseDatosCargada/#/PointingToDeclaration/app/com.example.tustareas.db/-tus-tareas-database/-companion/base-datos-cargada.html
 $dokka.location:com.example.tustareas.db/TusTareasDatabase.Companion/getDatabase/#android.content.Context/PointingToDeclaration/app/com.example.tustareas.db/-tus-tareas-database/-companion/get-database.html
 $dokka.location:com.example.tustareas.db/TusTareasDatabase///PointingToDeclaration/app/com.example.tustareas.db/-tus-tareas-database/index.html
 $dokka.location:com.example.tustareas.db/TusTareasDatabase/TusTareasDatabase/#/PointingToDeclaration/app/com.example.tustareas.db/-tus-tareas-database/-tus-tareas-database.html
