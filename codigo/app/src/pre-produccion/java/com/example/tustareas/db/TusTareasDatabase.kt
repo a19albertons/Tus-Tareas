@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tustareas.dao.ActivityMainConsultas
 import com.example.tustareas.dao.EstadisticasConsultas
 import com.example.tustareas.dao.EtiquetaDetallesConsultas
@@ -173,6 +174,15 @@ abstract class TusTareasDatabase : RoomDatabase() {
                     .createFromAsset("baseDatos.db")
                     // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
                     .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
+                    // Capa de optimizaciones para mejorar el rendimiento de la base de datos.
+                    .addCallback(object : Callback() {
+                        override fun onOpen(db: SupportSQLiteDatabase) {
+                            super.onOpen(db)
+                            db.execSQL("PRAGMA cache_size = -4000") // 4MB de caché
+                            db.execSQL("PRAGMA temp_store = MEMORY") // Usa la ram como alamcenamiento temporal
+                            db.execSQL("PRAGMA synchronous = NORMAL") // Se recomienda con WAL
+                        }
+                    })
                     // La construye
                     .build()
 
