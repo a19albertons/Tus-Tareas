@@ -17,6 +17,7 @@ import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -103,6 +104,12 @@ class ModificarTareasModelTest {
 
     }
 
+    @After
+    fun cerrarBd() {
+        db.close()
+    }
+
+    // Añadir nueva etiqueta al final
     @Test
     fun tareaNuevaConEtiquetas1() = runTest {
         // Prueba inserción
@@ -110,9 +117,10 @@ class ModificarTareasModelTest {
             0,
             "prueba",
             "descripcion",
-            DateHelper.fechaMediaNocheUTC(),
+            Date(DateHelper.fechaMediaNocheUTC().time + 86400000),
             Prioridad.NO_ESTABLECIDO,
-            DateHelper.fechaMediaNocheUTC(),
+            // Fecha más alta no igual o surge una especie de race condition interna por los criterios de desempate de sqlite
+            Date(DateHelper.fechaMediaNocheUTC().time + 86400000),
             Estado.EN_TIEMPO,
             null
         )
@@ -131,6 +139,13 @@ class ModificarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
+        println(resultado!!.last().nombre)
+        println(resultado!!.size)
+        var i = 1
+        resultado.forEach {
+            println(it.nombre+" "+it.id+" "+i)
+            i++
+        }
         assert(resultado!!.last().nombre == "prueba")
     }
 

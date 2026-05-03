@@ -17,6 +17,7 @@ import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.util.DateHelper
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -101,6 +102,11 @@ class TareaDetallesModelTest {
         repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
 
+    }
+
+    @After
+    fun cerrarBd() {
+        db.close()
     }
 
     // Prueba de obtención de tarea por id
