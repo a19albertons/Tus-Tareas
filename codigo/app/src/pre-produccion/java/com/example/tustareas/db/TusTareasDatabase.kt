@@ -171,9 +171,18 @@ abstract class TusTareasDatabase : RoomDatabase() {
                 )
                     // Crea la base de datos desde el asset
                     .createFromAsset("baseDatos.db")
+                    // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
+                    .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
                     // La construye
                     .build()
+
+                // Prepara la conexión
+                instance.openHelper.writableDatabase
+
+                // genera la instancia singleston
                 INSTANCE = instance
+
+                // valor a devolver que requiere synchronized
                 instance
 
             }

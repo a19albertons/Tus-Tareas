@@ -1,6 +1,7 @@
 package com.example.tustareas.db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -27,6 +28,7 @@ import com.example.tustareas.modelos.ProyectoEtiqueta
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.modelos.TareaEtiqueta
 import com.example.tustareas.security.SqlCipherKeyManager
+import java.util.concurrent.Executors
 
 /**
  * Base de datos de tus tareas.
@@ -176,26 +178,43 @@ abstract class TusTareasDatabase : RoomDatabase() {
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun getDatabase(context: Context): TusTareasDatabase {
+            // Comprueba si la instancia existe sino solo permite un hilo generarla a la vez
             return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: run {
+                    // Carga la libreria de sqlcipher
+                    System.loadLibrary("sqlcipher")
+                    // Obtiene las preferencias
+                    val sharedPreferences =
+                        context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+                    // Instancia al gesto del cifrado
+                    val sqlCipherKeyManager = SqlCipherKeyManager(sharedPreferences)
+                    val instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        TusTareasDatabase::class.java,
+                        "baseDatos.db"
+                    )
+                        // Impelmenta el cifrado
+                        .openHelperFactory(sqlCipherKeyManager.getSupportFactory())
+                        // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
+                        .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
+                        // La construye
+                        .build()
 
-                // Carga la libreria de sqlcipher
-                System.loadLibrary("sqlcipher")
-                // Obtiene las preferencias
-                val sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-                // Instancia al gesto del cifrado
-                val sqlCipherKeyManager = SqlCipherKeyManager(sharedPreferences)
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    TusTareasDatabase::class.java,
-                    "baseDatos.db"
-                )
-                    // Impelmenta el cifrado
-                    .openHelperFactory(sqlCipherKeyManager.getSupportFactory())
-                    // La construye
-                    .build()
-                INSTANCE = instance
-                isReady = true
-                instance
+
+                    // Prepara la conexión
+                    instance.openHelper.writableDatabase
+
+                    // habilita el singleton
+                    INSTANCE = instance
+
+                    // Indica que esta preparada
+                    isReady = true
+
+                    // Necessario para el bloque synchronized
+                    instance
+
+
+                }
 
             }
         }
