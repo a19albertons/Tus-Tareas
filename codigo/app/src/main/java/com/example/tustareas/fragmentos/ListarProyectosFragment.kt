@@ -68,6 +68,7 @@ class ListarProyectosFragment : Fragment() {
         configurarFiltroFechaFin()
 
         // Gestiona el botón de añadir proyecto
+        gestionarBotonAnadirProyecto()
 
         return binding.root
     }
