@@ -90,8 +90,8 @@ class TareaDetallesFragment : Fragment() {
             } else {
                 binding.fechaLimiteTarea.text = ""
             }
-            binding.prioridadTarea.text = tarea.tarea.prioridad.name
-            binding.estadoTarea.text = tarea.tarea.estado.name
+            binding.prioridadTarea.text = getString(tarea.tarea.prioridad.labelRes())
+            binding.estadoTarea.text = getString(tarea.tarea.estado.labelRes())
 
             // Añade las etiquetas de la tarea al grupo de chips
             anadirEtiquetas(tarea)

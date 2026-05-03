@@ -125,7 +125,7 @@ class ModificarTareasFragment : Fragment() {
         binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
         binding.fechaCreacionTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaCreacion)
         binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
-        binding.estadoTarea.text = tareaDTO.tarea.estado.name
+        binding.estadoTarea.text = getString(tareaDTO.tarea.estado.labelRes())
 
         // Refrescar tareas
         model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
