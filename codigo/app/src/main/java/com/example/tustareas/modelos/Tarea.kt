@@ -25,7 +25,10 @@ import java.util.Date
         )
     ],
     indices = [
-        Index(value = ["idProyecto"])
+        Index(value = ["idProyecto"]),
+        // Optimización adicional. Valores muy usados en multiples filtros internos para mostrar información
+        Index(value = ["fechaLimite"]),
+        Index(value = ["estado"])
     ]
 )
 @Parcelize
