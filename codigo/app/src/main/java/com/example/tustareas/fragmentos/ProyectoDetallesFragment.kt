@@ -81,6 +81,14 @@ class ProyectoDetallesFragment : Fragment() {
         // Obtener el proyecto
         model.proyectoDetalles.obtenerProyectoPorId(args.id).observe(viewLifecycleOwner) {
                 proyecto ->
+
+            // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
+            if (proyecto == null) {
+                Snackbar.make(binding.root, getString(R.string.prevencion_fallo_critico), Snackbar.LENGTH_LONG).show()
+                findNavController().popBackStack(findNavController().graph.startDestinationId, false)
+                return@observe
+            }
+
             binding.tituloProyecto.text = proyecto.proyecto.nombre
             binding.descipcionProyecto.text = proyecto.proyecto.descripcion
             binding.fechaCreacionProyecto.text = DateHelper.timestampToString(proyecto.proyecto.fechaCreacion)

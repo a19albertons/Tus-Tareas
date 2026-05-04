@@ -81,6 +81,13 @@ class TareaDetallesFragment : Fragment() {
         model.tareaDetalles.obtenerTareaDTOPorID(args.id).observe(viewLifecycleOwner) {
             tarea ->
 
+            // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
+            if (tarea == null) {
+                Snackbar.make(binding.root, getString(R.string.prevencion_fallo_critico), Snackbar.LENGTH_LONG).show()
+                findNavController().popBackStack(findNavController().graph.startDestinationId, false)
+                return@observe
+            }
+
             // Define los datos de la tarea en los componentes visuales
             binding.tituloTarea.text = tarea.tarea.nombre
             binding.descipcionTarea.text = tarea.tarea.descripcion

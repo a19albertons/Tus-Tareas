@@ -81,6 +81,14 @@ class EtiquetaDetallesFragment : Fragment() {
         // Obtiene la etiqueta por su id de los args
         model.etiquetaDetalles.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
                 etiqueta ->
+
+            // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
+            if (etiqueta == null) {
+                Snackbar.make(binding.root, getString(R.string.prevencion_fallo_critico), Snackbar.LENGTH_LONG).show()
+                findNavController().popBackStack(findNavController().graph.startDestinationId, false)
+                return@observe
+            }
+
             binding.tituloEtiqueta.text = etiqueta.nombre
             binding.descipcionEtiqueta.text = etiqueta.descripcion
             etiquetaVisualizada = etiqueta
