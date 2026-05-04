@@ -27,6 +27,7 @@
     <string name="fecha_fin">end date</string>
     <string name="tareas">tasks</string>
     <string name="no_existen_etiquetas">No tags exist</string>
+    <string name="prevencion_fallo_critico">A critical failure has been detected</string>
 
     <!-- Inicio -->
     <string name="ver_mas">See more</string>
@@ -152,4 +153,8 @@
     <string name="ajustes">Settings</string>
     <string name="gestionar_etiquetas">Manage tags</string>
     <string name="limpiar_tareas_comp">Clear completed Tasks</string>
+
+    <!-- Error no previsto -->
+    <string name="cerrar_aplicacion">Close application</string>
+    <string name="error_no_previsto">"An unexpected error occurred \n"</string>
 </resources>

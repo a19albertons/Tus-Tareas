@@ -27,6 +27,7 @@
     <string name="fecha_fin">data de fin</string>
     <string name="tareas">tarefas</string>
     <string name="no_existen_etiquetas">Non hai etiquetas</string>
+    <string name="prevencion_fallo_critico">Detectouse un fallo crítico</string>
 
     <!-- Inicio -->
     <string name="ver_mas">Ver máis</string>
@@ -152,4 +153,8 @@
 
     <!-- Activity main -->
     <string name="error_eliminando_tareas">Sentímolo, produciuse un erro\neliminando as tarefas</string>
+
+    <!-- Error no previsto -->
+    <string name="cerrar_aplicacion">Cerrar aplicación</string>
+    <string name="error_no_previsto">"Ha habido el siguiente error no previsto/irreversible \n"</string>
 </resources>

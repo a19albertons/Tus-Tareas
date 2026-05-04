@@ -29,6 +29,7 @@
     <string name="tareas">tareas</string>
     <string name="no_existen_etiquetas">No existen etiquetas</string>
     <string name="inicio">Inicio</string>
+    <string name="prevencion_fallo_critico">Se ha detectado un fallo crítico</string>
 
 
 
@@ -164,4 +165,7 @@
     <string name="gestionar_etiquetas">Gestionar etiquetas</string>
     <string name="limpiar_tareas_comp">Limpiar tareas Comp.</string>
 
+    <!-- Activity error no previsto -->
+    <string name="cerrar_aplicacion">Cerrar aplicación</string>
+    <string name="error_no_previsto">"Ha habido el siguiente error no previsto/irreversible \n"</string>
 </resources>
