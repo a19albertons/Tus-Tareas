@@ -139,13 +139,6 @@ class ModificarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        println(resultado!!.last().nombre)
-        println(resultado!!.size)
-        var i = 1
-        resultado.forEach {
-            println(it.nombre+" "+it.id+" "+i)
-            i++
-        }
         assert(resultado!!.last().nombre == "prueba")
     }
 
