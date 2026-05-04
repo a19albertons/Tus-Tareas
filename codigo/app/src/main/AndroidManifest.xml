@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".TusTareasApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -37,6 +38,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- activity para errores no previstos -->
+        <activity
+            android:name=".ErrorNoPrevisto"
+            android:process=":error_process"
+            android:theme="@style/Theme.TusTareas" />
         <!-- Necesario para persistir el idioma -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
