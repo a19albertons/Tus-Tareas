@@ -131,14 +131,22 @@ Tests:
     
     # 7. Lanzar las pruebas contra el dispositivo ya arrancado y verificar resultados, si hay fallos, marcar el job como fallido
     - |
-      ./gradlew -Pci --console=plain :app:connectedProduccionDebugAndroidTest :app:testResultsCollectionProduccionDebug
+      ./gradlew app:createProduccionDebugCoverageReport app:createProduccionDebugUnitTestCoverageReport
       TEST_XML=$(find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' | head -n 1)
       if [ -z "$TEST_XML" ]; then
         echo "No se encontraron resultados de tests instrumentados."
-        exit 1
+        COMPROBACION_FALLIDA=true
       fi
       if find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' -print0 | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"'; then
         echo "Fallos encontrados en resultados de Android Test."
+        COMPROBACION_FALLIDA=true
+      fi
+      if find app/build/test-results -name 'TEST-*.xml' -print0 | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"'; then
+        echo "Fallos encontrados en test unitarios."
+        COMPROBACION_FALLIDA=true
+      fi
+      if [ "$COMPROBACION_FALLIDA" = true ]; then
+        echo "Al menos un tipo de test es fallido, marcando el job y resto de pipeline como fallida."
         exit 1
       fi
 
