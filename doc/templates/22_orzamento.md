@@ -47,38 +47,42 @@ O valor do equipamento é o seguinte **ver Referencias**:
 
 ## Conta de perdas e ganancias
 
-Os ingresos derivan inicialmente do cobro dunha cota de soporte (opcional) por parte do desenvolvedor, correspondente a servizos de resolución de problemas con aplicación, migracións e similares. Asumindo un crecemento lineal neste servizo, os ingresos estimados son de 3.966,94 € no primeiro ano,  7.933,88 € no segundo e 11.900,83 € no terceiro. O pronostico é que o primeiro ano haxa unha media de arredor de 80 clientes mensuais, no plan de soporte cuxo valor e de 4,13 € mensuais.
+Os ingresos derivan inicialmente do cobro dunha cota de soporte (opcional) por parte do desenvolvedor, correspondente a servizos de resolución de problemas con aplicación, migracións e similares.
 
-Esta previsión de ingresos é unha estimación baseada na situación de mercado e da saturación de apps no mercado movil, así como na alta competenza que existe. Por exemplo, no mercado xa existen apps xa establecidas como google tasks, To Do entre outras, que ofrecen a mesma funcionalidade base. Confiase nun crecemento lineal dos ingresos, basandose no boca a boca e recomendacións entre amigos e o aumento da visibilidade da mesma a través de un incremento de usuarios activos e de pago.
+A previsión de ingresos é unha estimación baseada nas decargas do primeiro mes tipico dunha app móbil **ver Referencias** e na porcentaxe de usuarios dispostos a pagar por unha subscripción nunha app móbil gratuita **ver Referencias**. Pronosticase para o primeiro mes arredor de 3.000 descargas da apliación que tera unha taxa de subscripción de soporte do 1.7% das instalacións que resulta en 51 clientes mensuais o primeiro mes. Partindo da taboa de evolución de ingresos dunha app durante o seu primeiro ano, pronosticase un crecemento durante os 3 primeiros anos similar ao da taboa con altibaixos onde o primeiro ano se pronostica uns ingrexos de 5.642,67 € o segundo ano de 
+31.480,04 € (calculase a partir do valor do mes de decembro) e o terceiro ano asumimos unha desaceleración do crecemento e a tendeza alcista ao 50% para ser máis conservaodores, resultando en 44.398,88 €.
 
 
 **Taboa de ingresos**
 
 | Concepto | Ano 1 | Ano 2 | Ano 3 |
 |---|---|---|---|
-| Soporte | 3.966,94 € | 7.933,88 € | 11.900,83 € |
-| Total ingresos | 3.966,94 € | 7.933,88 € | 11.900,83 € |
+| Soporte | 5.642,67 € | 31.480,04 € | 44.398,88 € |
+| Total ingresos | 5.642,67 € | 31.480,04 € | 44.398,88 € |
 
 Os gastos inclúen a cota de autónomos calculada mediante o simulador oficial da Seguridade Social **ver Referencias**, así como os de aluguer explicados no apartado de Investimento.
 A cota de autónomos no primeiro e segundo ano é de 80€ mensuais durante os primeiros 12 meses, e o mesmo o segundo ano se os ingresos non alcanzan o SMI **Ver referencias**.
+Incluese o salario persoal correspondente ao SMI (2026) que non pode ser inferior a 17.094€ anuais **ver Referencias**.
 
 **Taboa de gastos**
 
 | Concepto | Ano 1 | Ano 2 | Ano 3 |
 |---|---|---|---|
 | Aluguer inclúe subministros | 4.200,00 € | 4.200,00 € | 4.200,00 € |
-| Cota autónomos | 960,00 € | 960,00 € | 3.211,80 € |
-| Total gastos | 5.160,00 € | 5.160,00 € | 7.411,80 € |
+| Cota autónomos | 960,00 € | 960,00 € | 6.052,92 € |
+| Salario persoal (SMI) | 17.094,00 € | 17.094,00 € | 17.094,00 € |
+| Total gastos | 22.254,00 € | 22.254,00 € | 27.346,92 € |
 
 O calculo dos beneficios consiste na diferencia entre o total de ingresos e o total de gastos de cada ano.
-Como resultado do pronosticado en ingresos e gastos esperado, salvo que surxan algún imprevisto o primeiro ano afrontariamos perdedas no negocio de 1.193,06 €, pero a partir do segundo ano o negocio comezaría a ser rentable, con beneficios netos inferiores a 3000€ e no terceiro ano con beneficios superiores a pesar de perder a cota reducida de autónomos.
+Como resultado do pronosticado en ingresos e gastos esperado, salvo que surxan algún imprevisto o primeiro ano afrontariamos perdedas no negocio de 16.611,33 €, o segundo ano obteríamos un beneficio neto de 9.226,04 € e o terceiro ano un beneficio neto de 17.051,96 €.
+
 **Calculo de beneficios netos**
 
 |  | Ano 1 | Ano 2 | Ano 3 |
 |---|---|---|---|
-| Ingresos | 3.966,94 € | 7.933,88 € | 11.900,83 € |
-| Gastos | 5.160,00 € | 5.160,00 € | 7.411,80 € |
-| Beneficio neto | -1.193,06 € | 2.773,88 € | 4.489,03 € |
+| Ingresos | 5.642,67 € | 31.480,04 € | 44.398,88 € |
+| Gastos | 22.254,00 € | 22.254,00 € | 27.346,92 € |
+| Beneficio neto | -16.611,33 € | 9.226,04 € | 17.051,96 € |
 
 ---
 
@@ -89,3 +93,8 @@ Como resultado do pronosticado en ingresos e gastos esperado, salvo que surxan a
 - **Alta como traballador autónomo**: [Procedimento darse de alta como autónomo](https://portal.seg-social.gob.es/wps/portal/importass/importass/Categorias/Altas%2C+bajas+y+modificaciones/Altas+y+afiliacion+de+trabajadores/Alta_trabajo_autonomo)
 - **Tarifa plana de 80€ para autónomos**: Información sobre a tarifa plana de autónomos en [Seguridade Social](https://www.infoautonomos.com/seguridad-social/tarifa-plana-autonomos/)
 - **Idealista**: Consulta de prezos medios de alugamentos en Santiago de Compostela en [Idealista](https://www.idealista.com/alquiler-viviendas/santiago-de-compostela-a-coruna/).
+- **Salario Mínimo Interprofesional (SMI) 2026**: Información sobre o SMI en [BOE](https://www.boe.es/buscar/act.php?id=BOE-A-2026-3815).
+- **Retentción usuarios en app moviles**: Información sobre a retención de usuarios en apps móbiles en [Uxcam](https://uxcam.com/blog/mobile-app-retention-benchmarks/).
+- **Cantidad de usuarios primer mes**: Información sobre a cantidade de usuarios no primeiro mes de lanzamento dunha app móbil en [Reddit](https://www.reddit.com/r/googleplayconsole/comments/1rmjpf3/how_much_people_gets_installs_in_their_1st_month/)
+- **Cantidad de usuarios a pagar por soporte**: Información sobre a cantidade de usuarios dispostos a pagar por unha subscripción de soporte en apps móbiles en [RevenueCat](https://www.revenuecat.com/state-of-subscription-apps-2024/).
+- **Evolución de ingresos nunha app móbil**: Informaición sobre a evolución de ingresos nunha app móbil ao longo dun primeiro ano en [Linkedin](https://www.linkedin.com/pulse/2023-my-indie-app-business-year-review-sebastian-r%C3%B6hl-g9dje)
