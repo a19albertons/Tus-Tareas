@@ -41,6 +41,16 @@ android {
                 "proguard-rules.pro"
             )
         }
+        // Construción customizada para el profiler
+        create("profileable") {
+            initWith(getByName("release")) // Copia la configuración de release
+            signingConfig = signingConfigs.getByName("debug") // Coge la firma que se genera para debug
+
+            // Configuración específica para el perfilado
+            isProfileable = true // Permite el perfilado en esta build que es practicamente la de lanzamiento
+
+
+        }
         debug {
             enableAndroidTestCoverage = true
             enableUnitTestCoverage = true

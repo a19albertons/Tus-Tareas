@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
@@ -16,6 +17,13 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.TusTareas.Splash">
+
+        <!-- Habilita el profileable para la aplicación, lo que permite ver el consumo real de recuros para la herramienta profiler -->
+        <!-- Exigimos el api 29 para esta opción por culpa del min SDK -->
+        <profileable
+            android:shell="true"
+            tools:targetApi="29"
+            />
 
         <receiver
             android:name=".workers.LanzarNotificaciones"
