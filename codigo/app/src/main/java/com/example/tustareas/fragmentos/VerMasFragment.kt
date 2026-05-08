@@ -29,7 +29,7 @@ class VerMasFragment : Fragment() {
         ownerProducer = {requireActivity()}
     )
 
-    private lateinit var adapter : VerMasAdapter
+    private var adapter : VerMasAdapter ?= null
     private lateinit var args : VerMasFragmentArgs
 
     /**
@@ -126,7 +126,7 @@ class VerMasFragment : Fragment() {
                         binding.sinResultados.visibility = View.GONE
                         binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
                     }
-                    adapter.submitList(tareas)
+                    adapter!!.submitList(tareas)
                 }
             }
             // Tarea retrasada
@@ -141,7 +141,7 @@ class VerMasFragment : Fragment() {
                         binding.sinResultados.visibility = View.GONE
                         binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
                     }
-                    adapter.submitList(tareas)
+                    adapter!!.submitList(tareas)
                 }
             }
             // Tarea futura
@@ -155,7 +155,7 @@ class VerMasFragment : Fragment() {
                     binding.sinResultados.visibility = View.GONE
                     binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
                 }
-                adapter.submitList(tareas)
+                adapter!!.submitList(tareas)
             }
         }
     }
@@ -185,5 +185,7 @@ class VerMasFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // liberar recursos
+        adapter = null
     }
 }

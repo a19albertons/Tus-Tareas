@@ -34,6 +34,11 @@ class InicioFragment : Fragment() {
 
     private lateinit var hoy : Date
 
+    // Variables a limpiar al matar el fragmento
+    private var adapterProximas : TareasProximasAdapter? = null
+    private var adapterRetrasadas : TareasRetrasadasAdapter? = null
+    private var adapterHoy : TareasHoyPendientesAdapter? = null
+
 
     /**
      * Crea la vista del fragmento de inicio y gestiona los eventos de los elementos de la vista.
@@ -78,6 +83,17 @@ class InicioFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun gestionarTareasHoy() {
+        // scroll view
+        // definir layout
+        binding.tareasHoy.layoutManager = LinearLayoutManager(requireContext())
+
+        // Definir adapter
+        adapterHoy = TareasHoyPendientesAdapter()
+        binding.tareasHoy.adapter = adapterHoy
+
+        // De inicio oculto el ver más
+        binding.verMas1.visibility = View.GONE
+
         // observar tareas pendientes para hoy
         model.inicio.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) {
                 listadoTareasHoyFechaLimite ->
@@ -88,17 +104,13 @@ class InicioFragment : Fragment() {
                 else -> binding.tareasHoyTexto.text = getString(R.string.tienes_tareas_para_hoy, listadoTareasHoyFechaLimite?.size)
             }
 
-            // scroll view
-            // definir layout
-            binding.tareasHoy.layoutManager = LinearLayoutManager(requireContext())
-
             // Asignar el adapter - diferenciamos si hay más o menos de 3 tareas
             if (listadoTareasHoyFechaLimite.size > 3) {
-                binding.tareasHoy.adapter = TareasHoyPendientesAdapter(listadoTareasHoyFechaLimite.subList(0,3))
+                adapterHoy!!.submitList(listadoTareasHoyFechaLimite.subList(0, 3))
                 binding.verMas1.visibility = View.VISIBLE
             }
             else {
-                binding.tareasHoy.adapter = TareasHoyPendientesAdapter(listadoTareasHoyFechaLimite)
+                adapterHoy!!.submitList(listadoTareasHoyFechaLimite)
                 binding.verMas1.visibility = View.GONE
             }
         }
@@ -110,6 +122,17 @@ class InicioFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun gestionarTareasRetrasadas() {
+        // Scroll view
+        // definir layout
+        binding.tareasRetrasadas.layoutManager = LinearLayoutManager(requireContext())
+
+        // Definir adapter
+        adapterRetrasadas = TareasRetrasadasAdapter()
+        binding.tareasRetrasadas.adapter = adapterRetrasadas
+
+        // De inicio oculto el ver más
+        binding.verMas2.visibility = View.GONE
+
         // Gestiona la sección de tareas retrasadas
         model.inicio.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
                 listadoTareasRetrasadas ->
@@ -120,18 +143,14 @@ class InicioFragment : Fragment() {
                 else -> binding.tareasRetrasadasTexto.text = getString(R.string.tienes_tareas_retrasadas, listadoTareasRetrasadas?.size)
             }
 
-            // Scroll view
-            // definir layout
-            binding.tareasRetrasadas.layoutManager = LinearLayoutManager(requireContext())
 
             // Asignar el adapter
             if (listadoTareasRetrasadas.size > 3) {
-                binding.tareasRetrasadas.adapter =
-                    TareasRetrasadasAdapter(listadoTareasRetrasadas.subList(0, 3))
+                adapterRetrasadas!!.submitList(listadoTareasRetrasadas.subList(0, 3))
                 binding.verMas2.visibility = View.VISIBLE
             }
             else {
-                binding.tareasRetrasadas.adapter = TareasRetrasadasAdapter(listadoTareasRetrasadas)
+                adapterRetrasadas!!.submitList(listadoTareasRetrasadas)
                 binding.verMas2.visibility = View.GONE
             }
         }
@@ -143,6 +162,17 @@ class InicioFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun gestionarTareasProximas() {
+        // scroll view
+        // definir layout
+        binding.tareasProximas.layoutManager = LinearLayoutManager(requireContext())
+
+        // Definir adapter
+        adapterProximas = TareasProximasAdapter()
+        binding.tareasProximas.adapter = adapterProximas
+
+        // De inicio oculto el ver más
+        binding.verMas3.visibility = View.GONE
+
         // Gestiona las tareas futuras
         model.inicio.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) {
                 listadoTareasProximas ->
@@ -153,18 +183,14 @@ class InicioFragment : Fragment() {
                 else -> binding.tareasProximasTexto.text = getString(R.string.tienes_tareas_proximas, listadoTareasProximas?.size)
             }
 
-            // scroll view
-            // definir layout
-            binding.tareasProximas.layoutManager = LinearLayoutManager(requireContext())
 
             // Asignar el adapter
             if (listadoTareasProximas.size > 3) {
-                binding.tareasProximas.adapter =
-                    TareasProximasAdapter(listadoTareasProximas.subList(0, 3))
+                adapterProximas!!.submitList(listadoTareasProximas.subList(0, 3))
                 binding.verMas3.visibility = View.VISIBLE
             }
             else {
-                binding.tareasProximas.adapter = TareasProximasAdapter(listadoTareasProximas)
+                adapterProximas!!.submitList(listadoTareasProximas)
                 binding.verMas3.visibility = View.GONE
             }
 
@@ -220,5 +246,9 @@ class InicioFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // liberar recursos
+        adapterHoy = null
+        adapterRetrasadas = null
+        adapterProximas = null
     }
 }

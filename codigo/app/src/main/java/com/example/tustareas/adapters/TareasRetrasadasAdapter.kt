@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.modelos.Tarea
@@ -12,17 +14,18 @@ import com.example.tustareas.util.DateHelper
 /**
  * Clase que gestiona el adaptador de tareas retrasadas.
  *
- * @param tareas Lista de tareas retrasadas a mostrar.
  * @return RecyclerView.Adapter con las tareas retrasadas a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class TareasRetrasadasAdapter(private var tareas: List<Tarea>) : RecyclerView.Adapter<TareasRetrasadasAdapter.TareasViewHolder>() {
+class TareasRetrasadasAdapter() : ListAdapter<Tarea, TareasRetrasadasAdapter.TareasViewHolder>(
+    TareaComprobacionDiferncias()
+) {
 
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
      * @param itemView La vista de un elemento de la lista.
-     * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
+     * @return List Adapter con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     class TareasViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -51,19 +54,44 @@ class TareasRetrasadasAdapter(private var tareas: List<Tarea>) : RecyclerView.Ad
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onBindViewHolder(holder: TareasViewHolder, position: Int) {
-        val objetoActual = tareas[position]
+        val objetoActual = getItem(position)
         holder.nombreTarea.text = objetoActual.nombre
         holder.fechaLimite.text = DateHelper.timestampToString(objetoActual.fechaLimite)
     }
 
     /**
-     * Devuelve el tamaño de la lista.
+     * Clase que gestiona las diferencias entre dos tareas.
+     * Permite actualizar el estado de las tareas sin volver al inicio, ya que solo se actualiza el elemento que ha cambiado, no toda la lista.
      *
-     * @return Int con el tamaño de la lista.
+     * @return DiffUtil.ItemCallback con las diferencias entre dos listas de tareas.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun getItemCount(): Int {
-        return tareas.size
+    class TareaComprobacionDiferncias : DiffUtil.ItemCallback<Tarea>() {
+        /**
+         * Comprobar si el contenido de dos tareas es el mismo.
+         *
+         * @param viejaTarea La tarea antigua.
+         * @param nuevaTarea La tarea nueva.
+         * @return true si el contenido de las tareas es el mismo, false en caso contrario.
+         * @author Alberto Noceda <a19albertons@iessanclemenet.net>
+         */
+        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
+            return viejaTarea == nuevaTarea
+        }
+
+
+        /**
+         * Comprobar si el id de dos tareas es el mismo.
+         *
+         * @param viejaTarea La tarea antigua.
+         * @param nuevaTarea La tarea nueva.
+         * @return true si el id de las tareas es el mismo, false en caso contrario.
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
+
+            return viejaTarea.id == nuevaTarea.id
+        }
     }
 
 }

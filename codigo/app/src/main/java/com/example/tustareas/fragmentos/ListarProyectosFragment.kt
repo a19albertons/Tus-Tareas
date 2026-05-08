@@ -38,6 +38,8 @@ class ListarProyectosFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
+    private var adapter : ProyectosAdapter ?= null
+
 
     /**
      * Crea la vista del fragmento de listar proyectos y gestiona los eventos de los elementos de la vista.
@@ -82,6 +84,10 @@ class ListarProyectosFragment : Fragment() {
         // Recycler view para mostrar los proyectos
         binding.listaProyectos.layoutManager = LinearLayoutManager(requireContext())
 
+        // definir adapter
+        adapter = ProyectosAdapter()
+        binding.listaProyectos.adapter = adapter
+
         // Observador
         model.listarProyectos.obtenerProyectosFiltradas().observe(viewLifecycleOwner) {
                 listadoProyectos ->
@@ -94,7 +100,7 @@ class ListarProyectosFragment : Fragment() {
                 binding.listaProyectos.visibility = View.VISIBLE
 
             }
-            binding.listaProyectos.adapter = ProyectosAdapter(listadoProyectos)
+            adapter!!.submitList(listadoProyectos)
         }
     }
 
@@ -236,6 +242,8 @@ class ListarProyectosFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // Liberar recursos
+        adapter = null
     }
 
 

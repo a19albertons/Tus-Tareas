@@ -5,21 +5,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.fragmentos.ListarEtiquetasFragmentDirections
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.modelos.Proyecto
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 
 /**
  * Clase que gestiona el adaptador de etiquetas.
  *
- * @param etiquetas Lista de etiquetas a mostrar.
- * @return RecyclerView.Adapter con las etiquetas a mostrar.
+ * @return List Adapter con las etiquetas a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adapter<EtiquetasAdapter.EtiquetaViewHolder>() {
+class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHolder>(
+    EtiquetaComprobacionDiferencias()
+) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -54,7 +58,7 @@ class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adap
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onBindViewHolder(holder: EtiquetaViewHolder, posicion: Int) {
-        val objetoActual = etiquetas[posicion]
+        val objetoActual = getItem(posicion)
         holder.nombreEtiqueta.text = objetoActual.nombre
         holder.descripcionEtiqueta.text = objetoActual.descripcion
         // Navegamos a la pantalla de detalles de la etiqueta
@@ -69,13 +73,38 @@ class EtiquetasAdapter(private val etiquetas: List<Etiqueta>): RecyclerView.Adap
     }
 
     /**
-     * Devuelve el tamaño de la lista.
+     * Clase que gestiona las diferencias entre dos etiquetas.
+     * Necesario para poder usar un list adapter
      *
-     * @return El tamaño de la lista.
+     * @return DiffUtil.ItemCallback con las diferencias entre dos listas de etiquetas.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun getItemCount(): Int {
-        return etiquetas.size
+    class EtiquetaComprobacionDiferencias : DiffUtil.ItemCallback<Etiqueta>() {
+        /**
+         * Comprobar si el contenido de dos etiquetas es el mismo.
+         *
+         * @param viejaEtiqueta La etiqueta antigua.
+         * @param nuevaEtiqueta La etiqueta nueva.
+         * @return true si el contenido de las etiquetas es el mismo, false en caso contrario.
+         * @author Alberto Noceda <a19albertons@iessanclemenet.net>
+         */
+        override fun areContentsTheSame(viejaEtiqueta: Etiqueta, nuevaEtiqueta: Etiqueta): Boolean {
+            return viejaEtiqueta == nuevaEtiqueta
+        }
+
+
+        /**
+         * Comprobar si el id de dos etiquetas es el mismo.
+         *
+         * @param viejaEtiqueta La etiqueta antigua.
+         * @param nuevaEtiqueta La etiqueta nueva.
+         * @return true si el id de las etiquetas es el mismo, false en caso contrario.
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        override fun areItemsTheSame(viejaEtiqueta: Etiqueta, nuevaEtiqueta: Etiqueta): Boolean {
+
+            return viejaEtiqueta.id == nuevaEtiqueta.id
+        }
     }
 
 

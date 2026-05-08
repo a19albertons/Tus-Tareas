@@ -41,6 +41,9 @@ class ListarTareasFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
+    private var adapter : TareasAdapter? = null
+
+
 
     /**
      * Crea la vista del fragmento de listar tareas y gestiona los eventos de los elementos de la vista.
@@ -94,13 +97,13 @@ class ListarTareasFragment : Fragment() {
         binding.listaTareas.layoutManager = LinearLayoutManager(requireContext())
 
         // Definir el adapter
-        val adapter = TareasAdapter(model)
+        adapter = TareasAdapter(model)
         binding.listaTareas.adapter = adapter
 
         // Actualizado con el nuevo sistema que evita duplicado de observers
         model.listarTareas.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
                 listaTareas ->
-            adapter.submitList(listaTareas)
+            adapter!!.submitList(listaTareas)
             if (listaTareas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
                 binding.listaTareas.visibility = View.GONE
@@ -324,8 +327,9 @@ class ListarTareasFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-
-    }
+        // Liberar recursos
+        adapter = null
+ }
 
 
 }

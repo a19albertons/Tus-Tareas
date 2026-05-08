@@ -33,6 +33,8 @@ class ListarEtiquetasFragment : Fragment() {
         ownerProducer = { this.requireActivity() }
     )
 
+    private var adapter: EtiquetasAdapter? = null
+
     /**
      * Crea la vista del fragmento de listar etiquetas y gestiona los eventos de los elementos de la vista.
      *
@@ -68,11 +70,12 @@ class ListarEtiquetasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun configurarRecyclerView() {
-        // Obtenemos la referncia
-        val recyclerView = binding.listaEtiquetas
-
         // Definimos el layout manager
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.listaEtiquetas.layoutManager = LinearLayoutManager(requireContext())
+
+        // Definir el adapter
+        adapter = EtiquetasAdapter()
+        binding.listaEtiquetas.adapter = adapter
 
         // Gestiona el adapter
         // El valor por defecto vacio se pasa al modelo que estara pendiente de los cambios a traves de una nueva función dedicada
@@ -80,12 +83,12 @@ class ListarEtiquetasFragment : Fragment() {
                 listadoEtiquetas ->
             if (listadoEtiquetas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
+                binding.listaEtiquetas.visibility = View.GONE
             } else {
                 binding.sinResultados.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
+                binding.listaEtiquetas.visibility = View.VISIBLE
             }
-            recyclerView.adapter = EtiquetasAdapter(listadoEtiquetas)
+            adapter!!.submitList(listadoEtiquetas)
         }
     }
 
@@ -138,6 +141,8 @@ class ListarEtiquetasFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        // Liberar recursos
+        adapter = null
     }
 
 
