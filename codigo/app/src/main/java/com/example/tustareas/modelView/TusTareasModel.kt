@@ -38,11 +38,6 @@ class TusTareasModel @Inject constructor(
 ): AndroidViewModel(application) {
 
 
-    // Submodelos de los distintos fragmentos del proyecto
-    val verMas = VerMasModel(repository, viewModelScope)
-    val tareaDetalles = TareaDetallesModel(repository)
-
-
     /**
      * Limpia las tareas completadas de la base de datos.
      *
