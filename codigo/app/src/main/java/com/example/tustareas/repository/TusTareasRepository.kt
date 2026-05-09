@@ -24,8 +24,6 @@ class TusTareasRepository @Inject constructor(
     val listarProyectos = ListarProyectosRepository(database)
     val proyectoDetalles = ProyectoDetallesRepository(database)
     val modificarProyectos = ModificarProyectosRepository(database)
-    val listarEtiquetas = ListarEtiquetasRepository(database)
-    val etiquetaDetalles = EtiquetaDetallesRepository(database)
     val modificacionEtiqueta = ModificarEtiquetasRepository(database)
 
 
