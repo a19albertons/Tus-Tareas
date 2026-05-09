@@ -1,10 +1,14 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarEtiquetasRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Clase que reperesenta al submodelo de listar etiquetas.
@@ -12,7 +16,11 @@ import com.example.tustareas.repository.TusTareasRepository
  * @param repository Repositorio de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListarEtiquetasModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class ListarEtiquetasModel @Inject constructor(
+    application: Application,
+    private val repository: ListarEtiquetasRepository
+) : AndroidViewModel(application) {
     // Filtro para etiquetas
     // Valor por defecto
     private val textoEtiqueta = MutableLiveData("")
@@ -35,6 +43,6 @@ class ListarEtiquetasModel(private val repository: TusTareasRepository) {
      */
     fun obtenerEtiquetasFiltradas() : LiveData<List<Etiqueta>> = textoEtiqueta.switchMap {
             texto ->
-        repository.listarEtiquetas.obtenerEtiquetasFiltradas(texto)
+        repository.obtenerEtiquetasFiltradas(texto)
     }
 }
