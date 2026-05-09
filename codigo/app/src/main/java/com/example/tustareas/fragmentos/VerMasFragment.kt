@@ -172,7 +172,7 @@ class VerMasFragment : Fragment() {
             error?.let {
                 Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
                 // Restaurar a null tras ser mostrado
-                model.listarTareas.mensajeError.value = null
+                model.verMas.mensajeError.value = null
             }
         }
     }
