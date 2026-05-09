@@ -8,26 +8,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentEstadisticasBinding
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.EstadisticasModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase que gestiona el fragmento de estadísticas.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class EstadisticasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentEstadisticasBinding? = null
     private val binding : FragmentEstadisticasBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model : EstadisticasModel by viewModels()
 
     /**
      * Crea la vista del fragmento estadísticas y gestiona los eventos de los elementos de la vista.
@@ -65,7 +65,7 @@ class EstadisticasFragment : Fragment() {
      */
     private fun gestionEstadisticaSemanal() {
         // Generamos el tercer grafico
-        model.estadisticas.obtenerDatosGrafico().observe(viewLifecycleOwner) {
+        model.obtenerDatosGrafico().observe(viewLifecycleOwner) {
                 resultados ->
             // Creamos el dataset de barras
             val dataSet = BarDataSet(resultados, "")
@@ -114,19 +114,19 @@ class EstadisticasFragment : Fragment() {
     private fun gestionDatosCentrales() {
         // Actualizamos los datos centrales
         // Actualizar cantidad completas
-        model.estadisticas.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
+        model.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
                 cantidad ->
             binding.completas.text = cantidad.toString()
         }
 
         // Actualizar cantidad pendientes
-        model.estadisticas.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
+        model.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
                 cantidad ->
             binding.pendiente.text = cantidad.toString()
         }
 
         // Actualizar cantidad retrasadas
-        model.estadisticas.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
+        model.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
                 cantidad ->
             binding.retrasadas.text = cantidad.toString()
         }
@@ -139,7 +139,7 @@ class EstadisticasFragment : Fragment() {
      */
     private fun gestionGraficoRueda() {
         // Obtiene el primer grafico
-        model.estadisticas.obtenerRueda().observe(viewLifecycleOwner) {
+        model.obtenerRueda().observe(viewLifecycleOwner) {
                 progreso ->
             binding.graficoRedondo.progress = progreso.toInt()
             binding.graficoRedondoTexto.text = progreso.toInt().toString()
