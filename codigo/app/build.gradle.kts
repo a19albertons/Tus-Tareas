@@ -137,6 +137,8 @@ dependencies {
     // Hilt para inyección de dependencias
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
 
     // Predeterminadas
     implementation(libs.androidx.core.ktx)

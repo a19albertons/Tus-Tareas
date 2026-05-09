@@ -37,6 +37,7 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
