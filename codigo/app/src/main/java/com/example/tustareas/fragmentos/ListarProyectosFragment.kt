@@ -23,12 +23,14 @@ import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase que gestiona el fragmento de listar proyectos.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ListarProyectosFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentListarProyectosBinding ?= null
