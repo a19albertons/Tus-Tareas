@@ -1,25 +1,32 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.example.tustareas.R
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.VerMasRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo del fragmento ver mas
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class VerMasModel(
-    private val repository: TusTareasRepository,
-    private val scope: CoroutineScope
-) {
+@HiltViewModel
+class VerMasModel @Inject constructor(
+    application: Application,
+    private val repository: VerMasRepository
+) : AndroidViewModel(application) {
     // Guarda la variable de texto del filtro
     private val textoVerMas = MutableLiveData("")
 
@@ -41,7 +48,7 @@ class VerMasModel(
      */
     fun obtenerTareasTerminanDiaEspecificoConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
             texto ->
-        repository.verMas.obtenerTareasTerminanDiaEspecificoConFiltro(texto)
+        repository.obtenerTareasTerminanDiaEspecificoConFiltro(texto)
     }
 
     /**
@@ -52,7 +59,7 @@ class VerMasModel(
      */
     fun obtenerTareasRetrasadasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
             texto ->
-        repository.verMas.obtenerTareasRetrasadasConFiltro(texto)
+        repository.obtenerTareasRetrasadasConFiltro(texto)
     }
 
     /**
@@ -63,7 +70,7 @@ class VerMasModel(
      */
     fun obtenerTareasProximasConFiltro() : LiveData<List<Tarea>> = textoVerMas.switchMap {
             texto ->
-        repository.verMas.obtenerTareasProximasConFiltro(texto)
+        repository.obtenerTareasProximasConFiltro(texto)
     }
 
     /**
@@ -72,7 +79,7 @@ class VerMasModel(
      * @param tarea La tarea a modificar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private suspend fun modificarTarea(tarea: Tarea) = repository.verMas.modificarTarea(tarea)
+    private suspend fun modificarTarea(tarea: Tarea) = repository.modificarTarea(tarea)
 
     // Variable para gestionar errores desde el ViewModel
     val mensajeError = MutableLiveData<Int?>(null)
@@ -89,7 +96,7 @@ class VerMasModel(
             objectoActual.estado = Estado.COMPLETADA
 
             // Control de errores y ejecución de la modificación en segundo plano
-            scope.launch {
+            viewModelScope.launch {
                 try {
                     modificarTarea(objectoActual)
                 }
@@ -108,7 +115,7 @@ class VerMasModel(
             }
 
             // Control de errores y ejecución de la modificación en segundo plan
-            scope.launch {
+            viewModelScope.launch {
                 try {
                     modificarTarea(objectoActual)
                 }
