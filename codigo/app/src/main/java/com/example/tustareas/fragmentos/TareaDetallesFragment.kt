@@ -18,10 +18,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentTareaDetallesBinding
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
@@ -29,15 +31,14 @@ import kotlinx.coroutines.launch
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class TareaDetallesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentTareaDetallesBinding? = null
     private val binding : FragmentTareaDetallesBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model : TareaDetallesModel by viewModels()
 
     private lateinit var args : TareaDetallesFragmentArgs
     private lateinit var tareaVisualizada : TareaDTO
@@ -78,7 +79,7 @@ class TareaDetallesFragment : Fragment() {
      */
     private fun cargarTarea() {
         // Obtiene los detalles por el id y los asigna al componente visual
-        model.tareaDetalles.obtenerTareaDTOPorID(args.id).observe(viewLifecycleOwner) {
+        model.obtenerTareaDTOPorID(args.id).observe(viewLifecycleOwner) {
             tarea ->
 
             // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
@@ -227,7 +228,7 @@ class TareaDetallesFragment : Fragment() {
                     // Borra la tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.tareaDetalles.eliminarTarea(tareaVisualizada.tarea)
+                            model.eliminarTarea(tareaVisualizada.tarea)
                             // Volvemos atras
                             findNavController().popBackStack()
                         }

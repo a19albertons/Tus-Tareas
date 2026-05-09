@@ -2,6 +2,7 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Tarea
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el subrepositorio de tarea detalles
@@ -9,7 +10,9 @@ import com.example.tustareas.modelos.Tarea
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class TareaDetallesRepository(database: TusTareasDatabase) {
+class TareaDetallesRepository @Inject constructor(
+    database: TusTareasDatabase
+) {
     private val tareaDetallesConsulta = database.tareaDetallesConsulta()
 
     /**
