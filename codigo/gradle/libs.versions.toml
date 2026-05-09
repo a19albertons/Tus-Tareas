@@ -2,6 +2,7 @@
 agp = "9.2.1"
 coreKtx = "1.18.0"
 coreSplashscreen = "1.2.0"
+hiltAndroid = "2.59.2"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
@@ -34,6 +35,8 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-work-multiprocess = { module = "androidx.work:work-multiprocess", version.ref = "workManager" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workManager" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "workManager" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -56,3 +59,4 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigationFragmentKtx" }
 kotlin-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }

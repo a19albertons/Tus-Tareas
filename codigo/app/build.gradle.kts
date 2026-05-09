@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
 
-    // KSP procesa las anotacioones de Room.
+    // KSP procesa las anotacioones de Room y es necesario para Hilt.
     alias(libs.plugins.ksp)
 
     // Safe Args para pasar parametro de una clase a otra
@@ -12,6 +12,9 @@ plugins {
 
     // Generación de documentación con Dokka
     alias(libs.plugins.kotlin.dokka)
+
+    // Hilt para inyección de dependencias
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -59,6 +62,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+
     }
     buildFeatures {
         viewBinding = true
@@ -127,6 +133,10 @@ dependencies {
 
     // Pantalla de carga aplicación
     implementation(libs.androidx.core.splashscreen)
+
+    // Hilt para inyección de dependencias
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
