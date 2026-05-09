@@ -74,6 +74,27 @@ android {
             dimension="versiones"
         }
     }
+
+    // Personalizar la gestión de los layout por tipo asociado.
+    sourceSets {
+        getByName("main") {
+            res.setSrcDirs(
+                listOf(
+                    // Alberga fragmentos
+                    "src/main/res/fragmentos",
+
+                    // Alberga adaptadores
+                    "src/main/res/adaptadores",
+
+                    // Alberga actividades
+                    "src/main/res/actividades",
+
+                    // Alberga otros layout
+                    "src/main/res"
+                )
+            )
+        }
+    }
 }
 
 dependencies {
