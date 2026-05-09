@@ -18,6 +18,7 @@ import com.example.tustareas.databinding.FragmentListarProyectosBinding
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
+import com.example.tustareas.modelView.ListarProyectosModel
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.util.DateHelper
@@ -34,9 +35,7 @@ class ListarProyectosFragment : Fragment() {
     private val binding : FragmentListarProyectosBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model : ListarProyectosModel by viewModels()
 
     private var adapter : ProyectosAdapter ?= null
 
@@ -89,7 +88,7 @@ class ListarProyectosFragment : Fragment() {
         binding.listaProyectos.adapter = adapter
 
         // Observador
-        model.listarProyectos.obtenerProyectosFiltradas().observe(viewLifecycleOwner) {
+        model.obtenerProyectosFiltradas().observe(viewLifecycleOwner) {
                 listadoProyectos ->
             if (listadoProyectos.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
@@ -113,7 +112,7 @@ class ListarProyectosFragment : Fragment() {
         // Control filtro texto
         binding.filtro.addTextChangedListener( object : TextWatcher {
             override fun afterTextChanged(texto: Editable?) {
-                model.listarProyectos.actualizarTextoListadoProyectos(texto.toString())
+                model.actualizarTextoListadoProyectos(texto.toString())
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -152,9 +151,9 @@ class ListarProyectosFragment : Fragment() {
                 id: Long
             ) {
                 when (posicion) {
-                    0 -> model.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-                    1 -> model.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-                    2 -> model.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+                    0 -> model.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+                    1 -> model.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+                    2 -> model.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
                 }
                 // Notificación de filtros
                 if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {
@@ -195,9 +194,9 @@ class ListarProyectosFragment : Fragment() {
                 id: Long
             ) {
                 when (posicion) {
-                    0 -> model.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
-                    1 -> model.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
-                    2 -> model.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+                    0 -> model.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+                    1 -> model.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+                    2 -> model.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
                 }
                 // Notificación de filtros
                 if (binding.finProyecto.selectedItemPosition != 0 && binding.inicioProyecto.selectedItemPosition != 0) {

@@ -3,6 +3,7 @@ package com.example.tustareas.repository
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
+import javax.inject.Inject
 
 /**
  * Clase que gestions los subrepositorios de listar proyectos
@@ -10,7 +11,9 @@ import com.example.tustareas.filtros.OrdenarProyectosInicio
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListarProyectosRepository(database: TusTareasDatabase) {
+class ListarProyectosRepository @Inject constructor(
+    database: TusTareasDatabase
+) {
     private val listarProyectosConsultas = database.listarProyectosConsultas()
 
     /**
