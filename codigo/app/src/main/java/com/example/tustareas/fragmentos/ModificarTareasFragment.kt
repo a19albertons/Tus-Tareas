@@ -1,7 +1,6 @@
 package com.example.tustareas.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,13 +17,14 @@ import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.databinding.FragmentModificarTareasBinding
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -32,15 +33,14 @@ import java.util.Date
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ModificarTareasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarTareasBinding? = null
     private val binding: FragmentModificarTareasBinding
         get() = _binding!!
 
-    val model: TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model: ModificarTareasModel by viewModels()
 
     private lateinit var tareaDTO : TareaDTO
 
@@ -128,7 +128,7 @@ class ModificarTareasFragment : Fragment() {
         binding.estadoTarea.text = getString(tareaDTO.tarea.estado.labelRes())
 
         // Refrescar tareas
-        model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+        model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
     }
 
     /**
@@ -228,7 +228,7 @@ class ModificarTareasFragment : Fragment() {
             listaEtiquetas.map { it.nombre}
         )
         // Gestionar etiqueta
-        model.modificarTareas.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
+        model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
             if (etiquetas.isEmpty()) {
                 listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
             }
@@ -247,7 +247,7 @@ class ModificarTareasFragment : Fragment() {
         adapter = ListaEtiquetasPresentesAdapter {
             listaEtiquetas ->
             tareaDTO.etiquetas = listaEtiquetas
-            model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+            model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapter
@@ -274,7 +274,7 @@ class ModificarTareasFragment : Fragment() {
                 tareaDTO.etiquetas = nuevasEtiqeutasDTO
                 // Mandamos la lista con las nuevas etiquetas
                 adapter.submitList(tareaDTO.etiquetas.toList())
-                model.modificarTareas.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+                model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
             }
         }
     }
@@ -315,7 +315,7 @@ class ModificarTareasFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarTareas.insertarTareaConEtiqueta(tareaDTO)
+                            model.insertarTareaConEtiqueta(tareaDTO)
                             // Vovlemos a la vista previa
                             findNavController().popBackStack()
                         }
@@ -366,7 +366,7 @@ class ModificarTareasFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarTareas.modificarTareaConEtiqueta(tareaDTO)
+                            model.modificarTareaConEtiqueta(tareaDTO)
                             // Volvemos a la vista previa
                             findNavController().popBackStack()
                         }

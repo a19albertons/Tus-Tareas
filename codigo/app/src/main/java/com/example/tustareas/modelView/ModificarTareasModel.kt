@@ -1,11 +1,15 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo de modificar tareas
@@ -13,7 +17,11 @@ import com.example.tustareas.repository.TusTareasRepository
  * @param repository Repositorio de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarTareasModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class ModificarTareasModel @Inject constructor(
+    application: Application,
+    private val repository: ModificarTareasRepository
+) : AndroidViewModel(application) {
     // Filtro etiquetas modificar
     private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList())
 
@@ -35,7 +43,7 @@ class ModificarTareasModel(private val repository: TusTareasRepository) {
      */
     fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
             texto ->
-        repository.modificarTareas.obtenerEtiquetasRestantes(texto)
+        repository.obtenerEtiquetasRestantes(texto)
     }
 
     /**
@@ -44,7 +52,7 @@ class ModificarTareasModel(private val repository: TusTareasRepository) {
      * @param tareaDTO La tarea a insertar con sus etiquetas
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareas.insertarTareaConEtiqueta(tareaDTO)
+    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
 
     /**
      * Modifica una tarea con sus etiquetas en la base de datos
@@ -52,6 +60,6 @@ class ModificarTareasModel(private val repository: TusTareasRepository) {
      * @param tareaDTO La tarea a modificar con sus etiquetas
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareas.modificarTareaConEtiqueta(tareaDTO)
+    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
 
 }
