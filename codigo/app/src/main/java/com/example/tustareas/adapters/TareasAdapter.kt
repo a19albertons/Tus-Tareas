@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.fragmentos.ListarTareasFragmentDirections
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
@@ -27,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 
-class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
+class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -85,7 +85,7 @@ class TareasAdapter(private val model: TusTareasModel): ListAdapter<Tarea, Tarea
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
-            model.listarTareas.actualizarEstadoTarea(objectoActual, holder.checkbox.isChecked)
+            model.actualizarEstadoTarea(objectoActual, holder.checkbox.isChecked)
         }
 
     }
