@@ -1,7 +1,11 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.example.tustareas.dto.ProyectoDTO
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ProyectoDetallesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo de proyecto detalles
@@ -9,7 +13,11 @@ import com.example.tustareas.repository.TusTareasRepository
  * @param repository Repositorio de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ProyectoDetallesModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class ProyectoDetallesModel @Inject constructor(
+    application: Application,
+    private val repository: ProyectoDetallesRepository
+) : AndroidViewModel(application) {
     /**
      * Obtiene un proyecto por su id
      *
@@ -17,7 +25,7 @@ class ProyectoDetallesModel(private val repository: TusTareasRepository) {
      * @return El proyecto correspondiente. Debería existir
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    fun obtenerProyectoPorId(id: Int) = repository.proyectoDetalles.obtenerProyectoPorId(id)
+    fun obtenerProyectoPorId(id: Int) = repository.obtenerProyectoPorId(id)
 
     /**
      * Elimina un proyecto y sus relaciones (tareas y etiquetas)
@@ -25,6 +33,6 @@ class ProyectoDetallesModel(private val repository: TusTareasRepository) {
      * @param proyectoVisualizado El proyecto a eliminar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.proyectoDetalles.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
 
 }

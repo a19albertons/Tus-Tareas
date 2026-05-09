@@ -1,7 +1,6 @@
 package com.example.tustareas.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -11,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,10 +18,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentProyectoDetallesBinding
 import com.example.tustareas.dto.ProyectoDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
@@ -30,15 +31,14 @@ import kotlinx.coroutines.launch
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ProyectoDetallesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentProyectoDetallesBinding ?= null
     private val binding : FragmentProyectoDetallesBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model : ProyectoDetallesModel by viewModels()
 
     private lateinit var args : ProyectoDetallesFragmentArgs
     private lateinit var proyectoVisualizado : ProyectoDTO
@@ -79,7 +79,7 @@ class ProyectoDetallesFragment : Fragment() {
      */
     private fun cargarProyecto() {
         // Obtener el proyecto
-        model.proyectoDetalles.obtenerProyectoPorId(args.id).observe(viewLifecycleOwner) {
+        model.obtenerProyectoPorId(args.id).observe(viewLifecycleOwner) {
                 proyecto ->
 
             // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
@@ -261,7 +261,7 @@ class ProyectoDetallesFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.proyectoDetalles.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+                            model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
                             // Vovlemos a la vista previa
                             findNavController().popBackStack()
                         }

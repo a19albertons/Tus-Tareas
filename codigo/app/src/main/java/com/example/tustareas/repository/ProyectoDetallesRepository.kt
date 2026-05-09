@@ -2,6 +2,7 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el subrepositorio de proyecto detalles
@@ -9,7 +10,9 @@ import com.example.tustareas.dto.ProyectoDTO
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ProyectoDetallesRepository(database: TusTareasDatabase) {
+class ProyectoDetallesRepository @Inject constructor(
+    database: TusTareasDatabase
+) {
     private val proyectoDetallesConsultas = database.proyectoDetallesConsultas()
 
     /**
