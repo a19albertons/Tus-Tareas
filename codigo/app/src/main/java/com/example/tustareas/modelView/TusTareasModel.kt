@@ -31,8 +31,6 @@ import javax.inject.Inject
  * @param repository El repositorio de la aplicación, por defecto se crea uno nuevo con la base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-// El @JvmOverloads constructor es necesario porque por defecto parece
-// no aceptar el constructor con un parámetros por defecto
 @HiltViewModel
 class TusTareasModel @Inject constructor(
     application: Application,
@@ -42,10 +40,8 @@ class TusTareasModel @Inject constructor(
 
     // Submodelos de los distintos fragmentos del proyecto
     val verMas = VerMasModel(repository, viewModelScope)
-    val listarTareas = ListarTareasModel(repository, viewModelScope)
     val tareaDetalles = TareaDetallesModel(repository)
     val modificarTareas = ModificarTareasModel(repository)
-    val listarProyectos = ListarProyectosModel(repository)
     val proyectoDetalles = ProyectoDetallesModel(repository)
     val modificarProyectos = ModificarProyectosModel(repository)
     val modificarEtiquetas = ModificarEtiquetasModel(repository)

@@ -18,10 +18,8 @@ class TusTareasRepository @Inject constructor(
 
     // Todos los subrepositorios
     val verMas = VerMasRepository(database)
-    val listarTareas = ListarTareasRepository(database)
     val tareaDetalles = TareaDetallesRepository(database)
     val modificarTareas = ModificarTareasRepository(database)
-    val listarProyectos = ListarProyectosRepository(database)
     val proyectoDetalles = ProyectoDetallesRepository(database)
     val modificarProyectos = ModificarProyectosRepository(database)
     val modificacionEtiqueta = ModificarEtiquetasRepository(database)
