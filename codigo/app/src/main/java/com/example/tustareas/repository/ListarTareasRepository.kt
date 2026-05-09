@@ -5,11 +5,14 @@ import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import javax.inject.Inject
 
 /**
  * Clase que va representar el subrepositorio que hara las consultas contra el dao de inicio
  */
-class ListarTareasRepository(database: TusTareasDatabase) {
+class ListarTareasRepository @Inject constructor(
+    database: TusTareasDatabase
+) {
     private val listarTareasConsultas = database.listarTareasConsultas()
 
     /**
