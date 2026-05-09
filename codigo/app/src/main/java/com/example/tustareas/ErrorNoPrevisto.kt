@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.system.exitProcess
 
 /**
@@ -11,6 +12,7 @@ import kotlin.system.exitProcess
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ErrorNoPrevisto : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
