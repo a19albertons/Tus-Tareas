@@ -43,9 +43,6 @@ class TusTareasModel @Inject constructor(
     val tareaDetalles = TareaDetallesModel(repository)
     val modificarTareas = ModificarTareasModel(repository)
     val proyectoDetalles = ProyectoDetallesModel(repository)
-    val modificarProyectos = ModificarProyectosModel(repository)
-    val modificarEtiquetas = ModificarEtiquetasModel(repository)
-
 
 
     /**

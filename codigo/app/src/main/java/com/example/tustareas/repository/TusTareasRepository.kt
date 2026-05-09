@@ -21,9 +21,6 @@ class TusTareasRepository @Inject constructor(
     val tareaDetalles = TareaDetallesRepository(database)
     val modificarTareas = ModificarTareasRepository(database)
     val proyectoDetalles = ProyectoDetallesRepository(database)
-    val modificarProyectos = ModificarProyectosRepository(database)
-    val modificacionEtiqueta = ModificarEtiquetasRepository(database)
-
 
 
     // Metodos activity main
