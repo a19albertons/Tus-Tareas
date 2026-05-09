@@ -13,9 +13,11 @@ import com.example.tustareas.adapters.TareasHoyPendientesAdapter
 import com.example.tustareas.adapters.TareasProximasAdapter
 import com.example.tustareas.adapters.TareasRetrasadasAdapter
 import com.example.tustareas.databinding.FragmentInicioBinding
+import com.example.tustareas.modelView.InicioModel
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
 /**
@@ -23,14 +25,15 @@ import java.util.Date
  *
  * @author Alberto Noceda <a19albertons@iessanclemen.net
  */
+@AndroidEntryPoint
 class InicioFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentInicioBinding? = null
     private val binding: FragmentInicioBinding
         get() = _binding!!
-    val model: TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+
+
+    val model: InicioModel by viewModels()
 
     private lateinit var hoy : Date
 
@@ -95,7 +98,7 @@ class InicioFragment : Fragment() {
         binding.verMas1.visibility = View.GONE
 
         // observar tareas pendientes para hoy
-        model.inicio.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) {
+        model.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) {
                 listadoTareasHoyFechaLimite ->
             // switch
             when (listadoTareasHoyFechaLimite?.size ?: 0) {
@@ -134,7 +137,7 @@ class InicioFragment : Fragment() {
         binding.verMas2.visibility = View.GONE
 
         // Gestiona la sección de tareas retrasadas
-        model.inicio.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
+        model.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
                 listadoTareasRetrasadas ->
             // switch
             when (listadoTareasRetrasadas?.size ?: 0) {
@@ -174,7 +177,7 @@ class InicioFragment : Fragment() {
         binding.verMas3.visibility = View.GONE
 
         // Gestiona las tareas futuras
-        model.inicio.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) {
+        model.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) {
                 listadoTareasProximas ->
             // switch
             when (listadoTareasProximas?.size ?: 0) {
