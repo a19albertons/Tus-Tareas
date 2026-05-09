@@ -19,8 +19,6 @@ class TusTareasRepository @Inject constructor(
     // Todos los subrepositorios
     val verMas = VerMasRepository(database)
     val tareaDetalles = TareaDetallesRepository(database)
-    val modificarTareas = ModificarTareasRepository(database)
-    val proyectoDetalles = ProyectoDetallesRepository(database)
 
 
     // Metodos activity main

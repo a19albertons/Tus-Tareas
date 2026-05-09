@@ -41,8 +41,6 @@ class TusTareasModel @Inject constructor(
     // Submodelos de los distintos fragmentos del proyecto
     val verMas = VerMasModel(repository, viewModelScope)
     val tareaDetalles = TareaDetallesModel(repository)
-    val modificarTareas = ModificarTareasModel(repository)
-    val proyectoDetalles = ProyectoDetallesModel(repository)
 
 
     /**
