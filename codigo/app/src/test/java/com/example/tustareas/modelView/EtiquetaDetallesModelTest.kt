@@ -19,14 +19,15 @@ class EtiquetaDetallesModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Definición repositorio
+    val etiquetaDetallesRepositorio = Mockito.mock(EtiquetaDetallesRepository::class.java)
+
+    // Definición modelo
+    val etiquetaDetallesModel = EtiquetaDetallesModel(Application(), etiquetaDetallesRepositorio)
+
+
     @Test
     fun obtenerEtiquetaPorID() {
-        // Definición repositorio
-        val etiquetaDetallesRepositorio = Mockito.mock(EtiquetaDetallesRepository::class.java)
-
-        // Definición modelo
-        val etiquetaDetallesModel = EtiquetaDetallesModel(Application(), etiquetaDetallesRepositorio)
-
         // Definición respuestas
         Mockito.`when`(etiquetaDetallesRepositorio.obtenerEtiquetaPorID(1))
             .thenReturn(MutableLiveData(Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")))
@@ -45,12 +46,6 @@ class EtiquetaDetallesModelTest {
 
     @Test
     fun eliminarEtiqueta() = runTest {
-        // Definición repositorio
-        val etiquetaDetallesRepositorio = Mockito.mock(EtiquetaDetallesRepository::class.java)
-
-        // Definición modelo
-        val etiquetaDetallesModel = EtiquetaDetallesModel(Application(), etiquetaDetallesRepositorio)
-
         // Definición etiqueta a eliminar
         val etiquetaAEliminar = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 

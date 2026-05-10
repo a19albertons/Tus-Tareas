@@ -23,14 +23,14 @@ class InicioModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Definición repositorio
+    val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
+
+    // Definición modelo
+    val inicioModel = InicioModel(Application(), inicioRepositorio)
+
     @Test
     fun obtenerTareasTerminanDiaEspecifico1() {
-        // Definición repositorio
-        val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
-
-        // Definición modelo
-        val inicioModel = InicioModel(Application(), inicioRepositorio)
-
         // Definición respuestas
         Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(Mockito.any()))
             .thenReturn(MutableLiveData(emptyList()))
@@ -46,12 +46,6 @@ class InicioModelTest {
 
     @Test
     fun obtenerTareasTerminanDiaEspecifico2() {
-        // Definición repositorio
-        val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
-
-        // Definición modelo
-        val inicioModel = InicioModel(Application(), inicioRepositorio)
-
         // Definición respuestas
         Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(Mockito.any()))
             .thenReturn(MutableLiveData(listOf(
@@ -72,12 +66,6 @@ class InicioModelTest {
 
     @Test
     fun obtenerTareasRetrasadas() {
-        // Definición repositorio
-        val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
-
-        // Definición modelo
-        val inicioModel = InicioModel(Application(), inicioRepositorio)
-
         // Definición respuestas
         Mockito.`when`(inicioRepositorio.obtenerTareasRetrasadas())
             .thenReturn(MutableLiveData(emptyList()))
@@ -93,12 +81,6 @@ class InicioModelTest {
 
     @Test
     fun obtenerTareasRetrasadas2() {
-        // Definición repositorio
-        val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
-
-        // Definición modelo
-        val inicioModel = InicioModel(Application(), inicioRepositorio)
-
         // Definición respuestas
         Mockito.`when`(inicioRepositorio.obtenerTareasRetrasadas())           .thenReturn(MutableLiveData(listOf(
                 Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,
@@ -118,12 +100,6 @@ class InicioModelTest {
 
     @Test
     fun obtenerTareasProximas() {
-        // Definición repositorio
-        val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
-
-        // Definición modelo
-        val inicioModel = InicioModel(Application(), inicioRepositorio)
-
         // Definición respuestas
         Mockito.`when`(inicioRepositorio.obtenerTareasProximas(Mockito.any()))
             .thenReturn(MutableLiveData(emptyList()))
@@ -139,12 +115,6 @@ class InicioModelTest {
 
     @Test
     fun obtenerTareasProximas2() {
-        // Definición repositorio
-        val inicioRepositorio = Mockito.mock(InicioRepository::class.java)
-
-        // Definición modelo
-        val inicioModel = InicioModel(Application(), inicioRepositorio)
-
         // Definición respuestas
         Mockito.`when`(inicioRepositorio.obtenerTareasProximas(Mockito.any()))           .thenReturn(MutableLiveData(listOf(
             Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,

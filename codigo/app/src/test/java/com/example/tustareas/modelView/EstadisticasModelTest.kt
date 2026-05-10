@@ -18,14 +18,14 @@ class EstadisticasModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Definición repositorio
+    val estadisticasRepositorio = Mockito.mock(EstadisticasRepository::class.java)
+
+    // Definición modelo
+    val estadisticasModel = EstadisticasModel(Application(), estadisticasRepositorio)
+
     @Test
     fun probarRueda1() {
-        // Definición repositorio
-        val estadisticasRepositorio = Mockito.mock(EstadisticasRepository::class.java)
-
-        // Definición modelo
-        val estadisticasModel = EstadisticasModel(Application(), estadisticasRepositorio)
-
         // Definición respuestas
         Mockito.`when`(
             estadisticasRepositorio.obtenerCantidadTareasCompletasEntre2Fechas(
@@ -54,12 +54,6 @@ class EstadisticasModelTest {
 
     @Test
     fun tareasCompletas() {
-        // Definición reposito
-        val estadisticasRepositorio = Mockito.mock(EstadisticasRepository::class.java)
-
-        // Definición modelo
-        val estadisticasModel = EstadisticasModel(Application(), estadisticasRepositorio)
-
         // Definición respuesta
         Mockito.`when`(
             estadisticasRepositorio.obtenerCantidadTareasCompletas()
@@ -77,12 +71,6 @@ class EstadisticasModelTest {
 
     @Test
     fun tareasPendientes() {
-        // Definición reposito
-        val estadisticasRepositorio = Mockito.mock(EstadisticasRepository::class.java)
-
-        // Definición modelo
-        val estadisticasModel = EstadisticasModel(Application(), estadisticasRepositorio)
-
         // Definición respuesta
         Mockito.`when`(
             estadisticasRepositorio.obtenerCantidadTareasPendientes()
@@ -100,12 +88,6 @@ class EstadisticasModelTest {
 
     @Test
     fun tareasRetrasadas() {
-        // Definición reposito
-        val estadisticasRepositorio = Mockito.mock(EstadisticasRepository::class.java)
-
-        // Definición modelo
-        val estadisticasModel = EstadisticasModel(Application(), estadisticasRepositorio)
-
         // Definición respuesta
         Mockito.`when`(
             estadisticasRepositorio.obtenerCantidadTareasRetrasadas()
