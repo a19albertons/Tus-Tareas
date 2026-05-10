@@ -3,6 +3,7 @@ package com.example.tustareas
 import android.app.Application
 import android.content.Intent
 import android.util.Log
+import dagger.hilt.android.HiltAndroidApp
 import kotlin.jvm.java
 import kotlin.system.exitProcess
 
@@ -11,6 +12,7 @@ import kotlin.system.exitProcess
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@HiltAndroidApp
 class TusTareasApp : Application() {
     override fun onCreate() {
         super.onCreate()

@@ -2,6 +2,7 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Etiqueta
+import javax.inject.Inject
 
 /**
  * Clase que representa al subrepositorio de modificar etiquetas
@@ -9,7 +10,9 @@ import com.example.tustareas.modelos.Etiqueta
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarEtiquetasRepository(database: TusTareasDatabase) {
+class ModificarEtiquetasRepository @Inject constructor(
+    private val database: TusTareasDatabase
+) {
     private val modificarEtiquetaConsultas = database.modificarEtiquetaConsultas()
 
     /**

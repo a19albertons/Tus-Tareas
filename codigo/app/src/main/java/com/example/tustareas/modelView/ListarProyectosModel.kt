@@ -1,5 +1,7 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +9,9 @@ import androidx.lifecycle.switchMap
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelos.Proyecto
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarProyectosRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo de listar proyectos.
@@ -15,7 +19,11 @@ import com.example.tustareas.repository.TusTareasRepository
  * @param repository Repositorio de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListarProyectosModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class ListarProyectosModel @Inject constructor(
+    application: Application,
+    private val repository: ListarProyectosRepository
+) : AndroidViewModel(application) {
     // Filtro para proyectos
     // Valores iniciales filtros
     private val textoProyecto = MutableLiveData("")
@@ -66,7 +74,7 @@ class ListarProyectosModel(private val repository: TusTareasRepository) {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun obtenerProyectosFiltradas() : LiveData<List<Proyecto>> = vigiladorFiltrosProyectos.switchMap {
-        repository.listarProyectos.obtenerProyectosFiltradas(
+        repository.obtenerProyectosFiltradas(
             textoProyecto.value!!,
             inicioProyecto.value!!,
             finProyecto.value!!

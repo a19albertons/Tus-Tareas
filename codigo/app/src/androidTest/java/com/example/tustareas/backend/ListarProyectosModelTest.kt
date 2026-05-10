@@ -1,19 +1,20 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.filtros.OrdenarProyectoFin
 import com.example.tustareas.filtros.OrdenarProyectosInicio
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarProyectosModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Proyecto
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarProyectosRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarProyectosRepository
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -21,20 +22,36 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de integración de listar proyectos model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ListarProyectosModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var modificarProyectosRepository: ModificarProyectosRepository
+
+    @Inject
+    lateinit var modificarEtiquestasRepository: ModificarEtiquetasRepository
+
+    @Inject
+    lateinit var listarProyectosRepository: ListarProyectosRepository
+
+    lateinit var modelo: ListarProyectosModel
 
 
     private val diaReferencia = 1735689600000L
@@ -42,11 +59,11 @@ class ListarProyectosModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Iniciar Hilt
+        ruleHilt.inject()
+
+        // Crear modelo
+        modelo = ListarProyectosModel(ApplicationProvider.getApplicationContext(), listarProyectosRepository)
 
         // Un par de proyectos
         val proyecto1 = Proyecto(
@@ -85,11 +102,11 @@ class ListarProyectosModelTest {
         val proyectoDTO4 = ProyectoDTO(proyecto4, emptyList(), emptyList())
 
         // Insertar proyectos
-        repositorio.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
-        repositorio.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
-        repositorio.modificacionEtiqueta.insertarEtiqueta(etiqueta)
-        repositorio.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
-        repositorio.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
+        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
+        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
+        modificarEtiquestasRepository.insertarEtiqueta(etiqueta)
+        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
+        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
     }
 
     // Finalización entorno
@@ -102,11 +119,11 @@ class ListarProyectosModelTest {
     @Test
     fun inicioYFinPrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FIN)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -116,11 +133,11 @@ class ListarProyectosModelTest {
     @Test
     fun inicioYFinUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FIN)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -132,11 +149,11 @@ class ListarProyectosModelTest {
     @Test
     fun inicioYFechaAscendentePrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -146,11 +163,11 @@ class ListarProyectosModelTest {
     @Test
     fun inicioYFechaAscendenteUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -162,11 +179,11 @@ class ListarProyectosModelTest {
     @Test
     fun inicioYFechaDescendentePrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -176,11 +193,11 @@ class ListarProyectosModelTest {
     @Test
     fun inicioYFechaDescendenteUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.INICIO)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -192,11 +209,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaAscendenteYFinPrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FIN)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -206,11 +223,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaAscendenteYFinUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FIN)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -222,11 +239,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaAscendenteYFechaAscendentePrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -236,11 +253,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaAscendenteYFechaAscendenteUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -252,11 +269,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaAscendenteYFechaDescendentePrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -266,11 +283,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaAscendenteYFechaDescendenteUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_ASC)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -282,11 +299,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaDescendenteYFinPrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FIN)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -296,11 +313,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaDescendenteYFinUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FIN)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FIN)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -312,11 +329,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaDescendenteYFechaAscendentePrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -326,11 +343,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaDescendenteYFechaAscendenteUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_ASC)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -342,11 +359,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaDescendenteYFechaDescendentePrimero() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -356,11 +373,11 @@ class ListarProyectosModelTest {
     @Test
     fun fechaDescendenteYFechaDescendenteUltima() {
         // Configuración
-        modelo.listarProyectos.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
-        modelo.listarProyectos.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
+        modelo.actualizarInicioProyecto(OrdenarProyectosInicio.FECHA_DES)
+        modelo.actualizarFinProyecto(OrdenarProyectoFin.FECHA_DES)
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -372,10 +389,10 @@ class ListarProyectosModelTest {
     @Test
     fun filtroPorNombre() {
         // Configuración
-        modelo.listarProyectos.actualizarTextoListadoProyectos("PROyecto 4")
+        modelo.actualizarTextoListadoProyectos("PROyecto 4")
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -385,10 +402,10 @@ class ListarProyectosModelTest {
 
     fun filtroPorDescripcion() {
         // Configuración
-        modelo.listarProyectos.actualizarTextoListadoProyectos("DESCRIPCION")
+        modelo.actualizarTextoListadoProyectos("DESCRIPCION")
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -398,10 +415,10 @@ class ListarProyectosModelTest {
 
     fun filtroPorEtiqueta() {
         // Configuración
-        modelo.listarProyectos.actualizarTextoListadoProyectos("ETiquetA")
+        modelo.actualizarTextoListadoProyectos("ETiquetA")
 
         // Obtener datos
-        val liveData = modelo.listarProyectos.obtenerProyectosFiltradas()
+        val liveData = modelo.obtenerProyectosFiltradas()
         liveData.observeForever {  }
 
         // Resultado

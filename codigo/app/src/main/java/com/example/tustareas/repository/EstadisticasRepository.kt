@@ -1,6 +1,7 @@
 package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el subrepositorio de estadisticas
@@ -8,7 +9,9 @@ import com.example.tustareas.db.TusTareasDatabase
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class EstadisticasRepository(database: TusTareasDatabase) {
+class EstadisticasRepository @Inject constructor(
+    database: TusTareasDatabase
+) {
     private val estadisticasConsultas = database.estadisticasConsultas()
 
     /**

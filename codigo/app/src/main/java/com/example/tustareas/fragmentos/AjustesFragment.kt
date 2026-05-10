@@ -12,21 +12,22 @@ import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentAjustesBinding
 import com.example.tustareas.modelView.TusTareasModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase que gestiona el fragmento de ajustes.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class AjustesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentAjustesBinding ?= null
     private val binding : FragmentAjustesBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = {requireActivity()}
-    )
+
+    val model : TusTareasModel by viewModels()
 
 
     /**

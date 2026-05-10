@@ -1,13 +1,13 @@
 package com.example.tustareas.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,7 +17,7 @@ import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.adapters.ListaTareasPresentesAdapter
 import com.example.tustareas.databinding.FragmentModificarProyectoBinding
 import com.example.tustareas.dto.ProyectoDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ModificarProyectosModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
@@ -25,6 +25,7 @@ import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
 
@@ -33,15 +34,14 @@ import java.util.Date
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ModificarProyectoFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentModificarProyectoBinding? = null
     private val binding : FragmentModificarProyectoBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model : ModificarProyectosModel by viewModels()
 
     private lateinit var proyectoDTO : ProyectoDTO
 
@@ -131,8 +131,8 @@ class ModificarProyectoFragment : Fragment() {
         binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
 
         // Refrescar tareas y etiquetas
-        model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
-        model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+        model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+        model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
     }
 
     /**
@@ -145,7 +145,7 @@ class ModificarProyectoFragment : Fragment() {
         // spinner tareas
         listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
             DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
-        model.modificarProyectos.obtenerTareasRestantes(proyectoDTO.proyecto.id).observe(viewLifecycleOwner) {
+        model.obtenerTareasRestantes(proyectoDTO.proyecto.id).observe(viewLifecycleOwner) {
                 tareas ->
             if (tareas.isEmpty()) {
                 listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
@@ -173,7 +173,7 @@ class ModificarProyectoFragment : Fragment() {
         adapterTarea = ListaTareasPresentesAdapter {
                 listaTareas ->
             proyectoDTO.tareas = listaTareas
-            model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+            model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
         }
         binding.recyclerViewMostrarTareas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarTareas.adapter = adapterTarea
@@ -189,7 +189,7 @@ class ModificarProyectoFragment : Fragment() {
         // Gestiona la addición de etiquetas
         // spinner etiquetas
         listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
-        model.modificarProyectos.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
+        model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
                 etiquetas ->
             if (etiquetas.isEmpty()) {
                 listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
@@ -218,7 +218,7 @@ class ModificarProyectoFragment : Fragment() {
         adapterEtiquetas = ListaEtiquetasPresentesAdapter {
                 listaEtiquetas ->
             proyectoDTO.etiquetas = listaEtiquetas
-            model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+            model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
@@ -245,7 +245,7 @@ class ModificarProyectoFragment : Fragment() {
                 proyectoDTO.tareas = nuevasTareasDTO
                 // Mandamos la lista con las nuevas tareas
                 adapterTarea.submitList(proyectoDTO.tareas.toList())
-                model.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+                model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
             }
         }
     }
@@ -270,7 +270,7 @@ class ModificarProyectoFragment : Fragment() {
                 proyectoDTO.etiquetas = nuevasEtiquetas
                 // Mandamos la lista con las nuevas tareas
                 adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
-                model.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+                model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
             }
         }
     }
@@ -364,7 +364,7 @@ class ModificarProyectoFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+                            model.insertarProyectoConTareaYEtiqueta(proyectoDTO)
                             // Vovlemos a la vista previa
                             findNavController().popBackStack()
                         }
@@ -407,7 +407,7 @@ class ModificarProyectoFragment : Fragment() {
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+                            model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
                             // Vovlemos a la vista previa
                             findNavController().popBackStack()
                         }

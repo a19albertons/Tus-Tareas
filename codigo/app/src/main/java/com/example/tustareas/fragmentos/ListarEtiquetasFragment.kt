@@ -13,25 +13,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.EtiquetasAdapter
 import com.example.tustareas.databinding.FragmentListarEtiquetasBinding
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
-import kotlin.getValue
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase que gestiona el fragmento de listar etiquetas.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ListarEtiquetasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentListarEtiquetasBinding? = null
     private val binding: FragmentListarEtiquetasBinding
         get() = _binding!!
 
-    val model: TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model: ListarEtiquetasModel by viewModels()
 
     private var adapter: EtiquetasAdapter? = null
 
@@ -79,7 +78,7 @@ class ListarEtiquetasFragment : Fragment() {
 
         // Gestiona el adapter
         // El valor por defecto vacio se pasa al modelo que estara pendiente de los cambios a traves de una nueva función dedicada
-        model.listarEtiquetas.obtenerEtiquetasFiltradas().observe(viewLifecycleOwner) {
+        model.obtenerEtiquetasFiltradas().observe(viewLifecycleOwner) {
                 listadoEtiquetas ->
             if (listadoEtiquetas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
@@ -108,7 +107,7 @@ class ListarEtiquetasFragment : Fragment() {
             }
             override fun afterTextChanged(texto: Editable?) {
                 // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.listarEtiquetas.actualizarTextoListadoEtiqueta(texto.toString())
+                model.actualizarTextoListadoEtiqueta(texto.toString())
             }
 
         })

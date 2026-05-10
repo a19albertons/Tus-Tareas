@@ -1,10 +1,7 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import android.content.Intent
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
@@ -15,38 +12,58 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.ListarTareasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.repository.WorkerRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas integración del modelo tus tareas
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class TusTareasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioModificarTareas: ModificarTareasRepository
+
+    @Inject
+    lateinit var repositorioListarTareas : ListarTareasRepository
+
+    @Inject
+    lateinit var repositorioTusTareas: TusTareasRepository
+
+    lateinit var modeloTusTareasModel: TusTareasModel
 
     // Configuramos la base de datos
     @Before
     fun creacionBd() {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Iniciar Hilt
+        ruleHilt.inject()
+
+        // Crear modelo
+        modeloTusTareasModel = TusTareasModel(ApplicationProvider.getApplicationContext(), repositorioTusTareas)
     }
 
     // Destrucción bd temporal
@@ -75,14 +92,14 @@ class TusTareasModelTest {
         val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
 
         // Añadir tareas
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaCompletaDto)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaCompletaDto)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
 
         // Limpia la tarea completa
-        modelo.limpiarTareasCompletas()
+        modeloTusTareasModel.limpiarTareasCompletas()
 
         // Vigilamos el live data como en estadisticas model test en su versión unitaria
-        val liveData = repositorio.listarTareas.obtenerTareasFiltradas(
+        val liveData = repositorioListarTareas.obtenerTareasFiltradas(
             Prioridad.entries.map { it }.toTypedArray(),
             Estado.entries.map { it }.toTypedArray(), "",
             OrdenarTareas.FECHA_LIMITE_ASC
@@ -116,11 +133,11 @@ class TusTareasModelTest {
             idTarea = 1
         )
         // Añadir a la bd
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaDTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO)
         WorkerRepository(db).anadirNotificacion(notificacion)
 
         // actualizacion de notificacion
-        modelo.notificaciones(intent = Intent().apply {
+        modeloTusTareasModel.notificaciones(intent = Intent().apply {
             putExtra("idNotificacion", 1)
         })
 

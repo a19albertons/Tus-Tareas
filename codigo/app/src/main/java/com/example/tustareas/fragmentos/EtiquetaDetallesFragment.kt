@@ -17,9 +17,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentEtiquetaDetallesBinding
+import com.example.tustareas.modelView.EtiquetaDetallesModel
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
@@ -27,15 +29,14 @@ import kotlinx.coroutines.launch
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class EtiquetaDetallesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentEtiquetaDetallesBinding? = null
     private val binding: FragmentEtiquetaDetallesBinding
         get() = _binding!!
 
-    val model: TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model: EtiquetaDetallesModel by viewModels()
 
     private lateinit var args : EtiquetaDetallesFragmentArgs
 
@@ -79,7 +80,7 @@ class EtiquetaDetallesFragment : Fragment() {
      */
     private fun cargarEtiqueta() {
         // Obtiene la etiqueta por su id de los args
-        model.etiquetaDetalles.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
+        model.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
                 etiqueta ->
 
             // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
@@ -155,7 +156,7 @@ class EtiquetaDetallesFragment : Fragment() {
                     // Lanzamos la eliminación a otro hilos
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.etiquetaDetalles.eliminarEtiqueta(etiquetaVisualizada)
+                            model.eliminarEtiqueta(etiquetaVisualizada)
                             // Volvemos a la vista previa
                             findNavController().popBackStack()
                         }

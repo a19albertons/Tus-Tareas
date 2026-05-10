@@ -1,15 +1,16 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarEtiquetasModel
+import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarEtiquetasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -17,20 +18,41 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de integracion de modificar etiquetas model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ModificarEtiquetasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioModificarEtiqueta: ModificarEtiquetasRepository
+
+    
+    lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
+    
+    
+    @Inject
+    lateinit var listarEtiquetasRepositorio: ListarEtiquetasRepository
+
+    
+    lateinit var modeloListarEtiquetas: ListarEtiquetasModel
+
+
+
 
 
     private val diaReferencia = 1735689600000L
@@ -38,20 +60,21 @@ class ModificarEtiquetasModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Inyectamos las dependencias
+        ruleHilt.inject()
 
-        modelo.modificarEtiquetas.insertarEtiqueta(
+        // Crear modelo
+        modeloListarEtiquetas = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepositorio)
+        modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
+
+        repositorioModificarEtiqueta.insertarEtiqueta(
             Etiqueta(
                 id = 1,
                 nombre = "etiqueta"
             )
         )
 
-        modelo.modificarEtiquetas.insertarEtiqueta(
+        repositorioModificarEtiqueta.insertarEtiqueta(
             Etiqueta(
                 id = 2,
                 nombre = "etiqueta2"
@@ -73,10 +96,10 @@ class ModificarEtiquetasModelTest {
             nombre = "prueba",
             descripcion = "descripcion"
         )
-        modelo.modificarEtiquetas.insertarEtiqueta(etiquetaNueva)
+        modeloModificarEtiquetas.insertarEtiqueta(etiquetaNueva)
 
         // obtener datos
-        val liveData = modelo.listarEtiquetas.obtenerEtiquetasFiltradas()
+        val liveData = modeloListarEtiquetas.obtenerEtiquetasFiltradas()
         liveData.observeForever {  }
 
         // resultado
@@ -89,17 +112,17 @@ class ModificarEtiquetasModelTest {
     @Test
     fun modificarEtiqueta() = runTest {
         // modificar etiqueta
-        val liveData = modelo.listarEtiquetas.obtenerEtiquetasFiltradas()
+        val liveData = modeloListarEtiquetas.obtenerEtiquetasFiltradas()
         liveData.observeForever {  }
 
         // Modificacion
         val etiquetaModificar = liveData.value!!.last()
         etiquetaModificar.nombre = "modificado"
         etiquetaModificar.descripcion = "descripcion modificada"
-        modelo.modificarEtiquetas.modificarEtiqueta(etiquetaModificar)
+        modeloModificarEtiquetas.modificarEtiqueta(etiquetaModificar)
 
         // Obtener datos actualziados
-        val liveData2 = modelo.listarEtiquetas.obtenerEtiquetasFiltradas()
+        val liveData2 = modeloListarEtiquetas.obtenerEtiquetasFiltradas()
         liveData2.observeForever {  }
 
         // resultado

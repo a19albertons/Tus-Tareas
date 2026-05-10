@@ -11,23 +11,23 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.adapters.VerMasAdapter
 import com.example.tustareas.databinding.FragmentVerMasBinding
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.VerMasModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase que gestiona el fragmento de detalles de tareas.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class VerMasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding : FragmentVerMasBinding?= null
     private val binding : FragmentVerMasBinding
         get() = _binding!!
 
-    val model : TusTareasModel by viewModels(
-        ownerProducer = {requireActivity()}
-    )
+    val model : VerMasModel by viewModels()
 
     private var adapter : VerMasAdapter ?= null
     private lateinit var args : VerMasFragmentArgs
@@ -100,7 +100,7 @@ class VerMasFragment : Fragment() {
             }
             override fun afterTextChanged(texto: Editable?) {
                 // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.verMas.actualizarTextoVerMas(texto.toString())
+                model.actualizarTextoVerMas(texto.toString())
             }
 
         })
@@ -116,7 +116,7 @@ class VerMasFragment : Fragment() {
         when (args.numeroVerMas) {
             // Tarea hoy
             1 -> {
-                model.verMas.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) {
+                model.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) {
                         tareas ->
                     if (tareas.isEmpty()) {
                         binding.sinResultados.visibility = View.VISIBLE
@@ -131,7 +131,7 @@ class VerMasFragment : Fragment() {
             }
             // Tarea retrasada
             2 -> {
-                model.verMas.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) {
+                model.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) {
                         tareas ->
                     if (tareas.isEmpty()) {
                         binding.sinResultados.visibility = View.VISIBLE
@@ -145,7 +145,7 @@ class VerMasFragment : Fragment() {
                 }
             }
             // Tarea futura
-            3 -> model.verMas.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) {
+            3 -> model.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) {
                     tareas ->
                 if (tareas.isEmpty()) {
                     binding.sinResultados.visibility = View.VISIBLE
@@ -167,12 +167,12 @@ class VerMasFragment : Fragment() {
      */
     private fun mensajesError() {
         // Observar errores del listado de tareas
-        model.verMas.mensajeError.observe(viewLifecycleOwner) {
+        model.mensajeError.observe(viewLifecycleOwner) {
             error ->
             error?.let {
                 Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
                 // Restaurar a null tras ser mostrado
-                model.listarTareas.mensajeError.value = null
+                model.mensajeError.value = null
             }
         }
     }

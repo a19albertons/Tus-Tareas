@@ -13,13 +13,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.util.AlarmaHelper
 import com.example.tustareas.util.LanguageHelper
 import com.example.tustareas.workers.ActualizarEstadoWorker
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * ViewModel que une la aplicacion con la base de datos
@@ -30,30 +31,11 @@ import java.util.concurrent.TimeUnit
  * @param repository El repositorio de la aplicación, por defecto se crea uno nuevo con la base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-// El @JvmOverloads constructor es necesario porque por defecto parece
-// no aceptar el constructor con un parámetros por defecto
-class TusTareasModel @JvmOverloads constructor(
+@HiltViewModel
+class TusTareasModel @Inject constructor(
     application: Application,
-    // Invocacion repositorio
-    // si no le pasamos nada mantiene la retrocompatiblidad. Solo pasarle algo en pruebas de integració y otros tipos
-    private val repository : TusTareasRepository = TusTareasRepository(TusTareasDatabase.getDatabase( application))
+    private val repository: TusTareasRepository
 ): AndroidViewModel(application) {
-
-
-    // Submodelos de los distintos fragmentos del proyecto
-    val inicio = InicioModel(repository)
-    val verMas = VerMasModel(repository, viewModelScope)
-    val listarTareas = ListarTareasModel(repository, viewModelScope)
-    val tareaDetalles = TareaDetallesModel(repository)
-    val modificarTareas = ModificarTareasModel(repository)
-    val listarProyectos = ListarProyectosModel(repository)
-    val proyectoDetalles = ProyectoDetallesModel(repository)
-    val modificarProyectos = ModificarProyectosModel(repository)
-    val estadisticas = EstadisticasModel(repository)
-    val listarEtiquetas = ListarEtiquetasModel(repository)
-    val etiquetaDetalles = EtiquetaDetallesModel(repository)
-    val modificarEtiquetas = ModificarEtiquetasModel(repository)
-
 
 
     /**

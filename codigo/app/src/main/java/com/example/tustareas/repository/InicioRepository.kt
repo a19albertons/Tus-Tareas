@@ -2,6 +2,7 @@ package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que va representar el subrepositorio que hara las consultas contra el dao de inicio
@@ -9,7 +10,9 @@ import java.util.Date
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class InicioRepository(database: TusTareasDatabase) {
+class InicioRepository @Inject constructor(
+    database: TusTareasDatabase
+) {
     // Obtención del dao
     private val inicioConsultas = database.inicioConsultas()
 

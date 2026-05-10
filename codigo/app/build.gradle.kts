@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
 
-    // KSP procesa las anotacioones de Room.
+    // KSP procesa las anotacioones de Room y es necesario para Hilt.
     alias(libs.plugins.ksp)
 
     // Safe Args para pasar parametro de una clase a otra
@@ -12,6 +12,9 @@ plugins {
 
     // Generación de documentación con Dokka
     alias(libs.plugins.kotlin.dokka)
+
+    // Hilt para inyección de dependencias
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -29,7 +32,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Cambiamos el runner original
+        testInstrumentationRunner = "com.example.tustareas.hilt.HiltTestRunner"
     }
 
     buildTypes {
@@ -57,9 +61,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         viewBinding = true
     }
@@ -78,21 +83,25 @@ android {
     // Personalizar la gestión de los layout por tipo asociado.
     sourceSets {
         getByName("main") {
-            res.setSrcDirs(
-                listOf(
-                    // Alberga fragmentos
-                    "src/main/res/fragmentos",
+            // Verisón moderna (no deprecada) del res.setSrcDirs()
+            res.directories.apply {
+                clear()
+                addAll(
+                    listOf(
+                        // Alberga fragmentos
+                        "src/main/res/fragmentos",
 
-                    // Alberga adaptadores
-                    "src/main/res/adaptadores",
+                        // Alberga adaptadores
+                        "src/main/res/adaptadores",
 
-                    // Alberga actividades
-                    "src/main/res/actividades",
+                        // Alberga actividades
+                        "src/main/res/actividades",
 
-                    // Alberga otros layout
-                    "src/main/res"
+                        // Alberga otros layout
+                        "src/main/res"
+                    )
                 )
-            )
+            }
         }
     }
 }
@@ -127,6 +136,12 @@ dependencies {
 
     // Pantalla de carga aplicación
     implementation(libs.androidx.core.splashscreen)
+
+    // Hilt para inyección de dependencias
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
 
     // Predeterminadas
     implementation(libs.androidx.core.ktx)

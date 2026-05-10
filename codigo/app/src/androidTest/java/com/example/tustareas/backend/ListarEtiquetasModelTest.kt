@@ -1,15 +1,15 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarEtiquetasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -17,20 +17,34 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de integración de listar etiquetas model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ListarEtiquetasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioEtiquetas: ModificarEtiquetasRepository
+
+    @Inject
+    lateinit var ListarEtiquetaRepositorio : ListarEtiquetasRepository
+
+
+    lateinit var modelo: ListarEtiquetasModel
 
 
     private val diaReferencia = 1735689600000L
@@ -38,20 +52,20 @@ class ListarEtiquetasModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Aplicar regla
+        ruleHilt.inject()
 
-        modelo.modificarEtiquetas.insertarEtiqueta(
+        // Inicializar modelo manualmente
+        modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), ListarEtiquetaRepositorio)
+
+        repositorioEtiquetas.insertarEtiqueta(
             Etiqueta(
                 id = 1,
                 nombre = "etiqueta"
             )
         )
 
-        modelo.modificarEtiquetas.insertarEtiqueta(
+        repositorioEtiquetas.insertarEtiqueta(
             Etiqueta(
                 id = 2,
                 nombre = "etiqueta2"
@@ -68,7 +82,7 @@ class ListarEtiquetasModelTest {
     @Test
     fun obtenerTodas() = runTest {
         // Obtener datos
-        val liveData = modelo.listarEtiquetas.obtenerEtiquetasFiltradas()
+        val liveData = modelo.obtenerEtiquetasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -81,10 +95,10 @@ class ListarEtiquetasModelTest {
     @Test
     fun obtenerPorNombre() = runTest {
         // Configuración
-        modelo.listarEtiquetas.actualizarTextoListadoEtiqueta("etiqueta2")
+        modelo.actualizarTextoListadoEtiqueta("etiqueta2")
 
         // Obtener datos
-        val liveData = modelo.listarEtiquetas.obtenerEtiquetasFiltradas()
+        val liveData = modelo.obtenerEtiquetasFiltradas()
         liveData.observeForever {  }
 
         // Resultado

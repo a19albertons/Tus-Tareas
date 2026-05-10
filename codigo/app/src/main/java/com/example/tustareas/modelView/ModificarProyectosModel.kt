@@ -1,12 +1,17 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.ModificarProyectosRepository
 import com.example.tustareas.repository.TusTareasRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo de modificar proyecto
@@ -14,7 +19,11 @@ import com.example.tustareas.repository.TusTareasRepository
  * @param repository Repositorio de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarProyectosModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class ModificarProyectosModel @Inject constructor(
+    application: Application,
+    private val repository: ModificarProyectosRepository
+) : AndroidViewModel(application) {
     // Obtener tareas restantes
     // Tiene la lista inicial (vacia)
     private val listaTareas = MutableLiveData<List<Tarea>>(emptyList<Tarea>())
@@ -37,7 +46,7 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
      */
     fun obtenerTareasRestantes(idProyecto: Int) : LiveData<List<Tarea>> = listaTareas.switchMap {
             texto ->
-        repository.modificarProyectos.obtenerTareasRestantes(texto, idProyecto)
+        repository.obtenerTareasRestantes(texto, idProyecto)
     }
 
     // Tiene la lista inicial vacia
@@ -61,7 +70,7 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
      */
     fun obtenerEtiquetasRestantes() : LiveData<List<Etiqueta>> = listaEtiqueta.switchMap {
             texto ->
-        repository.modificarProyectos.obtenerEtiquetasRestantes(texto)
+        repository.obtenerEtiquetasRestantes(texto)
     }
 
     /**
@@ -70,7 +79,7 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
      * @param proyectoDTO El proyecto con sus tareas e etiquetas a insertar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
     /**
      * Modifica un proyecto con sus tareas e etiquetas en la base de datos
@@ -78,7 +87,7 @@ class ModificarProyectosModel(private val repository: TusTareasRepository) {
      * @param proyectoDTO El proyecto con sus tareas e etiquetas a modificar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
 
 
 }

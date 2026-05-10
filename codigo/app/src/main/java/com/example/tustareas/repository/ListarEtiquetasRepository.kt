@@ -1,6 +1,7 @@
 package com.example.tustareas.repository
 
 import com.example.tustareas.db.TusTareasDatabase
+import javax.inject.Inject
 
 /**
  * Clase que representa el subrepositorio de listar etiquetas
@@ -8,7 +9,9 @@ import com.example.tustareas.db.TusTareasDatabase
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListarEtiquetasRepository(database: TusTareasDatabase) {
+class ListarEtiquetasRepository @Inject constructor(
+    private val database: TusTareasDatabase
+) {
     private val listarEtiquetasConsultas = database.listarEtiquetasConsultas()
 
     /**

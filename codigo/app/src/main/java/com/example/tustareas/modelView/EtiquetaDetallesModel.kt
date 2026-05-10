@@ -1,7 +1,12 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.TusTareasRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
  * Clase que representa al submodelo de etiqueta detalles
@@ -9,7 +14,11 @@ import com.example.tustareas.repository.TusTareasRepository
  * @param repository Repositorio de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class EtiquetaDetallesModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class EtiquetaDetallesModel @Inject constructor(
+    application: Application,
+    private val repository: EtiquetaDetallesRepository
+) : AndroidViewModel(application) {
     /**
      * Obtiene una etiqueta por su id
      *
@@ -17,7 +26,7 @@ class EtiquetaDetallesModel(private val repository: TusTareasRepository) {
      * @return La etiqueta correspondiente. Debería existir
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    fun obtenerEtiquetaPorID(id: Int) = repository.etiquetaDetalles.obtenerEtiquetaPorID(id)
+    fun obtenerEtiquetaPorID(id: Int) = repository.obtenerEtiquetaPorID(id)
 
     /**
      * Elimina una etiqueta de la base de datos
@@ -25,5 +34,5 @@ class EtiquetaDetallesModel(private val repository: TusTareasRepository) {
      * @param etiqueta La etiqueta a eliminar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = repository.etiquetaDetalles.eliminarEtiqueta(etiqueta)
+    suspend fun eliminarEtiqueta(etiqueta: Etiqueta) = repository.eliminarEtiqueta(etiqueta)
 }

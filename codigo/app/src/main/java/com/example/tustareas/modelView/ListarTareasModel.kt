@@ -1,26 +1,31 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import com.example.tustareas.R
 import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarTareasRepository
 import com.example.tustareas.util.DateHelper
-import kotlinx.coroutines.CoroutineScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo del fragmento listar tareas
  */
-class ListarTareasModel(
-    private val repository: TusTareasRepository,
-    private val scope: CoroutineScope
-) {
+@HiltViewModel
+class ListarTareasModel @Inject constructor(
+    application: Application,
+    private val repository: ListarTareasRepository
+) : AndroidViewModel(application) {
     // Filtro para tareas
     // Valor inicial de prioridad
     private val prioridadTarea = MutableLiveData(Prioridad.entries.toTypedArray())
@@ -62,7 +67,7 @@ class ListarTareasModel(
     }
 
     // Valor inicial del filtro de ordenación del popup
-    private val textoOrdenación = MutableLiveData(OrdenarTareas.FECHA_CREACION_ASC)
+    private val textoOrdenacion = MutableLiveData(OrdenarTareas.FECHA_CREACION_ASC)
 
     /**
      * Actualiza el valor del filtro de ordenación para las tareas
@@ -71,7 +76,7 @@ class ListarTareasModel(
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun actualizarTextoOrdenacionListadoTareas(nuevaOrdenacion: OrdenarTareas) {
-        textoOrdenación.value = nuevaOrdenacion
+        textoOrdenacion.value = nuevaOrdenacion
     }
 
 
@@ -81,7 +86,7 @@ class ListarTareasModel(
         addSource(prioridadTarea) { value = Unit }
         addSource(estadoTarea) { value = Unit }
         addSource(textoTarea) { value = Unit }
-        addSource(textoOrdenación) { value = Unit }
+        addSource(textoOrdenacion) { value = Unit }
     }
 
     /**
@@ -91,11 +96,11 @@ class ListarTareasModel(
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun obtenerTareasFiltradas() : LiveData<List<Tarea>> = vigiladorFiltrosTareas.switchMap {
-        repository.listarTareas.obtenerTareasFiltradas(
+        repository.obtenerTareasFiltradas(
             prioridadTarea.value!!,
             estadoTarea.value!!,
             textoTarea.value!!,
-            textoOrdenación.value!!
+            textoOrdenacion.value!!
         )
 
     }
@@ -107,7 +112,7 @@ class ListarTareasModel(
      * @return Un objeto Result que indica el éxito o fracaso de la operación de modificación.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private suspend fun modificarTarea(tarea: Tarea) = repository.listarTareas.modificarTarea(tarea)
+    private suspend fun modificarTarea(tarea: Tarea) = repository.modificarTarea(tarea)
 
     // Variable para gestionar errores desde el ViewModel
     val mensajeError = MutableLiveData<Int?>(null)
@@ -124,7 +129,7 @@ class ListarTareasModel(
         if (isChecked) {
             objectoActual.estado = Estado.COMPLETADA
             // Control de errores y ejecución de la modificación en segundo plano
-            scope.launch {
+            viewModelScope.launch {
                 try {
                     modificarTarea(objectoActual)
                 }
@@ -143,7 +148,7 @@ class ListarTareasModel(
             }
 
             // Control de errores y ejecución de la modificación en segundo plano
-            scope.launch {
+            viewModelScope.launch {
                 try {
                     modificarTarea(objectoActual)
                 }

@@ -1,12 +1,16 @@
 package com.example.tustareas.modelView
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.EstadisticasRepository
 import com.example.tustareas.util.DateHelper
 import com.github.mikephil.charting.data.BarEntry
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Calendar
 import java.util.TimeZone
+import javax.inject.Inject
 
 /**
  * Clase que gestiona  el submodelo de estadisticas
@@ -14,7 +18,11 @@ import java.util.TimeZone
  * @param repository El repositorio de datos de TusTareas, que se utiliza para acceder a los datos necesarios para calcular las estadísticas.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class EstadisticasModel(private val repository: TusTareasRepository) {
+@HiltViewModel
+class EstadisticasModel @Inject constructor(
+    application: Application,
+    private val repository: EstadisticasRepository
+) : AndroidViewModel(application) {
     // Generación tercera grafica de estadisticas
 
     /**
@@ -31,8 +39,8 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
 
         // variable base (mediadiador, completa, no completas)
         val resultado = MediatorLiveData<List<BarEntry>>()
-        val completas = timestampDiasSemana.map { it -> repository.estadisticas.tareasCompletadasPorDia(it)  }
-        val noCompletas = timestampDiasSemana.map { it -> repository.estadisticas.tareasNoCompletadasPorDia(it)  }
+        val completas = timestampDiasSemana.map { it -> repository.tareasCompletadasPorDia(it)  }
+        val noCompletas = timestampDiasSemana.map { it -> repository.tareasNoCompletadasPorDia(it)  }
 
         // Generación dataset
         val nuevoDataset = {
@@ -60,7 +68,7 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
      * @return Un LiveData que contiene un Long con la cantidad total de tareas completadas.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    fun obtenerCantidadTareasCompletas() = repository.estadisticas.obtenerCantidadTareasCompletas()
+    fun obtenerCantidadTareasCompletas() = repository.obtenerCantidadTareasCompletas()
 
     /**
      * Obtiene la cantidad de tareas pendientes a lo largo del tiempo.
@@ -68,7 +76,7 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
      * @return Un LiveData que contiene un Long con la cantidad total de tareas pendientes.
      * @author Alberto Noceda <a19albertons@iessanclement
      */
-    fun obtenerCantidadTareasPendientes() = repository.estadisticas.obtenerCantidadTareasPendientes()
+    fun obtenerCantidadTareasPendientes() = repository.obtenerCantidadTareasPendientes()
 
     /**
      * Obtiene la cantidad de tareas retrasadas a lo largo del tiempo.
@@ -76,7 +84,7 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
      * @return Un LiveData que contiene un Long con la cantidad total de tareas retrasadas.
      * @author Alberto Noceda <a19albertons@iessanclement
      */
-    fun obtenerCantidadTareasRetrasadas() = repository.estadisticas.obtenerCantidadTareasRetrasadas()
+    fun obtenerCantidadTareasRetrasadas() = repository.obtenerCantidadTareasRetrasadas()
 
 
 
@@ -99,8 +107,8 @@ class EstadisticasModel(private val repository: TusTareasRepository) {
 
         // variable base
         val resultado = MediatorLiveData<Float>()
-        val completas = repository.estadisticas.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
-        val noCompletas = repository.estadisticas.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
+        val completas = repository.obtenerCantidadTareasCompletasEntre2Fechas(fechaInicio, fechaFin)
+        val noCompletas = repository.obtenerCantidadTareasPendientesEntre2Fechas(fechaInicio, fechaFin)
 
         // actualizador
         val valores = {

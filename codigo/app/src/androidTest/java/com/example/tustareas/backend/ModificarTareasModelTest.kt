@@ -1,20 +1,25 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarTareasModel
+import com.example.tustareas.modelView.ModificarEtiquetasModel
+import com.example.tustareas.modelView.ModificarTareasModel
+import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarTareasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.TareaDetallesRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -23,20 +28,47 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que contiene los test de integración de modificar tareas model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ModificarTareasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioModificarTareas: ModificarTareasRepository
+
+    lateinit var modeloModificarTareas: ModificarTareasModel
+
+    @Inject
+    lateinit var repositorioModificarEtiquetas : ModificarEtiquetasRepository
+
+    lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
+
+    @Inject
+    lateinit var repositorioDetallesTareas : TareaDetallesRepository
+
+    lateinit var modeloDetallesTarea : TareaDetallesModel
+
+    @Inject
+    lateinit var repositorioListarTareas : ListarTareasRepository
+
+    lateinit var modeloListarTareas : ListarTareasModel
+
+
 
 
     private val diaReferencia = 1735689600000L
@@ -44,11 +76,14 @@ class ModificarTareasModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Iniciar Hilt
+        ruleHilt.inject()
+
+        // Crear modelos
+        modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+        modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
+        modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTareas)
+        modeloListarTareas = ListarTareasModel(ApplicationProvider.getApplicationContext(), repositorioListarTareas)
 
         // Tarea sin fecha limite, sin prioridad y en tiempo
         val tarea1 = Tarea(
@@ -95,11 +130,11 @@ class ModificarTareasModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        repositorio.modificacionEtiqueta.insertarEtiqueta(etiqueta)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
 
     }
@@ -129,12 +164,12 @@ class ModificarTareasModelTest {
         val tareaNuevaDTO = TareaDTO(tareaNuevaCompleta, listOf(etiqueta1, etiqueta2))
 
         // Insercion
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta2)
-        modelo.modificarTareas.insertarTareaConEtiqueta(tareaNuevaDTO)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaNuevaDTO)
 
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = modeloListarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -161,12 +196,12 @@ class ModificarTareasModelTest {
         val tareaNuevaDTO = TareaDTO(tareaNuevaCompleta, listOf(etiqueta1, etiqueta2))
 
         // Insercion
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta2)
-        modelo.modificarTareas.insertarTareaConEtiqueta(tareaNuevaDTO)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaNuevaDTO)
 
         // Obtener datos
-        val liveData = modelo.tareaDetalles.obtenerTareaDTOPorID(5)
+        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(5)
         liveData.observeForever {  }
 
         // Resultado
@@ -178,16 +213,16 @@ class ModificarTareasModelTest {
     @Test
     fun modificarTareaConEtiqueta1() = runTest {
         // Obtener referencia
-        val liveData = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData.observeForever {  }
 
         // modficar
         val tarea = liveData.value
         tarea!!.tarea.descripcion = "modificada"
-        modelo.modificarTareas.modificarTareaConEtiqueta(tarea)
+        modeloModificarTareas.modificarTareaConEtiqueta(tarea)
 
         // Obtener datos finales
-        val liveData2 = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData2.observeForever {  }
 
         // Comprobacion
@@ -203,19 +238,19 @@ class ModificarTareasModelTest {
         val etiqueta2 = Etiqueta(3, "etiqueta2","descripcion")
 
         // insercion
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta2)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
 
         // Obtener referencia inicial
-        val liveData = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData.observeForever {  }
 
         // obtener valor
         val tarea = liveData.value
 
         // Obtener etiquetas sin usar
-        modelo.modificarTareas.actualizarFiltroListaEtiquetaTareas(tarea!!.etiquetas)
-        val etiquetasSinUsarPorTarea = modelo.modificarTareas.obtenerEtiquetasRestantes()
+        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(tarea!!.etiquetas)
+        val etiquetasSinUsarPorTarea = modeloModificarTareas.obtenerEtiquetasRestantes()
         etiquetasSinUsarPorTarea.observeForever {  }
 
         // adicción etiqueta
@@ -224,10 +259,10 @@ class ModificarTareasModelTest {
         tarea.etiquetas = nuevaLista
 
         // Actualización
-        modelo.modificarTareas.modificarTareaConEtiqueta(tarea)
+        modeloModificarTareas.modificarTareaConEtiqueta(tarea)
 
         // Obtener datos finales
-        val liveData2 = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData2.observeForever {  }
 
         // Comprobacion
@@ -243,19 +278,19 @@ class ModificarTareasModelTest {
         val etiqueta2 = Etiqueta(3, "etiqueta2","descripcion")
 
         // insercion
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta2)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
 
         // Obtener referencia inicial
-        val liveData = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData.observeForever {  }
 
         // obtener valor
         val tarea = liveData.value
 
         // Obtener etiquetas sin usar
-        modelo.modificarTareas.actualizarFiltroListaEtiquetaTareas(tarea!!.etiquetas)
-        val etiquetasSinUsarPorTarea = modelo.modificarTareas.obtenerEtiquetasRestantes()
+        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(tarea!!.etiquetas)
+        val etiquetasSinUsarPorTarea = modeloModificarTareas.obtenerEtiquetasRestantes()
         etiquetasSinUsarPorTarea.observeForever {  }
 
         // adicción etiqueta
@@ -264,11 +299,11 @@ class ModificarTareasModelTest {
         tarea.etiquetas = nuevaLista
 
         // Actualización
-        modelo.modificarTareas.modificarTareaConEtiqueta(tarea)
+        modeloModificarTareas.modificarTareaConEtiqueta(tarea)
 
         // Obtener datos finales
-        modelo.modificarTareas.actualizarFiltroListaEtiquetaTareas(tarea.etiquetas)
-        val liveData2 = modelo.modificarTareas.obtenerEtiquetasRestantes()
+        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(tarea.etiquetas)
+        val liveData2 = modeloModificarTareas.obtenerEtiquetasRestantes()
         liveData2.observeForever {  }
 
         // Comprobacion

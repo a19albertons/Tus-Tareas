@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.fragmentos.VerMasFragmentDirections
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.VerMasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
@@ -27,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar
  * @return ListAdapter con las tareas a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int): ListAdapter<Tarea, VerMasAdapter.VerMasViewHolder>(TareaComprobacionDiferncias()) {
+class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): ListAdapter<Tarea, VerMasAdapter.VerMasViewHolder>(TareaComprobacionDiferncias()) {
 
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
@@ -92,7 +92,7 @@ class VerMasAdapter(private val model: TusTareasModel, private val verMas: Int):
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
-            model.verMas.actualizarEstado(objectoActual, holder.checkbox.isChecked)
+            model.actualizarEstado(objectoActual, holder.checkbox.isChecked)
         }
 
     }

@@ -12,9 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentModificarEtiquetaBinding
+import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 /**
@@ -22,15 +24,14 @@ import kotlinx.coroutines.launch
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class ModificarEtiquetaFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarEtiquetaBinding? = null
     private val binding: FragmentModificarEtiquetaBinding
         get() = _binding!!
 
-    val model: TusTareasModel by viewModels(
-        ownerProducer = { this.requireActivity() }
-    )
+    val model: ModificarEtiquetasModel by viewModels()
 
     lateinit var etiquetaPasada : Etiqueta
 
@@ -138,7 +139,7 @@ class ModificarEtiquetaFragment : Fragment() {
                     // Generamos un hilo donde se ejecuta la inserción
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarEtiquetas.insertarEtiqueta(etiquetaPasada)
+                            model.insertarEtiqueta(etiquetaPasada)
                             // Volvemos a la vista previa
                             findNavController().popBackStack()
                         }
@@ -180,7 +181,7 @@ class ModificarEtiquetaFragment : Fragment() {
                     // Generamos un hilo donde se ejecuta la inserción
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            model.modificarEtiquetas.modificarEtiqueta(etiquetaPasada)
+                            model.modificarEtiqueta(etiquetaPasada)
                             // Volvemos a la vista previa
                             findNavController().popBackStack()
                         }

@@ -1,20 +1,23 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarTareasModel
+import com.example.tustareas.modelView.ModificarTareasModel
+import com.example.tustareas.modelView.VerMasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarTareasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.VerMasRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -23,24 +26,46 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que contiene los test de integración de ver mas model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class VerMasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Necesario para saltarse los scope que se ejecutan en hilos secundarios
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+    @Inject
+    lateinit var repositorioModificarTareas : ModificarTareasRepository
+
+    lateinit var modeloModificarTareas: ModificarTareasModel
+
+    @Inject
+    lateinit var repositorioListarTareas : ListarTareasRepository
+
+    lateinit var modeloListarTareas : ListarTareasModel
+
+    @Inject
+    lateinit var repositorioVerMas : VerMasRepository
+
+    lateinit var modeloVerMas : VerMasModel
+
+
+
 
 
     // En esta clase de pruebas no se usa
@@ -49,11 +74,13 @@ class VerMasModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Inyectar dependencias
+        ruleHilt.inject()
+
+        // Crear modelos
+        modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+        modeloListarTareas = ListarTareasModel(ApplicationProvider.getApplicationContext(), repositorioListarTareas)
+        modeloVerMas = VerMasModel(ApplicationProvider.getApplicationContext(), repositorioVerMas)
 
         // Tarea sin fecha limite
         val tarea1 = Tarea(
@@ -94,15 +121,13 @@ class VerMasModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
-
-
+        modeloModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
     }
 
-    // Finalización entorno
+
     @After
     fun cerrarBd() {
         db.close()
@@ -112,17 +137,17 @@ class VerMasModelTest {
     @Test
     fun marcarTareaComoCompletada() = runTest {
         // Obtener datos 1
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = modeloListarTareas.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Obtenemos la tarea a modificar
         val modificada = liveData.value?.get(0)
 
         val booleano = true
-        modelo.verMas.actualizarEstado(modificada!!, booleano)
+        modeloVerMas.actualizarEstado(modificada!!, booleano)
 
         // Obtener datos 2
-        val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData2 = modeloListarTareas.obtenerTareasFiltradas()
         liveData2.observeForever {  }
 
         // Resultado
@@ -133,7 +158,7 @@ class VerMasModelTest {
     // Tareas para hoy -- cantidad
     @Test
     fun tareaParaHoy1() {
-        val liveData = modelo.verMas.obtenerTareasTerminanDiaEspecificoConFiltro()
+        val liveData = modeloVerMas.obtenerTareasTerminanDiaEspecificoConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -146,7 +171,7 @@ class VerMasModelTest {
     // Tareas para hoy -- Nombre tarea
     @Test
     fun tareaParaHoy2() {
-        val liveData = modelo.verMas.obtenerTareasTerminanDiaEspecificoConFiltro()
+        val liveData = modeloVerMas.obtenerTareasTerminanDiaEspecificoConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -159,8 +184,8 @@ class VerMasModelTest {
     // Tareas para hoy -- Nombre tarea
     @Test
     fun tareaParaHoy3() {
-        modelo.verMas.actualizarTextoVerMas("TAREAHOY")
-        val liveData = modelo.verMas.obtenerTareasTerminanDiaEspecificoConFiltro()
+        modeloVerMas.actualizarTextoVerMas("TAREAHOY")
+        val liveData = modeloVerMas.obtenerTareasTerminanDiaEspecificoConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -173,7 +198,7 @@ class VerMasModelTest {
     // Tareas para retrasadas -- cantidad
     @Test
     fun tareaParaRetrasadas1() {
-        val liveData = modelo.verMas.obtenerTareasRetrasadasConFiltro()
+        val liveData = modeloVerMas.obtenerTareasRetrasadasConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -186,7 +211,7 @@ class VerMasModelTest {
     // Tareas para hoy -- Nombre tarea
     @Test
     fun tareaParaRetrasads2() {
-        val liveData = modelo.verMas.obtenerTareasRetrasadasConFiltro()
+        val liveData = modeloVerMas.obtenerTareasRetrasadasConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -200,8 +225,8 @@ class VerMasModelTest {
     @Test
     fun tareaParaRetrasads3() {
 
-        modelo.verMas.actualizarTextoVerMas("TAREARETRASADA")
-        val liveData = modelo.verMas.obtenerTareasRetrasadasConFiltro()
+        modeloVerMas.actualizarTextoVerMas("TAREARETRASADA")
+        val liveData = modeloVerMas.obtenerTareasRetrasadasConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -214,7 +239,7 @@ class VerMasModelTest {
     // Tareas futuras -- cantidad
     @Test
     fun tareaParaFuturo1() {
-        val liveData = modelo.verMas.obtenerTareasProximasConFiltro()
+        val liveData = modeloVerMas.obtenerTareasProximasConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -227,7 +252,7 @@ class VerMasModelTest {
     // Tareas futuras -- Nombre tarea
     @Test
     fun tareaParaFuturo2() {
-        val liveData = modelo.verMas.obtenerTareasProximasConFiltro()
+        val liveData = modeloVerMas.obtenerTareasProximasConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -238,7 +263,7 @@ class VerMasModelTest {
     }
     @Test
     fun tareaParaFuturo3() {
-        val liveData = modelo.verMas.obtenerTareasProximasConFiltro()
+        val liveData = modeloVerMas.obtenerTareasProximasConFiltro()
         liveData.observeForever {  }
 
         // Resultado
@@ -249,8 +274,8 @@ class VerMasModelTest {
     }
     @Test
     fun tareaParaFuturo4() {
-        modelo.verMas.actualizarTextoVerMas("TAREA2")
-        val liveData = modelo.verMas.obtenerTareasProximasConFiltro()
+        modeloVerMas.actualizarTextoVerMas("TAREA2")
+        val liveData = modeloVerMas.obtenerTareasProximasConFiltro()
         liveData.observeForever {  }
 
         // Resultado

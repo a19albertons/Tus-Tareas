@@ -4,6 +4,7 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Tarea
+import javax.inject.Inject
 
 /**
  * Clase que representa al subrepositorio de modificar proyectos
@@ -11,7 +12,9 @@ import com.example.tustareas.modelos.Tarea
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarProyectosRepository(database: TusTareasDatabase) {
+class ModificarProyectosRepository @Inject constructor(
+    private val database: TusTareasDatabase
+) {
     private val modificarProyectoConsultas = database.modificarProyectoConsultas()
 
     /**
