@@ -14,8 +14,11 @@ import javax.inject.Inject
 
 /**
  * Clase que gestiona  el submodelo de estadisticas
+ *+
  *
- * @param repository El repositorio de datos de TusTareas, que se utiliza para acceder a los datos necesarios para calcular las estadísticas.
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
+ * @param application el application de Android, necesario para el ViewModel
+ * @param repository El repositorio de estadísticas.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel

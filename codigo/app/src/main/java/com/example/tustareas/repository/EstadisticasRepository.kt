@@ -6,6 +6,7 @@ import javax.inject.Inject
 /**
  * Clase que gestiona el subrepositorio de estadisticas
  *
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */

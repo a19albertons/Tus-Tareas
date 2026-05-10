@@ -11,7 +11,9 @@ import javax.inject.Inject
 /**
  * Clase que representa al submodelo de modificar etiqueta.
  *
- * @param repository Repositorio de la aplicación
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
+ * @param application el application de Android, necesario para el ViewModel
+ * @param repository El repositorio de modificar etiquetas
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
