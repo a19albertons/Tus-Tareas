@@ -3,18 +3,18 @@ package com.example.tustareas.repository
 import com.example.tustareas.dao.WorkerConsultas
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Notificacion
+import javax.inject.Inject
 
 /**
  * Clase que representa al repositorio de las tareas programadas
  *
  * @param database La base de datos de la aplicación
- * @param workerConsultas Las consultas para el worker.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class WorkerRepository(
+class WorkerRepository @Inject constructor(
     database: TusTareasDatabase,
-    private val workerConsultas : WorkerConsultas= database.workerConsultas()
 ) {
+    private val workerConsultas : WorkerConsultas= database.workerConsultas()
 
 
     // Actualzia los estados de las taras
