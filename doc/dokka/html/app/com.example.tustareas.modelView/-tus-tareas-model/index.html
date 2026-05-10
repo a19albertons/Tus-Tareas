@@ -107,7 +107,7 @@
   <div class="breadcrumbs"><a href="../../../index.html">app</a><span class="delimiter">/</span><a href="../index.html">com.example.tustareas.modelView</a><span class="delimiter">/</span><span class="current">TusTareasModel</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Tus</span><wbr></wbr><span>Tareas</span><wbr></wbr><span><span>Model</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">TusTareasModel</a> <span><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a> </span><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">application<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token punctuation">, </span></span><span class="parameter ">repository<span class="token operator">: </span><a href="../../com.example.tustareas.repository/-tus-tareas-repository/index.html">TusTareasRepository</a><span class="token operator"> = </span>TusTareasRepository(TusTareasDatabase.getDatabase( application))</span></span><span class="token punctuation">)</span> : <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/AndroidViewModel.html">AndroidViewModel</a></div><p class="paragraph">ViewModel que une la aplicacion con la base de datos</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Alberto Noceda <a19albertons@iessanclemente.net></p></span><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>application</span></span></u></div></span></div><div><div class="title"><p class="paragraph">La aplicación de Android</p></div></div></div></div><div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>repository</span></span></u></div></span></div><div><div class="title"><p class="paragraph">El repositorio de la aplicación, por defecto se crea uno nuevo con la base de datos de la aplicación</p></div></div></div></div></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">TusTareasModel</a> <span><span class="token annotation builtin">@</span><span data-unresolved-link="javax.inject/Inject///PointingToDeclaration/"><span class="token annotation builtin">Inject</span></span> </span><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">application<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token punctuation">, </span></span><span class="parameter ">repository<span class="token operator">: </span><a href="../../com.example.tustareas.repository/-tus-tareas-repository/index.html">TusTareasRepository</a></span></span><span class="token punctuation">)</span> : <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/AndroidViewModel.html">AndroidViewModel</a></div><p class="paragraph">ViewModel que une la aplicacion con la base de datos</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">Alberto Noceda <a19albertons@iessanclemente.net></p></span><h4 class="tableheader">Parameters</h4><div class="table"><div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>application</span></span></u></div></span></div><div><div class="title"><p class="paragraph">La aplicación de Android</p></div></div></div></div><div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>repository</span></span></u></div></span></div><div><div class="title"><p class="paragraph">El repositorio de la aplicación, por defecto se crea uno nuevo con la base de datos de la aplicación</p></div></div></div></div></div></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -124,7 +124,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">application<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token punctuation">, </span></span><span class="parameter ">repository<span class="token operator">: </span><a href="../../com.example.tustareas.repository/-tus-tareas-repository/index.html">TusTareasRepository</a><span class="token operator"> = </span>TusTareasRepository(TusTareasDatabase.getDatabase( application))</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Crea un nuevo TusTareasModel con el repositorio de la base de datos. No inyectar ningun repositorio es una inyección de dependencias para pruebas de integración en androidTests</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.inject/Inject///PointingToDeclaration/"><span class="token annotation builtin">Inject</span></span></div></div><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">application<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token punctuation">, </span></span><span class="parameter ">repository<span class="token operator">: </span><a href="../../com.example.tustareas.repository/-tus-tareas-repository/index.html">TusTareasRepository</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Crea un nuevo TusTareasModel con el repositorio de la base de datos. No inyectar ningun repositorio es una inyección de dependencias para pruebas de integración en androidTests</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -133,37 +133,7 @@
       </div>
       <div data-togglable="PROPERTY">
         <h2 class="tableheader">Properties</h2>
-        <div class="table"><a data-name="1778145026%2FProperties%2F1885029021" anchor-label="estadisticas" id="1778145026%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="estadisticas.html"><span><span>estadisticas</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1778145026%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="estadisticas.html">estadisticas</a><span class="token operator">: </span><a href="../-estadisticas-model/index.html">EstadisticasModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1829881889%2FProperties%2F1885029021" anchor-label="etiquetaDetalles" id="-1829881889%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="etiqueta-detalles.html"><span>etiqueta</span><wbr></wbr><span><span>Detalles</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1829881889%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="etiqueta-detalles.html">etiquetaDetalles</a><span class="token operator">: </span><a href="../-etiqueta-detalles-model/index.html">EtiquetaDetallesModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="213280442%2FProperties%2F1885029021" anchor-label="idioma" id="213280442%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
+        <div class="table"><a data-name="213280442%2FProperties%2F1885029021" anchor-label="idioma" id="213280442%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
           <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
@@ -174,141 +144,6 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="idioma.html">idioma</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/MutableLiveData.html">MutableLiveData</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-28898518%2FProperties%2F1885029021" anchor-label="inicio" id="-28898518%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="inicio.html"><span><span>inicio</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-28898518%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="inicio.html">inicio</a><span class="token operator">: </span><a href="../-inicio-model/index.html">InicioModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-2068828933%2FProperties%2F1885029021" anchor-label="listarEtiquetas" id="-2068828933%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="listar-etiquetas.html"><span>listar</span><wbr></wbr><span><span>Etiquetas</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2068828933%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="listar-etiquetas.html">listarEtiquetas</a><span class="token operator">: </span><a href="../-listar-etiquetas-model/index.html">ListarEtiquetasModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-959821012%2FProperties%2F1885029021" anchor-label="listarProyectos" id="-959821012%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="listar-proyectos.html"><span>listar</span><wbr></wbr><span><span>Proyectos</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-959821012%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="listar-proyectos.html">listarProyectos</a><span class="token operator">: </span><a href="../-listar-proyectos-model/index.html">ListarProyectosModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1673994290%2FProperties%2F1885029021" anchor-label="listarTareas" id="-1673994290%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="listar-tareas.html"><span>listar</span><wbr></wbr><span><span>Tareas</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1673994290%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="listar-tareas.html">listarTareas</a><span class="token operator">: </span><a href="../-listar-tareas-model/index.html">ListarTareasModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-1460385542%2FProperties%2F1885029021" anchor-label="modificarEtiquetas" id="-1460385542%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="modificar-etiquetas.html"><span>modificar</span><wbr></wbr><span><span>Etiquetas</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1460385542%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="modificar-etiquetas.html">modificarEtiquetas</a><span class="token operator">: </span><a href="../-modificar-etiquetas-model/index.html">ModificarEtiquetasModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-351377621%2FProperties%2F1885029021" anchor-label="modificarProyectos" id="-351377621%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="modificar-proyectos.html"><span>modificar</span><wbr></wbr><span><span>Proyectos</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-351377621%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="modificar-proyectos.html">modificarProyectos</a><span class="token operator">: </span><a href="../-modificar-proyectos-model/index.html">ModificarProyectosModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-624993233%2FProperties%2F1885029021" anchor-label="modificarTareas" id="-624993233%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="modificar-tareas.html"><span>modificar</span><wbr></wbr><span><span>Tareas</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-624993233%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="modificar-tareas.html">modificarTareas</a><span class="token operator">: </span><a href="../-modificar-tareas-model/index.html">ModificarTareasModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-454037362%2FProperties%2F1885029021" anchor-label="proyectoDetalles" id="-454037362%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="proyecto-detalles.html"><span>proyecto</span><wbr></wbr><span><span>Detalles</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-454037362%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="proyecto-detalles.html">proyectoDetalles</a><span class="token operator">: </span><a href="../-proyecto-detalles-model/index.html">ProyectoDetallesModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-2103597074%2FProperties%2F1885029021" anchor-label="tareaDetalles" id="-2103597074%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="tarea-detalles.html"><span>tarea</span><wbr></wbr><span><span>Detalles</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2103597074%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="tarea-detalles.html">tareaDetalles</a><span class="token operator">: </span><a href="../-tarea-detalles-model/index.html">TareaDetallesModel</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -328,21 +163,6 @@
               </div>
             </div>
           </div>
-<a data-name="113007283%2FProperties%2F1885029021" anchor-label="verMas" id="113007283%2FProperties%2F1885029021" data-filterable-set=":app/produccionRelease"></a>
-          <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="ver-mas.html"><span>ver</span><wbr></wbr><span><span>Mas</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="113007283%2FProperties%2F1885029021"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">val </span><a href="ver-mas.html">verMas</a><span class="token operator">: </span><a href="../-ver-mas-model/index.html">VerMasModel</a></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div data-togglable="FUNCTION">
@@ -351,13 +171,13 @@
           <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="index.html#383812252%2FFunctions%2F1885029021"><span>add</span><wbr></wbr><span><span>Closeable</span></span></a></div>
+                  <div><a href="../-ver-mas-model/index.html#383812252%2FFunctions%2F1885029021"><span>add</span><wbr></wbr><span><span>Closeable</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="978795377%2FFunctions%2F1885029021"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#383812252%2FFunctions%2F1885029021"><span class="token function">addCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">closeable<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html#1722490497%2FFunctions%2F1885029021"><span class="token function">addCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">closeable<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-ver-mas-model/index.html#383812252%2FFunctions%2F1885029021"><span class="token function">addCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">closeable<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-ver-mas-model/index.html#1722490497%2FFunctions%2F1885029021"><span class="token function">addCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">closeable<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -366,13 +186,13 @@
           <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1696759283%2FFunctions%2F1885029021"><span>get</span><wbr></wbr><span><span>Application</span></span></a></div>
+                  <div><a href="../-ver-mas-model/index.html#1696759283%2FFunctions%2F1885029021"><span>get</span><wbr></wbr><span><span>Application</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1696759283%2FFunctions%2F1885029021"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="index.html#1696759283%2FFunctions%2F1885029021">T</a><span class="token operator"> : </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token operator">&gt; </span><a href="index.html#1696759283%2FFunctions%2F1885029021"><span class="token function">getApplication</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#1696759283%2FFunctions%2F1885029021">T</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-ver-mas-model/index.html#1696759283%2FFunctions%2F1885029021">T</a><span class="token operator"> : </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token operator">&gt; </span><a href="../-ver-mas-model/index.html#1696759283%2FFunctions%2F1885029021"><span class="token function">getApplication</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-ver-mas-model/index.html#1696759283%2FFunctions%2F1885029021">T</a></div></div></div>
                 </div>
               </div>
             </div>
@@ -381,13 +201,13 @@
           <div class="table-row table-row_content" data-filterable-current=":app/produccionRelease" data-filterable-set=":app/produccionRelease">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="index.html#1102255800%2FFunctions%2F1885029021"><span>get</span><wbr></wbr><span><span>Closeable</span></span></a></div>
+                  <div><a href="../-ver-mas-model/index.html#1102255800%2FFunctions%2F1885029021"><span>get</span><wbr></wbr><span><span>Closeable</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1102255800%2FFunctions%2F1885029021"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="index.html#1102255800%2FFunctions%2F1885029021">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a><span class="token operator">&gt; </span><a href="index.html#1102255800%2FFunctions%2F1885029021"><span class="token function">getCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="index.html#1102255800%2FFunctions%2F1885029021">T</a><span class="token operator">?</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app/produccionRelease"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-ver-mas-model/index.html#1102255800%2FFunctions%2F1885029021">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable/index.html">AutoCloseable</a><span class="token operator">&gt; </span><a href="../-ver-mas-model/index.html#1102255800%2FFunctions%2F1885029021"><span class="token function">getCloseable</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-ver-mas-model/index.html#1102255800%2FFunctions%2F1885029021">T</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>
