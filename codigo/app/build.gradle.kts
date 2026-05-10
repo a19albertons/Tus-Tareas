@@ -32,7 +32,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Cambiamos el runner original
+        testInstrumentationRunner = "com.example.tustareas.hilt.HiltTestRunner"
     }
 
     buildTypes {
