@@ -143,6 +143,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.common)
 
     // Predeterminadas
     implementation(libs.androidx.core.ktx)
