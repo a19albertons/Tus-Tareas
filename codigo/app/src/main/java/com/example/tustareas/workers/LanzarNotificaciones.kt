@@ -7,17 +7,23 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.repository.WorkerRepository
 import com.example.tustareas.util.AlarmaHelper
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Clase que gestiona la alarma y la ejecuta
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net
  */
+@AndroidEntryPoint
 class LanzarNotificaciones  : BroadcastReceiver() {
+    // Inyectamos el repositorio
+    @Inject
+    lateinit var repository: WorkerRepository
 
     /**
      * Metodo que se ejecuta cuando se recibe la alarma, se encarga de lanzar las notificaiones
@@ -33,9 +39,6 @@ class LanzarNotificaciones  : BroadcastReceiver() {
         val pendingResult = goAsync() // Permite tareas en segundo plano
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Variables para las consultas
-                val db = TusTareasDatabase.getDatabase(contexto!!)
-                val repository = WorkerRepository(db)
 
                 // Obtener notificaciones
                 val notificaciones = repository.obtenerTodasLasNotificaciones()
@@ -58,7 +61,7 @@ class LanzarNotificaciones  : BroadcastReceiver() {
                 // Vuelve al main para lanzar las tareas
                 withContext(Dispatchers.Main) {
                     // Lanzar notificaciones
-                    AlarmaHelper.invocarAlarma(contexto, enviarNotificaciones)
+                    AlarmaHelper.invocarAlarma(contexto!!, enviarNotificaciones)
 
                 }
             } finally {
