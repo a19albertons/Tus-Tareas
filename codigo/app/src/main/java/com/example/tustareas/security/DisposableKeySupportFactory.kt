@@ -6,6 +6,7 @@ import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 /**
  * Clase que elimina la clave de encriptación de la memoria
  *
+ * @param decryptedKey La clave de encriptación desencriptada que se usará para crear el SupportSQLiteOpenHelper
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  * @author proandroiddev.com
  */
