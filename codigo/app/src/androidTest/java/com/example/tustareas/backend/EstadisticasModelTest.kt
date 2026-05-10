@@ -1,20 +1,21 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.EstadisticasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.EstadisticasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -23,20 +24,36 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de integración de estadísticas model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class EstadisticasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Regla de Hilt para inyección de dependencias
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioTareasRepository: ModificarTareasRepository
+
+    @Inject
+    lateinit var repositorioModificarEtiqueta : ModificarEtiquetasRepository
+
+    @Inject
+    lateinit var estadisticasRepository: EstadisticasRepository
+
+    lateinit var modelo: EstadisticasModel
 
 
 
@@ -46,14 +63,16 @@ class EstadisticasModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
+        // Iniciar hilt
+        ruleHilt.inject()
+
+        // instanciar modelos
+        modelo = EstadisticasModel(ApplicationProvider.getApplicationContext(), estadisticasRepository)
+
         // Simulamos la fecha de hoy para que coincida con diaReferencia
         DateHelper.fechaSimulada = Date(diaReferencia)
 
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+
 
         // Tareas creadas a mano en listar tareas model
         val tarea1 = Tarea(
@@ -100,11 +119,11 @@ class EstadisticasModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        repositorio.modificacionEtiqueta.insertarEtiqueta(etiqueta)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea1DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea2DTO)
+        repositorioModificarEtiqueta.insertarEtiqueta(etiqueta)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tareaHoyDTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
         // Tareas adicionales creadas/asistidas por IA
         val tarea3 = Tarea(
@@ -147,7 +166,7 @@ class EstadisticasModelTest {
             id = 2,
             nombre = "etiqueta2"
         )
-        repositorio.modificacionEtiqueta.insertarEtiqueta(etiqueta2)
+        repositorioModificarEtiqueta.insertarEtiqueta(etiqueta2)
 
         val tarea7 = Tarea(
             nombre = "tarea7",
@@ -203,16 +222,16 @@ class EstadisticasModelTest {
         )
         val tarea12DTO = TareaDTO(tarea12, listOf(etiqueta2))
 
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea3DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea4DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea5DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea6DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea7DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea8DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea9DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea10DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea11DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea12DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea3DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea4DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea5DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea6DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea7DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea8DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea9DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea10DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea11DTO)
+        repositorioTareasRepository.insertarTareaConEtiqueta(tarea12DTO)
 
     }
 
@@ -227,7 +246,7 @@ class EstadisticasModelTest {
     @Test
     fun obtenerTareasCompletas() =runTest {
         // Obtener dato
-        val liveData = modelo.estadisticas.obtenerCantidadTareasCompletas()
+        val liveData = modelo.obtenerCantidadTareasCompletas()
         liveData.observeForever {  }
 
         // Resultado
@@ -238,7 +257,7 @@ class EstadisticasModelTest {
     @Test
     fun obtenerTareasPendientes() =runTest {
         // Obtener dato
-        val liveData = modelo.estadisticas.obtenerCantidadTareasPendientes()
+        val liveData = modelo.obtenerCantidadTareasPendientes()
         liveData.observeForever {  }
 
         // Resultado
@@ -249,7 +268,7 @@ class EstadisticasModelTest {
     @Test
     fun obtenerTareasRetrasadas() =runTest{
         // Obtener dato
-        val liveData = modelo.estadisticas.obtenerCantidadTareasRetrasadas()
+        val liveData = modelo.obtenerCantidadTareasRetrasadas()
         liveData.observeForever {  }
 
         // Resultado
@@ -260,7 +279,7 @@ class EstadisticasModelTest {
     @Test
     fun obtenerRuedaProgreso() = runTest {
         // Procesar fechas contra modelo (usa la fecha simulada internamente)
-        val liveData = modelo.estadisticas.obtenerRueda()
+        val liveData = modelo.obtenerRueda()
         liveData.observeForever {  }
 
         // Resultado (Porcentaje de completadas sobre total de la semana)
@@ -272,7 +291,7 @@ class EstadisticasModelTest {
     @Test
     fun obtenerDatosGrafico() = runTest {
         // Procesar fechas contra modelo (usa la fecha simulada internamente)
-        val liveData = modelo.estadisticas.obtenerDatosGrafico()
+        val liveData = modelo.obtenerDatosGrafico()
         liveData.observeForever {  }
 
         // Resultado

@@ -1,20 +1,23 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ModificarEtiquetasModel
+import com.example.tustareas.modelView.ModificarTareasModel
+import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.TareaDetallesRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -23,20 +26,40 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de intregración de tarea detalles model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class TareaDetallesModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioModificarTareas : ModificarTareasRepository
+
+    lateinit var modeloModificarTareas : ModificarTareasModel
+
+    @Inject
+    lateinit var repositorioModificarEtiquetas : ModificarEtiquetasRepository
+
+    lateinit var modeloModificarEtiqueta : ModificarEtiquetasModel
+
+    @Inject
+    lateinit var repositorioDetallesTarea : TareaDetallesRepository
+
+    lateinit var modeloDetallesTarea : TareaDetallesModel
 
 
     private val diaReferencia = 1735689600000L
@@ -44,11 +67,13 @@ class TareaDetallesModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Inyectar dependencias
+        ruleHilt.inject()
+
+        // Crear modelos
+        modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+        modeloModificarEtiqueta = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
+        modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
 
         // Tarea sin fecha limite, sin prioridad y en tiempo
         val tarea1 = Tarea(
@@ -95,11 +120,11 @@ class TareaDetallesModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        repositorio.modificacionEtiqueta.insertarEtiqueta(etiqueta)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
+        modeloModificarEtiqueta.insertarEtiqueta(etiqueta)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
 
     }
@@ -113,7 +138,7 @@ class TareaDetallesModelTest {
     @Test
     fun obtenerTarea1() = runTest {
         // Obtener referencia
-        val liveData = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData.observeForever {  }
 
         // Resultado
@@ -125,15 +150,15 @@ class TareaDetallesModelTest {
     @Test
     fun eliminarTarea1() = runTest {
         // Obtener referencia
-        val liveData = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData.observeForever {  }
 
         // Eliminar tarea
         val eliminar = liveData.value
-        modelo.tareaDetalles.eliminarTarea(eliminar!!.tarea)
+        modeloDetallesTarea.eliminarTarea(eliminar!!.tarea)
 
         // Obtener referencia nueva
-        val liveData2 = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         liveData2.observeForever {  }
 
         // Resultado

@@ -1,21 +1,26 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ModificarEtiquetasModel
+import com.example.tustareas.modelView.ModificarProyectosModel
+import com.example.tustareas.modelView.ModificarTareasModel
+import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarProyectosRepository
+import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.ProyectoDetallesRepository
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -24,20 +29,47 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de integracióndel proyecto detalles model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ProyectoDetallesModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioModificarTareas: ModificarTareasRepository
+
+    lateinit var modeloModificarTareas: ModificarTareasModel
+
+    @Inject
+    lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
+
+    lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
+
+    @Inject
+    lateinit var repositorioModificarProyectos: ModificarProyectosRepository
+
+    lateinit var modeloModificarProyectos: ModificarProyectosModel
+
+    @Inject
+    lateinit var repositorioDetallesProyecto : ProyectoDetallesRepository
+
+    lateinit var modeloDetallesProyecto : ProyectoDetallesModel
+
+
 
 
     private val diaReferencia = 1735689600000L
@@ -45,11 +77,14 @@ class ProyectoDetallesModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Inyectar dependencias
+        ruleHilt.inject()
+
+        // Inicializar modelos manualmente
+        modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+        modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
+        modeloModificarProyectos = ModificarProyectosModel(ApplicationProvider.getApplicationContext(), repositorioModificarProyectos)
+        modeloDetallesProyecto = ProyectoDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesProyecto)
 
         // Unas tareas y etiquetas para las pruebas
         val tarea1 = Tarea(
@@ -78,10 +113,10 @@ class ProyectoDetallesModelTest {
         )
 
         // Insercion
-        modelo.modificarTareas.insertarTareaConEtiqueta(tareaDTO1)
-        modelo.modificarTareas.insertarTareaConEtiqueta(tareaDTO2)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta2)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaDTO1)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaDTO2)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
 
         // Crear proyecto
         val proyecto = Proyecto(
@@ -97,7 +132,7 @@ class ProyectoDetallesModelTest {
             listOf(tarea1, tarea2)
         )
         // Insertar
-        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        modeloModificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
     }
 
     // Finalización entorno
@@ -109,7 +144,7 @@ class ProyectoDetallesModelTest {
     @Test
     fun obtenerProyectoPorId() {
         // Obtener datos
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyecto.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Resultado
@@ -120,14 +155,14 @@ class ProyectoDetallesModelTest {
     @Test
     fun eliminarProyectoConTareaYEtiqueta() = runTest {
         // Obtener datos
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyecto.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Eliminar proyecto
-        modelo.proyectoDetalles.eliminarProyectoConTareaYEtiqueta(liveData.value!!)
+        modeloDetallesProyecto.eliminarProyectoConTareaYEtiqueta(liveData.value!!)
 
         // Obtener datos actualizados
-        val liveData2 = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData2 = modeloDetallesProyecto.obtenerProyectoPorId(1)
         liveData2.observeForever {  }
 
 

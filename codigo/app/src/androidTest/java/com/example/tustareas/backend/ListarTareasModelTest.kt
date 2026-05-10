@@ -1,22 +1,23 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.filtros.OrdenarTareas
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.ListarTareasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.ListarTareasRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -25,26 +26,41 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 
 /**
  * Clase que contiene los test de integración de listar tareas model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ListarTareasModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
 
     // Necesario para saltarse los scope que se ejecutan en hilos secundarios
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioTareasModificar : ModificarTareasRepository
+
+    @Inject
+    lateinit var repositorioEtiquetasModificar : ModificarEtiquetasRepository
+
+    @Inject
+    lateinit var listarTareasRepository: ListarTareasRepository
+
+    lateinit var listarTareasModel: ListarTareasModel
 
 
     private val diaReferencia = 1735689600000L
@@ -52,11 +68,11 @@ class ListarTareasModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        ruleHilt.inject()
+
+        // Crear modelo
+        listarTareasModel = ListarTareasModel(ApplicationProvider.getApplicationContext(), listarTareasRepository)
+
 
         // Tarea sin fecha limite, sin prioridad y en tiempo
         val tarea1 = Tarea(
@@ -103,11 +119,11 @@ class ListarTareasModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        repositorio.modificacionEtiqueta.insertarEtiqueta(etiqueta)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        repositorioTareasModificar.insertarTareaConEtiqueta(tarea1DTO)
+        repositorioTareasModificar.insertarTareaConEtiqueta(tarea2DTO)
+        repositorioEtiquetasModificar.insertarEtiqueta(etiqueta)
+        repositorioTareasModificar.insertarTareaConEtiqueta(tareaHoyDTO)
+        repositorioTareasModificar.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
 
     }
@@ -122,7 +138,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadTodosCantidad() {
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -133,7 +149,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadTodosPrimero() {
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -144,7 +160,7 @@ class ListarTareasModelTest {
     @Test
     fun prioridadTodosUltimo() {
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -156,8 +172,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadNoEstablecidoCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -168,8 +184,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadNoEstablecidoPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -180,8 +196,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadNoEstablecidoUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.NO_ESTABLECIDO).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -193,8 +209,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadBajaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -205,8 +221,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadBajaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -217,8 +233,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadBajaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.BAJA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -230,8 +246,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadMediaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -242,8 +258,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadMediaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -254,8 +270,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadMediaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.MEDIA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -267,8 +283,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadAltaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -279,8 +295,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadAltaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -291,8 +307,8 @@ class ListarTareasModelTest {
     @Test
     fun prioridadAltaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -304,7 +320,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoTodosCantidad() {
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -315,7 +331,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoTodosPrimero() {
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -326,7 +342,7 @@ class ListarTareasModelTest {
     @Test
     fun estadoTodosUltimo() {
         // Obtener datos
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -338,8 +354,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoEnTiempoCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -350,8 +366,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoEnTiempoPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -362,8 +378,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoEnTiempoUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.EN_TIEMPO).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -375,8 +391,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoCompletadaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -387,8 +403,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoCompletadaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -399,8 +415,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoCompletadaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -412,8 +428,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoRetrasadaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -424,8 +440,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoRetrasadaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -436,8 +452,8 @@ class ListarTareasModelTest {
     @Test
     fun estadoRetrasadaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.RETRASADA).toTypedArray())
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -449,8 +465,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaCreacionAscendentePrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -461,8 +477,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaCreacionAscendenteUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_ASC)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -474,8 +490,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaCreacionDescendentePrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -486,8 +502,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaCreacionDescendenteUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_CREACION_DES)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -499,8 +515,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaLimiteAscendentePrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -511,8 +527,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaLimiteAscendenteUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_ASC)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -524,8 +540,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaLimiteDescendentePrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -536,8 +552,8 @@ class ListarTareasModelTest {
     @Test
     fun fechaLimiteDescenteUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -549,8 +565,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorNombreCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("TAREA1")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("TAREA1")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -561,8 +577,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorNombrePrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("TAREA1")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("TAREA1")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -573,8 +589,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorNombreUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("TAREA1")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("TAREA1")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -586,8 +602,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorDescripcionCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("DESCRIPCION")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("DESCRIPCION")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -598,8 +614,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorDescripcionPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("DESCRIPCION")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("DESCRIPCION")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -610,8 +626,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorDescripcionUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("DESCRIPCION")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("DESCRIPCION")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -623,8 +639,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorEtiquetaCantidad() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("ETIQUETA")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("ETIQUETA")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -635,8 +651,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorEtiquetaPrimero() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("ETIQUETA")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("ETIQUETA")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -647,8 +663,8 @@ class ListarTareasModelTest {
     @Test
     fun filtroPorEtiquetaUltimo() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("ETIQUETA")
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("ETIQUETA")
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -660,11 +676,11 @@ class ListarTareasModelTest {
     @Test
     fun filtroMasCompleto() {
         // Obtener datos
-        modelo.listarTareas.actualizarTextoListadoTareas("ETIQUETA")
-        modelo.listarTareas.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
-        modelo.listarTareas.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
-        modelo.listarTareas.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        listarTareasModel.actualizarTextoListadoTareas("ETIQUETA")
+        listarTareasModel.actualizarEstadoListadoTareas(listOf(Estado.COMPLETADA).toTypedArray())
+        listarTareasModel.actualizarPrioridadListadoTareas(listOf(Prioridad.ALTA).toTypedArray())
+        listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Resultado
@@ -676,7 +692,7 @@ class ListarTareasModelTest {
     @Test
     fun marcarTareaComoCompletada() = runTest {
         // Obtener datos 1
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Obtener tarea a modificar
@@ -685,10 +701,10 @@ class ListarTareasModelTest {
 
 
         val boolean =  true
-        modelo.listarTareas.actualizarEstadoTarea(modificada!!, boolean)
+        listarTareasModel.actualizarEstadoTarea(modificada!!, boolean)
 
         // Obtener datos 2
-        val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData2 = listarTareasModel.obtenerTareasFiltradas()
         liveData2.observeForever {  }
 
         // Resultado
@@ -700,17 +716,17 @@ class ListarTareasModelTest {
     @Test
     fun marcarTareaComoNoCompletada() = runTest {
         // Obtener datos 1
-        val liveData = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData = listarTareasModel.obtenerTareasFiltradas()
         liveData.observeForever {  }
 
         // Obtener tarea a modificar
         val modificada = liveData.value?.get(2)
 
         val boolean = false
-        modelo.listarTareas.actualizarEstadoTarea(modificada!!, boolean)
+        listarTareasModel.actualizarEstadoTarea(modificada!!, boolean)
 
         // Obtener datos 2
-        val liveData2 = modelo.listarTareas.obtenerTareasFiltradas()
+        val liveData2 = listarTareasModel.obtenerTareasFiltradas()
         liveData2.observeForever {  }
 
         // Resultado

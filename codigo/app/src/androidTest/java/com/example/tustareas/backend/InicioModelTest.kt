@@ -1,19 +1,19 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.InicioModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.InicioRepository
+import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -21,33 +21,46 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que contiene los test de integración de inicioModel
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class InicioModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    // Regla de Hilt para inyección de dependencias
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
 
 
     private val diaReferencia = 1735689600000L
 
+    // Variables a inyectar
+    @Inject
+    lateinit var db : TusTareasDatabase
+
+    @Inject
+    lateinit var repositorioModificarTarea : ModificarTareasRepository
+
+    @Inject
+    lateinit var inicioRepository: InicioRepository
+
+    lateinit var modelo : InicioModel
+
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Aplicar regla
+        hiltRule.inject()
+
+        // Inicializar modelo manualmente
+        modelo = InicioModel(ApplicationProvider.getApplicationContext(), inicioRepository)
+
 
         // Tarea sin fecha limite
         val tarea1 = Tarea(
@@ -88,10 +101,10 @@ class InicioModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        repositorio.modificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        repositorioModificarTarea.insertarTareaConEtiqueta(tarea1DTO)
+        repositorioModificarTarea.insertarTareaConEtiqueta(tarea2DTO)
+        repositorioModificarTarea.insertarTareaConEtiqueta(tareaHoyDTO)
+        repositorioModificarTarea.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
 
     }
@@ -105,7 +118,7 @@ class InicioModelTest {
     // Tareas para hoy -- cantidad
     @Test
     fun tareaParaHoy1() {
-        val liveData = modelo.inicio.obtenerTareasTerminanDiaEspecifico(Date(diaReferencia))
+        val liveData = modelo.obtenerTareasTerminanDiaEspecifico(Date(diaReferencia))
         liveData.observeForever {  }
 
         // Resultado
@@ -118,7 +131,7 @@ class InicioModelTest {
     // Tareas para hoy -- Nombre tarea
     @Test
     fun tareaParaHoy2() {
-        val liveData = modelo.inicio.obtenerTareasTerminanDiaEspecifico(Date(diaReferencia))
+        val liveData = modelo.obtenerTareasTerminanDiaEspecifico(Date(diaReferencia))
         liveData.observeForever {  }
 
         // Resultado
@@ -131,7 +144,7 @@ class InicioModelTest {
     // Tareas para retrasadas -- cantidad
     @Test
     fun tareaParaRetrasadas1() {
-        val liveData = modelo.inicio.obtenerTareasRetrasadas()
+        val liveData = modelo.obtenerTareasRetrasadas()
         liveData.observeForever {  }
 
         // Resultado
@@ -144,7 +157,7 @@ class InicioModelTest {
     // Tareas para hoy -- Nombre tarea
     @Test
     fun tareaParaRetrasads2() {
-        val liveData = modelo.inicio.obtenerTareasRetrasadas()
+        val liveData = modelo.obtenerTareasRetrasadas()
         liveData.observeForever {  }
 
         // Resultado
@@ -157,7 +170,7 @@ class InicioModelTest {
     // Tareas futuras -- cantidad
     @Test
     fun tareaParaFuturo1() {
-        val liveData = modelo.inicio.obtenerTareasProximas(Date(diaReferencia))
+        val liveData = modelo.obtenerTareasProximas(Date(diaReferencia))
         liveData.observeForever {  }
 
         // Resultado
@@ -170,7 +183,7 @@ class InicioModelTest {
     // Tareas futuras -- Nombre tarea
     @Test
     fun tareaParaFuturo2() {
-        val liveData = modelo.inicio.obtenerTareasProximas(Date(diaReferencia))
+        val liveData = modelo.obtenerTareasProximas(Date(diaReferencia))
         liveData.observeForever {  }
 
         // Resultado
@@ -181,7 +194,7 @@ class InicioModelTest {
     }
     @Test
     fun tareaParaFuturo3() {
-        val liveData = modelo.inicio.obtenerTareasProximas(Date(diaReferencia))
+        val liveData = modelo.obtenerTareasProximas(Date(diaReferencia))
         liveData.observeForever {  }
 
         // Resultado

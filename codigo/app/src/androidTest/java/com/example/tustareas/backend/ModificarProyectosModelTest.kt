@@ -1,21 +1,30 @@
 package com.example.tustareas.backend
 
-import android.app.Application
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
-import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.modelView.EtiquetaDetallesModel
+import com.example.tustareas.modelView.ModificarEtiquetasModel
+import com.example.tustareas.modelView.ModificarProyectosModel
+import com.example.tustareas.modelView.ModificarTareasModel
+import com.example.tustareas.modelView.ProyectoDetallesModel
+import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.TusTareasRepository
+import com.example.tustareas.repository.EtiquetaDetallesRepository
+import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.ModificarProyectosRepository
+import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.ProyectoDetallesRepository
+import com.example.tustareas.repository.TareaDetallesRepository
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -24,20 +33,58 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.Date
+import javax.inject.Inject
 
 /**
  * Clase que gestiona las pruebas de intregración de modificar proyectos model
  */
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class ModificarProyectosModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    @get:Rule
+    val ruleHilt = HiltAndroidRule(this)
+
     // Variables comunes
-    private lateinit var db: TusTareasDatabase
-    private lateinit var repositorio: TusTareasRepository
-    private lateinit var modelo: TusTareasModel
+    @Inject
+    lateinit var db: TusTareasDatabase
+
+
+    @Inject
+    lateinit var repositorioModificarTareas : ModificarTareasRepository
+
+    lateinit var modeloModificarTareas: ModificarTareasModel
+
+    @Inject
+    lateinit var repositorioModificarEtiquetas : ModificarEtiquetasRepository
+
+    lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
+
+    @Inject
+    lateinit var repositorioModificarProyectos : ModificarProyectosRepository
+
+    lateinit var modeloModificarProyecto : ModificarProyectosModel
+
+    @Inject
+    lateinit var repositorioDetallesTarea : TareaDetallesRepository
+
+    lateinit var modeloDetallesTarea : TareaDetallesModel
+
+    @Inject
+    lateinit var repositorioDetallesEtiquetas : EtiquetaDetallesRepository
+
+    lateinit var modeloDetallesEtiquetas : EtiquetaDetallesModel
+
+    @Inject
+    lateinit var repositorioDetallesProyecto : ProyectoDetallesRepository
+
+    lateinit var modeloDetallesProyectos : ProyectoDetallesModel
+
+
 
 
     private val diaReferencia = 1735689600000L
@@ -45,11 +92,16 @@ class ModificarProyectosModelTest {
     // Preparación entorno comun
     @Before
     fun crearBd() = runBlocking {
-        val contexto = ApplicationProvider.getApplicationContext<Context>()
-        val aplicacion = ApplicationProvider.getApplicationContext<Application>()
-        db = Room.inMemoryDatabaseBuilder(contexto, TusTareasDatabase::class.java).build()
-        repositorio = TusTareasRepository(db)
-        modelo = TusTareasModel(aplicacion, repositorio)
+        // Inyección de dependencias
+        ruleHilt.inject()
+
+        // Creación de modelos
+        modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+        modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
+        modeloModificarProyecto = ModificarProyectosModel(ApplicationProvider.getApplicationContext(), repositorioModificarProyectos)
+        modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
+        modeloDetallesEtiquetas = EtiquetaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesEtiquetas)
+        modeloDetallesProyectos = ProyectoDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesProyecto)
 
         // Unas tareas y etiquetas para las pruebas
         val tarea1 = Tarea(
@@ -76,10 +128,10 @@ class ModificarProyectosModelTest {
         )
 
         // Insercion
-        modelo.modificarTareas.insertarTareaConEtiqueta(tareaDTO1)
-        modelo.modificarTareas.insertarTareaConEtiqueta(tareaDTO2)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modelo.modificarEtiquetas.insertarEtiqueta(etiqueta2)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaDTO1)
+        modeloModificarTareas.insertarTareaConEtiqueta(tareaDTO2)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
     }
 
     // Finalización entorno
@@ -100,11 +152,11 @@ class ModificarProyectosModelTest {
             fechaFin = Date(diaReferencia)
         )
         // Obtener una tarea y etiqueta
-        val tarea = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val tarea = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         tarea.observeForever {  }
         val tareaDTO = tarea.value
 
-        val etiqueta = modelo.etiquetaDetalles.obtenerEtiquetaPorID(1)
+        val etiqueta = modeloDetallesEtiquetas.obtenerEtiquetaPorID(1)
         etiqueta.observeForever {  }
         val etiquetaDTO = etiqueta.value
 
@@ -116,10 +168,10 @@ class ModificarProyectosModelTest {
         )
 
         // Insertar
-        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        modeloModificarProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
         // Obtener datos
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // resultado
@@ -139,11 +191,11 @@ class ModificarProyectosModelTest {
             fechaFin = Date(diaReferencia)
         )
         // Obtener una tarea y etiqueta
-        val tarea = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val tarea = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         tarea.observeForever {  }
         val tareaDTO = tarea.value
 
-        val etiqueta = modelo.etiquetaDetalles.obtenerEtiquetaPorID(1)
+        val etiqueta = modeloDetallesEtiquetas.obtenerEtiquetaPorID(1)
         etiqueta.observeForever {  }
         val etiquetaDTO = etiqueta.value
 
@@ -155,10 +207,10 @@ class ModificarProyectosModelTest {
         )
 
         // Insertar
-        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        modeloModificarProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
         // Obtener datos
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // resultado
@@ -176,11 +228,11 @@ class ModificarProyectosModelTest {
             fechaFin = Date(diaReferencia)
         )
         // Obtener una tarea y etiqueta
-        val tarea = modelo.tareaDetalles.obtenerTareaDTOPorID(1)
+        val tarea = modeloDetallesTarea.obtenerTareaDTOPorID(1)
         tarea.observeForever {  }
         val tareaDTO = tarea.value
 
-        val etiqueta = modelo.etiquetaDetalles.obtenerEtiquetaPorID(1)
+        val etiqueta = modeloDetallesEtiquetas.obtenerEtiquetaPorID(1)
         etiqueta.observeForever {  }
         val etiquetaDTO = etiqueta.value
 
@@ -192,10 +244,10 @@ class ModificarProyectosModelTest {
         )
 
         // Insertar
-        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        modeloModificarProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
         // Obtener datos
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // resultado
@@ -219,7 +271,7 @@ class ModificarProyectosModelTest {
             emptyList()
         )
         // Insertar
-        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        modeloModificarProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO)
     }
 
     // Pruebas de modificar proyecto
@@ -229,15 +281,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyecto = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyecto = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyecto.observeForever {  }
 
         // modificar
         proyecto.value!!.proyecto.descripcion = "modificado"
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyecto.value!!)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyecto.value!!)
 
         // Obtener datos modificados
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Resultado
@@ -252,15 +304,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyectoInicial = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyectoInicial.observeForever {  }
 
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
         // Gestion de obtención de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -269,10 +321,10 @@ class ModificarProyectosModelTest {
         proyectoModificado.tareas = tareas
 
         // Actualizar
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyectoModificado)
 
         // Obtener datos modificados
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Resultado
@@ -287,15 +339,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyectoInicial = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyectoInicial.observeForever {  }
 
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
         // Gestion de obtención de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -304,15 +356,15 @@ class ModificarProyectosModelTest {
         proyectoModificado.tareas = tareas
 
         // Actualizar
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyectoModificado)
 
         // Obtener datos modificados
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Cantidad de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(liveData.value!!.tareas)
-        val liveData2 = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(liveData.value!!.tareas)
+        val liveData2 = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         liveData2.observeForever {  }
 
         // Resultado
@@ -327,15 +379,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyectoInicial = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyectoInicial.observeForever {  }
 
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
         // Gestion de obtención de etiquetas restantes
-        modelo.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoModificado.etiquetas)
-        val etiquetasRestantes = modelo.modificarProyectos.obtenerEtiquetasRestantes()
+        modeloModificarProyecto.actualizarFiltroListaEtiquetaProyecto(proyectoModificado.etiquetas)
+        val etiquetasRestantes = modeloModificarProyecto.obtenerEtiquetasRestantes()
         etiquetasRestantes.observeForever {  }
 
         // Insercion una etiqueta
@@ -344,10 +396,10 @@ class ModificarProyectosModelTest {
         proyectoModificado.etiquetas = etiquetas
 
         // Actualizar
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyectoModificado)
 
         // Obtener datos modificados
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Resultado
@@ -362,15 +414,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyectoInicial = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyectoInicial.observeForever {  }
 
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
         // Gestion de obtención de etiquetas restantes
-        modelo.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(proyectoModificado.etiquetas)
-        val etiquetasRestantes = modelo.modificarProyectos.obtenerEtiquetasRestantes()
+        modeloModificarProyecto.actualizarFiltroListaEtiquetaProyecto(proyectoModificado.etiquetas)
+        val etiquetasRestantes = modeloModificarProyecto.obtenerEtiquetasRestantes()
         etiquetasRestantes.observeForever {  }
 
         // Insercion una etiqueta
@@ -379,15 +431,15 @@ class ModificarProyectosModelTest {
         proyectoModificado.etiquetas = etiquetas
 
         // Actualizar
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyectoModificado)
 
         // Obtener datos modificados
-        val liveData = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val liveData = modeloDetallesProyectos.obtenerProyectoPorId(1)
         liveData.observeForever {  }
 
         // Cantidad de etiquetas restantes
-        modelo.modificarProyectos.actualizarFiltroListaEtiquetaProyecto(liveData.value!!.etiquetas)
-        val liveData2 = modelo.modificarProyectos.obtenerEtiquetasRestantes()
+        modeloModificarProyecto.actualizarFiltroListaEtiquetaProyecto(liveData.value!!.etiquetas)
+        val liveData2 = modeloModificarProyecto.obtenerEtiquetasRestantes()
         liveData2.observeForever {  }
 
         // Resultado
@@ -402,15 +454,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyectoInicial = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyectoInicial.observeForever {  }
 
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
         // Gestion de obtención de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -419,7 +471,7 @@ class ModificarProyectosModelTest {
         proyectoModificado.tareas = tareas
 
         // Actualizar
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyectoModificado)
 
         // otro proyecto
         val proyecto2 = Proyecto(
@@ -436,11 +488,11 @@ class ModificarProyectosModelTest {
             emptyList()
         )
         // Insertar
-        modelo.modificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
+        modeloModificarProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
 
         // Gestion de obtención de tareas restantes en otra proyecto inexistente (lista vacia)
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(emptyList())
-        val tareasRestantesFinales = modelo.modificarProyectos.obtenerTareasRestantes(proyectoDTO2.proyecto.id)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(emptyList())
+        val tareasRestantesFinales = modeloModificarProyecto.obtenerTareasRestantes(proyectoDTO2.proyecto.id)
         tareasRestantesFinales.observeForever {  }
 
         // Resultado
@@ -457,15 +509,15 @@ class ModificarProyectosModelTest {
         anadirProyecto()
 
         // Obtener proyecto
-        val proyectoInicial = modelo.proyectoDetalles.obtenerProyectoPorId(1)
+        val proyectoInicial = modeloDetallesProyectos.obtenerProyectoPorId(1)
         proyectoInicial.observeForever {  }
 
         // modificar
         val proyectoModificado = proyectoInicial.value!!
 
         // Gestion de obtención de tareas restantes
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -474,11 +526,11 @@ class ModificarProyectosModelTest {
         proyectoModificado.tareas = tareas
 
         // Actualizar
-        modelo.modificarProyectos.modificarProyectoConTareaYEtiqueta(proyectoModificado)
+        modeloModificarProyecto.modificarProyectoConTareaYEtiqueta(proyectoModificado)
 
-        // Gestion de obtención de tareas restantes en el mismo proyecto para lista vacia (eliminar la tarea de la lista en memoria del fragmento)
-        modelo.modificarProyectos.actualizarFiltroListaTareaProyecto(emptyList())
-        val tareasRestantesFinales = modelo.modificarProyectos.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        // Gestion de obtención de tareas restantes en el mismo proyecto para lista vacia (eliminar la tarea de la lista en memory del fragmento)
+        modeloModificarProyecto.actualizarFiltroListaTareaProyecto(emptyList())
+        val tareasRestantesFinales = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
         tareasRestantesFinales.observeForever {  }
 
         // Resultado
