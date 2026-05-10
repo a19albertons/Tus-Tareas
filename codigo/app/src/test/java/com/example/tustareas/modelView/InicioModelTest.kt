@@ -29,14 +29,16 @@ class InicioModelTest {
     // Definición modelo
     val inicioModel = InicioModel(Application(), inicioRepositorio)
 
+    val date = Date()
+
     @Test
     fun obtenerTareasTerminanDiaEspecifico1() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(Mockito.any()))
+        Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(date))
             .thenReturn(MutableLiveData(emptyList()))
 
         // Obtener dato del observer
-        val liveData = inicioModel.obtenerTareasTerminanDiaEspecifico(Mockito.any())
+        val liveData = inicioModel.obtenerTareasTerminanDiaEspecifico(date)
         liveData.observeForever {}
 
         // Comprobación del resultado
@@ -47,7 +49,7 @@ class InicioModelTest {
     @Test
     fun obtenerTareasTerminanDiaEspecifico2() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(Mockito.any()))
+        Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(date))
             .thenReturn(MutableLiveData(listOf(
                 Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,
                     Date(), Estado.COMPLETADA),
@@ -56,7 +58,7 @@ class InicioModelTest {
             )))
 
         // Obtener dato del observer
-        val liveData = inicioModel.obtenerTareasTerminanDiaEspecifico(Mockito.any())
+        val liveData = inicioModel.obtenerTareasTerminanDiaEspecifico(date)
         liveData.observeForever {}
 
         // Comprobación del resultado
@@ -101,11 +103,11 @@ class InicioModelTest {
     @Test
     fun obtenerTareasProximas() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasProximas(Mockito.any()))
+        Mockito.`when`(inicioRepositorio.obtenerTareasProximas(date))
             .thenReturn(MutableLiveData(emptyList()))
 
         // Obtener dato del observer
-        val liveData = inicioModel.obtenerTareasProximas(Mockito.any())
+        val liveData = inicioModel.obtenerTareasProximas(date)
         liveData.observeForever {}
 
         // Comprobación del resultado
@@ -116,7 +118,8 @@ class InicioModelTest {
     @Test
     fun obtenerTareasProximas2() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasProximas(Mockito.any()))           .thenReturn(MutableLiveData(listOf(
+        Mockito.`when`(inicioRepositorio.obtenerTareasProximas(date))
+            .thenReturn(MutableLiveData(listOf(
             Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,
                 Date(), Estado.COMPLETADA),
             Tarea(2, "Tarea 2", "Descripción de la tarea 2", Date(), Prioridad.ALTA,
@@ -126,7 +129,7 @@ class InicioModelTest {
         )))
 
         // Obtener dato del observer
-        val liveData = inicioModel.obtenerTareasRetrasadas()
+        val liveData = inicioModel.obtenerTareasProximas(date)
         liveData.observeForever {}
 
         // Comprobación del resultado
