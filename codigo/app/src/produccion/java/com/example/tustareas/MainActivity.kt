@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import androidx.core.content.edit
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.tustareas.db.TusTareasDatabase
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase principal del proyecto que representa la actividad.
@@ -39,6 +40,7 @@ import com.example.tustareas.db.TusTareasDatabase
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
     private lateinit var navController: NavController
