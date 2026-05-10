@@ -83,21 +83,25 @@ android {
     // Personalizar la gestión de los layout por tipo asociado.
     sourceSets {
         getByName("main") {
-            res.setSrcDirs(
-                listOf(
-                    // Alberga fragmentos
-                    "src/main/res/fragmentos",
+            // Verisón moderna (no deprecada) del res.setSrcDirs()
+            res.directories.apply {
+                clear()
+                addAll(
+                    listOf(
+                        // Alberga fragmentos
+                        "src/main/res/fragmentos",
 
-                    // Alberga adaptadores
-                    "src/main/res/adaptadores",
+                        // Alberga adaptadores
+                        "src/main/res/adaptadores",
 
-                    // Alberga actividades
-                    "src/main/res/actividades",
+                        // Alberga actividades
+                        "src/main/res/actividades",
 
-                    // Alberga otros layout
-                    "src/main/res"
+                        // Alberga otros layout
+                        "src/main/res"
+                    )
                 )
-            )
+            }
         }
     }
 }
