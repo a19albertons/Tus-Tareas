@@ -20,6 +20,11 @@ import javax.inject.Inject
 
 /**
  * Clase que gestiona el submodelo del fragmento listar tareas
+ *
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
+ * @param application el application de Android, necesario para el ViewModel
+ * @param repository El repositorio de listar tareas
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
 class ListarTareasModel @Inject constructor(

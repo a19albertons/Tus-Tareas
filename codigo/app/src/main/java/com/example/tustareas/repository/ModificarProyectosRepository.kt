@@ -9,6 +9,7 @@ import javax.inject.Inject
 /**
  * Clase que representa al subrepositorio de modificar proyectos
  *
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */

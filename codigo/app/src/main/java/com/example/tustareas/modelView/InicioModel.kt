@@ -10,7 +10,9 @@ import javax.inject.Inject
 /**
  * Clase que va representar el submodelo de tus tareas para el fragmento de inicio
  *
- * @param repository Repositorio de la aplicación
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
+ * @param application el application de Android, necesario para el ViewModel
+ * @param repository El repositorio de inicio
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel

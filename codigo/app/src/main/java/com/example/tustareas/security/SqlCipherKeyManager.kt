@@ -16,6 +16,7 @@ import javax.crypto.spec.GCMParameterSpec
 /**
  * Clase que gestiona la encriptacion de la contraseña y el manager
  *
+ * @param sharedPreferences Las SharedPreferences para almacenar la clave cifrada y el vector de inicialización
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  * @author proandroiddev.com
  */

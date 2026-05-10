@@ -12,6 +12,10 @@ import dagger.assisted.AssistedInject
 /**
  * Clase que gestiona el paso de tareas que exceden su tiempo limite y aún no estan completadas de acuerdo al usuario
  *
+ * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
+ * @param appContext el contexto de la aplicación, necesario para el Worker
+ * @param workerParams los parámetros del Worker, necesarios para el Worker
+ * @param repositorio el repositorio que alberga los metodos de actualizar Estado
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltWorker
