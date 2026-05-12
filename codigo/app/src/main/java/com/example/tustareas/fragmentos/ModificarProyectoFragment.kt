@@ -9,24 +9,17 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.adapters.ListaTareasPresentesAdapter
 import com.example.tustareas.databinding.FragmentModificarProyectoBinding
-import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.modelView.ModificarProyectosModel
-import com.example.tustareas.modelos.Estado
-import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.modelos.Prioridad
-import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.Date
 
 /**
@@ -43,14 +36,12 @@ class ModificarProyectoFragment : Fragment() {
 
     val model : ModificarProyectosModel by viewModels()
 
-    private lateinit var proyectoDTO : ProyectoDTO
+
 
     // Variables comunes tareas
-    private lateinit var listaTareas : List<Tarea>
     private lateinit var adapterTarea : ListaTareasPresentesAdapter
 
     //Variables comunes etiquetas
-    private lateinit var listaEtiquetas : List<Etiqueta>
     private lateinit var adapterEtiquetas : ListaEtiquetasPresentesAdapter
 
 
@@ -73,7 +64,7 @@ class ModificarProyectoFragment : Fragment() {
 
         // Recuperamos el proyecto pasado por argumentos
         val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
-        proyectoDTO = args.proyectoDTO
+        model.definirProyectoDTO(args.proyectoDTO)
 
         // Gestionar el llenado de los campos
         rellenarCampos()
@@ -98,6 +89,12 @@ class ModificarProyectoFragment : Fragment() {
 
         // Gestiona los calendarios de inicio y fin del proyecto
         gestionarCalendarios()
+
+        // Observar los errores
+        observarError()
+
+        // Observar el resultado del guardado o modificación de un proyecto
+        observarResultado()
 
 
         return binding.root
@@ -124,15 +121,19 @@ class ModificarProyectoFragment : Fragment() {
      */
     private fun rellenarCampos() {
         // Carga todos los datos recibidos en el fragmento
-        binding.tituloProyecto.setText(proyectoDTO.proyecto.nombre)
-        binding.descripcionProyecto.setText(proyectoDTO.proyecto.descripcion)
-        binding.fechaCreacionTarea.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaCreacion)
-        binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaInicio)
-        binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
+        model.observarProyectoDTO().value?.let {
+            proyectoDTO ->
+            binding.tituloProyecto.setText(proyectoDTO.proyecto.nombre)
+            binding.descripcionProyecto.setText(proyectoDTO.proyecto.descripcion)
+            binding.fechaCreacionTarea.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaCreacion)
+            binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaInicio)
+            binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
 
-        // Refrescar tareas y etiquetas
-        model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
-        model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+            // Refrescar tareas y etiquetas
+            model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+            model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+        }
+
     }
 
     /**
@@ -143,17 +144,9 @@ class ModificarProyectoFragment : Fragment() {
     private fun gestionarMostradoTareas() {
         // Gestiona la addición de tareas
         // spinner tareas
-        listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
-            DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
-        model.obtenerTareasRestantes(proyectoDTO.proyecto.id).observe(viewLifecycleOwner) {
+        model.obtenerTareasRestantes().observe(viewLifecycleOwner) {
                 tareas ->
-            if (tareas.isEmpty()) {
-                listaTareas = listOf(Tarea(0, getString(R.string.no_existen_tareas), null, null, Prioridad.NO_ESTABLECIDO,
-                    DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null))
-            }
-            else {
-                listaTareas = tareas
-            }
+            val listaTareas = model.tareasRestantesProcesadas(tareas)
             binding.listaTareas.adapter = ArrayAdapter(
                 requireContext(),
                 R.layout.spinner_personalizado,
@@ -172,12 +165,12 @@ class ModificarProyectoFragment : Fragment() {
         // Recycler view para las tareas
         adapterTarea = ListaTareasPresentesAdapter {
                 listaTareas ->
-            proyectoDTO.tareas = listaTareas
-            model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+            model.actualizarTareasDelProyecto(listaTareas)
+            model.actualizarFiltroListaTareaProyecto(model.obtenerTareasDelProyecto())
         }
         binding.recyclerViewMostrarTareas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarTareas.adapter = adapterTarea
-        adapterTarea.submitList(proyectoDTO.tareas.toList())
+        adapterTarea.submitList(model.obtenerTareasDelProyecto())
     }
 
     /**
@@ -188,15 +181,9 @@ class ModificarProyectoFragment : Fragment() {
     private fun gestionarMostradoEtiquetas() {
         // Gestiona la addición de etiquetas
         // spinner etiquetas
-        listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
         model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
                 etiquetas ->
-            if (etiquetas.isEmpty()) {
-                listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas), ""))
-            }
-            else {
-                listaEtiquetas = etiquetas
-            }
+            val listaEtiquetas = model.etiquetasRestantesProcesadas(etiquetas)
             binding.listaEtiquetas.adapter = ArrayAdapter(
                 requireContext(),
                 R.layout.spinner_personalizado,
@@ -217,12 +204,12 @@ class ModificarProyectoFragment : Fragment() {
         // Recycler view con las etiquetas del proyecto
         adapterEtiquetas = ListaEtiquetasPresentesAdapter {
                 listaEtiquetas ->
-            proyectoDTO.etiquetas = listaEtiquetas
-            model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+            model.actualizarEtiquetasDelProyecto(listaEtiquetas)
+            model.actualizarFiltroListaEtiquetaProyecto(model.obtenerEtiquetasDelProyecto())
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
-        adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
+        adapterEtiquetas.submitList(model.obtenerEtiquetasDelProyecto())
     }
 
     /**
@@ -234,19 +221,10 @@ class ModificarProyectoFragment : Fragment() {
         // boton añadir tarea
         binding.anadirTarea.setOnClickListener {
             val posicion = binding.listaTareas.selectedItemPosition
-            if (listaTareas.isNotEmpty() // Lista vacia
-                && posicion >= 0 && posicion < listaTareas.size // Protegerse de fuera de limites
-                && listaTareas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay tareas
-            ) {
-                // Obtener nueva tarea, la lista de tareas y añadirla actualizando las disponibles)
-                val tareaAnadir = listaTareas[posicion]
-                val nuevasTareasDTO = proyectoDTO.tareas.toMutableList()
-                nuevasTareasDTO.add(tareaAnadir)
-                proyectoDTO.tareas = nuevasTareasDTO
-                // Mandamos la lista con las nuevas tareas
-                adapterTarea.submitList(proyectoDTO.tareas.toList())
-                model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
-            }
+            model.anadirTareaAlProyecto(posicion)
+            // Mandamos la lista con las nuevas tareas
+            adapterTarea.submitList(model.obtenerTareasDelProyecto())
+            model.actualizarFiltroListaTareaProyecto(model.obtenerTareasDelProyecto())
         }
     }
 
@@ -259,19 +237,10 @@ class ModificarProyectoFragment : Fragment() {
         // boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             val posicion = binding.listaEtiquetas.selectedItemPosition
-            if (listaEtiquetas.isNotEmpty() // Lista vacia
-                && posicion >= 0 && posicion < listaEtiquetas.size // Protegerse de fuera de limites
-                && listaEtiquetas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
-            ) {
-                // Obtener nueva etiqueta, la lista de etiquetas y añadirla actualizando las disponibles)
-                val etiquetasAnadir = listaEtiquetas[posicion]
-                val nuevasEtiquetas = proyectoDTO.etiquetas.toMutableList()
-                nuevasEtiquetas.add(etiquetasAnadir)
-                proyectoDTO.etiquetas = nuevasEtiquetas
-                // Mandamos la lista con las nuevas tareas
-                adapterEtiquetas.submitList(proyectoDTO.etiquetas.toList())
-                model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
-            }
+            model.anadirEtiquetaAlProyecto(posicion)
+            // Mandamos la lista con las nuevas tareas
+            adapterEtiquetas.submitList(model.obtenerEtiquetasDelProyecto())
+            model.actualizarFiltroListaEtiquetaProyecto(model.obtenerEtiquetasDelProyecto())
         }
     }
 
@@ -295,7 +264,7 @@ class ModificarProyectoFragment : Fragment() {
             picker.addOnPositiveButtonClickListener { eleccion ->
 
                 val fechaEscogidaPorUsuario = Date(eleccion)
-                proyectoDTO.proyecto.fechaInicio = fechaEscogidaPorUsuario
+                model.establecerFechaInicioProyecto(fechaEscogidaPorUsuario)
                 binding.fechaInicioProyecto.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
 
@@ -315,7 +284,7 @@ class ModificarProyectoFragment : Fragment() {
             picker.addOnPositiveButtonClickListener { eleccion ->
 
                 val fechaEscogidaPorUsuario = Date(eleccion)
-                proyectoDTO.proyecto.fechaFin = fechaEscogidaPorUsuario
+                model.establecerFechaFinProyecto(fechaEscogidaPorUsuario)
                 binding.fechaFinProyecto.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
 
@@ -333,12 +302,7 @@ class ModificarProyectoFragment : Fragment() {
         // Modifica la logica por defecto de la flecha de retroceso
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                // 0 solo la pueden tener las de nueva creación
-                if (proyectoDTO.proyecto.id == 0) {
-                    dialogoGuardado()
-                } else {
-                    dialogoModificado()
-                }
+                dialogo()
             }
         }
 
@@ -351,36 +315,13 @@ class ModificarProyectoFragment : Fragment() {
      *
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private fun dialogoGuardado() {
+    private fun dialogo() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_guardar_proyecto))
+            .setTitle(getString(model.tituloDialogo()))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _,_ ->
-                if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
-                    // Actualizamos los campos de texto con los ultimo
-                    proyectoDTO.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
-                    proyectoDTO.proyecto.descripcion = binding.descripcionProyecto.text.toString().trim()
+                model.guardarYModificarProyecto(binding.tituloProyecto.text.toString().trim(), binding.descripcionProyecto.text.toString().trim())
 
-                    // Generamos un hilo con la nueva tarea
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            model.insertarProyectoConTareaYEtiqueta(proyectoDTO)
-                            // Vovlemos a la vista previa
-                            findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
-                                Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-
-
-                }
-                else {
-                    // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, getString(R.string.error_guardar_proyecto),
-                        Snackbar.LENGTH_SHORT).show()
-                }
             }
             .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
@@ -390,46 +331,33 @@ class ModificarProyectoFragment : Fragment() {
     }
 
     /**
-     * Muestra un diálogo que se encarga de la confirmación de las modificaciones realizadas a un proyecto existente.
+     * Función que se encarga de observar los mensajes de error del modelo y mostrar un Snackbar con
+     * el mensaje de error correspondiente al usuario.
      *
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private fun dialogoModificado() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_modificar_proyecto))
-            .setMessage("")
-            .setPositiveButton(getString(R.string.guardar)) { _,_ ->
-                if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
-                    // Actualizamos los campos de texto con los ultimo
-                    proyectoDTO.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
-                    proyectoDTO.proyecto.descripcion = binding.descripcionProyecto.text.toString().trim()
+    fun observarError() {
+        model.observarMensajeError().observe(viewLifecycleOwner) {
+            mensajeError ->
+            Snackbar.make(binding.root, mensajeError, Snackbar.LENGTH_SHORT).show()
+        }
+    }
 
-                    // Generamos un hilo con la nueva tarea
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            model.modificarProyectoConTareaYEtiqueta(proyectoDTO)
-                            // Vovlemos a la vista previa
-                            findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),
-                                Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-
-                }
-                else {
-                    // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, getString(R.string.error_modificar_proyecto),
-                        Snackbar.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
+    /**
+     * Función que se encarga de observar el resultado del guardado o modificación de un proyecto y
+     * volver a la vista previa si el resultado es positivo.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    fun observarResultado() {
+        model.observarResultado().observe(viewLifecycleOwner) {
+            resultado ->
+            if (resultado) {
                 findNavController().popBackStack()
             }
-            .setNeutralButton(getString(R.string.continuar), null)
-            .show()
+        }
     }
+
 
     /**
      * Destruye la vista del fragmento de modificación de proyectos y libera los recursos asociados a la vista.
