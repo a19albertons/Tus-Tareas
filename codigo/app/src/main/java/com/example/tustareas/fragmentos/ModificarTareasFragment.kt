@@ -10,22 +10,18 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.databinding.FragmentModificarTareasBinding
-import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelView.ModificarTareasModel
-import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.Date
 
 /**
@@ -42,7 +38,7 @@ class ModificarTareasFragment : Fragment() {
 
     val model: ModificarTareasModel by viewModels()
 
-    private lateinit var tareaDTO : TareaDTO
+
 
     // Variables para la gestión de etiquetas
     private lateinit var listaEtiquetas: List<Etiqueta>
@@ -66,7 +62,7 @@ class ModificarTareasFragment : Fragment() {
 
         // Recuperamos la tarea pasada por argumentos
         val args = ModificarTareasFragmentArgs.fromBundle(requireArguments())
-        tareaDTO = args.tareaDTO
+        model.definirTareaDTO(args.tareaDTO)
 
         // Rellenamos los campos con los datos de la tarea pasada
         rellenarCampos()
@@ -82,6 +78,12 @@ class ModificarTareasFragment : Fragment() {
 
         // Gestiona el boton de añadir etiqueta
         gestionarAnadirEtiqueta()
+
+        // Vigila los errores que surjan al guardar o modificar la tarea
+        vigilarError()
+
+        // Vigilar resultado
+        vigilarResultado()
 
 
         return binding.root
@@ -101,12 +103,7 @@ class ModificarTareasFragment : Fragment() {
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 0 solo la pueden tener las de nueva creación
-                if (tareaDTO.tarea.id == 0) {
-                    dialogoGuardado()
-                }
-                else {
-                    dialogoModificado()
-                }
+                dialogo()
             }
         }
 
@@ -120,15 +117,19 @@ class ModificarTareasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun rellenarCampos() {
-        // Valores del dto
-        binding.tituloTarea.setText(tareaDTO.tarea.nombre)
-        binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
-        binding.fechaCreacionTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaCreacion)
-        binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
-        binding.estadoTarea.text = getString(tareaDTO.tarea.estado.labelRes())
+        model.observarTareaDTO().value?.let {
+            tareaDTO ->
+            // Valores del dto
+            binding.tituloTarea.setText(tareaDTO.tarea.nombre)
+            binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
+            binding.fechaCreacionTarea.text =
+                DateHelper.timestampToString(tareaDTO.tarea.fechaCreacion)
+            binding.fechaLimiteTarea.text = DateHelper.timestampToString(tareaDTO.tarea.fechaLimite)
+            binding.estadoTarea.text = getString(tareaDTO.tarea.estado.labelRes())
 
-        // Refrescar tareas
-        model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+            // Refrescar tareas
+            model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+        }
     }
 
     /**
@@ -146,7 +147,7 @@ class ModificarTareasFragment : Fragment() {
             contenidosSpinerPrioridad
         )
         //Despues del adapter
-        binding.prioridadTarea.setSelection(tareaDTO.tarea.prioridad.ordinal)
+        binding.prioridadTarea.setSelection(model.prioridadOrdinal())
         binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -154,29 +155,9 @@ class ModificarTareasFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                // getion de prioridad
-                when (position) {
-                    0-> {
-                        binding.prioridadTarea.setSelection(0)
-                        tareaDTO.tarea.prioridad = Prioridad.ALTA
-                    }
-                    1-> {
-                        binding.prioridadTarea.setSelection(1)
-                        tareaDTO.tarea.prioridad = Prioridad.MEDIA
-                    }
-                    2-> {
-                        binding.prioridadTarea.setSelection(2)
-                        tareaDTO.tarea.prioridad = Prioridad.BAJA
-                    }
-                    3-> {
-                        binding.prioridadTarea.setSelection(3)
-                        tareaDTO.tarea.prioridad = Prioridad.NO_ESTABLECIDO
-                    }
-                    else -> {
-                        binding.prioridadTarea.setSelection(0)
-                        tareaDTO.tarea.prioridad = Prioridad.ALTA
-                    }
-                }
+                // gestion prioridad
+                model.cambiarPrioridad(position)
+                binding.prioridadTarea.setSelection(position)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -203,7 +184,7 @@ class ModificarTareasFragment : Fragment() {
             picker.addOnPositiveButtonClickListener { eleccion ->
 
                 val fechaEscogidaPorUsuario = Date(eleccion)
-                tareaDTO.tarea.fechaLimite = fechaEscogidaPorUsuario
+                model.actualizarFechaLimite(fechaEscogidaPorUsuario)
                 binding.fechaLimiteTarea.text =
                     DateHelper.timestampToString(fechaEscogidaPorUsuario)
             }
@@ -229,13 +210,7 @@ class ModificarTareasFragment : Fragment() {
         )
         // Gestionar etiqueta
         model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
-            if (etiquetas.isEmpty()) {
-                listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
-            }
-            else {
-                listaEtiquetas = etiquetas
-
-            }
+            listaEtiquetas = model.comprobarListaEtiquetas(etiquetas)
             binding.listaEtiquetas.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -246,12 +221,12 @@ class ModificarTareasFragment : Fragment() {
         // Recycler View etiquetas presentes
         adapter = ListaEtiquetasPresentesAdapter {
             listaEtiquetas ->
-            tareaDTO.etiquetas = listaEtiquetas
-            model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+            model.actualizarEtiquetasTarea(listaEtiquetas)
+            model.actualizarFiltroListaEtiquetaTareas(model.obtenerListaEtiquetasTarea())
         }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapter
-        adapter.submitList(tareaDTO.etiquetas.toList())
+        adapter.submitList(model.obtenerListaEtiquetasTarea())
     }
 
     /**
@@ -269,12 +244,12 @@ class ModificarTareasFragment : Fragment() {
             ) {
                 // Obtener nueva etiqueta, la lista de etqiuetas y añadirla actualizando las disponibles
                 val etiquetaAnadir = listaEtiquetas[posicion]
-                val nuevasEtiqeutasDTO = tareaDTO.etiquetas.toMutableList()
+                val nuevasEtiqeutasDTO = model.obtenerListaEtiquetasTarea().toMutableList()
                 nuevasEtiqeutasDTO.add(etiquetaAnadir)
-                tareaDTO.etiquetas = nuevasEtiqeutasDTO
+                model.actualizarEtiquetasTarea(nuevasEtiqeutasDTO)
                 // Mandamos la lista con las nuevas etiquetas
-                adapter.submitList(tareaDTO.etiquetas.toList())
-                model.actualizarFiltroListaEtiquetaTareas(tareaDTO.etiquetas)
+                adapter.submitList(model.obtenerListaEtiquetasTarea())
+                model.actualizarFiltroListaEtiquetaTareas(model.obtenerListaEtiquetasTarea())
             }
         }
     }
@@ -294,44 +269,12 @@ class ModificarTareasFragment : Fragment() {
      *
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private fun dialogoGuardado() {
+    private fun dialogo() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_guardar_tarea))
+            .setTitle(getString(model.tituloDialogo()))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _,_ ->
-                if (binding.tituloTarea.text.toString().trim().isNotEmpty()) {
-                    // Actualizamos los campos de texto con los ultimo
-                    tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
-                    tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
-                    if (tareaDTO.tarea.estado != Estado.COMPLETADA) {
-                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(DateHelper.fechaMediaNocheUTC())) {
-                            tareaDTO.tarea.estado = Estado.EN_TIEMPO
-                        }
-                        else {
-                            tareaDTO.tarea.estado = Estado.RETRASADA
-                        }
-                    }
-
-                    // Generamos un hilo con la nueva tarea
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            model.insertarTareaConEtiqueta(tareaDTO)
-                            // Vovlemos a la vista previa
-                            findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_guardar_tarea),
-                                Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-
-
-                }
-                else {
-                    // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, getString(R.string.error_guardar_tarea),
-                        Snackbar.LENGTH_SHORT).show()
-                }
+                model.guardarYModificarTarea(binding.tituloTarea.text.toString().trim(), binding.descipcionTarea.text.toString().trim())
             }
             .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
@@ -341,54 +284,31 @@ class ModificarTareasFragment : Fragment() {
     }
 
     /**
-     * Muestra un diálogo que se encarga de la modificación de una tarea existente.
+     * Función que se encarga de observar el resultado de la operación de guardar o modificar una
+     * tarea y mostrar un mensaje de éxito o error al usuario en consecuencia.
+     *
+     * @author Alberto Noceda <
+     */
+    private fun vigilarError() {
+        model.observarMensajeError().observe(viewLifecycleOwner) {
+            mensaje ->
+            Snackbar.make(binding.root, mensaje, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Función que se encarga de observar el resultado de la operación de guardar o modificar una
+     * tarea y navegar hacia atrás en la pila de fragmentos si la operación se ha realizado correctamente.
      *
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private fun dialogoModificado() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_modificado_tarea))
-            .setMessage("")
-            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
-                if (binding.tituloTarea.text.toString().trim().isNotEmpty()) {
-                    // Actualizamos los campos de texto con los ultimo
-                    tareaDTO.tarea.nombre = binding.tituloTarea.text.toString().trim()
-                    tareaDTO.tarea.descripcion = binding.descipcionTarea.text.toString().trim()
-                    if (tareaDTO.tarea.estado != Estado.COMPLETADA) {
-                        if (tareaDTO.tarea.fechaLimite == null || tareaDTO.tarea.fechaLimite!!.after(DateHelper.fechaMediaNocheUTC())) {
-                            tareaDTO.tarea.estado = Estado.EN_TIEMPO
-                        }
-                        else {
-                            tareaDTO.tarea.estado = Estado.RETRASADA
-                        }
-                    }
-
-                    // Generamos un hilo con la nueva tarea
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            model.modificarTareaConEtiqueta(tareaDTO)
-                            // Volvemos a la vista previa
-                            findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_modificar_tarea),
-                                Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-
-                } else {
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.error_modificar_tarea),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
+    private fun vigilarResultado() {
+        model.observarResultado().observe(viewLifecycleOwner) {
+            resultado ->
+            if (resultado) {
                 findNavController().popBackStack()
             }
-            .setNeutralButton(getString(R.string.continuar), null)
-            .show()
+        }
     }
 
 }
