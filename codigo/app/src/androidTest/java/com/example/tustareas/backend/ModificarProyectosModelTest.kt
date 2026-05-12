@@ -312,7 +312,8 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoModificado)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes()
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -347,7 +348,8 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoModificado)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes()
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -364,7 +366,8 @@ class ModificarProyectosModelTest {
 
         // Cantidad de tareas restantes
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(liveData.value!!.tareas)
-        val liveData2 = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoModificado)
+        val liveData2 = modeloModificarProyecto.obtenerTareasRestantes()
         liveData2.observeForever {  }
 
         // Resultado
@@ -462,7 +465,8 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoModificado)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes()
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -492,7 +496,8 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes en otra proyecto inexistente (lista vacia)
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(emptyList())
-        val tareasRestantesFinales = modeloModificarProyecto.obtenerTareasRestantes(proyectoDTO2.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoDTO2)
+        val tareasRestantesFinales = modeloModificarProyecto.obtenerTareasRestantes()
         tareasRestantesFinales.observeForever {  }
 
         // Resultado
@@ -517,7 +522,8 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoModificado.tareas)
-        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoModificado)
+        val tareasRestantes = modeloModificarProyecto.obtenerTareasRestantes()
         tareasRestantes.observeForever {  }
 
         // Insercion una tarea
@@ -530,7 +536,8 @@ class ModificarProyectosModelTest {
 
         // Gestion de obtención de tareas restantes en el mismo proyecto para lista vacia (eliminar la tarea de la lista en memory del fragmento)
         modeloModificarProyecto.actualizarFiltroListaTareaProyecto(emptyList())
-        val tareasRestantesFinales = modeloModificarProyecto.obtenerTareasRestantes(proyectoModificado.proyecto.id)
+        modeloModificarProyecto.definirProyectoDTO(proyectoModificado)
+        val tareasRestantesFinales = modeloModificarProyecto.obtenerTareasRestantes()
         tareasRestantesFinales.observeForever {  }
 
         // Resultado
