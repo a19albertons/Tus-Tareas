@@ -3,8 +3,10 @@ package com.example.tustareas.backend
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.tustareas.R
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ListarTareasModel
 import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelView.ModificarTareasModel
@@ -39,6 +41,10 @@ class ModificarTareasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    // Necesario para corutinas
+    @get:Rule
+    val ruleCoroutines = MainDispatcherRule()
 
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
@@ -130,11 +136,12 @@ class ModificarTareasModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
-        modeloModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        repositorioModificarEtiquetas.insertarEtiqueta(etiqueta)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+
 
 
     }
@@ -144,170 +151,453 @@ class ModificarTareasModelTest {
         db.close()
     }
 
-    // Añadir nueva etiqueta al final
+    // Guardar tarea con etiquetas nuevas
     @Test
-    fun tareaNuevaConEtiquetas1() = runTest {
-        // Prueba inserción
-        val tareaNuevaCompleta = Tarea(
-            0,
-            "prueba",
-            "descripcion",
-            Date(DateHelper.fechaMediaNocheUTC().time + 86400000),
-            Prioridad.NO_ESTABLECIDO,
-            // Fecha más alta no igual o surge una especie de race condition interna por los criterios de desempate de sqlite
-            Date(DateHelper.fechaMediaNocheUTC().time + 86400000),
-            Estado.EN_TIEMPO,
-            null
+    fun guardarTareaConEtiquetasNueva() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
         )
-        val etiqueta1 = Etiqueta(2, "etiqueta1")
-        val etiqueta2 = Etiqueta(3, "etiqueta2","descripcion")
-        val tareaNuevaDTO = TareaDTO(tareaNuevaCompleta, listOf(etiqueta1, etiqueta2))
 
-        // Insercion
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaNuevaDTO)
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // Obtener datos
-        val liveData = modeloListarTareas.obtenerTareasFiltradas()
-        liveData.observeForever {  }
+        // Operación de guardado
+        modeloModificarTareas.guardarYModificarTarea("tareaNueva", "descripcion")
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado!!.last().nombre == "prueba")
+        // Comprobar que se ha guardado correctamente
+        assert(modeloModificarTareas.observarResultado().value == true)
+        assert(modeloModificarTareas.observarTareaDTO().value == tareaDTO)
     }
 
-    // Comprobación etiquetas
     @Test
-    fun tareaNuevaConEtiquetas2() = runTest {
-        // Prueba inserción
-        val tareaNuevaCompleta = Tarea(
-            0,
-            "prueba",
-            "descripcion",
-            DateHelper.fechaMediaNocheUTC(),
-            Prioridad.NO_ESTABLECIDO,
-            DateHelper.fechaMediaNocheUTC(),
-            Estado.EN_TIEMPO,
-            null
+    fun guardarTareaConEtiquetasNuevaNoValida() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
         )
-        val etiqueta1 = Etiqueta(2, "etiqueta1")
-        val etiqueta2 = Etiqueta(3, "etiqueta2","descripcion")
-        val tareaNuevaDTO = TareaDTO(tareaNuevaCompleta, listOf(etiqueta1, etiqueta2))
 
-        // Insercion
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaNuevaDTO)
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // Obtener datos
-        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(5)
-        liveData.observeForever {  }
+        // Operación de guardado
+        modeloModificarTareas.guardarYModificarTarea("", "descripcion")
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado!!.etiquetas.size == 2)
+        // Comprobar que se ha guardado correctamente
+        assert(modeloModificarTareas.observarResultado().value == false)
+        assert(modeloModificarTareas.observarMensajeError().value == R.string.error_guardar_tarea)
     }
 
-    // Modificar una tarea
+    // Guardar tarea modificada
     @Test
-    fun modificarTareaConEtiqueta1() = runTest {
-        // Obtener referencia
-        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData.observeForever {  }
+    fun guardarTareaConEtiquetasExistente() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 8,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
 
-        // modficar
-        val tarea = liveData.value
-        tarea!!.tarea.descripcion = "modificada"
-        modeloModificarTareas.modificarTareaConEtiqueta(tarea)
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // Obtener datos finales
-        val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData2.observeForever {  }
+        // Operación de guardado
+        modeloModificarTareas.guardarYModificarTarea("tareaNueva", "descripcion")
 
-        // Comprobacion
-        val resultado = liveData2.value
-        assert(resultado!!.tarea.descripcion == "modificada")
+        // Comprobar que se ha guardado correctamente
+        assert(modeloModificarTareas.observarResultado().value == true)
+        assert(modeloModificarTareas.observarTareaDTO().value == tareaDTO)
     }
 
-    // etiquetas asociadas
     @Test
-    fun modificarTareaConEtiqueta2() = runTest {
-        // nuevas etiquetas
-        val etiqueta1 = Etiqueta(2, "etiqueta1")
-        val etiqueta2 = Etiqueta(3, "etiqueta2","descripcion")
+    fun guardarTareaConEtiquetasExistenteNoValida() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 8,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
 
-        // insercion
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // Obtener referencia inicial
-        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData.observeForever {  }
+        // Operación de guardado
+        modeloModificarTareas.guardarYModificarTarea("", "descripcion")
 
-        // obtener valor
-        val tarea = liveData.value
-
-        // Obtener etiquetas sin usar
-        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(tarea!!.etiquetas)
-        val etiquetasSinUsarPorTarea = modeloModificarTareas.obtenerEtiquetasRestantes()
-        etiquetasSinUsarPorTarea.observeForever {  }
-
-        // adicción etiqueta
-        val etiquetasRestantes = etiquetasSinUsarPorTarea.value
-        val nuevaLista = tarea.etiquetas.plus(etiquetasRestantes!!.first())
-        tarea.etiquetas = nuevaLista
-
-        // Actualización
-        modeloModificarTareas.modificarTareaConEtiqueta(tarea)
-
-        // Obtener datos finales
-        val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData2.observeForever {  }
-
-        // Comprobacion
-        val resultado = liveData2.value
-        assert(resultado!!.etiquetas.size == 1)
+        // Comprobar que se ha guardado correctamente
+        assert(modeloModificarTareas.observarResultado().value == false)
+        assert(modeloModificarTareas.observarMensajeError().value == R.string.error_modificar_tarea)
     }
 
-    // Etiquetas sin usar
     @Test
-    fun modificarTareaConEtiqueta3() = runTest {
-        // nuevas etiquetas
-        val etiqueta1 = Etiqueta(2, "etiqueta1")
-        val etiqueta2 = Etiqueta(3, "etiqueta2","descripcion")
+    fun tituloDialogoNueva() {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
 
-        // insercion
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // Obtener referencia inicial
-        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData.observeForever {  }
+        // Comprobar el título del diálogo
+        assert(modeloModificarTareas.tituloDialogo() == R.string.confirmar_guardar_tarea)
+    }
 
-        // obtener valor
-        val tarea = liveData.value
+    @Test
+    fun tituloDialogoExistente() {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 8,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
 
-        // Obtener etiquetas sin usar
-        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(tarea!!.etiquetas)
-        val etiquetasSinUsarPorTarea = modeloModificarTareas.obtenerEtiquetasRestantes()
-        etiquetasSinUsarPorTarea.observeForever {  }
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // adicción etiqueta
-        val etiquetasRestantes = etiquetasSinUsarPorTarea.value
-        val nuevaLista = tarea.etiquetas.plus(etiquetasRestantes!!.first())
-        tarea.etiquetas = nuevaLista
+        // Comprobar el título del diálogo
+        assert(modeloModificarTareas.tituloDialogo() == R.string.confirmar_modificado_tarea)
+    }
 
-        // Actualización
-        modeloModificarTareas.modificarTareaConEtiqueta(tarea)
+    @Test
+    fun prioridadOrdina() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
 
-        // Obtener datos finales
-        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(tarea.etiquetas)
-        val liveData2 = modeloModificarTareas.obtenerEtiquetasRestantes()
-        liveData2.observeForever {  }
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
 
-        // Comprobacion
-        val resultado = liveData2.value
-        assert(resultado!!.size == 2)
+        // Comprobar que se ha guardado correctamente
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.prioridad == Prioridad.ALTA)
+    }
+
+    @Test
+    fun cambiarPrioridadAlta() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.BAJA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Cambiar la prioridad a alta
+        modeloModificarTareas.cambiarPrioridad(0)
+
+        // Comprobar que se ha cambiado correctamente
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.prioridad == Prioridad.ALTA)
+    }
+
+    @Test
+    fun cambiarPrioridadMedia() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.BAJA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Cambiar la prioridad a media
+        modeloModificarTareas.cambiarPrioridad(1)
+
+        // Comprobar que se ha cambiado correctamente
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.prioridad == Prioridad.MEDIA)
+    }
+
+    @Test
+    fun cambiarPrioridadBaja() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Cambiar la prioridad a baja
+        modeloModificarTareas.cambiarPrioridad(2)
+
+        // Comprobar que se ha cambiado correctamente
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.prioridad == Prioridad.BAJA)
+    }
+
+    @Test
+    fun cambiarPrioridadNoEstablecido() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Cambiar la prioridad a no establecido
+        modeloModificarTareas.cambiarPrioridad(3)
+
+        // Comprobar que se ha cambiado correctamente
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.prioridad == Prioridad.NO_ESTABLECIDO)
+    }
+
+    @Test
+    fun cambiarPrioridadNoValida() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Cambiar la prioridad a un valor no válido (por ejemplo, -1)
+        modeloModificarTareas.cambiarPrioridad(-1)
+
+        // Comprobar que se ha cambiado correctamente a alta (valor por defecto)
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.prioridad == Prioridad.ALTA)
+    }
+
+    @Test
+    fun actualizarFechaLimite() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.ALTA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Actualizar la fecha límite a dos días después
+        val nuevaFechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 2 * 86400000) // Dos días después
+        modeloModificarTareas.actualizarFechaLimite(nuevaFechaLimite)
+
+        // Comprobar que se ha actualizado correctamente
+        assert(modeloModificarTareas.observarTareaDTO().value!!.tarea.fechaLimite == nuevaFechaLimite)
+    }
+
+    @Test
+    fun comprobarListaEtiquetas() {
+        val etiquetas = listOf(
+            Etiqueta(id = 1, nombre = "etiqueta1"),
+            Etiqueta(id = 2, nombre = "etiqueta2"),
+            Etiqueta(id = 3, nombre = "etiqueta3")
+        )
+
+        val resultado = modeloModificarTareas.comprobarListaEtiquetas(etiquetas)
+
+        assert(resultado.size == 3)
+        assert(resultado[0].nombre == "etiqueta1")
+        assert(resultado[1].nombre == "etiqueta2")
+        assert(resultado[2].nombre == "etiqueta3")
+    }
+
+    @Test
+    fun comprobarListaEtiquetasVacia() {
+        val etiquetas = emptyList<Etiqueta>()
+
+        val resultado = modeloModificarTareas.comprobarListaEtiquetas(etiquetas)
+
+        assert(resultado.size == 1)
+        assert(resultado[0].id == 0)
+    }
+
+    @Test
+    fun prioridadOrdinal() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.MEDIA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Comprobar que se ha guardado correctamente
+        assert(modeloModificarTareas.prioridadOrdinal() == Prioridad.MEDIA.ordinal)
+    }
+
+    @Test
+    fun actualizarEtiquetasTareaYObtenerlas() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.MEDIA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Actualizar las etiquetas de la tarea
+        val nuevasEtiquetas = listOf(
+            Etiqueta(id = 1, nombre = "etiqueta1"),
+            Etiqueta(id = 2, nombre = "etiqueta2")
+        )
+        modeloModificarTareas.actualizarEtiquetasTarea(nuevasEtiquetas)
+
+        // Comprobar que se han actualizado correctamente las etiquetas
+        val etiquetasActualizadas = modeloModificarTareas.obtenerListaEtiquetasTarea()
+        assert(etiquetasActualizadas.size == 2)
+        assert(etiquetasActualizadas[0].nombre == "etiqueta1")
+        assert(etiquetasActualizadas[1].nombre == "etiqueta2")
+    }
+
+    @Test
+    fun actualizarFiltroListaEtiquetaTareas() = runTest {
+        // Definir una nueva tarea
+        val tareaDTO = TareaDTO(
+            Tarea(
+                id = 0,
+                nombre = "tareaNueva",
+                descripcion = "descripcion",
+                prioridad = Prioridad.MEDIA,
+                fechaCreacion = Date(),
+                fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+                estado = Estado.EN_TIEMPO
+            ),
+            listOf()
+        )
+
+        // Guardar la tarea
+        modeloModificarTareas.definirTareaDTO(tareaDTO)
+
+        // Actualizar el filtro de la lista de etiquetas de la tarea
+        val etiquetaFiltro = listOf(Etiqueta(id = 1, nombre = "etiqueta1"))
+
+        // Observamos la consulta a base de datos
+        val liveData = modeloModificarTareas.obtenerEtiquetasRestantes()
+        liveData.observeForever {}
+
+        modeloModificarTareas.actualizarFiltroListaEtiquetaTareas(etiquetaFiltro)
+
+        // Comprobar que se ha actualizado correctamente el filtro y una tarea con ese id no existe en las etiquetas restantes
+        assert(etiquetaFiltro[0].id !in liveData.value!!.map { it.id })
     }
 }
