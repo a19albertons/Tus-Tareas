@@ -119,7 +119,7 @@ class ModificarTareasModel @Inject constructor(
     }
 
     /**
-     * Actualiza las etiquetas de la tarea a modificar y el filtro de la lista de etiquetas de la tarea
+     * Actualiza las etiquetas de la tarea a modificar
      *
      * @param lista La nueva lista de etiquetas de la tarea a modificar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
