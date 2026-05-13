@@ -250,7 +250,7 @@ class ModificarTareasModel @Inject constructor(
      * @param tareaDTO La tarea a insertar con sus etiquetas
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
+    private suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
 
     /**
      * Modifica una tarea con sus etiquetas en la base de datos
@@ -258,6 +258,6 @@ class ModificarTareasModel @Inject constructor(
      * @param tareaDTO La tarea a modificar con sus etiquetas
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
+    private suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
 
 }
