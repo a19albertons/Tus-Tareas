@@ -168,4 +168,5 @@
     <!-- Activity error no previsto -->
     <string name="cerrar_aplicacion">Cerrar aplicación</string>
     <string name="error_no_previsto">"Ha habido el siguiente error no previsto/irreversible \n"</string>
+    <string name="mensaje_error_activity">Publique la incidencia con el error que sale en la ventana inferior en la plataforma, para que podamos solucionarlo lo antes posible. Además, si considera necesario puede indicar los casos de como reproducir el errro.</string>
 </resources>
