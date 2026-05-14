@@ -208,7 +208,7 @@ class ModificarProyectosModel @Inject constructor(
         _proyectoDTO.value!!.proyecto.nombre = nombre
         _proyectoDTO.value!!.proyecto.descripcion = descripcion
 
-            // Generamos un hilo con la nueva tarea
+        // Generamos un hilo con la nueva tarea
         viewModelScope.launch {
             try {
                 if (proyectoDTO.value!!.proyecto.id == 0) {
@@ -348,7 +348,7 @@ class ModificarProyectosModel @Inject constructor(
      * @param proyectoDTO El proyecto con sus tareas e etiquetas a insertar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+    private suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
     /**
      * Modifica un proyecto con sus tareas e etiquetas en la base de datos
@@ -356,7 +356,7 @@ class ModificarProyectosModel @Inject constructor(
      * @param proyectoDTO El proyecto con sus tareas e etiquetas a modificar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+    private suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) = repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
 
 
 }

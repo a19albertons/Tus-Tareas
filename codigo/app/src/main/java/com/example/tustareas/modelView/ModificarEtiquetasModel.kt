@@ -153,7 +153,7 @@ class ModificarEtiquetasModel @Inject constructor(
      * @param etiqueta La etiqueta a insertar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
+    private suspend fun insertarEtiqueta(etiqueta: Etiqueta) = repository.insertarEtiqueta(etiqueta)
 
     /**
      * Modifica una etiqueta en la base de datos
@@ -161,5 +161,5 @@ class ModificarEtiquetasModel @Inject constructor(
      * @param etiqueta La etiqueta a modificar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
+    private suspend fun modificarEtiqueta(etiqueta: Etiqueta) = repository.modificarEtiqueta(etiqueta)
 }

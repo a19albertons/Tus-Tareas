@@ -113,10 +113,10 @@ class ProyectoDetallesModelTest {
         )
 
         // Insercion
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaDTO1)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaDTO2)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta1)
-        modeloModificarEtiquetas.insertarEtiqueta(etiqueta2)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO1)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO2)
+        repositorioModificarEtiquetas.insertarEtiqueta(etiqueta1)
+        repositorioModificarEtiquetas.insertarEtiqueta(etiqueta2)
 
         // Crear proyecto
         val proyecto = Proyecto(
@@ -132,7 +132,8 @@ class ProyectoDetallesModelTest {
             listOf(tarea1, tarea2)
         )
         // Insertar
-        modeloModificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        modeloModificarProyectos.definirProyectoDTO(proyectoDTO)
+        modeloModificarProyectos.guardarYModificarProyecto(proyectoDTO.proyecto.nombre, proyectoDTO.proyecto.descripcion ?: "")
     }
 
     // Finalización entorno
