@@ -8,16 +8,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentModificarEtiquetaBinding
 import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.TusTareasModel
-import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 /**
  * Clase que gestiona el fragmento de modificación de etiquetas.
@@ -33,7 +29,6 @@ class ModificarEtiquetaFragment : Fragment() {
 
     val model: ModificarEtiquetasModel by viewModels()
 
-    lateinit var etiquetaPasada : Etiqueta
 
 
     /**
@@ -54,12 +49,33 @@ class ModificarEtiquetaFragment : Fragment() {
 
         // Recuperamos la etiqueta pasada por argumentos
         val args = ModificarEtiquetaFragmentArgs.fromBundle(requireArguments())
-        etiquetaPasada = args.etiqueta
+        model.definirEtiqueta(args.etiqueta)
 
         // Rellenamos los campos con los datos de la etiqueta pasada
         rellenarCampos()
 
+        // Gestiona el error de guardado de la etiqueta
+        vigilarError()
+
+        // Vigilar resultado
+        vigilarResultado()
+
         return binding.root
+    }
+
+    /**
+     * Vigila el resultado de la operación de guardado o modificación de la etiqueta y navega al fragmento
+     * en caso de exito.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun vigilarResultado() {
+        model.observarResultado().observe(viewLifecycleOwner) {
+            resultado ->
+            if (resultado) {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     /**
@@ -77,14 +93,30 @@ class ModificarEtiquetaFragment : Fragment() {
     }
 
     /**
+     * Vigila los mensajes de error y muestra un snackar con el mensaje de error asociado al int
+     * que se le entrega de r string
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun vigilarError() {
+        model.observarMensajeError().observe(viewLifecycleOwner) {
+            mensaje ->
+            Snackbar.make(binding.root, getString(mensaje), Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
      * Función que se encarga de rellenar los campos del formulario con los datos de la etiqueta pasada por argumentos.
      *
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun rellenarCampos() {
         // Rellenamos los campos con los datos de la etiqueta pasada por argumentos
-        binding.tituloEtiqueta.setText(etiquetaPasada.nombre)
-        binding.descipcionEtiqueta.setText(etiquetaPasada.descripcion)
+        model.observarEtiqueta().value?.let {
+            etiqueta ->
+            binding.tituloEtiqueta.setText(etiqueta.nombre)
+            binding.descipcionEtiqueta.setText(etiqueta.descripcion)
+        }
     }
 
     /**
@@ -97,12 +129,7 @@ class ModificarEtiquetaFragment : Fragment() {
         val flechaRetroceso = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 0 solo la pueden tener las de nueva creación
-                if (etiquetaPasada.id == 0) {
-                    dialogoGuardado()
-                }
-                else {
-                    dialogoModificado()
-                }
+                dialogo()
             }
         }
 
@@ -125,78 +152,13 @@ class ModificarEtiquetaFragment : Fragment() {
      *
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    private fun dialogoGuardado() {
+    private fun dialogo() {
         AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_guardar_etiqueta))
+            .setTitle(getString(model.tituloDialogo()))
             .setMessage("")
             .setPositiveButton(R.string.guardar) { _, _ ->
                 // Logica de guardado y campos que no tolera nulos
-                if (binding.tituloEtiqueta.text.toString().trim().isNotEmpty()) {
-                    // Pasamos el filtro de nulos del if y actualizamos la clase etiqueta con los datos del formulario
-                    etiquetaPasada.nombre = binding.tituloEtiqueta.text.toString().trim()
-                    etiquetaPasada.descripcion = binding.descipcionEtiqueta.text.toString().trim()
-
-                    // Generamos un hilo donde se ejecuta la inserción
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            model.insertarEtiqueta(etiquetaPasada)
-                            // Volvemos a la vista previa
-                            findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
-                                Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-
-
-                }
-                else {
-                    Snackbar.make(binding.root, getString(R.string.error_guardar_etiqueta),
-                        Snackbar.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
-                findNavController().popBackStack()
-            }
-            .setNeutralButton(getString(R.string.continuar),null)
-            .show()
-    }
-
-    /**
-     * Muestra un diálogo que se encarga de la modificación de una etiqueta existente.
-     *
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    private fun dialogoModificado() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_modificar_etiqueta))
-            .setMessage("")
-            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
-                if (binding.tituloEtiqueta.text.toString().trim().isNotEmpty()) {
-                    // Pasamos el filtro de nulos del if y actualizamos la clase etiqueta con los datos del formulario
-                    etiquetaPasada.nombre = binding.tituloEtiqueta.text.toString().trim()
-                    etiquetaPasada.descripcion = binding.descipcionEtiqueta.text.toString().trim()
-
-                    // Generamos un hilo donde se ejecuta la inserción
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        try {
-                            model.modificarEtiqueta(etiquetaPasada)
-                            // Volvemos a la vista previa
-                            findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
-                                Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
-
-
-                }
-                else {
-                    Snackbar.make(binding.root, getString(R.string.error_modificar_etiqueta),
-                        Snackbar.LENGTH_SHORT).show()
-                }
+                model.guardarYModificarEtiqueta(binding.tituloEtiqueta.text.toString().trim(), binding.descipcionEtiqueta.text.toString().trim())
             }
             .setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()

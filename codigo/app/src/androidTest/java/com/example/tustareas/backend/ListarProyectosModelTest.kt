@@ -400,6 +400,7 @@ class ListarProyectosModelTest {
         assert(resultado!!.first().nombre == "Proyecto 4")
     }
 
+    @Test
     fun filtroPorDescripcion() {
         // Configuración
         modelo.actualizarTextoListadoProyectos("DESCRIPCION")
@@ -413,6 +414,7 @@ class ListarProyectosModelTest {
         assert(resultado!!.first().nombre == "Proyecto 2")
     }
 
+    @Test
     fun filtroPorEtiqueta() {
         // Configuración
         modelo.actualizarTextoListadoProyectos("ETiquetA")

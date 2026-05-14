@@ -121,10 +121,10 @@ class VerMasModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas
-        modeloModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+        repositorioModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
     }
 
 

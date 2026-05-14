@@ -157,4 +157,5 @@
     <!-- Error no previsto -->
     <string name="cerrar_aplicacion">Cerrar aplicación</string>
     <string name="error_no_previsto">"Ha habido el siguiente error no previsto/irreversible \n"</string>
+    <string name="mensaje_error_activity">Publique a incidencia co erro que aparece na xanela inferior na plataforma, para que poidamos solucionalo canto antes. Ademais, se o considera necesario pode indicar os casos de como reproducir o erro.</string>
 </resources>

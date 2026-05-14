@@ -3,7 +3,9 @@ package com.example.tustareas.backend
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.tustareas.R
 import com.example.tustareas.db.TusTareasDatabase
+import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
@@ -30,7 +32,11 @@ class ModificarEtiquetasModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    // Necesario para saltarle el suspend que se ejecuta en segundo plano
+    // Necesario para las corutinas
+    @get:Rule
+    val ruleCoroutines = MainDispatcherRule()
+
+    // Necesario para Hilt
     @get:Rule
     val ruleHilt = HiltAndroidRule(this)
 
@@ -88,47 +94,110 @@ class ModificarEtiquetasModelTest {
         db.close()
     }
 
-    // Insertar etiqueta nueva
     @Test
-    fun insertarEtiqueta() = runTest {
-        // Crear e insertar etiqueta
-        val etiquetaNueva = Etiqueta(
-            nombre = "prueba",
-            descripcion = "descripcion"
-        )
-        modeloModificarEtiquetas.insertarEtiqueta(etiquetaNueva)
+    fun tituloDialogoNueva() {
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // obtener datos
-        val liveData = modeloListarEtiquetas.obtenerEtiquetasFiltradas()
-        liveData.observeForever {  }
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
-        // resultado
-        val resultado = liveData.value
-        assert(resultado?.size == 3)
-        assert(resultado?.last()?.nombre == "prueba")
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.tituloDialogo() == R.string.confirmar_guardar_etiqueta)
     }
 
-    // Modificar etiqueta nueva
+    @Test
+    fun tituloDialogoExistente() {
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.tituloDialogo() == R.string.confirmar_modificar_etiqueta)
+    }
+
+    // Guardado de nuevas etiquetas
+    @Test
+    fun guardarEtiqueta() = runTest {
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
+
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+
+        // Guardar la etiqueta
+        modeloModificarEtiquetas.guardarYModificarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
+
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.observarResultado().value == true)
+    }
+
+    // Guardado de nuevas etiquetas no valida
+    @Test
+    fun guardarEtiquetaNoValida() = runTest {
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
+
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+
+        // Guardar la etiqueta
+        modeloModificarEtiquetas.guardarYModificarEtiqueta("", "Descripción de la etiqueta 1")
+
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_guardar_etiqueta)
+        assert(modeloModificarEtiquetas.observarResultado().value == false)
+    }
+
     @Test
     fun modificarEtiqueta() = runTest {
-        // modificar etiqueta
-        val liveData = modeloListarEtiquetas.obtenerEtiquetasFiltradas()
-        liveData.observeForever {  }
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Modificacion
-        val etiquetaModificar = liveData.value!!.last()
-        etiquetaModificar.nombre = "modificado"
-        etiquetaModificar.descripcion = "descripcion modificada"
-        modeloModificarEtiquetas.modificarEtiqueta(etiquetaModificar)
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
-        // Obtener datos actualziados
-        val liveData2 = modeloListarEtiquetas.obtenerEtiquetasFiltradas()
-        liveData2.observeForever {  }
+        // Modificar la etiqueta
+        modeloModificarEtiquetas.guardarYModificarEtiqueta(
+            "Etiqueta 1",
+            "Descripción de la etiqueta 1"
+        )
 
-        // resultado
-        val resultado = liveData2.value
-        assert(resultado?.size == 2)
-        assert(resultado?.last()?.nombre == "modificado")
-        assert(resultado?.last()?.descripcion == "descripcion modificada")
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.observarResultado().value == true)
     }
+
+    @Test
+    fun modificarEtiquetaNoValida() = runTest {
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+
+        // Modificar la etiqueta
+        modeloModificarEtiquetas.guardarYModificarEtiqueta(
+            "",
+            "Descripción de la etiqueta 1"
+        )
+
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_modificar_etiqueta)
+        assert(modeloModificarEtiquetas.observarResultado().value == false)
+    }
+
+    @Test
+    fun observarEtiqueta() = runTest {
+        // Definición etiqueta de prueba
+        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+
+        // Definir una etiqueta
+        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+
+        // Comprobación del resultado
+        assert(modeloModificarEtiquetas.observarEtiqueta().value == etiqueta)
+    }
+
 }

@@ -157,4 +157,5 @@
     <!-- Error no previsto -->
     <string name="cerrar_aplicacion">Close application</string>
     <string name="error_no_previsto">"An unexpected error occurred \n"</string>
+    <string name="mensaje_error_activity">Please post the issue with the error shown in the lower window on the platform so we can fix it as soon as possible. Additionally, if you consider it necessary you can explain how to reproduce the error.</string>
 </resources>

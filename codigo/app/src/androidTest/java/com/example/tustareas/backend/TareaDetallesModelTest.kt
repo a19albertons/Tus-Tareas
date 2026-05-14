@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.TareaDetallesModel
@@ -37,6 +38,10 @@ class TareaDetallesModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    // Necesario para corutinas
+    @get:Rule
+    val ruleCoroutines = MainDispatcherRule()
 
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
@@ -77,7 +82,6 @@ class TareaDetallesModelTest {
 
         // Tarea sin fecha limite, sin prioridad y en tiempo
         val tarea1 = Tarea(
-            id = 1,
             nombre = "tarea1",
             prioridad = Prioridad.NO_ESTABLECIDO,
             fechaCreacion = Date(diaReferencia - 86400000),
@@ -104,8 +108,6 @@ class TareaDetallesModelTest {
             estado = Estado.COMPLETADA
         )
         val etiqueta = Etiqueta(
-            // Id interno manual para base de pruebas
-            id = 1,
             nombre = "etiqueta"
         )
         val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
@@ -120,12 +122,16 @@ class TareaDetallesModelTest {
         val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
         // Insertar tareas y etiqueta
-        modeloModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-        modeloModificarEtiqueta.insertarEtiqueta(etiqueta)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-        modeloModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
-
+        modeloModificarTareas.definirTareaDTO(tarea1DTO)
+        modeloModificarTareas.guardarYModificarTarea(tarea1DTO.tarea.nombre, tarea1DTO.tarea.descripcion ?: "")
+        modeloModificarTareas.definirTareaDTO(tarea2DTO)
+        modeloModificarTareas.guardarYModificarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
+        modeloModificarEtiqueta.definirEtiqueta(etiqueta)
+        modeloModificarEtiqueta.guardarYModificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
+        modeloModificarTareas.definirTareaDTO(tareaHoyDTO)
+        modeloModificarTareas.guardarYModificarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
+        modeloModificarTareas.definirTareaDTO(tareaRetrasadaDTO)
+        modeloModificarTareas.guardarYModificarTarea(tareaRetrasadaDTO.tarea.nombre, tareaRetrasadaDTO.tarea.descripcion ?: "")
 
     }
 
