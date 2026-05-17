@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class VerMasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentVerMasBinding? = null
-    private val binding: FragmentVerMasBinding
+    val binding: FragmentVerMasBinding
         get() = _binding!!
 
     val model: VerMasModel by viewModels()

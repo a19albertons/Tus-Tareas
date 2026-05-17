@@ -28,7 +28,7 @@ import java.util.Date
 class InicioFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentInicioBinding? = null
-    private val binding: FragmentInicioBinding
+    val binding: FragmentInicioBinding
         get() = _binding!!
 
     val model: InicioModel by viewModels()

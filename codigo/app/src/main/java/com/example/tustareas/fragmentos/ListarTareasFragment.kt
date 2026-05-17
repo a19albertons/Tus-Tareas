@@ -36,7 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListarTareasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentListarTareasBinding? = null
-    private val binding: FragmentListarTareasBinding
+    val binding: FragmentListarTareasBinding
         get() = _binding!!
 
     val model: ListarTareasModel by viewModels()

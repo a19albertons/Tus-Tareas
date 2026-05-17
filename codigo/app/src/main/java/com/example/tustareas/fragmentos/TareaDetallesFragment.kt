@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 class TareaDetallesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentTareaDetallesBinding? = null
-    private val binding: FragmentTareaDetallesBinding
+    val binding: FragmentTareaDetallesBinding
         get() = _binding!!
 
     val model: TareaDetallesModel by viewModels()

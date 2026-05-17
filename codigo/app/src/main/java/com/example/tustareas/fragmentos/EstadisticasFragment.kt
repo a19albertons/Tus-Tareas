@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class EstadisticasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentEstadisticasBinding? = null
-    private val binding: FragmentEstadisticasBinding
+    val binding: FragmentEstadisticasBinding
         get() = _binding!!
 
     val model: EstadisticasModel by viewModels()

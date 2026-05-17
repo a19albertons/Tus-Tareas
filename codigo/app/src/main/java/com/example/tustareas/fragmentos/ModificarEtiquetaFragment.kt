@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ModificarEtiquetaFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarEtiquetaBinding? = null
-    private val binding: FragmentModificarEtiquetaBinding
+    val binding: FragmentModificarEtiquetaBinding
         get() = _binding!!
 
     val model: ModificarEtiquetasModel by viewModels()

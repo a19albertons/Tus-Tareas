@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 class EtiquetaDetallesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentEtiquetaDetallesBinding? = null
-    private val binding: FragmentEtiquetaDetallesBinding
+    val binding: FragmentEtiquetaDetallesBinding
         get() = _binding!!
 
     val model: EtiquetaDetallesModel by viewModels()

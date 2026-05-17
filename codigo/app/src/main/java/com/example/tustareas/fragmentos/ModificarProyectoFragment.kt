@@ -31,7 +31,7 @@ import java.util.Date
 class ModificarProyectoFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarProyectoBinding? = null
-    private val binding: FragmentModificarProyectoBinding
+    val binding: FragmentModificarProyectoBinding
         get() = _binding!!
 
     val model: ModificarProyectosModel by viewModels()

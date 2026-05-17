@@ -33,7 +33,7 @@ import java.util.Date
 class ModificarTareasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarTareasBinding? = null
-    private val binding: FragmentModificarTareasBinding
+    val binding: FragmentModificarTareasBinding
         get() = _binding!!
 
     val model: ModificarTareasModel by viewModels()

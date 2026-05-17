@@ -27,7 +27,7 @@ class ModificarEtiquetasModel
         private val repository: ModificarEtiquetasRepository,
     ) : AndroidViewModel(application) {
         private val _etiquetaModel: MutableLiveData<Etiqueta> = MutableLiveData()
-        private val etiquetaModel: MutableLiveData<Etiqueta>
+        val etiquetaModel: MutableLiveData<Etiqueta>
             get() = _etiquetaModel
 
         private val mensajeError: MutableLiveData<Int> = MutableLiveData()

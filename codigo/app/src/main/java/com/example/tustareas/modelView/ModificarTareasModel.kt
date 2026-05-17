@@ -38,7 +38,7 @@ class ModificarTareasModel
 
         // Variables de tareasDTO
         private val _tareaDTO: MutableLiveData<TareaDTO> = MutableLiveData()
-        private val tareaDTO: MutableLiveData<TareaDTO>
+        val tareaDTO: MutableLiveData<TareaDTO>
             get() = _tareaDTO
 
         private val mensajeError: MutableLiveData<Int> = MutableLiveData()

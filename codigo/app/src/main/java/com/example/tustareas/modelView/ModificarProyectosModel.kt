@@ -36,7 +36,7 @@ class ModificarProyectosModel
     ) : AndroidViewModel(application) {
         // Variable de proyectoDTO
         private val _proyectoDTO: MutableLiveData<ProyectoDTO> = MutableLiveData()
-        private val proyectoDTO: MutableLiveData<ProyectoDTO>
+        val proyectoDTO: MutableLiveData<ProyectoDTO>
             get() = _proyectoDTO
 
         // Variable lista de tareas temporal

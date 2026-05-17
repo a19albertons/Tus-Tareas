@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AjustesFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentAjustesBinding? = null
-    private val binding: FragmentAjustesBinding
+    val binding: FragmentAjustesBinding
         get() = _binding!!
 
     val model: TusTareasModel by viewModels()
