@@ -1,5 +1,7 @@
 # Manuais
 
+## Manual de usuario
+Guia de axuda para o usuario final [manual_usuario.md](./manual_usuario.md)
 
 ## Manual técnico do proxecto
 Información sobre como contribuir [CONTRIBUTING.md](../../CONTRIBUTING.md)
