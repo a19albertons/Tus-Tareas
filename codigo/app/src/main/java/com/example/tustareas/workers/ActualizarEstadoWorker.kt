@@ -25,7 +25,6 @@ class ActualizarEstadoWorker
         @Assisted workerParams: WorkerParameters,
         private val repositorio: WorkerRepository,
     ) : Worker(appContext, workerParams) {
-        // Sobreescribe el metodo que indica el trabajo
         /**
          * Realiza el trabajo de revisar las tareas y actualizar su estado si es necesario
          *
