@@ -156,7 +156,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: TusTareasDatabase? = null
+        private var instanciaDB: TusTareasDatabase? = null
 
         @Volatile
         private var isReady: Boolean = false
@@ -178,8 +178,8 @@ abstract class TusTareasDatabase : RoomDatabase() {
          */
         fun getDatabase(context: Context): TusTareasDatabase {
             // Comprueba si la instancia existe sino solo permite un hilo generarla a la vez
-            return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: run {
+            return instanciaDB ?: synchronized(this) {
+                instanciaDB ?: run {
                     // Carga la libreria de sqlcipher
                     System.loadLibrary("sqlcipher")
                     // Obtiene las preferencias
@@ -216,7 +216,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
                     instance.openHelper.writableDatabase
 
                     // habilita el singleton
-                    INSTANCE = instance
+                    instanciaDB = instance
 
                     // Indica que esta preparada
                     isReady = true
