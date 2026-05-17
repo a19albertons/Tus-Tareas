@@ -41,7 +41,7 @@ class ListarEtiquetasModelTest {
     lateinit var repositorioEtiquetas: ModificarEtiquetasRepository
 
     @Inject
-    lateinit var ListarEtiquetaRepositorio: ListarEtiquetasRepository
+    lateinit var listarEtiquetaRepositorio: ListarEtiquetasRepository
 
     lateinit var modelo: ListarEtiquetasModel
 
@@ -55,7 +55,7 @@ class ListarEtiquetasModelTest {
             ruleHilt.inject()
 
             // Inicializar modelo manualmente
-            modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), ListarEtiquetaRepositorio)
+            modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetaRepositorio)
 
             repositorioEtiquetas.insertarEtiqueta(
                 Etiqueta(
