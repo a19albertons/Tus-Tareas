@@ -18,7 +18,6 @@ import com.example.tustareas.modelos.TareaEtiqueta
  */
 @Dao
 interface ModificarTareaConsultas {
-    // Usar solo aqui porque devuelve el id interno para transaction
     /**
      * Inserta una tarea y devuelve su id. Solo usar en las transaciones
      *

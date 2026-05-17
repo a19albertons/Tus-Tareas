@@ -19,7 +19,6 @@ import com.example.tustareas.modelos.Tarea
  */
 @Dao
 interface ModificarProyectoConsultas {
-    // Solo usar aqui los seis primeros metodos son para los transaction
     /**
      * Inserta un proyecto. Solo usar en las transaciones
      *
