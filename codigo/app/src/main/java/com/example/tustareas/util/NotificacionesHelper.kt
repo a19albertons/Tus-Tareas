@@ -76,7 +76,8 @@ object NotificacionesHelper {
                 .setSmallIcon(R.drawable.logo)
                 .setContentTitle(notificacion.titulo)
                 .setContentText(notificacion.mensaje)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(notificacion.mensaje)) // Para poder mostrar el texto completo y no quedarse en ...
+                // Para poder mostrar el texto completo y no quedarse en ...
+                .setStyle(NotificationCompat.BigTextStyle().bigText(notificacion.mensaje))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent) // La notificación es clickable a una acción predeterminada
                 .setAutoCancel(true) // Elimina la notificación al acceder a ella
