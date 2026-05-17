@@ -18,7 +18,9 @@ import com.google.android.material.snackbar.Snackbar
  * @return ListAdapter con las etiquetas presentes a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etiqueta>) -> Unit) : ListAdapter<Etiqueta, ListaEtiquetasPresentesAdapter.EtiquetaViewHolder>(EtiquetaDiferenciasComprobacion()) {
+class ListaEtiquetasPresentesAdapter(
+    private val etiquetaEliminada: (List<Etiqueta>) -> Unit,
+) : ListAdapter<Etiqueta, ListaEtiquetasPresentesAdapter.EtiquetaViewHolder>(EtiquetaDiferenciasComprobacion()) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -26,9 +28,11 @@ class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etique
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class EtiquetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreEtiqueta : TextView = itemView.findViewById(R.id.nombreEtiqueta)
-        val eliminarEtiqueta : TextView = itemView.findViewById(R.id.eliminarEtiqueta)
+    class EtiquetaViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
+        val nombreEtiqueta: TextView = itemView.findViewById(R.id.nombreEtiqueta)
+        val eliminarEtiqueta: TextView = itemView.findViewById(R.id.eliminarEtiqueta)
     }
 
     /**
@@ -39,7 +43,10 @@ class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etique
      * @return EtiquetaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EtiquetaViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): EtiquetaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_lista_etiquetas_presentes, parent, false)
         return EtiquetaViewHolder(view)
     }
@@ -51,7 +58,10 @@ class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etique
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: EtiquetaViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: EtiquetaViewHolder,
+        posicion: Int,
+    ) {
         val objetoActual = getItem(posicion)
         holder.nombreEtiqueta.text = objetoActual.nombre
         holder.eliminarEtiqueta.setOnClickListener {
@@ -79,9 +89,10 @@ class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etique
          * @return true si el contenido de las etiquetas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areContentsTheSame(viejaEtiqueta: Etiqueta, nuevaEtiqueta: Etiqueta): Boolean {
-            return viejaEtiqueta == nuevaEtiqueta
-        }
+        override fun areContentsTheSame(
+            viejaEtiqueta: Etiqueta,
+            nuevaEtiqueta: Etiqueta,
+        ): Boolean = viejaEtiqueta == nuevaEtiqueta
 
         /**
          * Comprobar si dos etiquetas son la misma.
@@ -91,8 +102,9 @@ class ListaEtiquetasPresentesAdapter(private val etiquetaEliminada: (List<Etique
          * @return true si las etiquetas son la misma, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaEtiqueta: Etiqueta, nuevaEtiqueta: Etiqueta): Boolean {
-            return viejaEtiqueta.id == nuevaEtiqueta.id
-        }
+        override fun areItemsTheSame(
+            viejaEtiqueta: Etiqueta,
+            nuevaEtiqueta: Etiqueta,
+        ): Boolean = viejaEtiqueta.id == nuevaEtiqueta.id
     }
 }

@@ -16,21 +16,20 @@ import kotlinx.parcelize.Parcelize
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Parcelize
-data class ProyectoDTO (
+data class ProyectoDTO(
     // Integra un proyecto
     @Embedded var proyecto: Proyecto,
     // Obtiene una lista de etiquetas relacionada con el proyecto a través de la tabla de relación ProyectoEtiqueta
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
-        associateBy = Junction(ProyectoEtiqueta::class, parentColumn = "idProyecto", entityColumn = "idEtiqueta")
+        associateBy = Junction(ProyectoEtiqueta::class, parentColumn = "idProyecto", entityColumn = "idEtiqueta"),
     )
     var etiquetas: List<Etiqueta>,
     // Obtiene una lista de tareas relacionada con el proyecto a través del campo idProyecto en la tabla de tareas
     @Relation(
         parentColumn = "id",
-        entityColumn = "idProyecto"
+        entityColumn = "idProyecto",
     )
-    var tareas: List<Tarea>
-) : Parcelable {
-}
+    var tareas: List<Tarea>,
+) : Parcelable

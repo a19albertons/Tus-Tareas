@@ -19,32 +19,34 @@ import javax.inject.Inject
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
-class ListarEtiquetasModel @Inject constructor(
-    application: Application,
-    private val repository: ListarEtiquetasRepository
-) : AndroidViewModel(application) {
-    // Filtro para etiquetas
-    // Valor por defecto
-    private val textoEtiqueta = MutableLiveData("")
+class ListarEtiquetasModel
+    @Inject
+    constructor(
+        application: Application,
+        private val repository: ListarEtiquetasRepository,
+    ) : AndroidViewModel(application) {
+        // Filtro para etiquetas
+        // Valor por defecto
+        private val textoEtiqueta = MutableLiveData("")
 
-    /**
-     * Actualiza el valor del filtro de texto para las etiquetas
-     *
-     * @param texto El nuevo valor del filtro de texto para las etiquetas
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun actualizarTextoListadoEtiqueta(texto: String) {
-        textoEtiqueta.value = texto
-    }
+        /**
+         * Actualiza el valor del filtro de texto para las etiquetas
+         *
+         * @param texto El nuevo valor del filtro de texto para las etiquetas
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun actualizarTextoListadoEtiqueta(texto: String) {
+            textoEtiqueta.value = texto
+        }
 
-    /**
-     * Obtiene la lista de etiquetas filtradas según el texto del filtro
-     *
-     * @return Un LiveData que contiene una lista de etiquetas filtradas según el texto del filtro
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun obtenerEtiquetasFiltradas() : LiveData<List<Etiqueta>> = textoEtiqueta.switchMap {
-            texto ->
-        repository.obtenerEtiquetasFiltradas(texto)
+        /**
+         * Obtiene la lista de etiquetas filtradas según el texto del filtro
+         *
+         * @return Un LiveData que contiene una lista de etiquetas filtradas según el texto del filtro
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun obtenerEtiquetasFiltradas(): LiveData<List<Etiqueta>> =
+            textoEtiqueta.switchMap { texto ->
+                repository.obtenerEtiquetasFiltradas(texto)
+            }
     }
-}

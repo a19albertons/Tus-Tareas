@@ -15,7 +15,6 @@ import java.util.Date
  */
 @Dao
 interface VerMasConsulta {
-
     /**
      * Obtiene toda las tareas de un dia con el el filtro correspondiente
      *
@@ -26,17 +25,21 @@ interface VerMasConsulta {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Transaction
-    @Query("select * from tareas " + // Obtener todo
+    @Query(
+        "select * from tareas " + // Obtener todo
             "where fechaLimite = :fecha " + // Fecha limite
             "AND estado = :estado " + // El estado
             "AND (LOWER(nombre) like LOWER('%' || :texto || '%') " + // El nombre
             "OR LOWER(descripcion) like LOWER('%' || :texto || '%') " + // la descripcion
             "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
             "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids en la relacion many to many
-            "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ") // El nombre de la etiqueta
-    fun obtenerTareasTerminanDiaEspecificoConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EN_TIEMPO): LiveData<List<Tarea>>
-
-
+            "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ",
+    ) // El nombre de la etiqueta
+    fun obtenerTareasTerminanDiaEspecificoConFiltro(
+        texto: String,
+        fecha: Date = DateHelper.fechaMediaNocheUTC(),
+        estado: Estado = Estado.EN_TIEMPO,
+    ): LiveData<List<Tarea>>
 
     /**
      * Obtiene toda las tareas retrasadas con el el filtro correspondiente
@@ -47,16 +50,19 @@ interface VerMasConsulta {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Transaction
-    @Query("select * from tareas " + // obtener todo
+    @Query(
+        "select * from tareas " + // obtener todo
             "where estado = :estado " + // filtro estado
             "AND (LOWER(nombre) like LOWER('%' || :texto || '%') " + // El nombre
             "OR LOWER(descripcion) like LOWER('%' || :texto || '%') " + // la descripcion
             "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
             "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids en la relacion many to many
-            "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ") // El nombre de la etiqueta
-    fun obtenerTareasRetrasadasConFiltro(texto: String, estado: Estado = Estado.RETRASADA): LiveData<List<Tarea>>
-
-
+            "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) ",
+    ) // El nombre de la etiqueta
+    fun obtenerTareasRetrasadasConFiltro(
+        texto: String,
+        estado: Estado = Estado.RETRASADA,
+    ): LiveData<List<Tarea>>
 
     /**
      * Obtiene toda las tareas proximas con el el filtro correspondiente
@@ -68,7 +74,8 @@ interface VerMasConsulta {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Transaction
-    @Query("select * from tareas " + // obtener todo
+    @Query(
+        "select * from tareas " + // obtener todo
             "where (fechaLimite > :fecha OR fechaLimite is null) " + // filtro fecha
             "AND estado = :estado " + // filtro estado"
             "AND (LOWER(nombre) like LOWER('%' || :texto || '%') " + // El nombre
@@ -76,9 +83,13 @@ interface VerMasConsulta {
             "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
             "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids en la relacion many to many
             "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) " + // El nombre de la etiqueta
-            "ORDER BY fechaLimite ASC") // ordenación ascendente
-    fun obtenerTareasProximasConFiltro(texto: String, fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EN_TIEMPO) : LiveData<List<Tarea>>
-
+            "ORDER BY fechaLimite ASC",
+    ) // ordenación ascendente
+    fun obtenerTareasProximasConFiltro(
+        texto: String,
+        fecha: Date = DateHelper.fechaMediaNocheUTC(),
+        estado: Estado = Estado.EN_TIEMPO,
+    ): LiveData<List<Tarea>>
 
     /**
      * Modifica una tarea en la base de datos.
@@ -88,5 +99,4 @@ interface VerMasConsulta {
      */
     @Update
     suspend fun modificarTarea(tarea: Tarea)
-
 }

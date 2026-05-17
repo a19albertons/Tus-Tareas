@@ -23,19 +23,22 @@ object AlarmaHelper {
      * @param listaNotificacionesEnviar La lista de notificaciones a enviar
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    fun invocarAlarma(context: Context, listaNotificacionesEnviar: List<Notificacion>) {
+    fun invocarAlarma(
+        context: Context,
+        listaNotificacionesEnviar: List<Notificacion>,
+    ) {
         // Comprueba si esta vacio
         if (listaNotificacionesEnviar.isNotEmpty()) {
             NotificacionesHelper.crearCanalNotificaciones(context)
             // Bucle que manda las notificaciones a enviar
             for (notificacion in listaNotificacionesEnviar) {
-                NotificacionesHelper.crearNotificacion(context, notificacion )
+                NotificacionesHelper.crearNotificacion(context, notificacion)
             }
-
         }
     }
 
     // Programa la alarma diaria para el siguiente dia
+
     /**
      * Programa la alarma diaria para el siguiente dia a las 00:00 horas.
      * Teniendo en cuenta los permisos requeridos de la documentación
@@ -47,22 +50,24 @@ object AlarmaHelper {
         // Obtiene el alarm manager, crea el intent y pending intent
         val alarmaManager = (context?.getSystemService(Context.ALARM_SERVICE)) as AlarmManager
         val intent = Intent(context, LanzarNotificaciones::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        val pendingIntent =
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+            )
 
         // Prepara la fecha del siguiente dia
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            add(Calendar.DAY_OF_MONTH, 1)
-        }
+        val calendar =
+            Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+                add(Calendar.DAY_OF_MONTH, 1)
+            }
 
         // Comprueba si tiene una versión que no requiere el permiso
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -71,18 +76,16 @@ object AlarmaHelper {
                 alarmaManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis,
-                    pendingIntent
+                    pendingIntent,
                 )
-            }
-            else {
+            } else {
                 Log.d("AlarmaHelper", "No se puede lanzar lar alarma no se tiene el permiso Schedule Exact Alarm")
             }
-        }
-        else {
+        } else {
             alarmaManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 calendar.timeInMillis,
-                pendingIntent
+                pendingIntent,
             )
         }
     }

@@ -19,7 +19,6 @@ import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentTareaDetallesBinding
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelView.TareaDetallesModel
-import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
@@ -34,15 +33,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class TareaDetallesFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding : FragmentTareaDetallesBinding? = null
-    private val binding : FragmentTareaDetallesBinding
+    private var _binding: FragmentTareaDetallesBinding? = null
+    private val binding: FragmentTareaDetallesBinding
         get() = _binding!!
 
-    val model : TareaDetallesModel by viewModels()
+    val model: TareaDetallesModel by viewModels()
 
-    private lateinit var args : TareaDetallesFragmentArgs
-    private lateinit var tareaVisualizada : TareaDTO
-
+    private lateinit var args: TareaDetallesFragmentArgs
+    private lateinit var tareaVisualizada: TareaDTO
 
     /**
      * Crea la vista del fragmento detalles de una tarea y gestiona los eventos de los elementos de la vista.
@@ -54,8 +52,9 @@ class TareaDetallesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentTareaDetallesBinding.inflate(inflater, container, false)
@@ -79,8 +78,7 @@ class TareaDetallesFragment : Fragment() {
      */
     private fun cargarTarea() {
         // Obtiene los detalles por el id y los asigna al componente visual
-        model.obtenerTareaDTOPorID(args.id).observe(viewLifecycleOwner) {
-            tarea ->
+        model.obtenerTareaDTOPorID(args.id).observe(viewLifecycleOwner) { tarea ->
 
             // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
             if (tarea == null) {
@@ -116,43 +114,44 @@ class TareaDetallesFragment : Fragment() {
     private fun anadirEtiquetas(tarea: TareaDTO) {
         // Crea un chip por cada etiqueta de la tarea y los añade al grupo de chips
         binding.etiquetasTareaGroup.removeAllViews()
-        tarea.etiquetas.forEach {
-                etiqueta ->
+        tarea.etiquetas.forEach { etiqueta ->
             // Define la composición del chip
-            val chip = Chip(requireContext()).apply {
-                // Define el texto del chip como el nombre de la etiqueta
-                text = etiqueta.nombre
-                setChipBackgroundColorResource(R.color.gray)
-                setTextColor(resources.getColor(R.color.black, null))
+            val chip =
+                Chip(requireContext()).apply {
+                    // Define el texto del chip como el nombre de la etiqueta
+                    text = etiqueta.nombre
+                    setChipBackgroundColorResource(R.color.gray)
+                    setTextColor(resources.getColor(R.color.black, null))
 
-                // Deshabilitamos la interacción del chip
-                isClickable = false
-                isFocusable = false
-                isCheckable = false
-                chipStrokeWidth = 0f
+                    // Deshabilitamos la interacción del chip
+                    isClickable = false
+                    isFocusable = false
+                    isCheckable = false
+                    chipStrokeWidth = 0f
 
-                // Deshabilitamos los minimos de toque de material 3d
-                setEnsureMinTouchTargetSize(false)
-                // Modificamos los minimos
-                chipMinHeight = 0f
-                minHeight = 0
+                    // Deshabilitamos los minimos de toque de material 3d
+                    setEnsureMinTouchTargetSize(false)
+                    // Modificamos los minimos
+                    chipMinHeight = 0f
+                    minHeight = 0
 
-                // Definimos 2dp
-                val paddingPx = (2 * resources.displayMetrics.density).toInt()
+                    // Definimos 2dp
+                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
 
-                // Configuramos el padding
-                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+                    // Configuramos el padding
+                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
 
-                // Otros paddings
-                textStartPadding = 0f
-                textEndPadding = 0f
+                    // Otros paddings
+                    textStartPadding = 0f
+                    textEndPadding = 0f
 
-                // Controla el borde
-                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                    .setAllCornerSizes(0f)
-                    .build()
-
-            }
+                    // Controla el borde
+                    shapeAppearanceModel =
+                        shapeAppearanceModel
+                            .toBuilder()
+                            .setAllCornerSizes(0f)
+                            .build()
+                }
             binding.etiquetasTareaGroup.addView(chip)
         }
     }
@@ -164,43 +163,52 @@ class TareaDetallesFragment : Fragment() {
      */
     private fun configurarMenu() {
         // Invocar el menu del activity
-        val activityMenu : MenuHost = requireActivity()
+        val activityMenu: MenuHost = requireActivity()
         // Crear un modificador del menu (toolbar)
-        activityMenu.addMenuProvider( object : MenuProvider {
-            // Reemplaza el menu
-            override fun onCreateMenu(menuViejo: Menu, inflaMenuNuevo: MenuInflater) {
-                menuViejo.clear()
-                inflaMenuNuevo.inflate(R.menu.toolbar_tareas_detalles, menuViejo)
-            }
-
-            override fun onMenuItemSelected(item: MenuItem): Boolean {
-                return when (item.itemId) {
-                    R.id.action_editar_tarea -> {
-                        if (::tareaVisualizada.isInitialized) {
-                            try {
-                                findNavController().navigate(TareaDetallesFragmentDirections.actionTareaDetallesFragmentToModificarTareasFragment(tareaVisualizada))
-                            }
-                            catch (_: Exception) {
-                                Snackbar.make(
-                                    binding.root,
-                                    getString(R.string.error_navegar),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        true
-
-                    }
-                    R.id.action_eliminar_tarea -> {
-                        if (::tareaVisualizada.isInitialized) {
-                            dialogoEliminacion()
-                        }
-                        true
-                    }
-                    else -> false
+        activityMenu.addMenuProvider(
+            object : MenuProvider {
+                // Reemplaza el menu
+                override fun onCreateMenu(
+                    menuViejo: Menu,
+                    inflaMenuNuevo: MenuInflater,
+                ) {
+                    menuViejo.clear()
+                    inflaMenuNuevo.inflate(R.menu.toolbar_tareas_detalles, menuViejo)
                 }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+                override fun onMenuItemSelected(item: MenuItem): Boolean =
+                    when (item.itemId) {
+                        R.id.action_editar_tarea -> {
+                            if (::tareaVisualizada.isInitialized) {
+                                try {
+                                    findNavController().navigate(
+                                        TareaDetallesFragmentDirections.actionTareaDetallesFragmentToModificarTareasFragment(
+                                            tareaVisualizada,
+                                        ),
+                                    )
+                                } catch (_: Exception) {
+                                    Snackbar
+                                        .make(
+                                            binding.root,
+                                            getString(R.string.error_navegar),
+                                            Snackbar.LENGTH_SHORT,
+                                        ).show()
+                                }
+                            }
+                            true
+                        }
+                        R.id.action_eliminar_tarea -> {
+                            if (::tareaVisualizada.isInitialized) {
+                                dialogoEliminacion()
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED,
+        )
     }
 
     /**
@@ -220,7 +228,8 @@ class TareaDetallesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun dialogoEliminacion() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_tarea))
             .setMessage("")
             .setPositiveButton(getString(R.string.eliminar)) { _, _ ->
@@ -231,22 +240,24 @@ class TareaDetallesFragment : Fragment() {
                             model.eliminarTarea(tareaVisualizada.tarea)
                             // Volvemos atras
                             findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
-                                Snackbar.LENGTH_SHORT).show()
+                        } catch (_: Exception) {
+                            Snackbar
+                                .make(
+                                    binding.root,
+                                    getString(R.string.error_eliminar_tarea),
+                                    Snackbar.LENGTH_SHORT,
+                                ).show()
                         }
                     }
-
+                } else {
+                    Snackbar
+                        .make(
+                            binding.root,
+                            getString(R.string.error_eliminar_tarea),
+                            Snackbar.LENGTH_SHORT,
+                        ).show()
                 }
-                else {
-                    Snackbar.make(binding.root, getString(R.string.error_eliminar_tarea),
-                        Snackbar.LENGTH_SHORT).show()
-                }
-            }
-            .setNeutralButton(getString(R.string.cancelar), null)
+            }.setNeutralButton(getString(R.string.cancelar), null)
             .show()
-
     }
-
 }

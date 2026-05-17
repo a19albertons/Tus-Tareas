@@ -22,17 +22,17 @@ import java.util.Date
             entity = Proyecto::class,
             parentColumns = ["id"], // PK de proyecto (padre)
             childColumns = ["idProyecto"], // FK en tareas (hija)
-        )
+        ),
     ],
     indices = [
         Index(value = ["idProyecto"]),
         // Optimización adicional. Valores muy usados en multiples filtros internos para mostrar información
         Index(value = ["fechaLimite"]),
-        Index(value = ["estado"])
-    ]
+        Index(value = ["estado"]),
+    ],
 )
 @Parcelize
-data class Tarea (
+data class Tarea(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var nombre: String,
@@ -42,5 +42,5 @@ data class Tarea (
     var fechaCreacion: Date, // Hay que construirlo a partir del timestamp
     var estado: Estado, // Hay que hacer una clase para convertir este enum
     // La lista de etiquetas va en una clase distinta room se lleva mal con las N:N
-    var idProyecto: Int? = null // Clave foránea a proyecto
+    var idProyecto: Int? = null, // Clave foránea a proyecto
 ) : Parcelable

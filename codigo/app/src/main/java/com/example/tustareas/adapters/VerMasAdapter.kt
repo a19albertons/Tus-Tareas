@@ -27,8 +27,10 @@ import com.google.android.material.snackbar.Snackbar
  * @return ListAdapter con las tareas a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): ListAdapter<Tarea, VerMasAdapter.VerMasViewHolder>(TareaComprobacionDiferncias()) {
-
+class VerMasAdapter(
+    private val model: VerMasModel,
+    private val verMas: Int,
+) : ListAdapter<Tarea, VerMasAdapter.VerMasViewHolder>(TareaComprobacionDiferncias()) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -36,7 +38,9 @@ class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): Li
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class VerMasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class VerMasViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
         val nombreTarea: TextView = itemView.findViewById(R.id.nombreTarea)
         val otroCampo: TextView = itemView.findViewById(R.id.otroCampo)
         val clickable: MaterialCardView = itemView.findViewById(R.id.clickable)
@@ -51,7 +55,10 @@ class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): Li
      * @return TareaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerMasViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): VerMasViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_ver_mas, parent, false)
         return VerMasViewHolder(view)
     }
@@ -63,22 +70,23 @@ class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): Li
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: VerMasViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: VerMasViewHolder,
+        posicion: Int,
+    ) {
         val objectoActual = getItem(posicion)
         holder.nombreTarea.text = objectoActual.nombre
         // En función de la entrada carga la prioridad o la fecha en texto
         if (verMas == 1) {
             holder.otroCampo.text = holder.itemView.context.getString(objectoActual.prioridad.labelRes())
-        }
-        else {
+        } else {
             holder.otroCampo.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         }
         // Controla el checkbox
         holder.clickable.setOnClickListener {
             try {
                 it.findNavController().navigate(VerMasFragmentDirections.actionVerMasFragmentToTareaDetallesFragment(objectoActual.id))
-            }
-            catch (_: Exception) {
+            } catch (_: Exception) {
                 Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -86,15 +94,13 @@ class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): Li
         // Comprueba el estado
         if (objectoActual.estado == Estado.COMPLETADA) {
             holder.checkbox.isChecked = true
-        }
-        else {
+        } else {
             holder.checkbox.isChecked = false
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
             model.actualizarEstado(objectoActual, holder.checkbox.isChecked)
         }
-
     }
 
     /**
@@ -113,10 +119,10 @@ class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): Li
          * @return true si el contenido de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-            return viejaTarea == nuevaTarea
-        }
-
+        override fun areContentsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea == nuevaTarea
 
         /**
          * Comprobar si el id de dos tareas es el mismo.
@@ -126,9 +132,9 @@ class VerMasAdapter(private val model: VerMasModel, private val verMas: Int): Li
          * @return true si el id de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-
-            return viejaTarea.id == nuevaTarea.id
-        }
+        override fun areItemsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea.id == nuevaTarea.id
     }
 }

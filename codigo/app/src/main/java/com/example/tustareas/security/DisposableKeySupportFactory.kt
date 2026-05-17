@@ -10,9 +10,9 @@ import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  * @author proandroiddev.com
  */
-class DisposableKeySupportFactory(private val decryptedKey: ByteArray) :
-    SupportOpenHelperFactory(decryptedKey) {
-
+class DisposableKeySupportFactory(
+    private val decryptedKey: ByteArray,
+) : SupportOpenHelperFactory(decryptedKey) {
     /**
      * Crea un nuevo SupportSQLiteOpenHelper y borra la clave de encriptación de la memoria
      *

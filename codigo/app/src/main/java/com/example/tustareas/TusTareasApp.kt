@@ -28,7 +28,6 @@ class TusTareasApp : Application() {
                 return@setDefaultUncaughtExceptionHandler
             }
 
-
             // Obtener el stack trace completo
             val stackTrace = throwable.stackTraceToString()
 
@@ -36,10 +35,11 @@ class TusTareasApp : Application() {
             Log.e("Error no previsto", stackTrace, throwable)
 
             // Lanzamos el activity que muestra el error al usuario.
-            val intent = Intent(this, ErrorNoPrevisto::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra("error", getString(R.string.error_no_previsto)+stackTrace)
-            }
+            val intent =
+                Intent(this, ErrorNoPrevisto::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    putExtra("error", getString(R.string.error_no_previsto) + stackTrace)
+                }
             // Lanzamos la actividad
             startActivity(intent)
 

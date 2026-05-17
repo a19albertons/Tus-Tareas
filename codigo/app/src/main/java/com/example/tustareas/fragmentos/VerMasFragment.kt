@@ -3,10 +3,10 @@ package com.example.tustareas.fragmentos
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.adapters.VerMasAdapter
@@ -23,14 +23,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class VerMasFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding : FragmentVerMasBinding?= null
-    private val binding : FragmentVerMasBinding
+    private var _binding: FragmentVerMasBinding? = null
+    private val binding: FragmentVerMasBinding
         get() = _binding!!
 
-    val model : VerMasModel by viewModels()
+    val model: VerMasModel by viewModels()
 
-    private var adapter : VerMasAdapter ?= null
-    private lateinit var args : VerMasFragmentArgs
+    private var adapter: VerMasAdapter? = null
+    private lateinit var args: VerMasFragmentArgs
 
     /**
      * Crea la vista del fragmento detalles de tareas y gestiona los eventos de los elementos de la vista.
@@ -42,8 +42,9 @@ class VerMasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentVerMasBinding.inflate(inflater, container, false)
@@ -67,8 +68,6 @@ class VerMasFragment : Fragment() {
         // Observa los mensajes de error
         mensajesError()
 
-
-
         return binding.root
     }
 
@@ -80,7 +79,7 @@ class VerMasFragment : Fragment() {
     private fun configurarRecyclerView() {
         // configuracion adapter
         binding.listaTareasConCondicionesEnOrigen.layoutManager = LinearLayoutManager(requireContext())
-        adapter = VerMasAdapter( model, args.numeroVerMas)
+        adapter = VerMasAdapter(model, args.numeroVerMas)
         binding.listaTareasConCondicionesEnOrigen.adapter = adapter
     }
 
@@ -91,19 +90,30 @@ class VerMasFragment : Fragment() {
      */
     private fun configuraFiltroTexto() {
         // filtro de texto copiado de otra clase de este proyecto
-        binding.filtro.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
+        binding.filtro.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    texto: CharSequence?,
+                    empieza: Int,
+                    posicion: Int,
+                    siguiente: Int,
+                ) {
+                }
 
-            }
-            override fun onTextChanged(texto: CharSequence?, empieza: Int, fin: Int, posicion: Int) {
+                override fun onTextChanged(
+                    texto: CharSequence?,
+                    empieza: Int,
+                    fin: Int,
+                    posicion: Int,
+                ) {
+                }
 
-            }
-            override fun afterTextChanged(texto: Editable?) {
-                // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.actualizarTextoVerMas(texto.toString())
-            }
-
-        })
+                override fun afterTextChanged(texto: Editable?) {
+                    // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
+                    model.actualizarTextoVerMas(texto.toString())
+                }
+            },
+        )
     }
 
     /**
@@ -116,13 +126,11 @@ class VerMasFragment : Fragment() {
         when (args.numeroVerMas) {
             // Tarea hoy
             1 -> {
-                model.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) {
-                        tareas ->
+                model.obtenerTareasTerminanDiaEspecificoConFiltro().observe(viewLifecycleOwner) { tareas ->
                     if (tareas.isEmpty()) {
                         binding.sinResultados.visibility = View.VISIBLE
                         binding.listaTareasConCondicionesEnOrigen.visibility = View.GONE
-                    }
-                    else  {
+                    } else {
                         binding.sinResultados.visibility = View.GONE
                         binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
                     }
@@ -131,13 +139,11 @@ class VerMasFragment : Fragment() {
             }
             // Tarea retrasada
             2 -> {
-                model.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) {
-                        tareas ->
+                model.obtenerTareasRetrasadasConFiltro().observe(viewLifecycleOwner) { tareas ->
                     if (tareas.isEmpty()) {
                         binding.sinResultados.visibility = View.VISIBLE
                         binding.listaTareasConCondicionesEnOrigen.visibility = View.GONE
-                    }
-                    else {
+                    } else {
                         binding.sinResultados.visibility = View.GONE
                         binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
                     }
@@ -145,18 +151,17 @@ class VerMasFragment : Fragment() {
                 }
             }
             // Tarea futura
-            3 -> model.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) {
-                    tareas ->
-                if (tareas.isEmpty()) {
-                    binding.sinResultados.visibility = View.VISIBLE
-                    binding.listaTareasConCondicionesEnOrigen.visibility = View.GONE
+            3 ->
+                model.obtenerTareasProximasConFiltro().observe(viewLifecycleOwner) { tareas ->
+                    if (tareas.isEmpty()) {
+                        binding.sinResultados.visibility = View.VISIBLE
+                        binding.listaTareasConCondicionesEnOrigen.visibility = View.GONE
+                    } else {
+                        binding.sinResultados.visibility = View.GONE
+                        binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
+                    }
+                    adapter!!.submitList(tareas)
                 }
-                else {
-                    binding.sinResultados.visibility = View.GONE
-                    binding.listaTareasConCondicionesEnOrigen.visibility = View.VISIBLE
-                }
-                adapter!!.submitList(tareas)
-            }
         }
     }
 
@@ -167,8 +172,7 @@ class VerMasFragment : Fragment() {
      */
     private fun mensajesError() {
         // Observar errores del listado de tareas
-        model.mensajeError.observe(viewLifecycleOwner) {
-            error ->
+        model.mensajeError.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
                 // Restaurar a null tras ser mostrado

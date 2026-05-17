@@ -16,7 +16,6 @@ import java.util.Date
  */
 @Dao
 interface WorkerConsultas {
-
     /**
      * Actualiza el estado de las tareas que tienen fecha límite anterior a la fecha actual y que están en tiempo, cambiándolas a retrasadas.
      *
@@ -26,8 +25,11 @@ interface WorkerConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("UPDATE tareas SET estado = :estadoNuevo where fechaLimite < :fecha AND estado = :estado")
-    fun actualizarEstado(fecha: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.EN_TIEMPO, estadoNuevo: Estado = Estado.RETRASADA)
-
+    fun actualizarEstado(
+        fecha: Date = DateHelper.fechaMediaNocheUTC(),
+        estado: Estado = Estado.EN_TIEMPO,
+        estadoNuevo: Estado = Estado.RETRASADA,
+    )
 
     /**
      * Obtiene una lista de tareas que estan retrasadas y no tienen el estado completada.
@@ -37,8 +39,10 @@ interface WorkerConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("SELECT * FROM tareas WHERE fechaLimite < :date AND estado != :estado")
-    suspend fun tareasRetrasadasAlarma(date: Date = DateHelper.fechaMediaNocheUTC(), estado: Estado = Estado.COMPLETADA) : List<Tarea>
-
+    suspend fun tareasRetrasadasAlarma(
+        date: Date = DateHelper.fechaMediaNocheUTC(),
+        estado: Estado = Estado.COMPLETADA,
+    ): List<Tarea>
 
     /**
      * Obtiene las notificaciones actuales de la base de datos.
@@ -47,7 +51,7 @@ interface WorkerConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("SELECT * FROM notificaciones")
-    fun obtenerTodasLasNotificaciones() : List<Notificacion>
+    fun obtenerTodasLasNotificaciones(): List<Notificacion>
 
     /**
      * Añade una notificación a la base de datos.
@@ -65,6 +69,5 @@ interface WorkerConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("Select * from notificaciones where leido = 0")
-    suspend fun enviarNotificaciones() : List<Notificacion>
-
+    suspend fun enviarNotificaciones(): List<Notificacion>
 }

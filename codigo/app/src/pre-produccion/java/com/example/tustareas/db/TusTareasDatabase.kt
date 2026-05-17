@@ -27,7 +27,6 @@ import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.ProyectoEtiqueta
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.modelos.TareaEtiqueta
-import com.example.tustareas.security.SqlCipherKeyManager
 
 /**
  * Base de datos de tus tareas.
@@ -35,11 +34,13 @@ import com.example.tustareas.security.SqlCipherKeyManager
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-@Database(entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class, Notificacion::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class, Notificacion::class],
+    version = 1,
+    exportSchema = false,
+)
 @TypeConverters(Convertidor::class)
 abstract class TusTareasDatabase : RoomDatabase() {
-
-
     /**
      * Obtiene las consultas de inicio
      *
@@ -163,28 +164,32 @@ abstract class TusTareasDatabase : RoomDatabase() {
          * @return TusTareasDatabase devuelve la instancia de la base de datos.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        fun getDatabase(context: Context): TusTareasDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    TusTareasDatabase::class.java,
-                    "baseDatos.db"
-                )
-                    // Crea la base de datos desde el asset
-                    .createFromAsset("baseDatos.db")
-                    // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
-                    .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
-                    // Capa de optimizaciones para mejorar el rendimiento de la base de datos.
-                    .addCallback(object : Callback() {
-                        override fun onOpen(db: SupportSQLiteDatabase) {
-                            super.onOpen(db)
-                            db.execSQL("PRAGMA cache_size = -4000") // 4MB de caché
-                            db.execSQL("PRAGMA temp_store = MEMORY") // Usa la ram como alamcenamiento temporal
-                            db.execSQL("PRAGMA synchronous = NORMAL") // Se recomienda con WAL
-                        }
-                    })
-                    // La construye
-                    .build()
+        fun getDatabase(context: Context): TusTareasDatabase =
+            INSTANCE ?: synchronized(this) {
+                val instance =
+                    Room
+                        .databaseBuilder(
+                            context.applicationContext,
+                            TusTareasDatabase::class.java,
+                            "baseDatos.db",
+                        )
+                        // Crea la base de datos desde el asset
+                        .createFromAsset("baseDatos.db")
+                        // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
+                        .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
+                        // Capa de optimizaciones para mejorar el rendimiento de la base de datos.
+                        .addCallback(
+                            object : Callback() {
+                                override fun onOpen(db: SupportSQLiteDatabase) {
+                                    super.onOpen(db)
+                                    db.execSQL("PRAGMA cache_size = -4000") // 4MB de caché
+                                    db.execSQL("PRAGMA temp_store = MEMORY") // Usa la ram como alamcenamiento temporal
+                                    db.execSQL("PRAGMA synchronous = NORMAL") // Se recomienda con WAL
+                                }
+                            },
+                        )
+                        // La construye
+                        .build()
 
                 // Prepara la conexión
                 instance.openHelper.writableDatabase
@@ -194,9 +199,6 @@ abstract class TusTareasDatabase : RoomDatabase() {
 
                 // valor a devolver que requiere synchronized
                 instance
-
             }
-        }
-
     }
 }

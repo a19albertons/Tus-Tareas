@@ -27,7 +27,7 @@ interface ModificarTareaConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Insert
-    suspend fun insertarTarea(tarea: Tarea) : Long
+    suspend fun insertarTarea(tarea: Tarea): Long
 
     /**
      * Modifica una tarea. Solo usar en las transaciones
@@ -64,7 +64,7 @@ interface ModificarTareaConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from etiquetas where id not in (:lista)")
-    fun obtenerEtiquetasRestantes(lista : List<Int>): LiveData<List<Etiqueta>>
+    fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
 
     /**
      * Inserta la tarea junto con sus etiquetas.
@@ -75,8 +75,7 @@ interface ModificarTareaConsultas {
     @Transaction
     suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) {
         val id = insertarTarea(tareaDTO.tarea).toInt()
-        tareaDTO.etiquetas.forEach {
-                etiqueta ->
+        tareaDTO.etiquetas.forEach { etiqueta ->
             insertarTareaEtiqueta(TareaEtiqueta(id, etiqueta.id))
         }
     }
@@ -93,8 +92,7 @@ interface ModificarTareaConsultas {
         // Eliminar relaciones anteriores
         eliminarRelacionesTarea(tareaDTO.tarea.id)
         // Insertar nuevas relaciones
-        tareaDTO.etiquetas.forEach {
-                etiqueta ->
+        tareaDTO.etiquetas.forEach { etiqueta ->
             insertarTareaEtiqueta(TareaEtiqueta(tareaDTO.tarea.id, etiqueta.id))
         }
     }

@@ -1,13 +1,13 @@
 package com.example.tustareas.fragmentos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentAjustesBinding
@@ -22,13 +22,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AjustesFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding : FragmentAjustesBinding ?= null
-    private val binding : FragmentAjustesBinding
+    private var _binding: FragmentAjustesBinding? = null
+    private val binding: FragmentAjustesBinding
         get() = _binding!!
 
-
-    val model : TusTareasModel by viewModels()
-
+    val model: TusTareasModel by viewModels()
 
     /**
      * Crea la vista del fragmento ajustes y gestiona los eventos de los elementos de la vista.
@@ -40,8 +38,9 @@ class AjustesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAjustesBinding.inflate(inflater, container, false)
@@ -51,7 +50,6 @@ class AjustesFragment : Fragment() {
 
         // Gestiona el tema
         gestionTema()
-
 
         return binding.root
     }
@@ -64,46 +62,47 @@ class AjustesFragment : Fragment() {
     private fun gestionIdioma() {
         // Spinner de idiomas
         val idioma = resources.getStringArray(R.array.idiomas)
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_personalizado,
-            idioma
-        )
+        val adapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_personalizado,
+                idioma,
+            )
         binding.idioma.adapter = adapter
 
         // Obtenemos el valor por defecto del modelo y lo deshabilitamos en la primera
         // ejecucíón para evitar un reinicio (recreación
         val idiomaGuardado = model.idioma.value
-        val posicionInicial = when(idiomaGuardado) {
-            "Español" -> 1
-            "Ingles" -> 2
-            "Gallego" -> 3
-            else -> 0
-        }
+        val posicionInicial =
+            when (idiomaGuardado) {
+                "Español" -> 1
+                "Ingles" -> 2
+                "Gallego" -> 3
+                else -> 0
+            }
         binding.idioma.setSelection(posicionInicial, false)
 
         // Gestiona la elección del idioma
-        binding.idioma.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                posicion: Int,
-                id: Long
-            ) {
-                when (posicion) {
-                    // Actualizar idioma
-                    0 -> model.setIdioma("Sistema")
-                    1 -> model.setIdioma("Español")
-                    2 -> model.setIdioma("Ingles")
-                    3 -> model.setIdioma("Gallego")
+        binding.idioma.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    posicion: Int,
+                    id: Long,
+                ) {
+                    when (posicion) {
+                        // Actualizar idioma
+                        0 -> model.setIdioma("Sistema")
+                        1 -> model.setIdioma("Español")
+                        2 -> model.setIdioma("Ingles")
+                        3 -> model.setIdioma("Gallego")
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
                 }
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-        }
     }
 
     /**
@@ -141,6 +140,4 @@ class AjustesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

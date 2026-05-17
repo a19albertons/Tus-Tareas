@@ -28,7 +28,7 @@ interface ModificarProyectoConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Insert
-    suspend fun insertarProyecto(proyecto: Proyecto) : Long
+    suspend fun insertarProyecto(proyecto: Proyecto): Long
 
     /**
      * Modifica un proyecto. Solo usar en las transaciones
@@ -56,7 +56,10 @@ interface ModificarProyectoConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("UPDATE tareas SET idProyecto = :idProyecto where id = :id")
-    suspend fun modificarProyectoID(id: Int, idProyecto: Int)
+    suspend fun modificarProyectoID(
+        id: Int,
+        idProyecto: Int,
+    )
 
     /**
      * Borra la relación entre un proyecto y sus etiquetas. Solo usar en las transaciones
@@ -76,7 +79,6 @@ interface ModificarProyectoConsultas {
     @Query("UPDATE tareas SET idProyecto = null where idProyecto = :id")
     suspend fun eliminarProyectoID(id: Int)
 
-
     /**
      * Obtiene las tareas que no tienen asignado un proyecto
      *
@@ -85,7 +87,10 @@ interface ModificarProyectoConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from tareas where id not in (:lista) AND (idProyecto is null OR idProyecto = :idProyecto)")
-    fun obtenerTareasRestantes(lista : List<Int>, idProyecto: Int): LiveData<List<Tarea>>
+    fun obtenerTareasRestantes(
+        lista: List<Int>,
+        idProyecto: Int,
+    ): LiveData<List<Tarea>>
 
     /**
      * Obtiene las etiquetas que no están asignadas al proyecto
@@ -95,9 +100,7 @@ interface ModificarProyectoConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from etiquetas where id not in (:lista)")
-    fun obtenerEtiquetasRestantes(lista : List<Int>): LiveData<List<Etiqueta>>
-
-
+    fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
 
     /**
      * Inserta un nuevo proyecto junto con sus tareas y etiquetas asociadas.
@@ -118,7 +121,6 @@ interface ModificarProyectoConsultas {
         proyectoDTO.tareas.forEach {
             modificarProyectoID(it.id, id)
         }
-
     }
 
     /**

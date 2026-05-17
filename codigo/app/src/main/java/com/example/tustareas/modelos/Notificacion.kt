@@ -19,21 +19,19 @@ import kotlinx.parcelize.Parcelize
             entity = Tarea::class,
             parentColumns = ["id"], // PK de tarea (padre)
             childColumns = ["idTarea"], // Fk en notifiacaciones (hija)
-            onDelete = ForeignKey.CASCADE
-        )
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
     indices = [
-        Index(value = ["idTarea"])
-    ]
+        Index(value = ["idTarea"]),
+    ],
 )
 @Parcelize
 data class Notificacion(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    var titulo : String,
-    var mensaje : String,
+    var titulo: String,
+    var mensaje: String,
     var leido: Boolean,
-    var idTarea: Int
-) : Parcelable{
-
-}
+    var idTarea: Int,
+) : Parcelable

@@ -18,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentEtiquetaDetallesBinding
 import com.example.tustareas.modelView.EtiquetaDetallesModel
-import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,9 +37,9 @@ class EtiquetaDetallesFragment : Fragment() {
 
     val model: EtiquetaDetallesModel by viewModels()
 
-    private lateinit var args : EtiquetaDetallesFragmentArgs
+    private lateinit var args: EtiquetaDetallesFragmentArgs
 
-    private lateinit var etiquetaVisualizada : Etiqueta
+    private lateinit var etiquetaVisualizada: Etiqueta
 
     /**
      * Crea la vista del fragmento detalles de una etiqueta y gestiona los eventos de los elementos de la vista.
@@ -52,12 +51,12 @@ class EtiquetaDetallesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEtiquetaDetallesBinding.inflate(inflater, container, false)
-
 
         // Definición de args
         args = EtiquetaDetallesFragmentArgs.fromBundle(requireArguments())
@@ -65,10 +64,8 @@ class EtiquetaDetallesFragment : Fragment() {
         // Carga la etiqueta a visualizar
         cargarEtiqueta()
 
-
         // Configurar menu toolbar personalizado para el fragmento detalles
         configurarMenu()
-
 
         return binding.root
     }
@@ -80,8 +77,7 @@ class EtiquetaDetallesFragment : Fragment() {
      */
     private fun cargarEtiqueta() {
         // Obtiene la etiqueta por su id de los args
-        model.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) {
-                etiqueta ->
+        model.obtenerEtiquetaPorID(args.id).observe(viewLifecycleOwner) { etiqueta ->
 
             // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
             if (etiqueta == null) {
@@ -103,41 +99,50 @@ class EtiquetaDetallesFragment : Fragment() {
      */
     private fun configurarMenu() {
         // Invocar el menu del activity
-        val activityMenu : MenuHost = requireActivity()
+        val activityMenu: MenuHost = requireActivity()
         // Crear un modificador del menu (toolbar)
-        activityMenu.addMenuProvider(object : MenuProvider {
-            // Reemplaza el menu
-            override fun onCreateMenu(menuViejo: Menu, inflaMenuNuevo: MenuInflater) {
-                menuViejo.clear()
-                inflaMenuNuevo.inflate(R.menu.toolbar_etiqueta_detalles, menuViejo)
-            }
-
-            // Configura la navegación de edicción
-            override fun onMenuItemSelected(item: MenuItem): Boolean {
-                return when (item.itemId) {
-                    R.id.action_editar_etiqueta -> {
-                        // Controla que ya tenga el resultado cargado, por lo tanto esta inicializada
-                        if (::etiquetaVisualizada.isInitialized) {
-                            try {
-                                findNavController().navigate(EtiquetaDetallesFragmentDirections.actionEtiquetaDetallesFragmentToModificarEtiquetaFragment(etiquetaVisualizada))
-                            }
-                            catch (_: Exception) {
-                                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
-                            }
-                        }
-                        true
-                    }
-                    R.id.action_eliminar_etiqueta -> {
-                        // Controlar que ya tenga el resultado cargado, por lo tanto esta inicializada
-                        if (::etiquetaVisualizada.isInitialized) {
-                            dialgoEliminacion()
-                        }
-                        true
-                    }
-                    else -> false
+        activityMenu.addMenuProvider(
+            object : MenuProvider {
+                // Reemplaza el menu
+                override fun onCreateMenu(
+                    menuViejo: Menu,
+                    inflaMenuNuevo: MenuInflater,
+                ) {
+                    menuViejo.clear()
+                    inflaMenuNuevo.inflate(R.menu.toolbar_etiqueta_detalles, menuViejo)
                 }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+                // Configura la navegación de edicción
+                override fun onMenuItemSelected(item: MenuItem): Boolean =
+                    when (item.itemId) {
+                        R.id.action_editar_etiqueta -> {
+                            // Controla que ya tenga el resultado cargado, por lo tanto esta inicializada
+                            if (::etiquetaVisualizada.isInitialized) {
+                                try {
+                                    findNavController().navigate(
+                                        EtiquetaDetallesFragmentDirections.actionEtiquetaDetallesFragmentToModificarEtiquetaFragment(
+                                            etiquetaVisualizada,
+                                        ),
+                                    )
+                                } catch (_: Exception) {
+                                    Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+                            true
+                        }
+                        R.id.action_eliminar_etiqueta -> {
+                            // Controlar que ya tenga el resultado cargado, por lo tanto esta inicializada
+                            if (::etiquetaVisualizada.isInitialized) {
+                                dialgoEliminacion()
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED,
+        )
     }
 
     /**
@@ -147,31 +152,31 @@ class EtiquetaDetallesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun dialgoEliminacion() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_etiqueta))
             .setMessage("")
             .setPositiveButton(getString(R.string.eliminar)) { _, _ ->
                 if (::etiquetaVisualizada.isInitialized) {
-
                     // Lanzamos la eliminación a otro hilos
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
                             model.eliminarEtiqueta(etiquetaVisualizada)
                             // Volvemos a la vista previa
                             findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
+                        } catch (_: Exception) {
                             Snackbar.make(binding.root, getString(R.string.error_eliminar_etiqueta), Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 } else {
-                    Snackbar.make(
-                        binding.root, getString(R.string.error_eliminar_etiqueta),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    Snackbar
+                        .make(
+                            binding.root,
+                            getString(R.string.error_eliminar_etiqueta),
+                            Snackbar.LENGTH_SHORT,
+                        ).show()
                 }
-            }
-            .setNeutralButton(getString(R.string.cancelar), null)
+            }.setNeutralButton(getString(R.string.cancelar), null)
             .show()
     }
 
@@ -184,6 +189,4 @@ class EtiquetaDetallesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

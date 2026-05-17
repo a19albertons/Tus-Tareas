@@ -41,37 +41,36 @@ class ListarEtiquetasModelTest {
     lateinit var repositorioEtiquetas: ModificarEtiquetasRepository
 
     @Inject
-    lateinit var ListarEtiquetaRepositorio : ListarEtiquetasRepository
-
+    lateinit var ListarEtiquetaRepositorio: ListarEtiquetasRepository
 
     lateinit var modelo: ListarEtiquetasModel
-
 
     private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
-    fun crearBd() = runBlocking {
-        // Aplicar regla
-        ruleHilt.inject()
+    fun crearBd() =
+        runBlocking {
+            // Aplicar regla
+            ruleHilt.inject()
 
-        // Inicializar modelo manualmente
-        modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), ListarEtiquetaRepositorio)
+            // Inicializar modelo manualmente
+            modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), ListarEtiquetaRepositorio)
 
-        repositorioEtiquetas.insertarEtiqueta(
-            Etiqueta(
-                id = 1,
-                nombre = "etiqueta"
+            repositorioEtiquetas.insertarEtiqueta(
+                Etiqueta(
+                    id = 1,
+                    nombre = "etiqueta",
+                ),
             )
-        )
 
-        repositorioEtiquetas.insertarEtiqueta(
-            Etiqueta(
-                id = 2,
-                nombre = "etiqueta2"
+            repositorioEtiquetas.insertarEtiqueta(
+                Etiqueta(
+                    id = 2,
+                    nombre = "etiqueta2",
+                ),
             )
-        )
-    }
+        }
 
     // Finalización entorno
     @After
@@ -80,31 +79,32 @@ class ListarEtiquetasModelTest {
     }
 
     @Test
-    fun obtenerTodas() = runTest {
-        // Obtener datos
-        val liveData = modelo.obtenerEtiquetasFiltradas()
-        liveData.observeForever {  }
+    fun obtenerTodas() =
+        runTest {
+            // Obtener datos
+            val liveData = modelo.obtenerEtiquetasFiltradas()
+            liveData.observeForever { }
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado?.size == 2)
-        assert(resultado?.first()?.nombre == "etiqueta")
-        assert(resultado?.last()?.nombre == "etiqueta2")
-    }
+            // Resultado
+            val resultado = liveData.value
+            assert(resultado?.size == 2)
+            assert(resultado?.first()?.nombre == "etiqueta")
+            assert(resultado?.last()?.nombre == "etiqueta2")
+        }
 
     @Test
-    fun obtenerPorNombre() = runTest {
-        // Configuración
-        modelo.actualizarTextoListadoEtiqueta("etiqueta2")
+    fun obtenerPorNombre() =
+        runTest {
+            // Configuración
+            modelo.actualizarTextoListadoEtiqueta("etiqueta2")
 
-        // Obtener datos
-        val liveData = modelo.obtenerEtiquetasFiltradas()
-        liveData.observeForever {  }
+            // Obtener datos
+            val liveData = modelo.obtenerEtiquetasFiltradas()
+            liveData.observeForever { }
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado?.size == 1)
-        assert(resultado?.first()?.nombre == "etiqueta2")
-    }
-
+            // Resultado
+            val resultado = liveData.value
+            assert(resultado?.size == 1)
+            assert(resultado?.first()?.nombre == "etiqueta2")
+        }
 }

@@ -16,25 +16,27 @@ import javax.inject.Inject
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
-class ProyectoDetallesModel @Inject constructor(
-    application: Application,
-    private val repository: ProyectoDetallesRepository
-) : AndroidViewModel(application) {
-    /**
-     * Obtiene un proyecto por su id
-     *
-     * @param id El ID del proyecto a obtener
-     * @return El proyecto correspondiente. Debería existir
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun obtenerProyectoPorId(id: Int) = repository.obtenerProyectoPorId(id)
+class ProyectoDetallesModel
+    @Inject
+    constructor(
+        application: Application,
+        private val repository: ProyectoDetallesRepository,
+    ) : AndroidViewModel(application) {
+        /**
+         * Obtiene un proyecto por su id
+         *
+         * @param id El ID del proyecto a obtener
+         * @return El proyecto correspondiente. Debería existir
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun obtenerProyectoPorId(id: Int) = repository.obtenerProyectoPorId(id)
 
-    /**
-     * Elimina un proyecto y sus relaciones (tareas y etiquetas)
-     *
-     * @param proyectoVisualizado El proyecto a eliminar
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) = repository.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
-
-}
+        /**
+         * Elimina un proyecto y sus relaciones (tareas y etiquetas)
+         *
+         * @param proyectoVisualizado El proyecto a eliminar
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        suspend fun eliminarProyectoConTareaYEtiqueta(proyectoVisualizado: ProyectoDTO) =
+            repository.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
+    }

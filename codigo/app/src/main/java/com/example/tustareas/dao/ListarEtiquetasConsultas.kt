@@ -19,6 +19,8 @@ interface ListarEtiquetasConsultas {
      * @return LiveData<List<Etiqueta>> devuelve una lista de etiquetas que cumplen con el filtro
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    @Query("select * from etiquetas where LOWER(nombre) like LOWER('%' || :texto || '%') OR LOWER(descripcion) like LOWER('%' || :texto || '%')")
+    @Query(
+        "select * from etiquetas where LOWER(nombre) like LOWER('%' || :texto || '%') OR LOWER(descripcion) like LOWER('%' || :texto || '%')",
+    )
     fun obtenerEtiquetasFiltradas(texto: String): LiveData<List<Etiqueta>>
 }

@@ -1,12 +1,10 @@
 package com.example.tustareas
 
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -20,9 +18,15 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         when (appContext.packageName) {
-            "com.example.tustareas" -> { assertEquals("com.example.tustareas", appContext.packageName) }
-            "com.example.tustareas.pre" -> { assertEquals("com.example.tustareas.pre", appContext.packageName) }
-            else -> { fail("El package name no es correcto") }
+            "com.example.tustareas" -> {
+                assertEquals("com.example.tustareas", appContext.packageName)
+            }
+            "com.example.tustareas.pre" -> {
+                assertEquals("com.example.tustareas.pre", appContext.packageName)
+            }
+            else -> {
+                fail("El package name no es correcto")
+            }
         }
     }
 }

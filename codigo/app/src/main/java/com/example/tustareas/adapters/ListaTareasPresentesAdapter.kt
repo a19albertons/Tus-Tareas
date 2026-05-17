@@ -18,7 +18,9 @@ import com.google.android.material.snackbar.Snackbar
  * @return ListAdapter con las tareas presentes a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> Unit) : ListAdapter<Tarea, ListaTareasPresentesAdapter.TareaViewHolder>(TareaDiferenciasComprobacion()) {
+class ListaTareasPresentesAdapter(
+    private val tareaEliminada: (List<Tarea>) -> Unit,
+) : ListAdapter<Tarea, ListaTareasPresentesAdapter.TareaViewHolder>(TareaDiferenciasComprobacion()) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -26,9 +28,11 @@ class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> U
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class TareaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreTarea : TextView = itemView.findViewById(R.id.nombreTarea)
-        val eliminarTarea : TextView = itemView.findViewById(R.id.eliminarTarea)
+    class TareaViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
+        val nombreTarea: TextView = itemView.findViewById(R.id.nombreTarea)
+        val eliminarTarea: TextView = itemView.findViewById(R.id.eliminarTarea)
     }
 
     /**
@@ -39,7 +43,10 @@ class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> U
      * @return TareaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareaViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): TareaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_lista_tareas_presentes, parent, false)
         return TareaViewHolder(view)
     }
@@ -51,7 +58,10 @@ class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> U
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: TareaViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: TareaViewHolder,
+        posicion: Int,
+    ) {
         val objetoActual = getItem(posicion)
         holder.nombreTarea.text = objetoActual.nombre
         holder.eliminarTarea.setOnClickListener {
@@ -79,9 +89,10 @@ class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> U
          * @return true si el contenido de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-            return viejaTarea == nuevaTarea
-        }
+        override fun areContentsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea == nuevaTarea
 
         /**
          * Comprobar si el id de dos tareas es el mismo.
@@ -91,8 +102,9 @@ class ListaTareasPresentesAdapter(private val tareaEliminada: (List<Tarea>) -> U
          * @return true si el id de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-            return viejaTarea.id == nuevaTarea.id
-        }
+        override fun areItemsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea.id == nuevaTarea.id
     }
 }

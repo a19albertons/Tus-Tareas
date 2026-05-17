@@ -9,5 +9,5 @@ enum class OrdenarTareas {
     FECHA_CREACION_ASC,
     FECHA_CREACION_DES,
     FECHA_LIMITE_ASC,
-    FECHA_LIMITE_DES
+    FECHA_LIMITE_DES,
 }

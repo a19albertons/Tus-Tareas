@@ -30,21 +30,17 @@ import java.util.Date
 @AndroidEntryPoint
 class ModificarProyectoFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding : FragmentModificarProyectoBinding? = null
-    private val binding : FragmentModificarProyectoBinding
+    private var _binding: FragmentModificarProyectoBinding? = null
+    private val binding: FragmentModificarProyectoBinding
         get() = _binding!!
 
-    val model : ModificarProyectosModel by viewModels()
-
-
+    val model: ModificarProyectosModel by viewModels()
 
     // Variables comunes tareas
-    private lateinit var adapterTarea : ListaTareasPresentesAdapter
+    private lateinit var adapterTarea: ListaTareasPresentesAdapter
 
-    //Variables comunes etiquetas
-    private lateinit var adapterEtiquetas : ListaEtiquetasPresentesAdapter
-
-
+    // Variables comunes etiquetas
+    private lateinit var adapterEtiquetas: ListaEtiquetasPresentesAdapter
 
     /**
      * Crea la vista del fragmento de modificación de proyectos y gestiona los eventos de los elementos de la vista.
@@ -56,8 +52,9 @@ class ModificarProyectoFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarProyectoBinding.inflate(inflater, container, false)
@@ -76,7 +73,7 @@ class ModificarProyectoFragment : Fragment() {
         gestionarEliminacionTareas()
 
         // Gestiona la lógica de añadir nuevas etiquetas a un proyecto
-         gestionarMostradoEtiquetas()
+        gestionarMostradoEtiquetas()
 
         // Gestiona la lógica de eliminar etiquetas del proyecto
         gestionarEliminacionEtiquetas()
@@ -96,7 +93,6 @@ class ModificarProyectoFragment : Fragment() {
         // Observar el resultado del guardado o modificación de un proyecto
         observarResultado()
 
-
         return binding.root
     }
 
@@ -107,7 +103,10 @@ class ModificarProyectoFragment : Fragment() {
      * @param savedInstanceState El estado guardado de la vista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         // Gestiona la lógica de la flecha de retroceso
@@ -121,8 +120,7 @@ class ModificarProyectoFragment : Fragment() {
      */
     private fun rellenarCampos() {
         // Carga todos los datos recibidos en el fragmento
-        model.observarProyectoDTO().value?.let {
-            proyectoDTO ->
+        model.observarProyectoDTO().value?.let { proyectoDTO ->
             binding.tituloProyecto.setText(proyectoDTO.proyecto.nombre)
             binding.descripcionProyecto.setText(proyectoDTO.proyecto.descripcion)
             binding.fechaCreacionTarea.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaCreacion)
@@ -133,7 +131,6 @@ class ModificarProyectoFragment : Fragment() {
             model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
             model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
         }
-
     }
 
     /**
@@ -144,14 +141,14 @@ class ModificarProyectoFragment : Fragment() {
     private fun gestionarMostradoTareas() {
         // Gestiona la addición de tareas
         // spinner tareas
-        model.obtenerTareasRestantes().observe(viewLifecycleOwner) {
-                tareas ->
+        model.obtenerTareasRestantes().observe(viewLifecycleOwner) { tareas ->
             val listaTareas = model.tareasRestantesProcesadas(tareas)
-            binding.listaTareas.adapter = ArrayAdapter(
-                requireContext(),
-                R.layout.spinner_personalizado,
-                listaTareas.map { it.nombre }
-            )
+            binding.listaTareas.adapter =
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.spinner_personalizado,
+                    listaTareas.map { it.nombre },
+                )
         }
     }
 
@@ -163,11 +160,11 @@ class ModificarProyectoFragment : Fragment() {
     private fun gestionarEliminacionTareas() {
         // Gestiona las tareas del proyecto en la opción de eliminar
         // Recycler view para las tareas
-        adapterTarea = ListaTareasPresentesAdapter {
-                listaTareas ->
-            model.actualizarTareasDelProyecto(listaTareas)
-            model.actualizarFiltroListaTareaProyecto(model.obtenerTareasDelProyecto())
-        }
+        adapterTarea =
+            ListaTareasPresentesAdapter { listaTareas ->
+                model.actualizarTareasDelProyecto(listaTareas)
+                model.actualizarFiltroListaTareaProyecto(model.obtenerTareasDelProyecto())
+            }
         binding.recyclerViewMostrarTareas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarTareas.adapter = adapterTarea
         adapterTarea.submitList(model.obtenerTareasDelProyecto())
@@ -181,16 +178,14 @@ class ModificarProyectoFragment : Fragment() {
     private fun gestionarMostradoEtiquetas() {
         // Gestiona la addición de etiquetas
         // spinner etiquetas
-        model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) {
-                etiquetas ->
+        model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
             val listaEtiquetas = model.etiquetasRestantesProcesadas(etiquetas)
-            binding.listaEtiquetas.adapter = ArrayAdapter(
-                requireContext(),
-                R.layout.spinner_personalizado,
-                listaEtiquetas.map { it.nombre }
-            )
-
-
+            binding.listaEtiquetas.adapter =
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.spinner_personalizado,
+                    listaEtiquetas.map { it.nombre },
+                )
         }
     }
 
@@ -202,11 +197,11 @@ class ModificarProyectoFragment : Fragment() {
     private fun gestionarEliminacionEtiquetas() {
         // Gestiona las etiquetas del proyecto en la opción de eliminar
         // Recycler view con las etiquetas del proyecto
-        adapterEtiquetas = ListaEtiquetasPresentesAdapter {
-                listaEtiquetas ->
-            model.actualizarEtiquetasDelProyecto(listaEtiquetas)
-            model.actualizarFiltroListaEtiquetaProyecto(model.obtenerEtiquetasDelProyecto())
-        }
+        adapterEtiquetas =
+            ListaEtiquetasPresentesAdapter { listaEtiquetas ->
+                model.actualizarEtiquetasDelProyecto(listaEtiquetas)
+                model.actualizarFiltroListaEtiquetaProyecto(model.obtenerEtiquetasDelProyecto())
+            }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
         adapterEtiquetas.submitList(model.obtenerEtiquetasDelProyecto())
@@ -300,11 +295,12 @@ class ModificarProyectoFragment : Fragment() {
      */
     private fun gestionarFlechaRetroceso() {
         // Modifica la logica por defecto de la flecha de retroceso
-        val flechaRetroceso = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                dialogo()
+        val flechaRetroceso =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    dialogo()
+                }
             }
-        }
 
         // Modifica el comportamiento en el activity
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
@@ -316,17 +312,22 @@ class ModificarProyectoFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun dialogo() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(model.tituloDialogo()))
             .setMessage("")
-            .setPositiveButton(getString(R.string.guardar)) { _,_ ->
-                model.guardarYModificarProyecto(binding.tituloProyecto.text.toString().trim(), binding.descripcionProyecto.text.toString().trim())
-
-            }
-            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
+            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
+                model.guardarYModificarProyecto(
+                    binding.tituloProyecto.text
+                        .toString()
+                        .trim(),
+                    binding.descripcionProyecto.text
+                        .toString()
+                        .trim(),
+                )
+            }.setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
-            }
-            .setNeutralButton(getString(R.string.continuar), null)
+            }.setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
 
@@ -337,8 +338,7 @@ class ModificarProyectoFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun observarError() {
-        model.observarMensajeError().observe(viewLifecycleOwner) {
-            mensajeError ->
+        model.observarMensajeError().observe(viewLifecycleOwner) { mensajeError ->
             Snackbar.make(binding.root, mensajeError, Snackbar.LENGTH_SHORT).show()
         }
     }
@@ -350,14 +350,12 @@ class ModificarProyectoFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     fun observarResultado() {
-        model.observarResultado().observe(viewLifecycleOwner) {
-            resultado ->
+        model.observarResultado().observe(viewLifecycleOwner) { resultado ->
             if (resultado) {
                 findNavController().popBackStack()
             }
         }
     }
-
 
     /**
      * Destruye la vista del fragmento de modificación de proyectos y libera los recursos asociados a la vista.
@@ -368,6 +366,4 @@ class ModificarProyectoFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
