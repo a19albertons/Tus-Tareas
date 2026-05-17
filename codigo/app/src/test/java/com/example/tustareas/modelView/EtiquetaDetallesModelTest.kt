@@ -14,7 +14,6 @@ import org.mockito.Mockito
  * Clase que tiene las pruebas unitarias de etiqueta detalles
  */
 class EtiquetaDetallesModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -25,11 +24,11 @@ class EtiquetaDetallesModelTest {
     // Definición modelo
     val etiquetaDetallesModel = EtiquetaDetallesModel(Application(), etiquetaDetallesRepositorio)
 
-
     @Test
     fun obtenerEtiquetaPorID() {
         // Definición respuestas
-        Mockito.`when`(etiquetaDetallesRepositorio.obtenerEtiquetaPorID(1))
+        Mockito
+            .`when`(etiquetaDetallesRepositorio.obtenerEtiquetaPorID(1))
             .thenReturn(MutableLiveData(Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")))
 
         // Obtener dato del observer
@@ -45,14 +44,15 @@ class EtiquetaDetallesModelTest {
     }
 
     @Test
-    fun eliminarEtiqueta() = runTest {
-        // Definición etiqueta a eliminar
-        val etiquetaAEliminar = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+    fun eliminarEtiqueta() =
+        runTest {
+            // Definición etiqueta a eliminar
+            val etiquetaAEliminar = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Llamada al método a probar
-        etiquetaDetallesModel.eliminarEtiqueta(etiquetaAEliminar)
+            // Llamada al método a probar
+            etiquetaDetallesModel.eliminarEtiqueta(etiquetaAEliminar)
 
-        // Verificación de que se llamó al método del repositorio con la etiqueta correcta
-        Mockito.verify(etiquetaDetallesRepositorio).eliminarEtiqueta(etiquetaAEliminar)
-    }
+            // Verificación de que se llamó al método del repositorio con la etiqueta correcta
+            Mockito.verify(etiquetaDetallesRepositorio).eliminarEtiqueta(etiquetaAEliminar)
+        }
 }
