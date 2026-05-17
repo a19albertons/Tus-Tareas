@@ -11,7 +11,6 @@ import java.util.TimeZone
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 class Convertidor {
-
     /**
      * Convierte un valor de Prioridad a String para almacenarlo en la base de datos.
      *
@@ -20,9 +19,7 @@ class Convertidor {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @TypeConverter
-    fun fromPrioridad(value: Prioridad): String {
-        return value.name
-    }
+    fun fromPrioridad(value: Prioridad): String = value.name
 
     /**
      * Convierte un valor de String a Prioridad para recuperarlo de la base de datos.
@@ -32,9 +29,7 @@ class Convertidor {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @TypeConverter
-    fun toPrioridad(value: String): Prioridad {
-        return runCatching { Prioridad.valueOf(value) }.getOrDefault(Prioridad.NO_ESTABLECIDO )
-    }
+    fun toPrioridad(value: String): Prioridad = runCatching { Prioridad.valueOf(value) }.getOrDefault(Prioridad.NO_ESTABLECIDO)
 
     /**
      * Convierte un valor de Estado a String para almacenarlo en la base de datos.
@@ -44,9 +39,7 @@ class Convertidor {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @TypeConverter
-    fun fromEstado(value: Estado): String {
-        return value.name
-    }
+    fun fromEstado(value: Estado): String = value.name
 
     /**
      * Convierte un valor de String a Estado para recuperarlo de la base de datos.
@@ -56,9 +49,7 @@ class Convertidor {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @TypeConverter
-    fun toEstado(value: String): Estado {
-        return runCatching { Estado.valueOf(value) }.getOrDefault( Estado.EN_TIEMPO )
-    }
+    fun toEstado(value: String): Estado = runCatching { Estado.valueOf(value) }.getOrDefault(Estado.EN_TIEMPO)
 
     /**
      * Convierte un valor de Date a Long para almacenarlo en la base de datos.
@@ -88,7 +79,5 @@ class Convertidor {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @TypeConverter
-    fun toDate(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
+    fun toDate(value: Long?): Date? = value?.let { Date(it) }
 }

@@ -13,7 +13,6 @@ import org.mockito.Mockito
  * Clase que tiene las pruebas unitarias de estadisticas
  */
 class EstadisticasModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -27,20 +26,20 @@ class EstadisticasModelTest {
     @Test
     fun probarRueda1() {
         // Definición respuestas
-        Mockito.`when`(
-            estadisticasRepositorio.obtenerCantidadTareasCompletasEntre2Fechas(
-                ArgumentMatchers.anyLong(),
-                ArgumentMatchers.anyLong()
-            )
-        )
-            .thenReturn(MutableLiveData(10L))
-        Mockito.`when`(
-            estadisticasRepositorio.obtenerCantidadTareasPendientesEntre2Fechas(
-                ArgumentMatchers.anyLong(),
-                ArgumentMatchers.anyLong()
-            )
-        )
-            .thenReturn(MutableLiveData(10L))
+        Mockito
+            .`when`(
+                estadisticasRepositorio.obtenerCantidadTareasCompletasEntre2Fechas(
+                    ArgumentMatchers.anyLong(),
+                    ArgumentMatchers.anyLong(),
+                ),
+            ).thenReturn(MutableLiveData(10L))
+        Mockito
+            .`when`(
+                estadisticasRepositorio.obtenerCantidadTareasPendientesEntre2Fechas(
+                    ArgumentMatchers.anyLong(),
+                    ArgumentMatchers.anyLong(),
+                ),
+            ).thenReturn(MutableLiveData(10L))
 
         // Obtener dato del observer
         val liveData = estadisticasModel.obtenerRueda()
@@ -49,16 +48,15 @@ class EstadisticasModelTest {
         // Comprobación del resultado
         val resultado = liveData.value
         assert(resultado == 50f)
-
     }
 
     @Test
     fun tareasCompletas() {
         // Definición respuesta
-        Mockito.`when`(
-            estadisticasRepositorio.obtenerCantidadTareasCompletas()
-        )
-            .thenReturn(MutableLiveData(15))
+        Mockito
+            .`when`(
+                estadisticasRepositorio.obtenerCantidadTareasCompletas(),
+            ).thenReturn(MutableLiveData(15))
 
         // Obtener dato del observer
         val liveData = estadisticasModel.obtenerCantidadTareasCompletas()
@@ -72,10 +70,10 @@ class EstadisticasModelTest {
     @Test
     fun tareasPendientes() {
         // Definición respuesta
-        Mockito.`when`(
-            estadisticasRepositorio.obtenerCantidadTareasPendientes()
-        )
-            .thenReturn(MutableLiveData(5))
+        Mockito
+            .`when`(
+                estadisticasRepositorio.obtenerCantidadTareasPendientes(),
+            ).thenReturn(MutableLiveData(5))
 
         // Obtener dato del observer
         val liveData = estadisticasModel.obtenerCantidadTareasPendientes()
@@ -89,10 +87,10 @@ class EstadisticasModelTest {
     @Test
     fun tareasRetrasadas() {
         // Definición respuesta
-        Mockito.`when`(
-            estadisticasRepositorio.obtenerCantidadTareasRetrasadas()
-        )
-            .thenReturn(MutableLiveData(8))
+        Mockito
+            .`when`(
+                estadisticasRepositorio.obtenerCantidadTareasRetrasadas(),
+            ).thenReturn(MutableLiveData(8))
 
         // Obtener dato del observer
         val liveData = estadisticasModel.obtenerCantidadTareasRetrasadas()

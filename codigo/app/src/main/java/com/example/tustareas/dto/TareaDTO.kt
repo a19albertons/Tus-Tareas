@@ -15,16 +15,14 @@ import kotlinx.parcelize.Parcelize
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Parcelize
-data class TareaDTO (
+data class TareaDTO(
     // Integra una tarea
     @Embedded var tarea: Tarea,
     // Obtiene una lista de etiquetas relacionada con la tarea a través de la tabla de relación TareaEtiqueta
     @Relation(
         parentColumn = "id",
         entityColumn = "id",
-        associateBy = Junction(TareaEtiqueta::class, parentColumn = "idTarea", entityColumn = "idEtiqueta")
+        associateBy = Junction(TareaEtiqueta::class, parentColumn = "idTarea", entityColumn = "idEtiqueta"),
     )
-    var etiquetas: List<Etiqueta>
-) : Parcelable {
-
-}
+    var etiquetas: List<Etiqueta>,
+) : Parcelable

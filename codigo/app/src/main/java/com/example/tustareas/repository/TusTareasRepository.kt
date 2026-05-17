@@ -10,31 +10,28 @@ import javax.inject.Inject
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class TusTareasRepository @Inject constructor(
-    private val database: TusTareasDatabase
-) {
-    // Imporaction daos
-    private val activityMainConsultas = database.activityMainConsultas()
+class TusTareasRepository
+    @Inject
+    constructor(
+        private val database: TusTareasDatabase,
+    ) {
+        // Imporaction daos
+        private val activityMainConsultas = database.activityMainConsultas()
 
+        // Metodos activity main
 
+        /**
+         * Elimina todas las tareas completadas de la base de datos
+         *
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        suspend fun limpiarTareasCompletas() = activityMainConsultas.limpiarTareasCompletas()
 
-    // Metodos activity main
-    /**
-     * Elimina todas las tareas completadas de la base de datos
-     *
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    suspend fun limpiarTareasCompletas() = activityMainConsultas.limpiarTareasCompletas()
-
-    /**
-     * Marca una notificación como leída en la base de datos
-     *
-     * @param idNotificacion El ID de la notificación a marcar como leída
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = activityMainConsultas.marcarNotificacionComoLeida(idNotificacion)
-
-
-
-
-}
+        /**
+         * Marca una notificación como leída en la base de datos
+         *
+         * @param idNotificacion El ID de la notificación a marcar como leída
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        suspend fun marcarNotificacionComoLeida(idNotificacion: Int) = activityMainConsultas.marcarNotificacionComoLeida(idNotificacion)
+    }

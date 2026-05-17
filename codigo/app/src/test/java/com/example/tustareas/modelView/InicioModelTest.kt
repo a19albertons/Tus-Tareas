@@ -13,12 +13,10 @@ import org.mockito.Mockito
 import java.util.Date
 import kotlin.collections.emptyList
 
-
 /**
  * Clase que tiene las pruebas unitarias de inicio model
  */
 class InicioModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -34,7 +32,8 @@ class InicioModelTest {
     @Test
     fun obtenerTareasTerminanDiaEspecifico1() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(date))
+        Mockito
+            .`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(date))
             .thenReturn(MutableLiveData(emptyList()))
 
         // Obtener dato del observer
@@ -49,13 +48,32 @@ class InicioModelTest {
     @Test
     fun obtenerTareasTerminanDiaEspecifico2() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(date))
-            .thenReturn(MutableLiveData(listOf(
-                Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,
-                    Date(), Estado.COMPLETADA),
-                Tarea(2, "Tarea 2", "Descripción de la tarea 2", Date(), Prioridad.ALTA,
-                    Date(), Estado.RETRASADA)
-            )))
+        Mockito
+            .`when`(inicioRepositorio.obtenerTareasTerminanDiaEspecifico(date))
+            .thenReturn(
+                MutableLiveData(
+                    listOf(
+                        Tarea(
+                            1,
+                            "Tarea 1",
+                            "Descripción de la tarea 1",
+                            Date(),
+                            Prioridad.NO_ESTABLECIDO,
+                            Date(),
+                            Estado.COMPLETADA,
+                        ),
+                        Tarea(
+                            2,
+                            "Tarea 2",
+                            "Descripción de la tarea 2",
+                            Date(),
+                            Prioridad.ALTA,
+                            Date(),
+                            Estado.RETRASADA,
+                        ),
+                    ),
+                ),
+            )
 
         // Obtener dato del observer
         val liveData = inicioModel.obtenerTareasTerminanDiaEspecifico(date)
@@ -69,7 +87,8 @@ class InicioModelTest {
     @Test
     fun obtenerTareasRetrasadas() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasRetrasadas())
+        Mockito
+            .`when`(inicioRepositorio.obtenerTareasRetrasadas())
             .thenReturn(MutableLiveData(emptyList()))
 
         // Obtener dato del observer
@@ -84,12 +103,30 @@ class InicioModelTest {
     @Test
     fun obtenerTareasRetrasadas2() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasRetrasadas())           .thenReturn(MutableLiveData(listOf(
-                Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,
-                    Date(), Estado.COMPLETADA),
-                Tarea(2, "Tarea 2", "Descripción de la tarea 2", Date(), Prioridad.ALTA,
-                    Date(), Estado.RETRASADA)
-            )))
+        Mockito.`when`(inicioRepositorio.obtenerTareasRetrasadas()).thenReturn(
+            MutableLiveData(
+                listOf(
+                    Tarea(
+                        1,
+                        "Tarea 1",
+                        "Descripción de la tarea 1",
+                        Date(),
+                        Prioridad.NO_ESTABLECIDO,
+                        Date(),
+                        Estado.COMPLETADA,
+                    ),
+                    Tarea(
+                        2,
+                        "Tarea 2",
+                        "Descripción de la tarea 2",
+                        Date(),
+                        Prioridad.ALTA,
+                        Date(),
+                        Estado.RETRASADA,
+                    ),
+                ),
+            ),
+        )
 
         // Obtener dato del observer
         val liveData = inicioModel.obtenerTareasRetrasadas()
@@ -103,7 +140,8 @@ class InicioModelTest {
     @Test
     fun obtenerTareasProximas() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasProximas(date))
+        Mockito
+            .`when`(inicioRepositorio.obtenerTareasProximas(date))
             .thenReturn(MutableLiveData(emptyList()))
 
         // Obtener dato del observer
@@ -118,15 +156,41 @@ class InicioModelTest {
     @Test
     fun obtenerTareasProximas2() {
         // Definición respuestas
-        Mockito.`when`(inicioRepositorio.obtenerTareasProximas(date))
-            .thenReturn(MutableLiveData(listOf(
-            Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO,
-                Date(), Estado.COMPLETADA),
-            Tarea(2, "Tarea 2", "Descripción de la tarea 2", Date(), Prioridad.ALTA,
-                Date(), Estado.RETRASADA),
-            Tarea(3, "Tarea 3", "Descripción de la tarea 3", Date(), Prioridad.MEDIA,
-                Date(), Estado.EN_TIEMPO)
-        )))
+        Mockito
+            .`when`(inicioRepositorio.obtenerTareasProximas(date))
+            .thenReturn(
+                MutableLiveData(
+                    listOf(
+                        Tarea(
+                            1,
+                            "Tarea 1",
+                            "Descripción de la tarea 1",
+                            Date(),
+                            Prioridad.NO_ESTABLECIDO,
+                            Date(),
+                            Estado.COMPLETADA,
+                        ),
+                        Tarea(
+                            2,
+                            "Tarea 2",
+                            "Descripción de la tarea 2",
+                            Date(),
+                            Prioridad.ALTA,
+                            Date(),
+                            Estado.RETRASADA,
+                        ),
+                        Tarea(
+                            3,
+                            "Tarea 3",
+                            "Descripción de la tarea 3",
+                            Date(),
+                            Prioridad.MEDIA,
+                            Date(),
+                            Estado.EN_TIEMPO,
+                        ),
+                    ),
+                ),
+            )
 
         // Obtener dato del observer
         val liveData = inicioModel.obtenerTareasProximas(date)

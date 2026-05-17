@@ -10,17 +10,19 @@ import javax.inject.Inject
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ListarEtiquetasRepository @Inject constructor(
-    private val database: TusTareasDatabase
-) {
-    private val listarEtiquetasConsultas = database.listarEtiquetasConsultas()
+class ListarEtiquetasRepository
+    @Inject
+    constructor(
+        private val database: TusTareasDatabase,
+    ) {
+        private val listarEtiquetasConsultas = database.listarEtiquetasConsultas()
 
-    /**
-     * Obtiene las etiquetas filtradas por un texto
-     *
-     * @param texto El texto a filtrar
-     * @return Las etiquetas filtradas por el texto
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun obtenerEtiquetasFiltradas(texto: String) = listarEtiquetasConsultas.obtenerEtiquetasFiltradas(texto)
-}
+        /**
+         * Obtiene las etiquetas filtradas por un texto
+         *
+         * @param texto El texto a filtrar
+         * @return Las etiquetas filtradas por el texto
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun obtenerEtiquetasFiltradas(texto: String) = listarEtiquetasConsultas.obtenerEtiquetasFiltradas(texto)
+    }

@@ -52,88 +52,92 @@ class TareaDetallesModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTareas : ModificarTareasRepository
+    lateinit var repositorioModificarTareas: ModificarTareasRepository
 
-    lateinit var modeloModificarTareas : ModificarTareasModel
-
-    @Inject
-    lateinit var repositorioModificarEtiquetas : ModificarEtiquetasRepository
-
-    lateinit var modeloModificarEtiqueta : ModificarEtiquetasModel
+    lateinit var modeloModificarTareas: ModificarTareasModel
 
     @Inject
-    lateinit var repositorioDetallesTarea : TareaDetallesRepository
+    lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
 
-    lateinit var modeloDetallesTarea : TareaDetallesModel
+    lateinit var modeloModificarEtiqueta: ModificarEtiquetasModel
 
+    @Inject
+    lateinit var repositorioDetallesTarea: TareaDetallesRepository
+
+    lateinit var modeloDetallesTarea: TareaDetallesModel
 
     private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
-    fun crearBd() = runBlocking {
-        // Inyectar dependencias
-        ruleHilt.inject()
+    fun crearBd() =
+        runBlocking {
+            // Inyectar dependencias
+            ruleHilt.inject()
 
-        // Crear modelos
-        modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
-        modeloModificarEtiqueta = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
-        modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
+            // Crear modelos
+            modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+            modeloModificarEtiqueta = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
+            modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
 
-        // Tarea sin fecha limite, sin prioridad y en tiempo
-        val tarea1 = Tarea(
-            nombre = "tarea1",
-            prioridad = Prioridad.NO_ESTABLECIDO,
-            fechaCreacion = Date(diaReferencia - 86400000),
-            fechaLimite = null,
-            estado = Estado.EN_TIEMPO
-        )
-        val tarea1DTO = TareaDTO(tarea1, emptyList())
-        // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
-        val tarea2 = Tarea(
-            nombre = "tarea2",
-            prioridad = Prioridad.BAJA,
-            fechaCreacion = Date(diaReferencia),
-            fechaLimite = Date(diaReferencia + 86400000), // Un día después
-            estado = Estado.EN_TIEMPO
-        )
-        val tarea2DTO = TareaDTO(tarea2, emptyList())
-        // Completada, priroridad alta, descripcion
-        val tareaHoy = Tarea(
-            nombre = "tareaHoy",
-            descripcion = "descripcion",
-            prioridad = Prioridad.ALTA,
-            fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
-            fechaLimite = Date(diaReferencia), // Hoy
-            estado = Estado.COMPLETADA
-        )
-        val etiqueta = Etiqueta(
-            nombre = "etiqueta"
-        )
-        val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
-        // Tarea retrasada, prioridad media y retrasada
-        val tareaRETRASADA = Tarea(
-            nombre = "tareaRetrasada",
-            prioridad = Prioridad.MEDIA,
-            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-            estado = Estado.RETRASADA
-        )
-        val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
+            // Tarea sin fecha limite, sin prioridad y en tiempo
+            val tarea1 =
+                Tarea(
+                    nombre = "tarea1",
+                    prioridad = Prioridad.NO_ESTABLECIDO,
+                    fechaCreacion = Date(diaReferencia - 86400000),
+                    fechaLimite = null,
+                    estado = Estado.EN_TIEMPO,
+                )
+            val tarea1DTO = TareaDTO(tarea1, emptyList())
+            // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
+            val tarea2 =
+                Tarea(
+                    nombre = "tarea2",
+                    prioridad = Prioridad.BAJA,
+                    fechaCreacion = Date(diaReferencia),
+                    fechaLimite = Date(diaReferencia + 86400000), // Un día después
+                    estado = Estado.EN_TIEMPO,
+                )
+            val tarea2DTO = TareaDTO(tarea2, emptyList())
+            // Completada, priroridad alta, descripcion
+            val tareaHoy =
+                Tarea(
+                    nombre = "tareaHoy",
+                    descripcion = "descripcion",
+                    prioridad = Prioridad.ALTA,
+                    fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
+                    fechaLimite = Date(diaReferencia), // Hoy
+                    estado = Estado.COMPLETADA,
+                )
+            val etiqueta =
+                Etiqueta(
+                    nombre = "etiqueta",
+                )
+            val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
+            // Tarea retrasada, prioridad media y retrasada
+            val tareaRETRASADA =
+                Tarea(
+                    nombre = "tareaRetrasada",
+                    prioridad = Prioridad.MEDIA,
+                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+                    fechaLimite = Date(diaReferencia - 86400000), // Un día antes
+                    estado = Estado.RETRASADA,
+                )
+            val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
-        // Insertar tareas y etiqueta
-        modeloModificarTareas.definirTareaDTO(tarea1DTO)
-        modeloModificarTareas.guardarYModificarTarea(tarea1DTO.tarea.nombre, tarea1DTO.tarea.descripcion ?: "")
-        modeloModificarTareas.definirTareaDTO(tarea2DTO)
-        modeloModificarTareas.guardarYModificarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
-        modeloModificarEtiqueta.definirEtiqueta(etiqueta)
-        modeloModificarEtiqueta.guardarYModificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
-        modeloModificarTareas.definirTareaDTO(tareaHoyDTO)
-        modeloModificarTareas.guardarYModificarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
-        modeloModificarTareas.definirTareaDTO(tareaRetrasadaDTO)
-        modeloModificarTareas.guardarYModificarTarea(tareaRetrasadaDTO.tarea.nombre, tareaRetrasadaDTO.tarea.descripcion ?: "")
-
-    }
+            // Insertar tareas y etiqueta
+            modeloModificarTareas.definirTareaDTO(tarea1DTO)
+            modeloModificarTareas.guardarYModificarTarea(tarea1DTO.tarea.nombre, tarea1DTO.tarea.descripcion ?: "")
+            modeloModificarTareas.definirTareaDTO(tarea2DTO)
+            modeloModificarTareas.guardarYModificarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
+            modeloModificarEtiqueta.definirEtiqueta(etiqueta)
+            modeloModificarEtiqueta.guardarYModificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
+            modeloModificarTareas.definirTareaDTO(tareaHoyDTO)
+            modeloModificarTareas.guardarYModificarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
+            modeloModificarTareas.definirTareaDTO(tareaRetrasadaDTO)
+            modeloModificarTareas.guardarYModificarTarea(tareaRetrasadaDTO.tarea.nombre, tareaRetrasadaDTO.tarea.descripcion ?: "")
+        }
 
     @After
     fun cerrarBd() {
@@ -142,33 +146,35 @@ class TareaDetallesModelTest {
 
     // Prueba de obtención de tarea por id
     @Test
-    fun obtenerTarea1() = runTest {
-        // Obtener referencia
-        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData.observeForever {  }
+    fun obtenerTarea1() =
+        runTest {
+            // Obtener referencia
+            val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
+            liveData.observeForever { }
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado!!.tarea.nombre == "tarea1")
-    }
+            // Resultado
+            val resultado = liveData.value
+            assert(resultado!!.tarea.nombre == "tarea1")
+        }
 
     // Prueba de eliminar una tarea
     @Test
-    fun eliminarTarea1() = runTest {
-        // Obtener referencia
-        val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData.observeForever {  }
+    fun eliminarTarea1() =
+        runTest {
+            // Obtener referencia
+            val liveData = modeloDetallesTarea.obtenerTareaDTOPorID(1)
+            liveData.observeForever { }
 
-        // Eliminar tarea
-        val eliminar = liveData.value
-        modeloDetallesTarea.eliminarTarea(eliminar!!.tarea)
+            // Eliminar tarea
+            val eliminar = liveData.value
+            modeloDetallesTarea.eliminarTarea(eliminar!!.tarea)
 
-        // Obtener referencia nueva
-        val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
-        liveData2.observeForever {  }
+            // Obtener referencia nueva
+            val liveData2 = modeloDetallesTarea.obtenerTareaDTOPorID(1)
+            liveData2.observeForever { }
 
-        // Resultado
-        val resultado = liveData2.value
-        assert(resultado?.tarea == null)
-    }
+            // Resultado
+            val resultado = liveData2.value
+            assert(resultado?.tarea == null)
+        }
 }

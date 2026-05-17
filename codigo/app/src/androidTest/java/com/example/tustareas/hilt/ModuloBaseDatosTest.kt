@@ -13,14 +13,16 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [ModuloBaseDatos::class]
+    replaces = [ModuloBaseDatos::class],
 )
 object ModuloBaseDatosTest {
     @Provides
     @Singleton
-    fun proveerBaseDatosEnMemoria(@ApplicationContext context: Context): TusTareasDatabase {
-        return Room.inMemoryDatabaseBuilder(context, TusTareasDatabase::class.java)
+    fun proveerBaseDatosEnMemoria(
+        @ApplicationContext context: Context,
+    ): TusTareasDatabase =
+        Room
+            .inMemoryDatabaseBuilder(context, TusTareasDatabase::class.java)
             .allowMainThreadQueries() // Permite ejecutar consultas en el hilo principal
             .build()
-    }
 }

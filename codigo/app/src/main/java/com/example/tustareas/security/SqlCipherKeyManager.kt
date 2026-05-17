@@ -21,7 +21,7 @@ import javax.crypto.spec.GCMParameterSpec
  * @author proandroiddev.com
  */
 class SqlCipherKeyManager constructor(
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) {
     // Gestiona el patron singleton para evitar multiples instancias del gestor de la contraeña de cifrado de la bd
     private val keyStore: KeyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
@@ -59,13 +59,14 @@ class SqlCipherKeyManager constructor(
             val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
             // Configura la clave con los siguiente parametros encriptar y desencriptar, prohibe/rechaza
             // su uso en otras casuisticas, no aplica un patron de encriptado y la construye
-            val keyGenSpec = KeyGenParameterSpec.Builder(
-                "sqlcipher_keystore_key",
-                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
-            )
-                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                .build()
+            val keyGenSpec =
+                KeyGenParameterSpec
+                    .Builder(
+                        "sqlcipher_keystore_key",
+                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT,
+                    ).setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                    .build()
             // Configura el generador de claves con la configuración previa
             keyGenerator.init(keyGenSpec)
             // Genera la clave
@@ -74,6 +75,7 @@ class SqlCipherKeyManager constructor(
     }
 
     // Genera y  cifra la clave de encriptación
+
     /**
      * Genera y encripta la SqlCipherKey. Genera una clave aleatoria de 32 bytes y guarda
      * la clave cifrada y el vector en shared preferences
@@ -119,7 +121,11 @@ class SqlCipherKeyManager constructor(
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      * @author proandroiddev.com
      */
-    private fun getDecryptedSqlCipherKey(keyAlias: String, key: String, iv: String): ByteArray {
+    private fun getDecryptedSqlCipherKey(
+        keyAlias: String,
+        key: String,
+        iv: String,
+    ): ByteArray {
         // Obtiene las claves previamente cifradas
         val encryptedKey = Base64.decode(key, Base64.NO_WRAP)
         val ivBytes = Base64.decode(iv, Base64.NO_WRAP)
@@ -136,8 +142,7 @@ class SqlCipherKeyManager constructor(
     }
 
     // Obtiene la clave del key store a partir del alias
-    private fun getSecretKey(keyAlias: String): SecretKey =
-        (keyStore.getEntry(keyAlias, null) as KeyStore.SecretKeyEntry).secretKey
+    private fun getSecretKey(keyAlias: String): SecretKey = (keyStore.getEntry(keyAlias, null) as KeyStore.SecretKeyEntry).secretKey
 
     /**
      * Obtiene el SupportOpenHelperFactory con la clave de encriptación descifrada.

@@ -13,7 +13,6 @@ import com.example.tustareas.modelos.Etiqueta
  */
 @Dao
 interface EtiquetaDetallesConsultas {
-    // Obtiene una etiqueta por su id
     /**
      * Obtiene una etiqueta por su id
      *

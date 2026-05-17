@@ -16,9 +16,10 @@ import com.example.tustareas.modelos.Tarea
  * @return List Adapter con las tareas pendientes de hoy a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class TareasHoyPendientesAdapter(): ListAdapter<Tarea, TareasHoyPendientesAdapter.TareaViewHolder>(
-    TareaComprobacionDiferncias()
-) {
+class TareasHoyPendientesAdapter :
+    ListAdapter<Tarea, TareasHoyPendientesAdapter.TareaViewHolder>(
+        TareaComprobacionDiferncias(),
+    ) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -26,9 +27,11 @@ class TareasHoyPendientesAdapter(): ListAdapter<Tarea, TareasHoyPendientesAdapte
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class TareaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreTarea : TextView = itemView.findViewById<TextView>(R.id.nombreTarea)
-        val prioridadTarea : TextView = itemView.findViewById<TextView>(R.id.prioridadTarea)
+    class TareaViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
+        val nombreTarea: TextView = itemView.findViewById<TextView>(R.id.nombreTarea)
+        val prioridadTarea: TextView = itemView.findViewById<TextView>(R.id.prioridadTarea)
     }
 
     /**
@@ -39,7 +42,10 @@ class TareasHoyPendientesAdapter(): ListAdapter<Tarea, TareasHoyPendientesAdapte
      * @return TareaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareaViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): TareaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_tareas_pendientes_hoy, parent, false)
         return TareaViewHolder(view)
     }
@@ -51,7 +57,10 @@ class TareasHoyPendientesAdapter(): ListAdapter<Tarea, TareasHoyPendientesAdapte
      * @param position La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: TareaViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: TareaViewHolder,
+        position: Int,
+    ) {
         val objetoActual = getItem(position)
         holder.nombreTarea.text = objetoActual.nombre
         holder.prioridadTarea.text = holder.itemView.context.getString(objetoActual.prioridad.labelRes())
@@ -73,10 +82,10 @@ class TareasHoyPendientesAdapter(): ListAdapter<Tarea, TareasHoyPendientesAdapte
          * @return true si el contenido de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-            return viejaTarea == nuevaTarea
-        }
-
+        override fun areContentsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea == nuevaTarea
 
         /**
          * Comprobar si el id de dos tareas es el mismo.
@@ -86,9 +95,9 @@ class TareasHoyPendientesAdapter(): ListAdapter<Tarea, TareasHoyPendientesAdapte
          * @return true si el id de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-
-            return viejaTarea.id == nuevaTarea.id
-        }
+        override fun areItemsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea.id == nuevaTarea.id
     }
 }

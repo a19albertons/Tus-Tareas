@@ -29,7 +29,8 @@ class ListarProyectosModelTest {
     @Test
     fun obtenerProyectosFiltradas() {
         // Definición respuestas
-        Mockito.`when`(listarProyectosRepositorio.obtenerProyectosFiltradas("", OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN))
+        Mockito
+            .`when`(listarProyectosRepositorio.obtenerProyectosFiltradas("", OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN))
             .thenReturn(MutableLiveData(emptyList()))
 
         // Obtener dato del observer
@@ -44,11 +45,16 @@ class ListarProyectosModelTest {
     @Test
     fun obtenerEtiquetasFiltradas2() {
         // Definición respuestas
-        Mockito.`when`(listarProyectosRepositorio.obtenerProyectosFiltradas("", OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN))
-            .thenReturn(MutableLiveData(listOf(
-                Proyecto(1, "Proyecto 1", "Descripción del proyecto 1", Date(), Date(), Date()),
-                Proyecto(2, "Proyecto 2", "Descripción del proyecto 2", Date(), Date(), Date())
-            )))
+        Mockito
+            .`when`(listarProyectosRepositorio.obtenerProyectosFiltradas("", OrdenarProyectosInicio.INICIO, OrdenarProyectoFin.FIN))
+            .thenReturn(
+                MutableLiveData(
+                    listOf(
+                        Proyecto(1, "Proyecto 1", "Descripción del proyecto 1", Date(), Date(), Date()),
+                        Proyecto(2, "Proyecto 2", "Descripción del proyecto 2", Date(), Date(), Date()),
+                    ),
+                ),
+            )
 
         // Obtener dato del observer
         val liveData = listarProyectosModel.obtenerProyectosFiltradas()

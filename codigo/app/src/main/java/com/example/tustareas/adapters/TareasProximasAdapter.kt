@@ -17,10 +17,10 @@ import com.example.tustareas.util.DateHelper
  * @return List Adapter con las tareas proximas a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class TareasProximasAdapter() : ListAdapter<Tarea, TareasProximasAdapter.TareasViewHolder>(
-    TareaComprobacionDiferncias()
-) {
-
+class TareasProximasAdapter :
+    ListAdapter<Tarea, TareasProximasAdapter.TareasViewHolder>(
+        TareaComprobacionDiferncias(),
+    ) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -28,7 +28,9 @@ class TareasProximasAdapter() : ListAdapter<Tarea, TareasProximasAdapter.TareasV
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class TareasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TareasViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
         val nombreTarea: TextView = itemView.findViewById(R.id.nombreTarea)
         val fechaLimite: TextView = itemView.findViewById(R.id.fechaLimite)
     }
@@ -41,8 +43,11 @@ class TareasProximasAdapter() : ListAdapter<Tarea, TareasProximasAdapter.TareasV
      * @return TareaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareasViewHolder {
-        val view= LayoutInflater.from(parent.context).inflate(R.layout.adapter_tareas_proximas, parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): TareasViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_tareas_proximas, parent, false)
         return TareasViewHolder(view)
     }
 
@@ -53,7 +58,10 @@ class TareasProximasAdapter() : ListAdapter<Tarea, TareasProximasAdapter.TareasV
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: TareasViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: TareasViewHolder,
+        posicion: Int,
+    ) {
         val objetoActual = getItem(posicion)
         holder.nombreTarea.text = objetoActual.nombre
         holder.fechaLimite.text = DateHelper.timestampToString(objetoActual.fechaLimite)
@@ -75,10 +83,10 @@ class TareasProximasAdapter() : ListAdapter<Tarea, TareasProximasAdapter.TareasV
          * @return true si el contenido de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-            return viejaTarea == nuevaTarea
-        }
-
+        override fun areContentsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea == nuevaTarea
 
         /**
          * Comprobar si el id de dos tareas es el mismo.
@@ -88,9 +96,9 @@ class TareasProximasAdapter() : ListAdapter<Tarea, TareasProximasAdapter.TareasV
          * @return true si el id de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-
-            return viejaTarea.id == nuevaTarea.id
-        }
+        override fun areItemsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea.id == nuevaTarea.id
     }
 }

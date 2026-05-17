@@ -27,7 +27,9 @@ import com.google.android.material.snackbar.Snackbar
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 
-class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
+class TareasAdapter(
+    private val model: ListarTareasModel,
+) : ListAdapter<Tarea, TareasAdapter.TareasViewHolder>(TareaComprobacionDiferncias()) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -35,7 +37,9 @@ class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, Ta
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class TareasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TareasViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
         val nombreTarea: TextView = itemView.findViewById(R.id.nombreTarea)
         val fechaLimite: TextView = itemView.findViewById(R.id.fechaLimite)
         val clickable: MaterialCardView = itemView.findViewById(R.id.clickable)
@@ -50,7 +54,10 @@ class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, Ta
      * @return TareaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TareasViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): TareasViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_tareas, parent, false)
         return TareasViewHolder(view)
     }
@@ -62,16 +69,20 @@ class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, Ta
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: TareasViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: TareasViewHolder,
+        posicion: Int,
+    ) {
         val objectoActual = getItem(posicion)
         holder.nombreTarea.text = objectoActual.nombre
         holder.fechaLimite.text = DateHelper.timestampToString(objectoActual.fechaLimite)
         // Navegación a la pantalla de detalles de la tarea
         holder.clickable.setOnClickListener {
             try {
-                it.findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToTareaDetallesFragment(objectoActual.id))
-            }
-            catch (_: Exception) {
+                it.findNavController().navigate(
+                    ListarTareasFragmentDirections.actionListarTareasFragmentToTareaDetallesFragment(objectoActual.id),
+                )
+            } catch (_: Exception) {
                 Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -79,17 +90,14 @@ class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, Ta
         // Comprueba el estado
         if (objectoActual.estado == Estado.COMPLETADA) {
             holder.checkbox.isChecked = true
-        }
-        else {
+        } else {
             holder.checkbox.isChecked = false
         }
         // Actualiza el click en consecuencia
         holder.checkbox.setOnClickListener {
             model.actualizarEstadoTarea(objectoActual, holder.checkbox.isChecked)
         }
-
     }
-
 
     /**
      * Clase que gestiona las diferencias entre dos tareas.
@@ -107,10 +115,10 @@ class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, Ta
          * @return true si el contenido de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-            return viejaTarea == nuevaTarea
-        }
-
+        override fun areContentsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea == nuevaTarea
 
         /**
          * Comprobar si el id de dos tareas es el mismo.
@@ -120,9 +128,9 @@ class TareasAdapter(private val model: ListarTareasModel): ListAdapter<Tarea, Ta
          * @return true si el id de las tareas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaTarea: Tarea, nuevaTarea: Tarea): Boolean {
-
-            return viejaTarea.id == nuevaTarea.id
-        }
+        override fun areItemsTheSame(
+            viejaTarea: Tarea,
+            nuevaTarea: Tarea,
+        ): Boolean = viejaTarea.id == nuevaTarea.id
     }
 }

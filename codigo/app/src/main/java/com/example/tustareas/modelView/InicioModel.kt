@@ -16,34 +16,35 @@ import javax.inject.Inject
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
-class InicioModel @Inject constructor(
-    application: Application,
-    val repository: InicioRepository
-) : AndroidViewModel(application) {
+class InicioModel
+    @Inject
+    constructor(
+        application: Application,
+        val repository: InicioRepository,
+    ) : AndroidViewModel(application) {
+        /**
+         * Obtiene las tareas que terminan hoy
+         *
+         * @param fecha La fecha de hoy
+         * @return Las tareas que terminan hoy
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = repository.obtenerTareasTerminanDiaEspecifico(fecha)
 
-    /**
-     * Obtiene las tareas que terminan hoy
-     *
-     * @param fecha La fecha de hoy
-     * @return Las tareas que terminan hoy
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun obtenerTareasTerminanDiaEspecifico(fecha: Date) = repository.obtenerTareasTerminanDiaEspecifico(fecha)
+        /**
+         * Obtiene las tareas que terminan estan retrasadas
+         *
+         * @return Las tareas que terminan estan retrasadas
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun obtenerTareasRetrasadas() = repository.obtenerTareasRetrasadas()
 
-    /**
-     * Obtiene las tareas que terminan estan retrasadas
-     *
-     * @return Las tareas que terminan estan retrasadas
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun obtenerTareasRetrasadas() = repository.obtenerTareasRetrasadas()
-
-    /**
-     * Obtiene las tareas que estan en tiempo y la fecha no esta excedida
-     *
-     * @param fecha La fecha de hoy
-     * @return Las tareas que estan en tiempo y la fecha no esta excedida
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
-}
+        /**
+         * Obtiene las tareas que estan en tiempo y la fecha no esta excedida
+         *
+         * @param fecha La fecha de hoy
+         * @return Las tareas que estan en tiempo y la fecha no esta excedida
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun obtenerTareasProximas(fecha: Date) = repository.obtenerTareasProximas(fecha)
+    }

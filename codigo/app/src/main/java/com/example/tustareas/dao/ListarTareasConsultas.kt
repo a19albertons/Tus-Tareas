@@ -3,7 +3,6 @@ package com.example.tustareas.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
@@ -18,7 +17,8 @@ import com.example.tustareas.modelos.Tarea
 interface ListarTareasConsultas {
     // Creamos una constante con la consulta previamente usada
     companion object {
-        const val BASE_FILTRADO_TAREAS = "select * from tareas " + // pedir datos
+        const val BASE_FILTRADO_TAREAS =
+            "select * from tareas " + // pedir datos
                 "where prioridad IN (:prioridad) " + // filtro prioridad
                 "AND estado IN (:estado) " + // filtro estado
                 "AND (LOWER(nombre) like LOWER('%' || :textoTarea || '%') " + // filtro nombre tarea
@@ -26,7 +26,6 @@ interface ListarTareasConsultas {
                 "OR id IN (select idTarea from TareaEtiquetas " + // obtener datos de la subconsulta para el nombre de la etiqueta
                 "join etiquetas on TareaEtiquetas.idEtiqueta = etiquetas.id " + // Comprobación de ids
                 "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :textoTarea || '%'))) "
-
     }
 
     /**
@@ -39,7 +38,11 @@ interface ListarTareasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaLimite ASC")
-    fun obtenerTareasFiltradasFechaLimiteAsc(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
+    fun obtenerTareasFiltradasFechaLimiteAsc(
+        prioridad: Array<Prioridad>,
+        estado: Array<Estado>,
+        textoTarea: String,
+    ): LiveData<List<Tarea>>
 
     /**
      * Ordenacion fecha limite descendente
@@ -51,7 +54,11 @@ interface ListarTareasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaLimite DESC")
-    fun obtenerTareasFiltradasFechaLimiteDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
+    fun obtenerTareasFiltradasFechaLimiteDes(
+        prioridad: Array<Prioridad>,
+        estado: Array<Estado>,
+        textoTarea: String,
+    ): LiveData<List<Tarea>>
 
     /**
      * Ordenacion fecha creación ascendente
@@ -63,7 +70,11 @@ interface ListarTareasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion ASC")
-    fun obtenerTareasFiltradasFechaCreacionAsc(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
+    fun obtenerTareasFiltradasFechaCreacionAsc(
+        prioridad: Array<Prioridad>,
+        estado: Array<Estado>,
+        textoTarea: String,
+    ): LiveData<List<Tarea>>
 
     /**
      * Ordenacion fecha creación descendente
@@ -75,7 +86,11 @@ interface ListarTareasConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("$BASE_FILTRADO_TAREAS ORDER BY fechaCreacion DESC")
-    fun obtenerTareasFiltradasFechaCreacionDes(prioridad: Array<Prioridad>, estado: Array<Estado>, textoTarea: String): LiveData<List<Tarea>>
+    fun obtenerTareasFiltradasFechaCreacionDes(
+        prioridad: Array<Prioridad>,
+        estado: Array<Estado>,
+        textoTarea: String,
+    ): LiveData<List<Tarea>>
 
     /**
      * Gestiona el cambio de estado de una tarea tras clickar en el checkbox de la tarea en base de datos
@@ -85,5 +100,4 @@ interface ListarTareasConsultas {
      */
     @Update
     suspend fun modificarTarea(tarea: Tarea)
-
 }

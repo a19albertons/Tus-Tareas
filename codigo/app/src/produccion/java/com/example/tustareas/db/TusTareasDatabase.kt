@@ -1,7 +1,6 @@
 package com.example.tustareas.db
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -29,7 +28,6 @@ import com.example.tustareas.modelos.ProyectoEtiqueta
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.modelos.TareaEtiqueta
 import com.example.tustareas.security.SqlCipherKeyManager
-import java.util.concurrent.Executors
 
 /**
  * Base de datos de tus tareas.
@@ -37,11 +35,13 @@ import java.util.concurrent.Executors
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-@Database(entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class, Notificacion::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Proyecto::class, Tarea::class, Etiqueta::class, ProyectoEtiqueta::class, TareaEtiqueta::class, Notificacion::class],
+    version = 1,
+    exportSchema = false,
+)
 @TypeConverters(Convertidor::class)
 abstract class TusTareasDatabase : RoomDatabase() {
-
-
     /**
      * Obtiene las consultas de inicio
      *
@@ -154,11 +154,9 @@ abstract class TusTareasDatabase : RoomDatabase() {
      */
     abstract fun workerConsultas(): WorkerConsultas
 
-
-
     companion object {
         @Volatile
-        private var INSTANCE: TusTareasDatabase? = null
+        private var instanciaDB: TusTareasDatabase? = null
 
         @Volatile
         private var isReady: Boolean = false
@@ -180,8 +178,8 @@ abstract class TusTareasDatabase : RoomDatabase() {
          */
         fun getDatabase(context: Context): TusTareasDatabase {
             // Comprueba si la instancia existe sino solo permite un hilo generarla a la vez
-            return INSTANCE ?: synchronized(this) {
-                INSTANCE ?: run {
+            return instanciaDB ?: synchronized(this) {
+                instanciaDB ?: run {
                     // Carga la libreria de sqlcipher
                     System.loadLibrary("sqlcipher")
                     // Obtiene las preferencias
@@ -189,45 +187,44 @@ abstract class TusTareasDatabase : RoomDatabase() {
                         context.getSharedPreferences("settings", Context.MODE_PRIVATE)
                     // Instancia al gesto del cifrado
                     val sqlCipherKeyManager = SqlCipherKeyManager(sharedPreferences)
-                    val instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        TusTareasDatabase::class.java,
-                        "baseDatos.db"
-                    )
-                        // Impelmenta el cifrado
-                        .openHelperFactory(sqlCipherKeyManager.getSupportFactory())
-                        // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
-                        .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
-                        // Capa de optimizaciones para mejorar el rendimiento de la base de datos.
-                        .addCallback(object : Callback() {
-                            override fun onOpen(db: SupportSQLiteDatabase) {
-                                super.onOpen(db)
-                                db.execSQL("PRAGMA cache_size = -4000") // 4MB de caché
-                                db.execSQL("PRAGMA temp_store = MEMORY") // Usa la ram como alamcenamiento temporal
-                                db.execSQL("PRAGMA synchronous = NORMAL") // Se recomienda con WAL
-                            }
-                        })
-                        // La construye
-                        .build()
-
+                    val instance =
+                        Room
+                            .databaseBuilder(
+                                context.applicationContext,
+                                TusTareasDatabase::class.java,
+                                "baseDatos.db",
+                            )
+                            // Impelmenta el cifrado
+                            .openHelperFactory(sqlCipherKeyManager.getSupportFactory())
+                            // Habilita el modo WAL para mejorar las consultas concurrentes por la carga adicional del cifrado
+                            .setJournalMode(JournalMode.WRITE_AHEAD_LOGGING)
+                            // Capa de optimizaciones para mejorar el rendimiento de la base de datos.
+                            .addCallback(
+                                object : Callback() {
+                                    override fun onOpen(db: SupportSQLiteDatabase) {
+                                        super.onOpen(db)
+                                        db.execSQL("PRAGMA cache_size = -4000") // 4MB de caché
+                                        db.execSQL("PRAGMA temp_store = MEMORY") // Usa la ram como alamcenamiento temporal
+                                        db.execSQL("PRAGMA synchronous = NORMAL") // Se recomienda con WAL
+                                    }
+                                },
+                            )
+                            // La construye
+                            .build()
 
                     // Prepara la conexión
                     instance.openHelper.writableDatabase
 
                     // habilita el singleton
-                    INSTANCE = instance
+                    instanciaDB = instance
 
                     // Indica que esta preparada
                     isReady = true
 
                     // Necessario para el bloque synchronized
                     instance
-
-
                 }
-
             }
         }
-
     }
 }

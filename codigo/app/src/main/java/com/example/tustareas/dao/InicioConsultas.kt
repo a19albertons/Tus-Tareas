@@ -23,7 +23,10 @@ interface InicioConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from tareas where fechaLimite = :fecha AND estado = :estado")
-    fun obtenerTareasTerminanDiaEspecifico(fecha: Date, estado: Estado = Estado.EN_TIEMPO): LiveData<List<Tarea>>
+    fun obtenerTareasTerminanDiaEspecifico(
+        fecha: Date,
+        estado: Estado = Estado.EN_TIEMPO,
+    ): LiveData<List<Tarea>>
 
     /**
      * Obtiene todas las tareas retrasadas.
@@ -44,5 +47,8 @@ interface InicioConsultas {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Query("select * from tareas where (fechaLimite > :fecha OR fechaLimite is null) AND estado = :estado ORDER BY fechaLimite ASC")
-    fun obtenerTareasProximas(fecha: Date, estado: Estado = Estado.EN_TIEMPO): LiveData<List<Tarea>>
+    fun obtenerTareasProximas(
+        fecha: Date,
+        estado: Estado = Estado.EN_TIEMPO,
+    ): LiveData<List<Tarea>>
 }

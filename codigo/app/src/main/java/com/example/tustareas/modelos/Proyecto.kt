@@ -2,10 +2,10 @@ package com.example.tustareas.modelos
 
 import android.os.Parcelable
 import androidx.room.Entity
-import com.example.tustareas.dto.ProyectoDTO
 import androidx.room.PrimaryKey
-import java.util.Date
+import com.example.tustareas.dto.ProyectoDTO
 import kotlinx.parcelize.Parcelize
+import java.util.Date
 
 /**
  * Clase que representa la tabla proyectos en la bd
@@ -16,16 +16,15 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(
     tableName = "proyectos",
-    )
-data class Proyecto (
+)
+data class Proyecto(
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
     var nombre: String,
     var descripcion: String? = null,
     var fechaCreacion: Date,
     var fechaInicio: Date? = null,
-    var fechaFin: Date ? = null
+    var fechaFin: Date? = null,
     // La lista de  tareas se declara en la hija como Foreign key
     // La lista de etiquetas tiene el mismo problema que en Tareas (N:N)
-) : Parcelable {
-}
+) : Parcelable

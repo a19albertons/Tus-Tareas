@@ -58,7 +58,7 @@ imagenPreparacion:
 
 # Basic android and gradle stuff
 # Check linting
-lintDebug:
+Androidlint:
   interruptible: true
   image: $TEMP_IMAGE
   stage: build
@@ -70,6 +70,19 @@ lintDebug:
     paths:
       - codigo/app/lint/reports/lint-results-produccionDebug.html
     expose_as: "lint-report"
+    when: always
+
+Ktlint:
+  interruptible: true
+  image: $TEMP_IMAGE
+  stage: build
+  script:
+    - chmod +x codigo/gradlew
+    - cd codigo
+    - ./gradlew -Pci --console=plain ktlintCheck
+  artifacts:
+    paths:
+      - codigo/app/lint/reports/ktlint/**
     when: always
 
 # Make Project (pre-produccion no firmada)
@@ -90,7 +103,6 @@ assembleDebug:
 
 # Run all tests, if any fails, interrupt the pipeline(fail it)
 Tests:
-  needs: [lintDebug, assembleDebug]
   interruptible: true
   image: $TEMP_IMAGE
   stage: test
@@ -152,7 +164,6 @@ Tests:
 
 # Genera el APK de produccion firmada
 assembleRelease:
-  needs: [Tests]
   interruptible: true
   stage: sign
   image: $TEMP_IMAGE

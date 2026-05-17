@@ -17,22 +17,21 @@ import androidx.room.Index
             entity = Etiqueta::class,
             parentColumns = ["id"],
             childColumns = ["idEtiqueta"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = Tarea::class,
             parentColumns = ["id"],
             childColumns = ["idTarea"],
-            onDelete = ForeignKey.CASCADE
-        )
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
     indices = [
         Index(value = ["idTarea"]),
-        Index(value = ["idEtiqueta"])
-    ]
+        Index(value = ["idEtiqueta"]),
+    ],
 )
 data class TareaEtiqueta(
     var idTarea: Int,
-    var idEtiqueta: Int
-) {
-}
+    var idEtiqueta: Int,
+)

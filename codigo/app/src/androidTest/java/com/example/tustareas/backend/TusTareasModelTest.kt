@@ -49,7 +49,7 @@ class TusTareasModelTest {
     lateinit var repositorioModificarTareas: ModificarTareasRepository
 
     @Inject
-    lateinit var repositorioListarTareas : ListarTareasRepository
+    lateinit var repositorioListarTareas: ListarTareasRepository
 
     @Inject
     lateinit var repositorioTusTareas: TusTareasRepository
@@ -74,78 +74,88 @@ class TusTareasModelTest {
 
     // Prueba de limpiar tareas completa
     @Test
-    fun limpiarTareasCompletas() = runTest {
-        // Crear tareas
-        val tareaCompleta = Tarea(
-            nombre = "tarea completa",
-            prioridad = Prioridad.NO_ESTABLECIDO,
-            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            estado = Estado.COMPLETADA
-        )
-        val tareaCompletaDto = TareaDTO(tareaCompleta, emptyList())
-        val tareaIncompleta = Tarea(
-            nombre = "tarea incompleta",
-            prioridad = Prioridad.BAJA,
-            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            estado = Estado.EN_TIEMPO
-        )
-        val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
+    fun limpiarTareasCompletas() =
+        runTest {
+            // Crear tareas
+            val tareaCompleta =
+                Tarea(
+                    nombre = "tarea completa",
+                    prioridad = Prioridad.NO_ESTABLECIDO,
+                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+                    estado = Estado.COMPLETADA,
+                )
+            val tareaCompletaDto = TareaDTO(tareaCompleta, emptyList())
+            val tareaIncompleta =
+                Tarea(
+                    nombre = "tarea incompleta",
+                    prioridad = Prioridad.BAJA,
+                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+                    estado = Estado.EN_TIEMPO,
+                )
+            val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
 
-        // Añadir tareas
-        repositorioModificarTareas.insertarTareaConEtiqueta(tareaCompletaDto)
-        repositorioModificarTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
+            // Añadir tareas
+            repositorioModificarTareas.insertarTareaConEtiqueta(tareaCompletaDto)
+            repositorioModificarTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
 
-        // Limpia la tarea completa
-        modeloTusTareasModel.limpiarTareasCompletas()
+            // Limpia la tarea completa
+            modeloTusTareasModel.limpiarTareasCompletas()
 
-        // Vigilamos el live data como en estadisticas model test en su versión unitaria
-        val liveData = repositorioListarTareas.obtenerTareasFiltradas(
-            Prioridad.entries.map { it }.toTypedArray(),
-            Estado.entries.map { it }.toTypedArray(), "",
-            OrdenarTareas.FECHA_LIMITE_ASC
-        )
-        liveData.observeForever { }
+            // Vigilamos el live data como en estadisticas model test en su versión unitaria
+            val liveData =
+                repositorioListarTareas.obtenerTareasFiltradas(
+                    Prioridad.entries.map { it }.toTypedArray(),
+                    Estado.entries.map { it }.toTypedArray(),
+                    "",
+                    OrdenarTareas.FECHA_LIMITE_ASC,
+                )
+            liveData.observeForever { }
 
-        // Comprueba que de las 2 taras de preuba en la bd en memoria solo queda 1
-        val resultado = liveData.value
-        println(resultado)
-        println(resultado!!.size)
-        assert(
-            resultado.size == 1
-        )
-    }
+            // Comprueba que de las 2 taras de preuba en la bd en memoria solo queda 1
+            val resultado = liveData.value
+            println(resultado)
+            println(resultado!!.size)
+            assert(
+                resultado.size == 1,
+            )
+        }
 
     // Prueba marcar notificaciones como leidas
     @Test
-    fun marcarNotificacionComoLeida() = runTest {
-        // Creación datos bd
-        val tarea = Tarea(
-            nombre = "tarea",
-            prioridad = Prioridad.NO_ESTABLECIDO,
-            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-            estado = Estado.EN_TIEMPO
-        )
-        val tareaDTO = TareaDTO(tarea, emptyList())
-        val notificacion = Notificacion(
-            titulo = "prueba",
-            mensaje = "prueba",
-            leido = false,
-            idTarea = 1
-        )
-        // Añadir a la bd
-        repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO)
-        WorkerRepository(db).anadirNotificacion(notificacion)
+    fun marcarNotificacionComoLeida() =
+        runTest {
+            // Creación datos bd
+            val tarea =
+                Tarea(
+                    nombre = "tarea",
+                    prioridad = Prioridad.NO_ESTABLECIDO,
+                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+                    estado = Estado.EN_TIEMPO,
+                )
+            val tareaDTO = TareaDTO(tarea, emptyList())
+            val notificacion =
+                Notificacion(
+                    titulo = "prueba",
+                    mensaje = "prueba",
+                    leido = false,
+                    idTarea = 1,
+                )
+            // Añadir a la bd
+            repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO)
+            WorkerRepository(db).anadirNotificacion(notificacion)
 
-        // actualizacion de notificacion
-        modeloTusTareasModel.notificaciones(intent = Intent().apply {
-            putExtra("idNotificacion", 1)
-        })
+            // actualizacion de notificacion
+            modeloTusTareasModel.notificaciones(
+                intent =
+                    Intent().apply {
+                        putExtra("idNotificacion", 1)
+                    },
+            )
 
-        // vigilar notificaciones
-        val notificaicones = WorkerRepository(db).obtenerTodasLasNotificaciones()
+            // vigilar notificaciones
+            val notificaicones = WorkerRepository(db).obtenerTodasLasNotificaciones()
 
-        // Notificaciones comprobacion
-        assert(notificaicones[0].leido)
-    }
-
+            // Notificaciones comprobacion
+            assert(notificaicones[0].leido)
+        }
 }

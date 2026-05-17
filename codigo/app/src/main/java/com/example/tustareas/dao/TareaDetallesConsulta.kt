@@ -15,7 +15,6 @@ import com.example.tustareas.modelos.Tarea
  */
 @Dao
 interface TareaDetallesConsulta {
-
     /**
      * Obtiene una tarea DTO por su ID
      *

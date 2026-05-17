@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tustareas.R
 import com.example.tustareas.fragmentos.ListarEtiquetasFragmentDirections
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.modelos.Proyecto
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,9 +20,10 @@ import com.google.android.material.snackbar.Snackbar
  * @return List Adapter con las etiquetas a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHolder>(
-    EtiquetaComprobacionDiferencias()
-) {
+class EtiquetasAdapter :
+    ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHolder>(
+        EtiquetaComprobacionDiferencias(),
+    ) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -31,10 +31,12 @@ class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHol
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class EtiquetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreEtiqueta : TextView = itemView.findViewById(R.id.nombreEtiqueta)
-        val descripcionEtiqueta : TextView = itemView.findViewById(R.id.descipcionEtiqueta)
-        val clickable : MaterialCardView = itemView.findViewById(R.id.clickable)
+    class EtiquetaViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
+        val nombreEtiqueta: TextView = itemView.findViewById(R.id.nombreEtiqueta)
+        val descripcionEtiqueta: TextView = itemView.findViewById(R.id.descipcionEtiqueta)
+        val clickable: MaterialCardView = itemView.findViewById(R.id.clickable)
     }
 
     /**
@@ -45,7 +47,10 @@ class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHol
      * @return EtiquetaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EtiquetaViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): EtiquetaViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_etiquetas, parent, false)
         return EtiquetaViewHolder(view)
     }
@@ -57,16 +62,20 @@ class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHol
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: EtiquetaViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: EtiquetaViewHolder,
+        posicion: Int,
+    ) {
         val objetoActual = getItem(posicion)
         holder.nombreEtiqueta.text = objetoActual.nombre
         holder.descripcionEtiqueta.text = objetoActual.descripcion
         // Navegamos a la pantalla de detalles de la etiqueta
         holder.clickable.setOnClickListener {
             try {
-                it.findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToEtiquetaDetallesFragment(objetoActual.id))
-            }
-            catch (_: Exception) {
+                it.findNavController().navigate(
+                    ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToEtiquetaDetallesFragment(objetoActual.id),
+                )
+            } catch (_: Exception) {
                 Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -88,10 +97,10 @@ class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHol
          * @return true si el contenido de las etiquetas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejaEtiqueta: Etiqueta, nuevaEtiqueta: Etiqueta): Boolean {
-            return viejaEtiqueta == nuevaEtiqueta
-        }
-
+        override fun areContentsTheSame(
+            viejaEtiqueta: Etiqueta,
+            nuevaEtiqueta: Etiqueta,
+        ): Boolean = viejaEtiqueta == nuevaEtiqueta
 
         /**
          * Comprobar si el id de dos etiquetas es el mismo.
@@ -101,11 +110,9 @@ class EtiquetasAdapter(): ListAdapter<Etiqueta, EtiquetasAdapter.EtiquetaViewHol
          * @return true si el id de las etiquetas es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaEtiqueta: Etiqueta, nuevaEtiqueta: Etiqueta): Boolean {
-
-            return viejaEtiqueta.id == nuevaEtiqueta.id
-        }
+        override fun areItemsTheSame(
+            viejaEtiqueta: Etiqueta,
+            nuevaEtiqueta: Etiqueta,
+        ): Boolean = viejaEtiqueta.id == nuevaEtiqueta.id
     }
-
-
 }

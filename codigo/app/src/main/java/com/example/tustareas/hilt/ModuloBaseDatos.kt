@@ -12,10 +12,9 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class ModuloBaseDatos {
-
     @Provides
     @Singleton
-    fun proveerBaseDatos(@ApplicationContext context: Context): TusTareasDatabase {
-        return TusTareasDatabase.getDatabase(context)
-    }
+    fun proveerBaseDatos(
+        @ApplicationContext context: Context,
+    ): TusTareasDatabase = TusTareasDatabase.getDatabase(context)
 }

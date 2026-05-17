@@ -3,7 +3,6 @@ package com.example.tustareas.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.tustareas.modelos.Proyecto
 
 /**
@@ -15,13 +14,15 @@ import com.example.tustareas.modelos.Proyecto
 interface ListarProyectosConsultas {
     // Variable base de filtrado
     companion object {
-        const val BASE_FILTRADO_PROYECTOS = "SELECT * FROM proyectos " + // Obtener todos los datos de los proyectos
+        const val BASE_FILTRADO_PROYECTOS =
+            "SELECT * FROM proyectos " + // Obtener todos los datos de los proyectos
                 "where (LOWER(nombre) like LOWER('%' || :texto || '%') " + // Filtro nombre
                 "OR LOWER(descripcion) like LOWER('%' || :texto || '%') " + // Filtro descripción
                 "OR id IN (select idProyecto from ProyectoEtiquetas " + // Obtener datos de la subconsulta para el nombre de la etiqueta
                 "join etiquetas on ProyectoEtiquetas.idEtiqueta = etiquetas.id " + // compacioón id de etiquetas
                 "where LOWER(etiquetas.nombre) LIKE LOWER('%' || :texto || '%'))) " // Filtro etiquetas
     }
+
     /**
      * Obtiene los proyectos filtrados por el texto sin ordenación específica
      *
