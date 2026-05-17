@@ -6,6 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
+import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelView.ModificarProyectosModel
 import com.example.tustareas.modelView.ModificarTareasModel
@@ -40,6 +41,10 @@ class ProyectoDetallesModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
+
+    // Necesario para corutinas
+    @get:Rule
+    val corutinasRule = MainDispatcherRule()
 
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
@@ -143,7 +148,7 @@ class ProyectoDetallesModelTest {
     }
 
     @Test
-    fun obtenerProyectoPorId() {
+    fun obtenerProyectoPorId() = runTest {
         // Obtener datos
         val liveData = modeloDetallesProyecto.obtenerProyectoPorId(1)
         liveData.observeForever {  }
