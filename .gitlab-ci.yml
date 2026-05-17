@@ -83,7 +83,6 @@ Ktlint:
   artifacts:
     paths:
       - codigo/app/lint/reports/ktlint/**
-    expose_as: "ktlint-report"
     when: always
 
 # Make Project (pre-produccion no firmada)
