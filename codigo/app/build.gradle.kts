@@ -15,6 +15,9 @@ plugins {
 
     // Hilt para inyección de dependencias
     alias(libs.plugins.hilt)
+
+    // Ktlint para formatear el código
+    alias(libs.plugins.ktlint)
 }
 
 android {

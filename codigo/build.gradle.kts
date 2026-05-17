@@ -16,4 +16,19 @@ plugins {
 
     // Hilt para inyección de dependencias
     alias(libs.plugins.hilt) apply false
+
+    // Ktlint para formatear el código
+    alias(libs.plugins.ktlint)
+}
+
+ktlint {
+    // Aplica las reglas de estilo de Android
+    android.set(true)
+    // Falla si se encuentran errores de estilo
+    ignoreFailures.set(false)
+    // Genera informes de errores en formato texto y HTML
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.HTML)
+    }
 }
