@@ -155,7 +155,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: TusTareasDatabase? = null
+        private var instanciaDB: TusTareasDatabase? = null
 
         /**
          * Obtiene la instancia de la base de datos. Si no existe, la crea.
@@ -165,7 +165,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun getDatabase(context: Context): TusTareasDatabase =
-            INSTANCE ?: synchronized(this) {
+            instanciaDB ?: synchronized(this) {
                 val instance =
                     Room
                         .databaseBuilder(
@@ -195,7 +195,7 @@ abstract class TusTareasDatabase : RoomDatabase() {
                 instance.openHelper.writableDatabase
 
                 // genera la instancia singleston
-                INSTANCE = instance
+                instanciaDB = instance
 
                 // valor a devolver que requiere synchronized
                 instance
