@@ -152,15 +152,16 @@ class ProyectoDetallesModelTest {
     }
 
     @Test
-    fun obtenerProyectoPorId() = runTest {
-        // Obtener datos
-        val liveData = modeloDetallesProyecto.obtenerProyectoPorId(1)
-        liveData.observeForever { }
+    fun obtenerProyectoPorId() =
+        runTest {
+            // Obtener datos
+            val liveData = modeloDetallesProyecto.obtenerProyectoPorId(1)
+            liveData.observeForever { }
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado!!.proyecto.nombre == "Proyecto 1")
-    }
+            // Resultado
+            val resultado = liveData.value
+            assert(resultado!!.proyecto.nombre == "Proyecto 1")
+        }
 
     @Test
     fun eliminarProyectoConTareaYEtiqueta() =
