@@ -21,7 +21,6 @@ import java.util.Date
  * Clase que tiene las pruebas unitarias de modificar proyectos model
  */
 class ModificarProyectosModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -38,174 +37,193 @@ class ModificarProyectosModelTest {
         ModificarProyectosModel(Application(), modificarProyectosRepository)
 
     @Test
-    fun guardarProyectoConTareaYEtiquetasNueva() = runTest {
-        // Definición proyecto
-        val proyecto = Proyecto(
-            id = 0,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 0,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 0,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+    fun guardarProyectoConTareaYEtiquetasNueva() =
+        runTest {
+            // Definición proyecto
+            val proyecto =
+                Proyecto(
+                    id = 0,
+                    nombre = "Proyecto de prueba",
+                    descripcion = "Descripción del proyecto de prueba",
+                    fechaCreacion = Date(),
+                    fechaInicio = Date(),
+                    fechaFin = Date(),
+                )
+            val tarea =
+                Tarea(
+                    id = 0,
+                    nombre = "tarea de prueba",
+                    descripcion = "Descripción de la tarea de prueba",
+                    fechaCreacion = Date(),
+                    fechaLimite = Date(),
+                    prioridad = Prioridad.ALTA,
+                    estado = Estado.EN_TIEMPO,
+                    idProyecto = null,
+                )
+            val etiqueta =
+                Etiqueta(
+                    id = 0,
+                    nombre = "Etiqueta de prueba",
+                    descripcion = null,
+                )
+            val proyectoDTO =
+                ProyectoDTO(
+                    proyecto,
+                    listOf(etiqueta),
+                    listOf(tarea),
+                )
 
-        // Definir DTO de proyecto con tarea y etiqueta
-        modificarProyectosModel.definirProyectoDTO(proyectoDTO)
+            // Definir DTO de proyecto con tarea y etiqueta
+            modificarProyectosModel.definirProyectoDTO(proyectoDTO)
 
-        // Guardar tarea
-        modificarProyectosModel.guardarYModificarProyecto(
-            proyectoDTO.proyecto.nombre,
-            proyectoDTO.proyecto.descripcion ?: ""
-        )
+            // Guardar tarea
+            modificarProyectosModel.guardarYModificarProyecto(
+                proyectoDTO.proyecto.nombre,
+                proyectoDTO.proyecto.descripcion ?: "",
+            )
 
-        // Verificar que se haya llamado al repositorio para guardar el proyecto
-        Mockito.verify(modificarProyectosRepository).insertarProyectoConTareaYEtiqueta(proyectoDTO)
-        assert(modificarProyectosModel.observarResultado().value == true)
-    }
-
-    @Test
-    fun guardarProyectoConTareaYEtiquetasNoValido() = runTest {
-        // Definición proyecto
-        val proyecto = Proyecto(
-            id = 0,
-            nombre = "",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 0,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 0,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
-
-        // Definir DTO de proyecto con tarea y etiqueta
-        modificarProyectosModel.definirProyectoDTO(proyectoDTO)
-
-        // Guardar tarea
-        modificarProyectosModel.guardarYModificarProyecto(
-            "",
-            proyectoDTO.proyecto.descripcion ?: ""
-        )
-
-        // Verificar que se haya llamado al repositorio para guardar el proyecto
-        assert(modificarProyectosModel.observarMensajeError().value == com.example.tustareas.R.string.error_guardar_proyecto)
-        assert(modificarProyectosModel.observarResultado().value == false)
-    }
+            // Verificar que se haya llamado al repositorio para guardar el proyecto
+            Mockito.verify(modificarProyectosRepository).insertarProyectoConTareaYEtiqueta(proyectoDTO)
+            assert(modificarProyectosModel.observarResultado().value == true)
+        }
 
     @Test
-    fun guardarProyectoConTareaYEtiquetasExistentes() = runTest {
-        // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+    fun guardarProyectoConTareaYEtiquetasNoValido() =
+        runTest {
+            // Definición proyecto
+            val proyecto =
+                Proyecto(
+                    id = 0,
+                    nombre = "",
+                    descripcion = "Descripción del proyecto de prueba",
+                    fechaCreacion = Date(),
+                    fechaInicio = Date(),
+                    fechaFin = Date(),
+                )
+            val tarea =
+                Tarea(
+                    id = 0,
+                    nombre = "tarea de prueba",
+                    descripcion = "Descripción de la tarea de prueba",
+                    fechaCreacion = Date(),
+                    fechaLimite = Date(),
+                    prioridad = Prioridad.ALTA,
+                    estado = Estado.EN_TIEMPO,
+                    idProyecto = null,
+                )
+            val etiqueta =
+                Etiqueta(
+                    id = 0,
+                    nombre = "Etiqueta de prueba",
+                    descripcion = null,
+                )
+            val proyectoDTO =
+                ProyectoDTO(
+                    proyecto,
+                    listOf(etiqueta),
+                    listOf(tarea),
+                )
 
-        // Definir DTO de proyecto con tarea y etiqueta
-        modificarProyectosModel.definirProyectoDTO(proyectoDTO)
+            // Definir DTO de proyecto con tarea y etiqueta
+            modificarProyectosModel.definirProyectoDTO(proyectoDTO)
 
-        // Guardar tarea
-        modificarProyectosModel.guardarYModificarProyecto(
-            proyectoDTO.proyecto.nombre,
-            proyectoDTO.proyecto.descripcion ?: ""
-        )
+            // Guardar tarea
+            modificarProyectosModel.guardarYModificarProyecto(
+                "",
+                proyectoDTO.proyecto.descripcion ?: "",
+            )
 
-        // Verificar que se haya llamado al repositorio para guardar el proyecto
-        Mockito.verify(modificarProyectosRepository).modificarProyectoConTareaYEtiqueta(proyectoDTO)
-        assert(modificarProyectosModel.observarResultado().value == true)
-    }
+            // Verificar que se haya llamado al repositorio para guardar el proyecto
+            assert(modificarProyectosModel.observarMensajeError().value == com.example.tustareas.R.string.error_guardar_proyecto)
+            assert(modificarProyectosModel.observarResultado().value == false)
+        }
+
+    @Test
+    fun guardarProyectoConTareaYEtiquetasExistentes() =
+        runTest {
+            // Definición proyecto
+            val proyecto =
+                Proyecto(
+                    id = 1,
+                    nombre = "Proyecto de prueba",
+                    descripcion = "Descripción del proyecto de prueba",
+                    fechaCreacion = Date(),
+                    fechaInicio = Date(),
+                    fechaFin = Date(),
+                )
+            val tarea =
+                Tarea(
+                    id = 1,
+                    nombre = "tarea de prueba",
+                    descripcion = "Descripción de la tarea de prueba",
+                    fechaCreacion = Date(),
+                    fechaLimite = Date(),
+                    prioridad = Prioridad.ALTA,
+                    estado = Estado.EN_TIEMPO,
+                    idProyecto = null,
+                )
+            val etiqueta =
+                Etiqueta(
+                    id = 1,
+                    nombre = "Etiqueta de prueba",
+                    descripcion = null,
+                )
+            val proyectoDTO =
+                ProyectoDTO(
+                    proyecto,
+                    listOf(etiqueta),
+                    listOf(tarea),
+                )
+
+            // Definir DTO de proyecto con tarea y etiqueta
+            modificarProyectosModel.definirProyectoDTO(proyectoDTO)
+
+            // Guardar tarea
+            modificarProyectosModel.guardarYModificarProyecto(
+                proyectoDTO.proyecto.nombre,
+                proyectoDTO.proyecto.descripcion ?: "",
+            )
+
+            // Verificar que se haya llamado al repositorio para guardar el proyecto
+            Mockito.verify(modificarProyectosRepository).modificarProyectoConTareaYEtiqueta(proyectoDTO)
+            assert(modificarProyectosModel.observarResultado().value == true)
+        }
 
     @Test
     fun guardarProyectoConTareaYEtiquetasExistenteNoValido() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -213,7 +231,7 @@ class ModificarProyectosModelTest {
         // Guardar tarea
         modificarProyectosModel.guardarYModificarProyecto(
             "",
-            proyectoDTO.proyecto.descripcion ?: ""
+            proyectoDTO.proyecto.descripcion ?: "",
         )
 
         // Verificar que se haya llamado al repositorio para guardar el proyecto
@@ -224,34 +242,38 @@ class ModificarProyectosModelTest {
     @Test
     fun tituloDialogoNueva() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 0,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 0,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 0,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 0,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 0,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 0,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -263,34 +285,38 @@ class ModificarProyectosModelTest {
     @Test
     fun tituloDialogoExistente() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -302,34 +328,38 @@ class ModificarProyectosModelTest {
     @Test
     fun observarProyectoDTO() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -341,44 +371,49 @@ class ModificarProyectosModelTest {
     @Test
     fun actualizarTareasDelProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea1 = Tarea(
-            id = 1,
-            nombre = "tarea de prueba 1",
-            descripcion = "Descripción de la tarea de prueba 1",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val tarea2 = Tarea(
-            id = 2,
-            nombre = "tarea de prueba 2",
-            descripcion = "Descripción de la tarea de prueba 2",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.MEDIA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea1)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea1 =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba 1",
+                descripcion = "Descripción de la tarea de prueba 1",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val tarea2 =
+            Tarea(
+                id = 2,
+                nombre = "tarea de prueba 2",
+                descripcion = "Descripción de la tarea de prueba 2",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.MEDIA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea1),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -393,44 +428,49 @@ class ModificarProyectosModelTest {
     @Test
     fun obtenerTareasDelProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea1 = Tarea(
-            id = 1,
-            nombre = "tarea de prueba 1",
-            descripcion = "Descripción de la tarea de prueba 1",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val tarea2 = Tarea(
-            id = 2,
-            nombre = "tarea de prueba 2",
-            descripcion = "Descripción de la tarea de prueba 2",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.MEDIA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea1, tarea2)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea1 =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba 1",
+                descripcion = "Descripción de la tarea de prueba 1",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val tarea2 =
+            Tarea(
+                id = 2,
+                nombre = "tarea de prueba 2",
+                descripcion = "Descripción de la tarea de prueba 2",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.MEDIA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea1, tarea2),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -445,39 +485,44 @@ class ModificarProyectosModelTest {
     @Test
     fun actualizarEtiquetasDelProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta1 = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba 1",
-            descripcion = null
-        )
-        val etiqueta2 = Etiqueta(
-            id = 2,
-            nombre = "Etiqueta de prueba 2",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta1),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta1 =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba 1",
+                descripcion = null,
+            )
+        val etiqueta2 =
+            Etiqueta(
+                id = 2,
+                nombre = "Etiqueta de prueba 2",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta1),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -492,39 +537,44 @@ class ModificarProyectosModelTest {
     @Test
     fun obtenerEtiquetasDelProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta1 = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba 1",
-            descripcion = null
-        )
-        val etiqueta2 = Etiqueta(
-            id = 2,
-            nombre = "Etiqueta de prueba 2",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta1, etiqueta2),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta1 =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba 1",
+                descripcion = null,
+            )
+        val etiqueta2 =
+            Etiqueta(
+                id = 2,
+                nombre = "Etiqueta de prueba 2",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta1, etiqueta2),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -539,34 +589,38 @@ class ModificarProyectosModelTest {
     @Test
     fun establecerFechaInicioProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -576,40 +630,50 @@ class ModificarProyectosModelTest {
         modificarProyectosModel.establecerFechaInicioProyecto(nuevaFechaInicio)
 
         // Verificar que la fecha de inicio del proyecto se haya actualizado correctamente
-        assert(modificarProyectosModel.observarProyectoDTO().value?.proyecto?.fechaInicio == nuevaFechaInicio)
+        assert(
+            modificarProyectosModel
+                .observarProyectoDTO()
+                .value
+                ?.proyecto
+                ?.fechaInicio == nuevaFechaInicio,
+        )
     }
 
     @Test
     fun establecerFechaFinProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -619,40 +683,50 @@ class ModificarProyectosModelTest {
         modificarProyectosModel.establecerFechaFinProyecto(nuevaFechaFin)
 
         // Verificar que la fecha de fin del proyecto se haya actualizado correctamente
-        assert(modificarProyectosModel.observarProyectoDTO().value?.proyecto?.fechaFin == nuevaFechaFin)
+        assert(
+            modificarProyectosModel
+                .observarProyectoDTO()
+                .value
+                ?.proyecto
+                ?.fechaFin == nuevaFechaFin,
+        )
     }
 
     @Test
     fun actualizarFiltroListaTareaProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -670,34 +744,38 @@ class ModificarProyectosModelTest {
     @Test
     fun actualizarFiltroListaEtiquetaProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -715,34 +793,38 @@ class ModificarProyectosModelTest {
     @Test
     fun tareasRestantesProcesada() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -757,34 +839,38 @@ class ModificarProyectosModelTest {
     @Test
     fun etiquetasRestantesProcesada() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
@@ -799,49 +885,54 @@ class ModificarProyectosModelTest {
     @Test
     fun anadirTareaAlProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea1 = Tarea(
-            id = 1,
-            nombre = "tarea de prueba 1",
-            descripcion = "Descripción de la tarea de prueba 1",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta),
-            listOf(tarea1)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea1 =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba 1",
+                descripcion = "Descripción de la tarea de prueba 1",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta),
+                listOf(tarea1),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
 
         // Añadir nueva tarea al proyecto
-        val tarea2 = Tarea(
-            id = 2,
-            nombre = "tarea de prueba 2",
-            descripcion = "Descripción de la tarea de prueba 2",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.MEDIA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
+        val tarea2 =
+            Tarea(
+                id = 2,
+                nombre = "tarea de prueba 2",
+                descripcion = "Descripción de la tarea de prueba 2",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.MEDIA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
 
         // Aplica la lista procesada para definir las taras a añadir internamente
         modificarProyectosModel.tareasRestantesProcesadas(listOf(tarea2))
@@ -856,44 +947,49 @@ class ModificarProyectosModelTest {
     @Test
     fun anadirEtiquetaAlProyecto() {
         // Definición proyecto
-        val proyecto = Proyecto(
-            id = 1,
-            nombre = "Proyecto de prueba",
-            descripcion = "Descripción del proyecto de prueba",
-            fechaCreacion = Date(),
-            fechaInicio = Date(),
-            fechaFin = Date(),
-        )
-        val tarea = Tarea(
-            id = 1,
-            nombre = "tarea de prueba",
-            descripcion = "Descripción de la tarea de prueba",
-            fechaCreacion = Date(),
-            fechaLimite = Date(),
-            prioridad = Prioridad.ALTA,
-            estado = Estado.EN_TIEMPO,
-            idProyecto = null
-        )
-        val etiqueta1 = Etiqueta(
-            id = 1,
-            nombre = "Etiqueta de prueba 1",
-            descripcion = null
-        )
-        val proyectoDTO = ProyectoDTO(
-            proyecto,
-            listOf(etiqueta1),
-            listOf(tarea)
-        )
+        val proyecto =
+            Proyecto(
+                id = 1,
+                nombre = "Proyecto de prueba",
+                descripcion = "Descripción del proyecto de prueba",
+                fechaCreacion = Date(),
+                fechaInicio = Date(),
+                fechaFin = Date(),
+            )
+        val tarea =
+            Tarea(
+                id = 1,
+                nombre = "tarea de prueba",
+                descripcion = "Descripción de la tarea de prueba",
+                fechaCreacion = Date(),
+                fechaLimite = Date(),
+                prioridad = Prioridad.ALTA,
+                estado = Estado.EN_TIEMPO,
+                idProyecto = null,
+            )
+        val etiqueta1 =
+            Etiqueta(
+                id = 1,
+                nombre = "Etiqueta de prueba 1",
+                descripcion = null,
+            )
+        val proyectoDTO =
+            ProyectoDTO(
+                proyecto,
+                listOf(etiqueta1),
+                listOf(tarea),
+            )
 
         // Definir DTO de proyecto con tarea y etiqueta
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
 
         // Añadir nueva etiqueta al proyecto
-        val etiqueta2 = Etiqueta(
-            id = 2,
-            nombre = "Etiqueta de prueba 2",
-            descripcion = null
-        )
+        val etiqueta2 =
+            Etiqueta(
+                id = 2,
+                nombre = "Etiqueta de prueba 2",
+                descripcion = null,
+            )
 
         // Aplica la lista procesada para definir las etiquetas a añadir internamente
         modificarProyectosModel.etiquetasRestantesProcesadas(listOf(etiqueta2))

@@ -21,9 +21,10 @@ import com.google.android.material.snackbar.Snackbar
  * @return List Adapter con los proyectos a mostrar.
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ProyectosAdapter(): ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHolder>(
-    ProyectoComprobacionDiferencias()
-) {
+class ProyectosAdapter :
+    ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHolder>(
+        ProyectoComprobacionDiferencias(),
+    ) {
     /**
      * View holder que almcacena las variables de cada elemento de la lista.
      *
@@ -31,10 +32,12 @@ class ProyectosAdapter(): ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHol
      * @return RecyclerView.ViewHolder con las variables de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    class ProyectoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nombreProyecto : TextView = itemView.findViewById(R.id.nombreProyecto)
-        val fechaFin : TextView = itemView.findViewById(R.id.fechaFin)
-        val clickable : MaterialCardView = itemView.findViewById(R.id.clickable)
+    class ProyectoViewHolder(
+        itemView: View,
+    ) : RecyclerView.ViewHolder(itemView) {
+        val nombreProyecto: TextView = itemView.findViewById(R.id.nombreProyecto)
+        val fechaFin: TextView = itemView.findViewById(R.id.fechaFin)
+        val clickable: MaterialCardView = itemView.findViewById(R.id.clickable)
     }
 
     /**
@@ -45,7 +48,10 @@ class ProyectosAdapter(): ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHol
      * @return TareaViewHolder con la vista inflada.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProyectoViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): ProyectoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_proyectos, parent, false)
         return ProyectoViewHolder(view)
     }
@@ -57,19 +63,22 @@ class ProyectosAdapter(): ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHol
      * @param posicion La posición de cada elemento de la lista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onBindViewHolder(holder: ProyectoViewHolder, posicion: Int) {
+    override fun onBindViewHolder(
+        holder: ProyectoViewHolder,
+        posicion: Int,
+    ) {
         val objectoActual = getItem(posicion)
         holder.nombreProyecto.text = objectoActual.nombre
         holder.fechaFin.text = DateHelper.timestampToString(objectoActual.fechaFin)
         // Navegación a detalles del proyecto
         holder.clickable.setOnClickListener {
             try {
-                it.findNavController().navigate(ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id))
+                it.findNavController().navigate(
+                    ListarProyectosFragmentDirections.actionListarProyectosFragmentToProyectoDetallesFragment(objectoActual.id),
+                )
+            } catch (_: Exception) {
+                Snackbar.make(it, it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
-            catch (_: Exception) {
-                Snackbar.make(it,it.context.getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
-            }
-
         }
     }
 
@@ -89,10 +98,10 @@ class ProyectosAdapter(): ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHol
          * @return true si el contenido de los proyectos es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemenet.net>
          */
-        override fun areContentsTheSame(viejoProyecto: Proyecto, nuevoProyecto: Proyecto): Boolean {
-            return viejoProyecto == nuevoProyecto
-        }
-
+        override fun areContentsTheSame(
+            viejoProyecto: Proyecto,
+            nuevoProyecto: Proyecto,
+        ): Boolean = viejoProyecto == nuevoProyecto
 
         /**
          * Comprobar si el id de dos proyectos es el mismo.
@@ -102,10 +111,9 @@ class ProyectosAdapter(): ListAdapter<Proyecto, ProyectosAdapter.ProyectoViewHol
          * @return true si el id de los proyectos es el mismo, false en caso contrario.
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        override fun areItemsTheSame(viejaProyecto: Proyecto, nuevoProyecto: Proyecto): Boolean {
-
-            return viejaProyecto.id == nuevoProyecto.id
-        }
+        override fun areItemsTheSame(
+            viejaProyecto: Proyecto,
+            nuevoProyecto: Proyecto,
+        ): Boolean = viejaProyecto.id == nuevoProyecto.id
     }
-
 }

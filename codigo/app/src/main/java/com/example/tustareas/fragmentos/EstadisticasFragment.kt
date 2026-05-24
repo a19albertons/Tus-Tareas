@@ -23,11 +23,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EstadisticasFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding : FragmentEstadisticasBinding? = null
-    private val binding : FragmentEstadisticasBinding
+    private var _binding: FragmentEstadisticasBinding? = null
+    val binding: FragmentEstadisticasBinding
         get() = _binding!!
 
-    val model : EstadisticasModel by viewModels()
+    val model: EstadisticasModel by viewModels()
 
     /**
      * Crea la vista del fragmento estadísticas y gestiona los eventos de los elementos de la vista.
@@ -39,12 +39,12 @@ class EstadisticasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentEstadisticasBinding.inflate(inflater, container, false)
-
 
         // Gestion de la estadistica semanal
         gestionEstadisticaSemanal()
@@ -65,16 +65,16 @@ class EstadisticasFragment : Fragment() {
      */
     private fun gestionEstadisticaSemanal() {
         // Generamos el tercer grafico
-        model.obtenerDatosGrafico().observe(viewLifecycleOwner) {
-                resultados ->
+        model.obtenerDatosGrafico().observe(viewLifecycleOwner) { resultados ->
             // Creamos el dataset de barras
             val dataSet = BarDataSet(resultados, "")
 
             // Configuramos los colore de cada barra (completada, no completadas
-            dataSet.colors = listOf(
-                resources.getColor(R.color.blueStats, null),
-                resources.getColor(R.color.grayStatsToolbar, null)
-            )
+            dataSet.colors =
+                listOf(
+                    resources.getColor(R.color.blueStats, null),
+                    resources.getColor(R.color.grayStatsToolbar, null),
+                )
 
             // Customizamos el grosor de las barras y configuramos el bar data con el dataset
             val barData = BarData(dataSet)
@@ -97,7 +97,7 @@ class EstadisticasFragment : Fragment() {
             binding.grafico.description.isEnabled = false // deshabilita la descripcion
             binding.grafico.legend.isEnabled = false // deshabilita la leyenda
             binding.grafico.setTouchEnabled(false) // Deshabilita iteraciones
-            binding.grafico.axisLeft.isEnabled = false  // Oculta numeros de la izquierda
+            binding.grafico.axisLeft.isEnabled = false // Oculta numeros de la izquierda
             binding.grafico.axisRight.isEnabled = false // Oculta numero de la derecha
 
             // Añadimos el bar data y forzamos recarga
@@ -114,20 +114,17 @@ class EstadisticasFragment : Fragment() {
     private fun gestionDatosCentrales() {
         // Actualizamos los datos centrales
         // Actualizar cantidad completas
-        model.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) {
-                cantidad ->
+        model.obtenerCantidadTareasCompletas().observe(viewLifecycleOwner) { cantidad ->
             binding.completas.text = cantidad.toString()
         }
 
         // Actualizar cantidad pendientes
-        model.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) {
-                cantidad ->
+        model.obtenerCantidadTareasPendientes().observe(viewLifecycleOwner) { cantidad ->
             binding.pendiente.text = cantidad.toString()
         }
 
         // Actualizar cantidad retrasadas
-        model.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) {
-                cantidad ->
+        model.obtenerCantidadTareasRetrasadas().observe(viewLifecycleOwner) { cantidad ->
             binding.retrasadas.text = cantidad.toString()
         }
     }
@@ -139,8 +136,7 @@ class EstadisticasFragment : Fragment() {
      */
     private fun gestionGraficoRueda() {
         // Obtiene el primer grafico
-        model.obtenerRueda().observe(viewLifecycleOwner) {
-                progreso ->
+        model.obtenerRueda().observe(viewLifecycleOwner) { progreso ->
             binding.graficoRedondo.progress = progreso.toInt()
             binding.graficoRedondoTexto.text = progreso.toInt().toString()
         }
@@ -155,6 +151,4 @@ class EstadisticasFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

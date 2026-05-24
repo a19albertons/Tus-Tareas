@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 /**
  * Clase que gestiona el fragmento de detalles de proyectos.
  *
@@ -34,15 +33,14 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ProyectoDetallesFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding : FragmentProyectoDetallesBinding ?= null
-    private val binding : FragmentProyectoDetallesBinding
+    private var _binding: FragmentProyectoDetallesBinding? = null
+    val binding: FragmentProyectoDetallesBinding
         get() = _binding!!
 
-    val model : ProyectoDetallesModel by viewModels()
+    val model: ProyectoDetallesModel by viewModels()
 
-    private lateinit var args : ProyectoDetallesFragmentArgs
-    private lateinit var proyectoVisualizado : ProyectoDTO
-
+    private lateinit var args: ProyectoDetallesFragmentArgs
+    private lateinit var proyectoVisualizado: ProyectoDTO
 
     /**
      * Crea la vista del fragmento detalles de un proyecto y gestiona los eventos de los elementos de la vista.
@@ -54,8 +52,9 @@ class ProyectoDetallesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentProyectoDetallesBinding.inflate(inflater, container, false)
@@ -79,8 +78,7 @@ class ProyectoDetallesFragment : Fragment() {
      */
     private fun cargarProyecto() {
         // Obtener el proyecto
-        model.obtenerProyectoPorId(args.id).observe(viewLifecycleOwner) {
-                proyecto ->
+        model.obtenerProyectoPorId(args.id).observe(viewLifecycleOwner) { proyecto ->
 
             // Fallo descubierto en base al principio que pasa si hago esto con su contramedida respectiva
             if (proyecto == null) {
@@ -113,41 +111,42 @@ class ProyectoDetallesFragment : Fragment() {
      */
     private fun anadirTareas(proyecto: ProyectoDTO) {
         // Añadir tareas
-        proyecto.tareas.forEach {
-                tarea->
-            val chip = Chip(requireContext()).apply {
-                text = tarea.nombre
-                setChipBackgroundColorResource(R.color.gray)
-                setTextColor(resources.getColor(R.color.black, null))
+        proyecto.tareas.forEach { tarea ->
+            val chip =
+                Chip(requireContext()).apply {
+                    text = tarea.nombre
+                    setChipBackgroundColorResource(R.color.gray)
+                    setTextColor(resources.getColor(R.color.black, null))
 
-                // Deshabilitamos la interaccion con las chips
-                isClickable = false
-                isFocusable = false
-                isCheckable = false
-                chipStrokeWidth = 0f
+                    // Deshabilitamos la interaccion con las chips
+                    isClickable = false
+                    isFocusable = false
+                    isCheckable = false
+                    chipStrokeWidth = 0f
 
-                // Deshabilitamos los minimos de toque de material 3d
-                setEnsureMinTouchTargetSize(false)
-                // Modificamos los minimos
-                chipMinHeight = 0f
-                minHeight = 0
+                    // Deshabilitamos los minimos de toque de material 3d
+                    setEnsureMinTouchTargetSize(false)
+                    // Modificamos los minimos
+                    chipMinHeight = 0f
+                    minHeight = 0
 
-                // Definimos 2dp
-                val paddingPx = (2 * resources.displayMetrics.density).toInt()
+                    // Definimos 2dp
+                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
 
-                // Configuramos el padding
-                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+                    // Configuramos el padding
+                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
 
-                // Otros paddings
-                textStartPadding = 0f
-                textEndPadding = 0f
+                    // Otros paddings
+                    textStartPadding = 0f
+                    textEndPadding = 0f
 
-                // Controla el borde
-                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                    .setAllCornerSizes(0f)
-                    .build()
-
-            }
+                    // Controla el borde
+                    shapeAppearanceModel =
+                        shapeAppearanceModel
+                            .toBuilder()
+                            .setAllCornerSizes(0f)
+                            .build()
+                }
             binding.tareaProyectoGroup.addView(chip)
         }
     }
@@ -160,36 +159,38 @@ class ProyectoDetallesFragment : Fragment() {
     private fun anadirEtiquetas(proyecto: ProyectoDTO) {
         // Añadir etiquetas
         proyecto.etiquetas.forEach { etiqueta ->
-            val chip = Chip(requireContext()).apply {
-                text = etiqueta.nombre
-                setChipBackgroundColorResource(R.color.gray)
-                setTextColor(resources.getColor(R.color.black, null))
-                isClickable = false
-                isFocusable = false
-                isCheckable = false
-                chipStrokeWidth = 0f
+            val chip =
+                Chip(requireContext()).apply {
+                    text = etiqueta.nombre
+                    setChipBackgroundColorResource(R.color.gray)
+                    setTextColor(resources.getColor(R.color.black, null))
+                    isClickable = false
+                    isFocusable = false
+                    isCheckable = false
+                    chipStrokeWidth = 0f
 
-                // Deshabilitamos los minimos de toque de material 3d
-                setEnsureMinTouchTargetSize(false)
-                // Modificamos los minimos
-                chipMinHeight = 0f
-                minHeight = 0
+                    // Deshabilitamos los minimos de toque de material 3d
+                    setEnsureMinTouchTargetSize(false)
+                    // Modificamos los minimos
+                    chipMinHeight = 0f
+                    minHeight = 0
 
-                // Definimos 2dp
-                val paddingPx = (2 * resources.displayMetrics.density).toInt()
+                    // Definimos 2dp
+                    val paddingPx = (2 * resources.displayMetrics.density).toInt()
 
-                // Configuramos el padding
-                setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
+                    // Configuramos el padding
+                    setPadding(paddingPx, paddingPx, paddingPx, paddingPx)
 
-                // Otros paddings
-                textStartPadding = 0f
-                textEndPadding = 0f
+                    // Otros paddings
+                    textStartPadding = 0f
+                    textEndPadding = 0f
 
-                shapeAppearanceModel = shapeAppearanceModel.toBuilder()
-                    .setAllCornerSizes(0f)
-                    .build()
-
-            }
+                    shapeAppearanceModel =
+                        shapeAppearanceModel
+                            .toBuilder()
+                            .setAllCornerSizes(0f)
+                            .build()
+                }
             binding.etiquetasProyectoGroup.addView(chip)
         }
     }
@@ -202,44 +203,53 @@ class ProyectoDetallesFragment : Fragment() {
     private fun configurarMenu() {
         // Menu toolbar especifico
         // Invocar el menu del activity
-        val activityMenu : MenuHost = requireActivity()
+        val activityMenu: MenuHost = requireActivity()
 
         // Crear un modificador del menu (toolbar)
-        activityMenu.addMenuProvider( object : MenuProvider {
-            // Reemplaza el menu
-            override fun onCreateMenu(menuViejo: Menu, inflaMenuNuevo: MenuInflater) {
-                menuViejo.clear()
-                inflaMenuNuevo.inflate(R.menu.toolbar_proyectos_detalles, menuViejo)
-            }
-
-            override fun onMenuItemSelected(item: MenuItem): Boolean {
-                return when (item.itemId) {
-                    R.id.action_editar_proyecto -> {
-                        if (::proyectoVisualizado.isInitialized) {
-                            try {
-                                findNavController().navigate(ProyectoDetallesFragmentDirections.actionProyectoDetallesFragmentToModificarProyectoFragment(proyectoVisualizado))
-                            }
-                            catch (_: Exception) {
-                                Snackbar.make(
-                                    binding.root,
-                                    getString(R.string.error_navegar),
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                        true
-
-                    }
-                    R.id.action_eliminar_proyecto -> {
-                        if (::proyectoVisualizado.isInitialized) {
-                            dialogoBorrado()
-                        }
-                        true
-                    }
-                    else -> false
+        activityMenu.addMenuProvider(
+            object : MenuProvider {
+                // Reemplaza el menu
+                override fun onCreateMenu(
+                    menuViejo: Menu,
+                    inflaMenuNuevo: MenuInflater,
+                ) {
+                    menuViejo.clear()
+                    inflaMenuNuevo.inflate(R.menu.toolbar_proyectos_detalles, menuViejo)
                 }
-            }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+                override fun onMenuItemSelected(item: MenuItem): Boolean =
+                    when (item.itemId) {
+                        R.id.action_editar_proyecto -> {
+                            if (::proyectoVisualizado.isInitialized) {
+                                try {
+                                    findNavController().navigate(
+                                        ProyectoDetallesFragmentDirections.actionProyectoDetallesFragmentToModificarProyectoFragment(
+                                            proyectoVisualizado,
+                                        ),
+                                    )
+                                } catch (_: Exception) {
+                                    Snackbar
+                                        .make(
+                                            binding.root,
+                                            getString(R.string.error_navegar),
+                                            Snackbar.LENGTH_SHORT,
+                                        ).show()
+                                }
+                            }
+                            true
+                        }
+                        R.id.action_eliminar_proyecto -> {
+                            if (::proyectoVisualizado.isInitialized) {
+                                dialogoBorrado()
+                            }
+                            true
+                        }
+                        else -> false
+                    }
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED,
+        )
     }
 
     /**
@@ -249,14 +259,25 @@ class ProyectoDetallesFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun dialogoBorrado() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(R.string.confirmar_eliminar_proyecto))
             .setMessage(getString(R.string.aviso_confirmar_eliminar_proyecto))
-            .setPositiveButton(getString(R.string.eliminar)) { _,_ ->
-                if (binding.tituloProyecto.text.toString().trim().isNotEmpty()) {
+            .setPositiveButton(getString(R.string.eliminar)) { _, _ ->
+                if (binding.tituloProyecto.text
+                        .toString()
+                        .trim()
+                        .isNotEmpty()
+                ) {
                     // Actualizamos los campos de texto con los ultimo
-                    proyectoVisualizado.proyecto.nombre = binding.tituloProyecto.text.toString().trim()
-                    proyectoVisualizado.proyecto.descripcion = binding.descipcionProyecto.text.toString().trim()
+                    proyectoVisualizado.proyecto.nombre =
+                        binding.tituloProyecto.text
+                            .toString()
+                            .trim()
+                    proyectoVisualizado.proyecto.descripcion =
+                        binding.descipcionProyecto.text
+                            .toString()
+                            .trim()
 
                     // Generamos un hilo con la nueva tarea
                     viewLifecycleOwner.lifecycleScope.launch {
@@ -264,22 +285,25 @@ class ProyectoDetallesFragment : Fragment() {
                             model.eliminarProyectoConTareaYEtiqueta(proyectoVisualizado)
                             // Vovlemos a la vista previa
                             findNavController().popBackStack()
-                        }
-                        catch (_: Exception) {
-                            Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),
-                                Snackbar.LENGTH_SHORT).show()
+                        } catch (_: Exception) {
+                            Snackbar
+                                .make(
+                                    binding.root,
+                                    getString(R.string.error_eliminar_proyecto),
+                                    Snackbar.LENGTH_SHORT,
+                                ).show()
                         }
                     }
-
-
-                }
-                else {
+                } else {
                     // Mensaje en caso de error controlado
-                    Snackbar.make(binding.root, getString(R.string.error_eliminar_proyecto),
-                        Snackbar.LENGTH_SHORT).show()
+                    Snackbar
+                        .make(
+                            binding.root,
+                            getString(R.string.error_eliminar_proyecto),
+                            Snackbar.LENGTH_SHORT,
+                        ).show()
                 }
-            }
-            .setNeutralButton(getString(R.string.cancelar), null)
+            }.setNeutralButton(getString(R.string.cancelar), null)
             .show()
     }
 
@@ -292,8 +316,4 @@ class ProyectoDetallesFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
-
 }

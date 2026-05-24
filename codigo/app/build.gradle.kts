@@ -15,14 +15,18 @@ plugins {
 
     // Hilt para inyección de dependencias
     alias(libs.plugins.hilt)
+
+    // Ktlint para formatear el código
+    alias(libs.plugins.ktlint)
 }
 
 android {
     namespace = "com.example.tustareas"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version =
+            release(36) {
+                minorApiLevel = 1
+            }
     }
 
     defaultConfig {
@@ -42,7 +46,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         // Construción customizada para el profiler
@@ -52,8 +56,6 @@ android {
 
             // Configuración específica para el perfilado
             isProfileable = true // Permite el perfilado en esta build que es practicamente la de lanzamiento
-
-
         }
         debug {
             enableAndroidTestCoverage = true
@@ -71,12 +73,12 @@ android {
     flavorDimensions += ("versiones")
     productFlavors {
         create("pre-produccion") {
-            dimension="versiones"
-            applicationIdSuffix=".pre"
-            versionNameSuffix="-pre"
+            dimension = "versiones"
+            applicationIdSuffix = ".pre"
+            versionNameSuffix = "-pre"
         }
         create("produccion") {
-            dimension="versiones"
+            dimension = "versiones"
         }
     }
 
@@ -90,16 +92,13 @@ android {
                     listOf(
                         // Alberga fragmentos
                         "src/main/res/fragmentos",
-
                         // Alberga adaptadores
                         "src/main/res/adaptadores",
-
                         // Alberga actividades
                         "src/main/res/actividades",
-
                         // Alberga otros layout
-                        "src/main/res"
-                    )
+                        "src/main/res",
+                    ),
                 )
             }
         }

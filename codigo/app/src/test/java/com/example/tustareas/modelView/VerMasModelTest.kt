@@ -7,12 +7,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 
-
 /**
  * Clase que tiene las pruebas unitarias de modificar etiquetas model
  */
 class VerMasModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()

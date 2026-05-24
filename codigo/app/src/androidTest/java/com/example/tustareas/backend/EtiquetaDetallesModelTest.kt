@@ -38,6 +38,7 @@ class EtiquetaDetallesModelTest {
     // Variables comunes
     @Inject
     lateinit var db: TusTareasDatabase
+
     @Inject
     lateinit var modificarEtiquetas: ModificarEtiquetasRepository
 
@@ -51,35 +52,34 @@ class EtiquetaDetallesModelTest {
 
     lateinit var listarEtiquetasModel: ListarEtiquetasModel
 
-
-
     private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
-    fun crearBd() = runBlocking {
-        // Inyección de dependencias
-        ruleHilt.inject()
+    fun crearBd() =
+        runBlocking {
+            // Inyección de dependencias
+            ruleHilt.inject()
 
-        // Creacion de modelos
-        etiquetaDetallesModel = EtiquetaDetallesModel(ApplicationProvider.getApplicationContext(), etiquetaDetallesRepository)
-        listarEtiquetasModel = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepository)
+            // Creacion de modelos
+            etiquetaDetallesModel = EtiquetaDetallesModel(ApplicationProvider.getApplicationContext(), etiquetaDetallesRepository)
+            listarEtiquetasModel = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepository)
 
-        // Añadir datos de prueba
-        modificarEtiquetas.insertarEtiqueta(
-            Etiqueta(
-                id = 1,
-                nombre = "etiqueta"
+            // Añadir datos de prueba
+            modificarEtiquetas.insertarEtiqueta(
+                Etiqueta(
+                    id = 1,
+                    nombre = "etiqueta",
+                ),
             )
-        )
 
-        modificarEtiquetas.insertarEtiqueta(
-            Etiqueta(
-                id = 2,
-                nombre = "etiqueta2"
+            modificarEtiquetas.insertarEtiqueta(
+                Etiqueta(
+                    id = 2,
+                    nombre = "etiqueta2",
+                ),
             )
-        )
-    }
+        }
 
     // Finalización entorno
     @After
@@ -89,34 +89,36 @@ class EtiquetaDetallesModelTest {
 
     // Test de obtener una etiqueta por id
     @Test
-    fun obtenerEtiquetaPorId() = runTest {
-        // Obtener referencia
-        val liveData = etiquetaDetallesModel.obtenerEtiquetaPorID(2)
-        liveData.observeForever {  }
+    fun obtenerEtiquetaPorId() =
+        runTest {
+            // Obtener referencia
+            val liveData = etiquetaDetallesModel.obtenerEtiquetaPorID(2)
+            liveData.observeForever { }
 
-        // Resultado
-        val resultado = liveData.value
-        assert(resultado?.nombre == "etiqueta2")
-    }
+            // Resultado
+            val resultado = liveData.value
+            assert(resultado?.nombre == "etiqueta2")
+        }
 
     // Prueba de eliminar una etiqueta
     @Test
-    fun eliminarEtiqueta() = runTest {
-        // Obtener referencia
-        val liveData = etiquetaDetallesModel.obtenerEtiquetaPorID(2)
-        liveData.observeForever {  }
+    fun eliminarEtiqueta() =
+        runTest {
+            // Obtener referencia
+            val liveData = etiquetaDetallesModel.obtenerEtiquetaPorID(2)
+            liveData.observeForever { }
 
-        // eliminacion
-        val eliminarEtiqueta = liveData.value
-        etiquetaDetallesModel.eliminarEtiqueta(eliminarEtiqueta!!)
+            // eliminacion
+            val eliminarEtiqueta = liveData.value
+            etiquetaDetallesModel.eliminarEtiqueta(eliminarEtiqueta!!)
 
-        // Obtener referencia
-        val liveData2 = listarEtiquetasModel.obtenerEtiquetasFiltradas()
-        liveData2.observeForever {  }
+            // Obtener referencia
+            val liveData2 = listarEtiquetasModel.obtenerEtiquetasFiltradas()
+            liveData2.observeForever { }
 
-        // Resultado
-        val resultado = liveData2.value
-        assert(resultado!!.size == 1)
-        assert(resultado.first().nombre == "etiqueta")
-    }
+            // Resultado
+            val resultado = liveData2.value
+            assert(resultado!!.size == 1)
+            assert(resultado.first().nombre == "etiqueta")
+        }
 }

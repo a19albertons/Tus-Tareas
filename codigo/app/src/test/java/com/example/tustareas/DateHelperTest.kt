@@ -10,16 +10,16 @@ import java.util.TimeZone
  * Clase que gestiona las pruebas unitarias del date helper
  */
 class DateHelperTest {
-
     @Test
     fun testTimestamp1() {
         val timestamp = 1776031200000
         val fecha = DateHelper.timestampToString(Date(timestamp))
         assert(fecha == "12/04/2026")
     }
+
     @Test
     fun testTimestamp2() {
-        val timestamp =  1776038400000
+        val timestamp = 1776038400000
         val fecha = DateHelper.timestampToString(Date(timestamp))
         assert(fecha == "13/04/2026")
     }

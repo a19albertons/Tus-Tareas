@@ -47,46 +47,40 @@ class ModificarEtiquetasModelTest {
     @Inject
     lateinit var repositorioModificarEtiqueta: ModificarEtiquetasRepository
 
-    
     lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
-    
-    
+
     @Inject
     lateinit var listarEtiquetasRepositorio: ListarEtiquetasRepository
 
-    
     lateinit var modeloListarEtiquetas: ListarEtiquetasModel
-
-
-
-
 
     private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
-    fun crearBd() = runBlocking {
-        // Inyectamos las dependencias
-        ruleHilt.inject()
+    fun crearBd() =
+        runBlocking {
+            // Inyectamos las dependencias
+            ruleHilt.inject()
 
-        // Crear modelo
-        modeloListarEtiquetas = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepositorio)
-        modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
+            // Crear modelo
+            modeloListarEtiquetas = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepositorio)
+            modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
 
-        repositorioModificarEtiqueta.insertarEtiqueta(
-            Etiqueta(
-                id = 1,
-                nombre = "etiqueta"
+            repositorioModificarEtiqueta.insertarEtiqueta(
+                Etiqueta(
+                    id = 1,
+                    nombre = "etiqueta",
+                ),
             )
-        )
 
-        repositorioModificarEtiqueta.insertarEtiqueta(
-            Etiqueta(
-                id = 2,
-                nombre = "etiqueta2"
+            repositorioModificarEtiqueta.insertarEtiqueta(
+                Etiqueta(
+                    id = 2,
+                    nombre = "etiqueta2",
+                ),
             )
-        )
-    }
+        }
 
     // Finalización entorno
     @After
@@ -120,84 +114,88 @@ class ModificarEtiquetasModelTest {
 
     // Guardado de nuevas etiquetas
     @Test
-    fun guardarEtiqueta() = runTest {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
+    fun guardarEtiqueta() =
+        runTest {
+            // Definición etiqueta de prueba
+            val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            // Definir una etiqueta
+            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
-        // Guardar la etiqueta
-        modeloModificarEtiquetas.guardarYModificarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
+            // Guardar la etiqueta
+            modeloModificarEtiquetas.guardarYModificarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.observarResultado().value == true)
-    }
+            // Comprobación del resultado
+            assert(modeloModificarEtiquetas.observarResultado().value == true)
+        }
 
     // Guardado de nuevas etiquetas no valida
     @Test
-    fun guardarEtiquetaNoValida() = runTest {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
+    fun guardarEtiquetaNoValida() =
+        runTest {
+            // Definición etiqueta de prueba
+            val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            // Definir una etiqueta
+            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
-        // Guardar la etiqueta
-        modeloModificarEtiquetas.guardarYModificarEtiqueta("", "Descripción de la etiqueta 1")
+            // Guardar la etiqueta
+            modeloModificarEtiquetas.guardarYModificarEtiqueta("", "Descripción de la etiqueta 1")
 
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_guardar_etiqueta)
-        assert(modeloModificarEtiquetas.observarResultado().value == false)
-    }
-
-    @Test
-    fun modificarEtiqueta() = runTest {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
-
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
-
-        // Modificar la etiqueta
-        modeloModificarEtiquetas.guardarYModificarEtiqueta(
-            "Etiqueta 1",
-            "Descripción de la etiqueta 1"
-        )
-
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.observarResultado().value == true)
-    }
+            // Comprobación del resultado
+            assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_guardar_etiqueta)
+            assert(modeloModificarEtiquetas.observarResultado().value == false)
+        }
 
     @Test
-    fun modificarEtiquetaNoValida() = runTest {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+    fun modificarEtiqueta() =
+        runTest {
+            // Definición etiqueta de prueba
+            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            // Definir una etiqueta
+            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
-        // Modificar la etiqueta
-        modeloModificarEtiquetas.guardarYModificarEtiqueta(
-            "",
-            "Descripción de la etiqueta 1"
-        )
+            // Modificar la etiqueta
+            modeloModificarEtiquetas.guardarYModificarEtiqueta(
+                "Etiqueta 1",
+                "Descripción de la etiqueta 1",
+            )
 
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_modificar_etiqueta)
-        assert(modeloModificarEtiquetas.observarResultado().value == false)
-    }
+            // Comprobación del resultado
+            assert(modeloModificarEtiquetas.observarResultado().value == true)
+        }
 
     @Test
-    fun observarEtiqueta() = runTest {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+    fun modificarEtiquetaNoValida() =
+        runTest {
+            // Definición etiqueta de prueba
+            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            // Definir una etiqueta
+            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.observarEtiqueta().value == etiqueta)
-    }
+            // Modificar la etiqueta
+            modeloModificarEtiquetas.guardarYModificarEtiqueta(
+                "",
+                "Descripción de la etiqueta 1",
+            )
 
+            // Comprobación del resultado
+            assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_modificar_etiqueta)
+            assert(modeloModificarEtiquetas.observarResultado().value == false)
+        }
+
+    @Test
+    fun observarEtiqueta() =
+        runTest {
+            // Definición etiqueta de prueba
+            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+
+            // Definir una etiqueta
+            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+
+            // Comprobación del resultado
+            assert(modeloModificarEtiquetas.observarEtiqueta().value == etiqueta)
+        }
 }

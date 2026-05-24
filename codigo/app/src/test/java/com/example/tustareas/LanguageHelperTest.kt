@@ -8,7 +8,6 @@ import org.junit.Test
  * Clase que gestiona las pruebas unitarias del language helper
  */
 class LanguageHelperTest {
-
     // Test para comprobar la etiqueta del español
     @Test
     fun testEspanol() {

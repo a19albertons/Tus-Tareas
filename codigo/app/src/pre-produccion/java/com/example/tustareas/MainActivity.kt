@@ -44,17 +44,18 @@ class MainActivity : AppCompatActivity() {
     // Variables generales/compartidas entre 1 o varias funcines
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val model : TusTareasModel by viewModels()
+    private val model: TusTareasModel by viewModels()
 
     // Listado fragmentos sin flecha de retroceso
-    private val fragmentosSinFlecha = setOf(
-        R.id.inicioFragment,
-        R.id.listarTareasFragment,
-        R.id.listarProyectosFragment,
-        R.id.estadisticasFragment,
-        R.id.ajustesFragment,
-        R.id.listarEtiquetasFragment
-    )
+    private val fragmentosSinFlecha =
+        setOf(
+            R.id.inicioFragment,
+            R.id.listarTareasFragment,
+            R.id.listarProyectosFragment,
+            R.id.estadisticasFragment,
+            R.id.ajustesFragment,
+            R.id.listarEtiquetasFragment,
+        )
 
     /**
      * Metodo que crea la actividad y configura la base de la aplicación
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(modo)
 
         // Asegurar aplicación idioma
-        val idiomaGuardado = prefs.getString("idioma","Sistema") ?: "Sistema"
+        val idiomaGuardado = prefs.getString("idioma", "Sistema") ?: "Sistema"
         LanguageHelper.aplicarIdioma(LanguageHelper.etiquetaIdioma(idiomaGuardado))
 
         // Muestra la pantalla de carga antes de que se empiece a dibujar el primer frame del activyty y su fragmento
@@ -103,14 +104,14 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
 
         // Permiso para notificaicones
-        val permisoNotificaciones = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            respuesta: Boolean ->
-            if (respuesta) {
-                Log.i("MainActivity", "Permiso concedido para notificar")
-            } else {
-                Log.i("MainActivity", "Permiso denegado para notificar")
+        val permisoNotificaciones =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { respuesta: Boolean ->
+                if (respuesta) {
+                    Log.i("MainActivity", "Permiso concedido para notificar")
+                } else {
+                    Log.i("MainActivity", "Permiso denegado para notificar")
+                }
             }
-        }
         val notificacionPermiso = prefs.getBoolean("notificacion", false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !notificacionPermiso) {
             // Pasa de false a true una vez preguntado
@@ -130,9 +131,10 @@ class MainActivity : AppCompatActivity() {
                     // Pasa de false a true
                     prefs.edit { putBoolean("alarma", true) }
                     // Pregunta pro el permiso de alarmas
-                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
-                        data = Uri.fromParts("package", packageName, null)
-                    }
+                    val intent =
+                        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                            data = Uri.fromParts("package", packageName, null)
+                        }
                     startActivity(intent)
                 }
             }
@@ -174,22 +176,19 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         if (item.itemId == R.id.action_limpiar_tareas_completas) {
-
             lifecycleScope.launch {
                 try {
                     model.limpiarTareasCompletas()
-                }
-                catch (_: Exception) {
+                } catch (_: Exception) {
                     Snackbar.make(findViewById(R.id.main), getString(R.string.error_eliminando_tareas), Snackbar.LENGTH_SHORT).show()
                 }
             }
-
-
         }
         return NavigationUI.onNavDestinationSelected(
             item,
-            navController
-        ) || super.onOptionsItemSelected(item)
+            navController,
+        ) ||
+            super.onOptionsItemSelected(item)
     }
 
     /**
@@ -198,7 +197,5 @@ class MainActivity : AppCompatActivity() {
      * @return true si la navegación hacia arriba fue manejada, false para permitir que otros lo manejen
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp(): Boolean = NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp()
 }

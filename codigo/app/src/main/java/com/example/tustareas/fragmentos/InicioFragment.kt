@@ -14,7 +14,6 @@ import com.example.tustareas.adapters.TareasProximasAdapter
 import com.example.tustareas.adapters.TareasRetrasadasAdapter
 import com.example.tustareas.databinding.FragmentInicioBinding
 import com.example.tustareas.modelView.InicioModel
-import com.example.tustareas.modelView.TusTareasModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,19 +28,17 @@ import java.util.Date
 class InicioFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentInicioBinding? = null
-    private val binding: FragmentInicioBinding
+    val binding: FragmentInicioBinding
         get() = _binding!!
-
 
     val model: InicioModel by viewModels()
 
-    private lateinit var hoy : Date
+    private lateinit var hoy: Date
 
     // Variables a limpiar al matar el fragmento
-    private var adapterProximas : TareasProximasAdapter? = null
-    private var adapterRetrasadas : TareasRetrasadasAdapter? = null
-    private var adapterHoy : TareasHoyPendientesAdapter? = null
-
+    private var adapterProximas: TareasProximasAdapter? = null
+    private var adapterRetrasadas: TareasRetrasadasAdapter? = null
+    private var adapterHoy: TareasHoyPendientesAdapter? = null
 
     /**
      * Crea la vista del fragmento de inicio y gestiona los eventos de los elementos de la vista.
@@ -53,12 +50,12 @@ class InicioFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentInicioBinding.inflate(inflater, container, false)
-
 
         // Definimos una única vez la fecha para las siguientes consultas, para evitar peticiones adicionales innecesarias internamente.
         hoy = DateHelper.fechaMediaNocheUTC()
@@ -74,8 +71,6 @@ class InicioFragment : Fragment() {
 
         // Gestión textos de ver más
         gestionarTextosVerMas()
-
-
 
         return binding.root
     }
@@ -98,8 +93,7 @@ class InicioFragment : Fragment() {
         binding.verMas1.visibility = View.GONE
 
         // observar tareas pendientes para hoy
-        model.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) {
-                listadoTareasHoyFechaLimite ->
+        model.obtenerTareasTerminanDiaEspecifico(hoy).observe(viewLifecycleOwner) { listadoTareasHoyFechaLimite ->
             // switch
             when (listadoTareasHoyFechaLimite?.size ?: 0) {
                 0 -> binding.tareasHoyTexto.text = getString(R.string.no_hay_tareas_para_hoy)
@@ -111,8 +105,7 @@ class InicioFragment : Fragment() {
             if (listadoTareasHoyFechaLimite.size > 3) {
                 adapterHoy!!.submitList(listadoTareasHoyFechaLimite.subList(0, 3))
                 binding.verMas1.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 adapterHoy!!.submitList(listadoTareasHoyFechaLimite)
                 binding.verMas1.visibility = View.GONE
             }
@@ -137,8 +130,7 @@ class InicioFragment : Fragment() {
         binding.verMas2.visibility = View.GONE
 
         // Gestiona la sección de tareas retrasadas
-        model.obtenerTareasRetrasadas().observe(viewLifecycleOwner) {
-                listadoTareasRetrasadas ->
+        model.obtenerTareasRetrasadas().observe(viewLifecycleOwner) { listadoTareasRetrasadas ->
             // switch
             when (listadoTareasRetrasadas?.size ?: 0) {
                 0 -> binding.tareasRetrasadasTexto.text = getString(R.string.no_hay_tareas_retrasadas)
@@ -146,13 +138,11 @@ class InicioFragment : Fragment() {
                 else -> binding.tareasRetrasadasTexto.text = getString(R.string.tienes_tareas_retrasadas, listadoTareasRetrasadas?.size)
             }
 
-
             // Asignar el adapter
             if (listadoTareasRetrasadas.size > 3) {
                 adapterRetrasadas!!.submitList(listadoTareasRetrasadas.subList(0, 3))
                 binding.verMas2.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 adapterRetrasadas!!.submitList(listadoTareasRetrasadas)
                 binding.verMas2.visibility = View.GONE
             }
@@ -177,8 +167,7 @@ class InicioFragment : Fragment() {
         binding.verMas3.visibility = View.GONE
 
         // Gestiona las tareas futuras
-        model.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) {
-                listadoTareasProximas ->
+        model.obtenerTareasProximas(hoy).observe(viewLifecycleOwner) { listadoTareasProximas ->
             // switch
             when (listadoTareasProximas?.size ?: 0) {
                 0 -> binding.tareasProximasTexto.text = getString(R.string.no_hay_tareas_proximas)
@@ -186,17 +175,14 @@ class InicioFragment : Fragment() {
                 else -> binding.tareasProximasTexto.text = getString(R.string.tienes_tareas_proximas, listadoTareasProximas?.size)
             }
 
-
             // Asignar el adapter
             if (listadoTareasProximas.size > 3) {
                 adapterProximas!!.submitList(listadoTareasProximas.subList(0, 3))
                 binding.verMas3.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 adapterProximas!!.submitList(listadoTareasProximas)
                 binding.verMas3.visibility = View.GONE
             }
-
         }
     }
 
@@ -206,14 +192,14 @@ class InicioFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun gestionarTextosVerMas() {
-
         // Textos ver más
         // Gestiona el ver más de tareas para hoy
         binding.verMas1.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(1))
             } catch (_: Exception) {
-                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
+                Snackbar
+                    .make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
@@ -222,9 +208,9 @@ class InicioFragment : Fragment() {
         binding.verMas2.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(2))
-            }
-            catch (_: Exception) {
-                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
+            } catch (_: Exception) {
+                Snackbar
+                    .make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
@@ -233,9 +219,9 @@ class InicioFragment : Fragment() {
         binding.verMas3.setOnClickListener {
             try {
                 findNavController().navigate(InicioFragmentDirections.actionInicioFragmentToVerMasFragment(3))
-            }
-            catch (_: Exception) {
-                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
+            } catch (_: Exception) {
+                Snackbar
+                    .make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }

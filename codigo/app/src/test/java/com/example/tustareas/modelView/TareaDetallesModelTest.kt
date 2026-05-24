@@ -18,7 +18,6 @@ import java.util.Date
  * Clase que tiene las pruebas unitarias de modificar etiquetas model
  */
 class TareaDetallesModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -32,12 +31,22 @@ class TareaDetallesModelTest {
     @Test
     fun obtenerTareaPorId() {
         // Definición tarea de prueba
-        val tarea = Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO, Date(),
-            Estado.COMPLETADA, null)
+        val tarea =
+            Tarea(
+                1,
+                "Tarea 1",
+                "Descripción de la tarea 1",
+                Date(),
+                Prioridad.NO_ESTABLECIDO,
+                Date(),
+                Estado.COMPLETADA,
+                null,
+            )
         val tareaDTO = TareaDTO(tarea, emptyList())
 
         // Definición respuestas
-        Mockito.`when`(tareaDetallesRepository.obtenerTareaDTOPorID(1))
+        Mockito
+            .`when`(tareaDetallesRepository.obtenerTareaDTOPorID(1))
             .thenReturn(MutableLiveData(tareaDTO))
 
         // Obtener dato del observer
@@ -53,15 +62,25 @@ class TareaDetallesModelTest {
     }
 
     @Test
-    fun eliminarTarea() = runTest  {
-        // Definición tarea de prueba
-        val tarea = Tarea(1, "Tarea 1", "Descripción de la tarea 1", Date(), Prioridad.NO_ESTABLECIDO, Date(),
-            Estado.COMPLETADA, null)
-        val tareaDTO = TareaDTO(tarea, emptyList())
+    fun eliminarTarea() =
+        runTest {
+            // Definición tarea de prueba
+            val tarea =
+                Tarea(
+                    1,
+                    "Tarea 1",
+                    "Descripción de la tarea 1",
+                    Date(),
+                    Prioridad.NO_ESTABLECIDO,
+                    Date(),
+                    Estado.COMPLETADA,
+                    null,
+                )
+            val tareaDTO = TareaDTO(tarea, emptyList())
 
-        // Llamada al método a probar
-        tareaDetallesModel.eliminarTarea(tarea)
+            // Llamada al método a probar
+            tareaDetallesModel.eliminarTarea(tarea)
 
-        Mockito.verify(tareaDetallesRepository).eliminarTarea(tarea)
-    }
+            Mockito.verify(tareaDetallesRepository).eliminarTarea(tarea)
+        }
 }

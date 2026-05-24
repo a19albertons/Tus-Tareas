@@ -1,6 +1,5 @@
 package com.example.tustareas.util
 
-import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 
@@ -10,7 +9,6 @@ import androidx.core.os.LocaleListCompat
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 object LanguageHelper {
-
     /**
      * Obtiene el tag interno de un idioma
      *
@@ -18,15 +16,14 @@ object LanguageHelper {
      * @return El tag interno del idioma proporcionado. Si el idioma no es reconocido, devuelve una cadena vacía
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    fun etiquetaIdioma(idioma: String): String {
-        return when (idioma) {
+    fun etiquetaIdioma(idioma: String): String =
+        when (idioma) {
             "Sistema" -> ""
             "Español" -> "es"
             "Ingles" -> "en"
             "Gallego" -> "gl"
             else -> ""
         }
-    }
 
     /**
      * Aplica el idioma a partir del tag proporcionado
@@ -37,6 +34,5 @@ object LanguageHelper {
     fun aplicarIdioma(siglas: String) {
         val locale = LocaleListCompat.forLanguageTags(siglas)
         AppCompatDelegate.setApplicationLocales(locale)
-
     }
 }

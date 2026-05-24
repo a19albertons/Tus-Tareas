@@ -24,12 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class ModificarEtiquetaFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarEtiquetaBinding? = null
-    private val binding: FragmentModificarEtiquetaBinding
+    val binding: FragmentModificarEtiquetaBinding
         get() = _binding!!
 
     val model: ModificarEtiquetasModel by viewModels()
-
-
 
     /**
      * Crea la vista del fragmento de modificación de etiquetas y gestiona los eventos de los elementos de la vista.
@@ -41,8 +39,9 @@ class ModificarEtiquetaFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarEtiquetaBinding.inflate(inflater, container, false)
@@ -70,8 +69,7 @@ class ModificarEtiquetaFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun vigilarResultado() {
-        model.observarResultado().observe(viewLifecycleOwner) {
-            resultado ->
+        model.observarResultado().observe(viewLifecycleOwner) { resultado ->
             if (resultado) {
                 findNavController().popBackStack()
             }
@@ -85,7 +83,10 @@ class ModificarEtiquetaFragment : Fragment() {
      * @param savedInstanceState El estado guardado de la vista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         // Gestiona la lógica de la flecha de retroceso
@@ -99,8 +100,7 @@ class ModificarEtiquetaFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun vigilarError() {
-        model.observarMensajeError().observe(viewLifecycleOwner) {
-            mensaje ->
+        model.observarMensajeError().observe(viewLifecycleOwner) { mensaje ->
             Snackbar.make(binding.root, getString(mensaje), Snackbar.LENGTH_SHORT).show()
         }
     }
@@ -112,8 +112,7 @@ class ModificarEtiquetaFragment : Fragment() {
      */
     private fun rellenarCampos() {
         // Rellenamos los campos con los datos de la etiqueta pasada por argumentos
-        model.observarEtiqueta().value?.let {
-            etiqueta ->
+        model.observarEtiqueta().value?.let { etiqueta ->
             binding.tituloEtiqueta.setText(etiqueta.nombre)
             binding.descipcionEtiqueta.setText(etiqueta.descripcion)
         }
@@ -126,12 +125,13 @@ class ModificarEtiquetaFragment : Fragment() {
      */
     private fun gestionarFlechaRetroceso() {
         // Variable que controla que modal
-        val flechaRetroceso = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 0 solo la pueden tener las de nueva creación
-                dialogo()
+        val flechaRetroceso =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // 0 solo la pueden tener las de nueva creación
+                    dialogo()
+                }
             }
-        }
 
         // Modifica el comportamiento en el activity
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
@@ -153,19 +153,23 @@ class ModificarEtiquetaFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun dialogo() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(model.tituloDialogo()))
             .setMessage("")
             .setPositiveButton(R.string.guardar) { _, _ ->
                 // Logica de guardado y campos que no tolera nulos
-                model.guardarYModificarEtiqueta(binding.tituloEtiqueta.text.toString().trim(), binding.descipcionEtiqueta.text.toString().trim())
-            }
-            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
+                model.guardarYModificarEtiqueta(
+                    binding.tituloEtiqueta.text
+                        .toString()
+                        .trim(),
+                    binding.descipcionEtiqueta.text
+                        .toString()
+                        .trim(),
+                )
+            }.setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
-            }
-            .setNeutralButton(getString(R.string.continuar),null)
+            }.setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
-
-
 }

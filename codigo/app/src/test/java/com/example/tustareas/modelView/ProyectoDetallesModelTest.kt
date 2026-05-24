@@ -16,7 +16,6 @@ import java.util.Date
  * Clase que tiene las pruebas unitarias de modificar etiquetas model
  */
 class ProyectoDetallesModelTest {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -34,7 +33,8 @@ class ProyectoDetallesModelTest {
         val proyectoDTO = ProyectoDTO(proyecto, emptyList(), emptyList())
 
         // Definición respuestas
-        Mockito.`when`(proyectoDetallesRepository.obtenerProyectoPorId(1))
+        Mockito
+            .`when`(proyectoDetallesRepository.obtenerProyectoPorId(1))
             .thenReturn(MutableLiveData(proyectoDTO))
 
         // Obtener dato del observer
@@ -50,14 +50,15 @@ class ProyectoDetallesModelTest {
     }
 
     @Test
-    fun eliminarProyecto() = runTest {
-        // Definición proyecto de prueba
-        val proyecto = Proyecto(1, "Proyecto 1", "Descripción del proyecto 1", Date(), Date(), Date())
-        val proyectoDTO = ProyectoDTO(proyecto, emptyList(), emptyList())
+    fun eliminarProyecto() =
+        runTest {
+            // Definición proyecto de prueba
+            val proyecto = Proyecto(1, "Proyecto 1", "Descripción del proyecto 1", Date(), Date(), Date())
+            val proyectoDTO = ProyectoDTO(proyecto, emptyList(), emptyList())
 
-        // Llamada al método a probar
-        proyectoDetallesModel.eliminarProyectoConTareaYEtiqueta(proyectoDTO)
+            // Llamada al método a probar
+            proyectoDetallesModel.eliminarProyectoConTareaYEtiqueta(proyectoDTO)
 
-        Mockito.verify(proyectoDetallesRepository).eliminarProyectoConTareaYEtiqueta(proyectoDTO)
-    }
+            Mockito.verify(proyectoDetallesRepository).eliminarProyectoConTareaYEtiqueta(proyectoDTO)
+        }
 }

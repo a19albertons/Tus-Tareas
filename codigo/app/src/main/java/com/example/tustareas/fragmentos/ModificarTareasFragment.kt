@@ -33,12 +33,10 @@ import java.util.Date
 class ModificarTareasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentModificarTareasBinding? = null
-    private val binding: FragmentModificarTareasBinding
+    val binding: FragmentModificarTareasBinding
         get() = _binding!!
 
     val model: ModificarTareasModel by viewModels()
-
-
 
     // Variables para la gestión de etiquetas
     private lateinit var listaEtiquetas: List<Etiqueta>
@@ -54,8 +52,9 @@ class ModificarTareasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentModificarTareasBinding.inflate(inflater, container, false)
@@ -85,7 +84,6 @@ class ModificarTareasFragment : Fragment() {
         // Vigilar resultado
         vigilarResultado()
 
-
         return binding.root
     }
 
@@ -96,16 +94,20 @@ class ModificarTareasFragment : Fragment() {
      * @param savedInstanceState El estado guardado de la vista.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
 
         // Modifica la logica por defecto de la flecha de retroceso
-        val flechaRetroceso = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 0 solo la pueden tener las de nueva creación
-                dialogo()
+        val flechaRetroceso =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // 0 solo la pueden tener las de nueva creación
+                    dialogo()
+                }
             }
-        }
 
         // Modifica el comportamiento en el activity
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
@@ -117,8 +119,7 @@ class ModificarTareasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun rellenarCampos() {
-        model.observarTareaDTO().value?.let {
-            tareaDTO ->
+        model.observarTareaDTO().value?.let { tareaDTO ->
             // Valores del dto
             binding.tituloTarea.setText(tareaDTO.tarea.nombre)
             binding.descipcionTarea.setText(tareaDTO.tarea.descripcion)
@@ -141,29 +142,30 @@ class ModificarTareasFragment : Fragment() {
         // Gestión spinner de prioridad
         // Spinner prioridad
         val contenidosSpinerPrioridad = Prioridad.entries.map { getString(it.labelRes()) }
-        binding.prioridadTarea.adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_personalizado,
-            contenidosSpinerPrioridad
-        )
-        //Despues del adapter
+        binding.prioridadTarea.adapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_personalizado,
+                contenidosSpinerPrioridad,
+            )
+        // Despues del adapter
         binding.prioridadTarea.setSelection(model.prioridadOrdinal())
-        binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                // gestion prioridad
-                model.cambiarPrioridad(position)
-                binding.prioridadTarea.setSelection(position)
-            }
+        binding.prioridadTarea.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    // gestion prioridad
+                    model.cambiarPrioridad(position)
+                    binding.prioridadTarea.setSelection(position)
+                }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
             }
-        }
     }
 
     /**
@@ -202,28 +204,30 @@ class ModificarTareasFragment : Fragment() {
     private fun gestionarMostrarEtiquetas() {
         // valor por defecto vacio
         listaEtiquetas = listOf(Etiqueta(0, getString(R.string.no_existen_etiquetas)))
-        binding.listaEtiquetas.adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_personalizado,
-            // Muestra solo el nombre, pero internamente es la clase
-            listaEtiquetas.map { it.nombre}
-        )
+        binding.listaEtiquetas.adapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_personalizado,
+                // Muestra solo el nombre, pero internamente es la clase
+                listaEtiquetas.map { it.nombre },
+            )
         // Gestionar etiqueta
         model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
             listaEtiquetas = model.comprobarListaEtiquetas(etiquetas)
-            binding.listaEtiquetas.adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                listaEtiquetas.map { it.nombre }
-            )
+            binding.listaEtiquetas.adapter =
+                ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    listaEtiquetas.map { it.nombre },
+                )
         }
 
         // Recycler View etiquetas presentes
-        adapter = ListaEtiquetasPresentesAdapter {
-            listaEtiquetas ->
-            model.actualizarEtiquetasTarea(listaEtiquetas)
-            model.actualizarFiltroListaEtiquetaTareas(model.obtenerListaEtiquetasTarea())
-        }
+        adapter =
+            ListaEtiquetasPresentesAdapter { listaEtiquetas ->
+                model.actualizarEtiquetasTarea(listaEtiquetas)
+                model.actualizarFiltroListaEtiquetaTareas(model.obtenerListaEtiquetasTarea())
+            }
         binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewMostrarEtiquetas.adapter = adapter
         adapter.submitList(model.obtenerListaEtiquetasTarea())
@@ -238,9 +242,12 @@ class ModificarTareasFragment : Fragment() {
         // Boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             val posicion = binding.listaEtiquetas.selectedItemPosition
-            if (listaEtiquetas.isNotEmpty() // Lista vacia protección
-                && posicion >= 0 && posicion < listaEtiquetas.size // Protegerse de fuera de limites
-                && listaEtiquetas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
+            if (listaEtiquetas.isNotEmpty() &&
+                // Lista vacia protección
+                posicion >= 0 &&
+                posicion < listaEtiquetas.size &&
+                // Protegerse de fuera de limites
+                listaEtiquetas[posicion].id != 0 // Evitar que sea un valor por defecto de no hay etiquetas
             ) {
                 // Obtener nueva etiqueta, la lista de etqiuetas y añadirla actualizando las disponibles
                 val etiquetaAnadir = listaEtiquetas[posicion]
@@ -270,16 +277,22 @@ class ModificarTareasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun dialogo() {
-        AlertDialog.Builder(requireContext(), R.style.DialogoPersonalizado)
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
             .setTitle(getString(model.tituloDialogo()))
             .setMessage("")
-            .setPositiveButton(getString(R.string.guardar)) { _,_ ->
-                model.guardarYModificarTarea(binding.tituloTarea.text.toString().trim(), binding.descipcionTarea.text.toString().trim())
-            }
-            .setNegativeButton(getString(R.string.descartar)) { _, _ ->
+            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
+                model.guardarYModificarTarea(
+                    binding.tituloTarea.text
+                        .toString()
+                        .trim(),
+                    binding.descipcionTarea.text
+                        .toString()
+                        .trim(),
+                )
+            }.setNegativeButton(getString(R.string.descartar)) { _, _ ->
                 findNavController().popBackStack()
-            }
-            .setNeutralButton(getString(R.string.continuar), null)
+            }.setNeutralButton(getString(R.string.continuar), null)
             .show()
     }
 
@@ -290,8 +303,7 @@ class ModificarTareasFragment : Fragment() {
      * @author Alberto Noceda <
      */
     private fun vigilarError() {
-        model.observarMensajeError().observe(viewLifecycleOwner) {
-            mensaje ->
+        model.observarMensajeError().observe(viewLifecycleOwner) { mensaje ->
             Snackbar.make(binding.root, mensaje, Snackbar.LENGTH_SHORT).show()
         }
     }
@@ -303,12 +315,10 @@ class ModificarTareasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     private fun vigilarResultado() {
-        model.observarResultado().observe(viewLifecycleOwner) {
-            resultado ->
+        model.observarResultado().observe(viewLifecycleOwner) { resultado ->
             if (resultado) {
                 findNavController().popBackStack()
             }
         }
     }
-
 }

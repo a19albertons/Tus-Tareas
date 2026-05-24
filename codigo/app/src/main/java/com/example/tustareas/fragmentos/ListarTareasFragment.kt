@@ -36,14 +36,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListarTareasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentListarTareasBinding? = null
-    private val binding: FragmentListarTareasBinding
-            get() = _binding!!
+    val binding: FragmentListarTareasBinding
+        get() = _binding!!
 
-    val model : ListarTareasModel by viewModels()
+    val model: ListarTareasModel by viewModels()
 
-    private var adapter : TareasAdapter? = null
-
-
+    private var adapter: TareasAdapter? = null
 
     /**
      * Crea la vista del fragmento de listar tareas y gestiona los eventos de los elementos de la vista.
@@ -55,8 +53,9 @@ class ListarTareasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarTareasBinding.inflate(inflater, container, false)
@@ -82,7 +81,6 @@ class ListarTareasFragment : Fragment() {
         // Gestiona el botón de añadir tarea
         gestionarBotonAnadirTarea()
 
-
         return binding.root
     }
 
@@ -101,14 +99,12 @@ class ListarTareasFragment : Fragment() {
         binding.listaTareas.adapter = adapter
 
         // Actualizado con el nuevo sistema que evita duplicado de observers
-        model.obtenerTareasFiltradas().observe(viewLifecycleOwner) {
-                listaTareas ->
+        model.obtenerTareasFiltradas().observe(viewLifecycleOwner) { listaTareas ->
             adapter!!.submitList(listaTareas)
             if (listaTareas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
                 binding.listaTareas.visibility = View.GONE
-            }
-            else  {
+            } else {
                 binding.sinResultados.visibility = View.GONE
                 binding.listaTareas.visibility = View.VISIBLE
             }
@@ -139,50 +135,51 @@ class ListarTareasFragment : Fragment() {
     private fun gestinarSpinnerPrioridad() {
         // spinner prioridad tareas
         val contenidoSpiner = listOf(getString(R.string.prioridad)) + Prioridad.entries.map { getString(it.labelRes()) }
-        binding.prioridadTarea.adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_personalizado,
-            contenidoSpiner
-        )
+        binding.prioridadTarea.adapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_personalizado,
+                contenidoSpiner,
+            )
 
         // Gestiona el evento de selección del spinner de prioridad
-        binding.prioridadTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                var prioridad: Array<Prioridad>
-                // Cambia la prioridad
-                when (position) {
-                    0-> {
-                        prioridad = Prioridad.entries.toTypedArray()
+        binding.prioridadTarea.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    var prioridad: Array<Prioridad>
+                    // Cambia la prioridad
+                    when (position) {
+                        0 -> {
+                            prioridad = Prioridad.entries.toTypedArray()
+                        }
+                        1 -> {
+                            prioridad = Array(1) { Prioridad.ALTA }
+                        }
+                        2 -> {
+                            prioridad = Array(1) { Prioridad.MEDIA }
+                        }
+                        3 -> {
+                            prioridad = Array(1) { Prioridad.BAJA }
+                        }
+                        4 -> {
+                            prioridad = Array(1) { Prioridad.NO_ESTABLECIDO }
+                        }
+                        else -> {
+                            prioridad = Prioridad.entries.toTypedArray()
+                        }
                     }
-                    1-> {
-                        prioridad = Array(1) { Prioridad.ALTA }
-                    }
-                    2-> {
-                        prioridad = Array(1) { Prioridad.MEDIA }
-                    }
-                    3-> {
-                        prioridad = Array(1) { Prioridad.BAJA }
-                    }
-                    4-> {
-                        prioridad = Array(1) { Prioridad.NO_ESTABLECIDO }
-                    }
-                    else -> {
-                        prioridad = Prioridad.entries.toTypedArray()
-                    }
+                    // Observa la lista filtrada
+                    model.actualizarPrioridadListadoTareas(prioridad)
                 }
-                // Observa la lista filtrada
-                model.actualizarPrioridadListadoTareas(prioridad)
 
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
             }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-        }
     }
 
     /**
@@ -193,47 +190,48 @@ class ListarTareasFragment : Fragment() {
     private fun gestionarSpinnerEstado() {
         // spinner prioridad tareas
         val contenidoSpinerEstado = listOf(getString(R.string.estado)) + Estado.entries.map { getString(it.labelRes()) }
-        binding.estadoTarea.adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_personalizado,
-            contenidoSpinerEstado
-        )
+        binding.estadoTarea.adapter =
+            ArrayAdapter(
+                requireContext(),
+                R.layout.spinner_personalizado,
+                contenidoSpinerEstado,
+            )
 
         // Gestiona el evento de selección del spinner de estado
-        binding.estadoTarea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                var estado: Array<Estado>
-                // Cambia la prioridad
-                when (position) {
-                    0-> {
-                        estado = Estado.entries.toTypedArray()
+        binding.estadoTarea.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    var estado: Array<Estado>
+                    // Cambia la prioridad
+                    when (position) {
+                        0 -> {
+                            estado = Estado.entries.toTypedArray()
+                        }
+                        1 -> {
+                            estado = Array(1) { Estado.EN_TIEMPO }
+                        }
+                        2 -> {
+                            estado = Array(1) { Estado.RETRASADA }
+                        }
+                        3 -> {
+                            estado = Array(1) { Estado.COMPLETADA }
+                        }
+                        else -> {
+                            estado = Estado.entries.toTypedArray()
+                        }
                     }
-                    1-> {
-                        estado = Array(1) { Estado.EN_TIEMPO }
-                    }
-                    2-> {
-                        estado = Array(1) { Estado.RETRASADA }
-
-                    }
-                    3-> {
-                        estado = Array(1) { Estado.COMPLETADA }
-                    }
-                    else -> {
-                        estado = Estado.entries.toTypedArray()
-                    }
+                    // Observa la lista filtrada
+                    model.actualizarEstadoListadoTareas(estado)
                 }
-                // Observa la lista filtrada
-                model.actualizarEstadoListadoTareas(estado)
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
 
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
             }
-        }
     }
 
     /**
@@ -243,19 +241,30 @@ class ListarTareasFragment : Fragment() {
      */
     private fun gestionarFiltroTexto() {
         // Texto filtro
-        binding.filtro.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
+        binding.filtro.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    texto: CharSequence?,
+                    empieza: Int,
+                    posicion: Int,
+                    siguiente: Int,
+                ) {
+                }
 
-            }
-            override fun onTextChanged(texto: CharSequence?, empieza: Int, fin: Int, posicion: Int) {
+                override fun onTextChanged(
+                    texto: CharSequence?,
+                    empieza: Int,
+                    fin: Int,
+                    posicion: Int,
+                ) {
+                }
 
-            }
-            override fun afterTextChanged(texto: Editable?) {
-                // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.actualizarTextoListadoTareas(texto.toString())
-            }
-
-        })
+                override fun afterTextChanged(texto: Editable?) {
+                    // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
+                    model.actualizarTextoListadoTareas(texto.toString())
+                }
+            },
+        )
     }
 
     /**
@@ -268,7 +277,7 @@ class ListarTareasFragment : Fragment() {
         // Muestra un pop up al ser clickado
         binding.menuTareas.setOnClickListener {
             // Nombre que le damos a las 3 barras para configurar el desplegable
-                ancla ->
+            ancla ->
             val customizarTemaDesplegable = ContextThemeWrapper(requireContext(), R.style.fondoBlancoTareas)
             val desplegable = PopupMenu(customizarTemaDesplegable, ancla)
             desplegable.menuInflater.inflate(R.menu.menu_tareas, desplegable.menu)
@@ -311,9 +320,9 @@ class ListarTareasFragment : Fragment() {
             val dto = TareaDTO(tarea, emptyList())
             try {
                 findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
-            }
-            catch (_: Exception) {
-                Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
+            } catch (_: Exception) {
+                Snackbar
+                    .make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)
                     .show()
             }
         }
@@ -321,15 +330,13 @@ class ListarTareasFragment : Fragment() {
 
     /**
      * Destruye la vista del fragmento de listar tareas y libera los recursos asociados a la vista.
-      *
-      * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         // Liberar recursos
         adapter = null
- }
-
-
+    }
 }

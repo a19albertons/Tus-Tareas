@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ListarEtiquetasFragment : Fragment() {
     // Variables generales de la clase
     private var _binding: FragmentListarEtiquetasBinding? = null
-    private val binding: FragmentListarEtiquetasBinding
+    val binding: FragmentListarEtiquetasBinding
         get() = _binding!!
 
     val model: ListarEtiquetasModel by viewModels()
@@ -44,8 +44,9 @@ class ListarEtiquetasFragment : Fragment() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentListarEtiquetasBinding.inflate(inflater, container, false)
@@ -58,7 +59,6 @@ class ListarEtiquetasFragment : Fragment() {
 
         // Gestiona el botón de añadir etiqueta
         gestionarBotonAnadirEtiqueta()
-
 
         return binding.root
     }
@@ -78,8 +78,7 @@ class ListarEtiquetasFragment : Fragment() {
 
         // Gestiona el adapter
         // El valor por defecto vacio se pasa al modelo que estara pendiente de los cambios a traves de una nueva función dedicada
-        model.obtenerEtiquetasFiltradas().observe(viewLifecycleOwner) {
-                listadoEtiquetas ->
+        model.obtenerEtiquetasFiltradas().observe(viewLifecycleOwner) { listadoEtiquetas ->
             if (listadoEtiquetas.isEmpty()) {
                 binding.sinResultados.visibility = View.VISIBLE
                 binding.listaEtiquetas.visibility = View.GONE
@@ -98,19 +97,30 @@ class ListarEtiquetasFragment : Fragment() {
      */
     private fun actualizarFiltroTexto() {
         // gestiona el filtro de texto
-        binding.filtro.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(texto: CharSequence?, empieza: Int, posicion: Int, siguiente: Int) {
+        binding.filtro.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    texto: CharSequence?,
+                    empieza: Int,
+                    posicion: Int,
+                    siguiente: Int,
+                ) {
+                }
 
-            }
-            override fun onTextChanged(texto: CharSequence?, empieza: Int, fin: Int, posicion: Int) {
+                override fun onTextChanged(
+                    texto: CharSequence?,
+                    empieza: Int,
+                    fin: Int,
+                    posicion: Int,
+                ) {
+                }
 
-            }
-            override fun afterTextChanged(texto: Editable?) {
-                // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
-                model.actualizarTextoListadoEtiqueta(texto.toString())
-            }
-
-        })
+                override fun afterTextChanged(texto: Editable?) {
+                    // Actualiza el texto del filtro como si fuese un observer unificado evita los dupliados que antes se generaban
+                    model.actualizarTextoListadoEtiqueta(texto.toString())
+                }
+            },
+        )
     }
 
     /**
@@ -122,13 +132,14 @@ class ListarEtiquetasFragment : Fragment() {
         // Gestiona el boton añadir etiqueta
         binding.anadirEtiqueta.setOnClickListener {
             try {
-                findNavController().navigate(ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
-                    Etiqueta(0,"","")))
-            }
-            catch (_: Exception) {
+                findNavController().navigate(
+                    ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
+                        Etiqueta(0, "", ""),
+                    ),
+                )
+            } catch (_: Exception) {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()
             }
-
         }
     }
 
@@ -143,6 +154,4 @@ class ListarEtiquetasFragment : Fragment() {
         // Liberar recursos
         adapter = null
     }
-
-
 }

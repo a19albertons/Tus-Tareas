@@ -9,3 +9,5 @@
 - kimi
 - proandroiddev.com
 - gitlab.com
+- google ai studio
+- gitlab.winehq.org

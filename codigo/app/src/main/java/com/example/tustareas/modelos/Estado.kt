@@ -10,11 +10,13 @@ import com.example.tustareas.R
 enum class Estado {
     EN_TIEMPO,
     RETRASADA,
-    COMPLETADA;
+    COMPLETADA,
+    ;
 
-    fun labelRes(): Int = when (this) {
-        EN_TIEMPO -> R.string.en_tiempo
-        RETRASADA -> R.string.retrasada
-        COMPLETADA -> R.string.completada
-    }
+    fun labelRes(): Int =
+        when (this) {
+            EN_TIEMPO -> R.string.en_tiempo
+            RETRASADA -> R.string.retrasada
+            COMPLETADA -> R.string.completada
+        }
 }

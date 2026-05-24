@@ -53,61 +53,66 @@ class ListarProyectosModelTest {
 
     lateinit var modelo: ListarProyectosModel
 
-
     private val diaReferencia = 1735689600000L
 
     // Preparación entorno comun
     @Before
-    fun crearBd() = runBlocking {
-        // Iniciar Hilt
-        ruleHilt.inject()
+    fun crearBd() =
+        runBlocking {
+            // Iniciar Hilt
+            ruleHilt.inject()
 
-        // Crear modelo
-        modelo = ListarProyectosModel(ApplicationProvider.getApplicationContext(), listarProyectosRepository)
+            // Crear modelo
+            modelo = ListarProyectosModel(ApplicationProvider.getApplicationContext(), listarProyectosRepository)
 
-        // Un par de proyectos
-        val proyecto1 = Proyecto(
-            nombre = "Proyecto 1",
-            fechaCreacion = Date(diaReferencia), // dia de referencia
-            fechaInicio = Date(diaReferencia), // dia de referencia
-            fechaFin = Date(diaReferencia + 86400000*7) // dia de referencia + 7
-        )
-        val proyectoDTO1 = ProyectoDTO(proyecto1, emptyList(), emptyList())
-        val proyecto2 = Proyecto(
-            nombre = "Proyecto 2",
-            descripcion = "descripcion",
-            fechaCreacion = Date(diaReferencia), // dia de referencia
-            fechaInicio = Date(diaReferencia + 86400000), // dia de referencia + 1
-            fechaFin = Date(diaReferencia + 86400000*7) // dia de referencia + 7
-        )
-        val proyectoDTO2 = ProyectoDTO(proyecto2, emptyList(), emptyList())
-        val proyecto3 = Proyecto(
-            nombre = "Proyecto 3",
-            fechaCreacion = Date(diaReferencia),
-            fechaInicio = Date(diaReferencia - 86400000*7), // dia de referencia - 7
-            fechaFin = Date(diaReferencia - 86400000*7), // dia de referencia - 7
-        )
-        val etiqueta = Etiqueta(
-            // Id interno manual para base de pruebas
-            id = 1,
-            nombre = "etiqueta 1"
-        )
-        val proyectoDTO3 = ProyectoDTO(proyecto3, listOf(etiqueta), emptyList())
-        val proyecto4 = Proyecto(
-            nombre = "Proyecto 4",
-            fechaCreacion = Date(diaReferencia),
-            fechaInicio = Date(diaReferencia - 86400000*8), // dia de referencia - 7
-            fechaFin = Date(diaReferencia - 86400000*7) // dia de referencia + 7
-        )
-        val proyectoDTO4 = ProyectoDTO(proyecto4, emptyList(), emptyList())
+            // Un par de proyectos
+            val proyecto1 =
+                Proyecto(
+                    nombre = "Proyecto 1",
+                    fechaCreacion = Date(diaReferencia), // dia de referencia
+                    fechaInicio = Date(diaReferencia), // dia de referencia
+                    fechaFin = Date(diaReferencia + 86400000 * 7), // dia de referencia + 7
+                )
+            val proyectoDTO1 = ProyectoDTO(proyecto1, emptyList(), emptyList())
+            val proyecto2 =
+                Proyecto(
+                    nombre = "Proyecto 2",
+                    descripcion = "descripcion",
+                    fechaCreacion = Date(diaReferencia), // dia de referencia
+                    fechaInicio = Date(diaReferencia + 86400000), // dia de referencia + 1
+                    fechaFin = Date(diaReferencia + 86400000 * 7), // dia de referencia + 7
+                )
+            val proyectoDTO2 = ProyectoDTO(proyecto2, emptyList(), emptyList())
+            val proyecto3 =
+                Proyecto(
+                    nombre = "Proyecto 3",
+                    fechaCreacion = Date(diaReferencia),
+                    fechaInicio = Date(diaReferencia - 86400000 * 7), // dia de referencia - 7
+                    fechaFin = Date(diaReferencia - 86400000 * 7), // dia de referencia - 7
+                )
+            val etiqueta =
+                Etiqueta(
+                    // Id interno manual para base de pruebas
+                    id = 1,
+                    nombre = "etiqueta 1",
+                )
+            val proyectoDTO3 = ProyectoDTO(proyecto3, listOf(etiqueta), emptyList())
+            val proyecto4 =
+                Proyecto(
+                    nombre = "Proyecto 4",
+                    fechaCreacion = Date(diaReferencia),
+                    fechaInicio = Date(diaReferencia - 86400000 * 8), // dia de referencia - 7
+                    fechaFin = Date(diaReferencia - 86400000 * 7), // dia de referencia + 7
+                )
+            val proyectoDTO4 = ProyectoDTO(proyecto4, emptyList(), emptyList())
 
-        // Insertar proyectos
-        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
-        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
-        modificarEtiquestasRepository.insertarEtiqueta(etiqueta)
-        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
-        modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
-    }
+            // Insertar proyectos
+            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
+            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
+            modificarEtiquestasRepository.insertarEtiqueta(etiqueta)
+            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
+            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
+        }
 
     // Finalización entorno
     @After
@@ -124,12 +129,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 1")
     }
+
     @Test
     fun inicioYFinUltima() {
         // Configuración
@@ -138,7 +144,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -154,12 +160,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 3")
     }
+
     @Test
     fun inicioYFechaAscendenteUltima() {
         // Configuración
@@ -168,7 +175,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -184,12 +191,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 1")
     }
+
     @Test
     fun inicioYFechaDescendenteUltima() {
         // Configuración
@@ -198,7 +206,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -214,12 +222,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 4")
     }
+
     @Test
     fun fechaAscendenteYFinUltima() {
         // Configuración
@@ -228,7 +237,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -244,12 +253,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 4")
     }
+
     @Test
     fun fechaAscendenteYFechaAscendenteUltima() {
         // Configuración
@@ -258,7 +268,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -274,12 +284,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 1")
     }
+
     @Test
     fun fechaAscendenteYFechaDescendenteUltima() {
         // Configuración
@@ -288,7 +299,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -304,12 +315,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 2")
     }
+
     @Test
     fun fechaDescendenteYFinUltima() {
         // Configuración
@@ -318,7 +330,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -334,12 +346,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 3")
     }
+
     @Test
     fun fechaDescendenteYFechaAscendenteUltima() {
         // Configuración
@@ -348,7 +361,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -364,12 +377,13 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
         assert(resultado!!.first().nombre == "Proyecto 2")
     }
+
     @Test
     fun fechaDescendenteYFechaDescendenteUltima() {
         // Configuración
@@ -378,7 +392,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -393,7 +407,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -407,7 +421,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
@@ -421,7 +435,7 @@ class ListarProyectosModelTest {
 
         // Obtener datos
         val liveData = modelo.obtenerProyectosFiltradas()
-        liveData.observeForever {  }
+        liveData.observeForever { }
 
         // Resultado
         val resultado = liveData.value
