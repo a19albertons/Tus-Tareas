@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/inicioFragment"
         android:name="com.example.tustareas.fragmentos.InicioFragment"
-        android:label="fragment_inicio"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_inicio" >
         <action
             android:id="@+id/action_inicioFragment_to_verMasFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/listarEtiquetasFragment"
         android:name="com.example.tustareas.fragmentos.ListarEtiquetasFragment"
-        android:label="fragment_detalles"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_listar_etiquetas" >
         <action
             android:id="@+id/action_listarEtiquetasFragment_to_etiquetaDetallesFragment"
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/etiquetaDetallesFragment"
         android:name="com.example.tustareas.fragmentos.EtiquetaDetallesFragment"
-        android:label="fragment_etiqueta_detalles"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_etiqueta_detalles" >
         <argument
             android:name="id"
@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/modificarEtiquetaFragment"
         android:name="com.example.tustareas.fragmentos.ModificarEtiquetaFragment"
-        android:label="fragment_modificar_etiqueta"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_modificar_etiqueta" >
         <argument
             android:name="etiqueta"
@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/listarTareasFragment"
         android:name="com.example.tustareas.fragmentos.ListarTareasFragment"
-        android:label="fragment_listar_tareas"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_listar_tareas" >
         <action
             android:id="@+id/action_listarTareasFragment_to_tareaDetallesFragment"
@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/tareaDetallesFragment"
         android:name="com.example.tustareas.fragmentos.TareaDetallesFragment"
-        android:label="fragment_tarea_detalles"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_tarea_detalles" >
         <argument
             android:name="id"
@@ -74,7 +74,7 @@
     <fragment
         android:id="@+id/modificarTareasFragment"
         android:name="com.example.tustareas.fragmentos.ModificarTareasFragment"
-        android:label="fragment_modificar_tareas"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_modificar_tareas" >
         <argument
             android:name="tareaDTO"
@@ -83,7 +83,7 @@
     <fragment
         android:id="@+id/listarProyectosFragment"
         android:name="com.example.tustareas.fragmentos.ListarProyectosFragment"
-        android:label="fragment_listar_proyectos"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_listar_proyectos" >
         <action
             android:id="@+id/action_listarProyectosFragment_to_proyectoDetallesFragment"
@@ -95,7 +95,7 @@
     <fragment
         android:id="@+id/proyectoDetallesFragment"
         android:name="com.example.tustareas.fragmentos.ProyectoDetallesFragment"
-        android:label="fragment_proyecto_detalles"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_proyecto_detalles" >
         <argument
             android:name="id"
@@ -107,7 +107,7 @@
     <fragment
         android:id="@+id/modificarProyectoFragment"
         android:name="com.example.tustareas.fragmentos.ModificarProyectoFragment"
-        android:label="fragment_modificar_proyecto"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_modificar_proyecto" >
         <argument
             android:name="proyectoDTO"
@@ -116,17 +116,17 @@
     <fragment
         android:id="@+id/estadisticasFragment"
         android:name="com.example.tustareas.fragmentos.EstadisticasFragment"
-        android:label="fragment_estadisticas"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_estadisticas" />
     <fragment
         android:id="@+id/ajustesFragment"
         android:name="com.example.tustareas.fragmentos.AjustesFragment"
-        android:label="fragment_ajustes"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_ajustes" />
     <fragment
         android:id="@+id/verMasFragment"
         android:name="com.example.tustareas.fragmentos.VerMasFragment"
-        android:label="fragment_ver_mas"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_ver_mas" >
         <argument
             android:name="numeroVerMas"
