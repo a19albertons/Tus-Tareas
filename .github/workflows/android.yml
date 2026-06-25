@@ -184,7 +184,39 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      # Corre el emulador y ejecuta tus pruebas
+      # Crear script de comprobación de pruebas
+      - name: Create Test Script
+        run: |
+          cat << 'EOF' > ./codigo/run_tests.sh
+          #!/bin/bash
+          ./gradlew app:createProduccionDebugCoverageReport app:createProduccionDebugUnitTestCoverageReport
+          
+          # Tu lógica de verificación de fallos personalizada adaptada
+          COMPROBACION_FALLIDA=false
+          TEST_XML=$(find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' | head -n 1) || true
+          if [ -z "$TEST_XML" ]; then
+            echo "No se encontraron resultados de tests instrumentados."
+          fi
+          
+          # Se añade -print0 en find y -0 en xargs para mayor robustez ante nombres de archivo
+          if find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' -print0 2>/dev/null | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"' 2>/dev/null; then
+            echo "Fallos encontrados en resultados de Android Test."
+            COMPROBACION_FALLIDA=true
+          fi
+          
+          if find app/build/test-results -name 'TEST-*.xml' -print0 2>/dev/null | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"' 2>/dev/null; then
+            echo "Fallos encontrados en test unitarios."
+            COMPROBACION_FALLIDA=true
+          fi
+          
+          if [ "$COMPROBACION_FALLIDA" = true ]; then
+            echo "Al menos un tipo de test es fallido, marcando el job como fallido."
+            exit 1
+          fi
+          EOF
+          chmod +x ./codigo/run_tests.sh
+
+      # Corre el emulador y ejecuta el script
       - name: Run Android instrumented & unit tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -193,31 +225,7 @@ jobs:
           arch: x86_64
           profile: pixel_2
           working-directory: ./codigo
-          script: |
-            ./gradlew app:createProduccionDebugCoverageReport app:createProduccionDebugUnitTestCoverageReport
-            
-            # Tu lógica de verificación de fallos personalizada adaptada
-            COMPROBACION_FALLIDA=false
-            TEST_XML=$(find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' | head -n 1) || true
-            if [ -z "$TEST_XML" ]; then
-              echo "No se encontraron resultados de tests instrumentados."
-            fi
-            
-            # Se añade -print0 en find y -0 en xargs para mayor robustez ante nombres de archivo
-            if find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' -print0 2>/dev/null | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"' 2>/dev/null; then
-              echo "Fallos encontrados en resultados de Android Test."
-              COMPROBACION_FALLIDA=true
-            fi
-            
-            if find app/build/test-results -name 'TEST-*.xml' -print0 2>/dev/null | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"' 2>/dev/null; then
-              echo "Fallos encontrados en test unitarios."
-              COMPROBACION_FALLIDA=true
-            fi
-            
-            if [ "$COMPROBACION_FALLIDA" = true ]; then
-              echo "Al menos un tipo de test es fallido, marcando el job como fallido."
-              exit 1
-            fi
+          script: ./run_tests.sh
 
   # 6. Ensamblado y firmado del APK de release
   assemble-release:
