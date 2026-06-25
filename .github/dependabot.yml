@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # Ecosistema
+  - package-ecosystem: "gradle"
+    # Directorio raiz del proyecto android
+    directory: "/codigo"
+    # Rama de destino para las actualizaciones
+    target-branch: "Desarrollo"
+    # Intervalo de actualización
+    schedule:
+      interval: "daily"
