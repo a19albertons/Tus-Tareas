@@ -234,6 +234,8 @@ jobs:
     needs: [tests]
     # Se ejecuta en master o ante la presencia de un tag
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
+    # Carga el enviroment de variables de entorno para el firmado
+    environment: KeyStore
     steps:
       # Configura checkout
       - uses: actions/checkout@v4
