@@ -106,6 +106,9 @@ android {
 }
 
 dependencies {
+    // parche error kotlin metadata
+    ksp(libs.kotlin.metadata.jvm)
+
     // Librerias para el organizador de tareas en segundo plano de tareas proramadas
     implementation(libs.androidx.work.runtime.ktx)
     androidTestImplementation(libs.androidx.work.testing)
