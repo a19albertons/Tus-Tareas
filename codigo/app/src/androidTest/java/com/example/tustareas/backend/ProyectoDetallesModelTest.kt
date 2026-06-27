@@ -8,7 +8,6 @@ import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.ModificarProyectosModel
 import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.modelos.Estado
@@ -17,9 +16,9 @@ import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarProyectosRepository
 import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.ProyectoDetallesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -73,9 +72,7 @@ class ProyectoDetallesModelTest {
     lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
 
     @Inject
-    lateinit var repositorioModificarProyectos: ModificarProyectosRepository
-
-    lateinit var modeloModificarProyectos: ModificarProyectosModel
+    lateinit var repositorioCrearProyectos: CrearProyectosRepository
 
     @Inject
     lateinit var repositorioDetallesProyecto: ProyectoDetallesRepository
@@ -94,7 +91,6 @@ class ProyectoDetallesModelTest {
             // Inicializar modelos manualmente
             modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
             modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
-            modeloModificarProyectos = ModificarProyectosModel(ApplicationProvider.getApplicationContext(), repositorioModificarProyectos)
             modeloDetallesProyecto = ProyectoDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesProyecto)
 
             // Unas tareas y etiquetas para las pruebas
@@ -149,8 +145,7 @@ class ProyectoDetallesModelTest {
                     listOf(tarea1, tarea2),
                 )
             // Insertar
-            modeloModificarProyectos.definirProyectoDTO(proyectoDTO)
-            modeloModificarProyectos.guardarYModificarProyecto(proyectoDTO.proyecto.nombre, proyectoDTO.proyecto.descripcion ?: "")
+            repositorioCrearProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
         }
 
     // Finalización entorno
