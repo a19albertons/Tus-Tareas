@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tustareas.dao.ActivityMainConsultas
+import com.example.tustareas.dao.CrearEtiquetaConsultas
 import com.example.tustareas.dao.EstadisticasConsultas
 import com.example.tustareas.dao.EtiquetaDetallesConsultas
 import com.example.tustareas.dao.InicioConsultas
@@ -152,6 +153,8 @@ abstract class TusTareasDatabase : RoomDatabase() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     abstract fun workerConsultas(): WorkerConsultas
+
+    abstract fun crearEtiquetaConsultas(): CrearEtiquetaConsultas
 
     companion object {
         @Volatile

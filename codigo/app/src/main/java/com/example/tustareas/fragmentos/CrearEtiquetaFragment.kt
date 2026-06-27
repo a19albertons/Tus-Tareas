@@ -10,24 +10,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.tustareas.R
-import com.example.tustareas.databinding.FragmentModificarEtiquetaBinding
-import com.example.tustareas.modelView.ModificarEtiquetasModel
+import com.example.tustareas.databinding.FragmentCrearEtiquetaBinding
+import com.example.tustareas.modelView.CrearEtiquetasModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Clase que gestiona el fragmento de modificación de etiquetas.
+ * Clase que gestiona el fragmento de creación de etiquetas.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @AndroidEntryPoint
-class ModificarEtiquetaFragment : Fragment() {
+class CrearEtiquetaFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding: FragmentModificarEtiquetaBinding? = null
-    val binding: FragmentModificarEtiquetaBinding
+    private var _binding: FragmentCrearEtiquetaBinding? = null
+    val binding: FragmentCrearEtiquetaBinding
         get() = _binding!!
 
-    val model: ModificarEtiquetasModel by viewModels()
+    val model: CrearEtiquetasModel by viewModels()
 
     /**
      * Crea la vista del fragmento de modificación de etiquetas y gestiona los eventos de los elementos de la vista.
@@ -44,10 +44,10 @@ class ModificarEtiquetaFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentModificarEtiquetaBinding.inflate(inflater, container, false)
+        _binding = FragmentCrearEtiquetaBinding.inflate(inflater, container, false)
 
         // Recuperamos la etiqueta pasada por argumentos
-        val args = ModificarEtiquetaFragmentArgs.fromBundle(requireArguments())
+        val args = CrearEtiquetaFragmentArgs.fromBundle(requireArguments())
         model.definirEtiqueta(args.etiqueta)
 
         // Rellenamos los campos con los datos de la etiqueta pasada
@@ -155,11 +155,11 @@ class ModificarEtiquetaFragment : Fragment() {
     private fun dialogo() {
         AlertDialog
             .Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_modificar_etiqueta))
+            .setTitle(getString(R.string.confirmar_guardar_etiqueta))
             .setMessage("")
             .setPositiveButton(R.string.guardar) { _, _ ->
                 // Logica de guardado y campos que no tolera nulos
-                model.modificarEtiqueta(
+                model.guardarEtiqueta(
                     binding.tituloEtiqueta.text
                         .toString()
                         .trim(),

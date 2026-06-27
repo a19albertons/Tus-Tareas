@@ -5,24 +5,24 @@ import com.example.tustareas.modelos.Etiqueta
 import javax.inject.Inject
 
 /**
- * Clase que representa al subrepositorio de modificar etiquetas
+ * Clase que representa al subrepositorio de crear etiquetas
  *
  * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarEtiquetasRepository
+class CrearEtiquetasRepository
     @Inject
     constructor(
         private val database: TusTareasDatabase,
     ) {
-        private val modificarEtiquetaConsultas = database.modificarEtiquetaConsultas()
+        private val modificarEtiquetaConsultas = database.crearEtiquetaConsultas()
 
         /**
-         * Modifica una etiqueta existente en la base de datos
+         * Inserta una nueva etiqueta en la base de datos
          *
-         * @param etiqueta La etiqueta a modificar
+         * @param etiqueta La etiqueta a insertar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        suspend fun modificarEtiqueta(etiqueta: Etiqueta) = modificarEtiquetaConsultas.modificarEtiqueta(etiqueta)
+        suspend fun insertarEtiqueta(etiqueta: Etiqueta) = modificarEtiquetaConsultas.insertarEtiqueta(etiqueta)
     }

@@ -23,8 +23,8 @@
             android:id="@+id/action_listarEtiquetasFragment_to_etiquetaDetallesFragment"
             app:destination="@id/etiquetaDetallesFragment" />
         <action
-            android:id="@+id/action_listarEtiquetasFragment_to_modificarEtiquetaFragment"
-            app:destination="@id/modificarEtiquetaFragment" />
+            android:id="@+id/action_listarEtiquetasFragment_to_crearEtiquetaFragment"
+            app:destination="@id/crearEtiquetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/etiquetaDetallesFragment"
@@ -134,5 +134,14 @@
         <action
             android:id="@+id/action_verMasFragment_to_tareaDetallesFragment"
             app:destination="@id/tareaDetallesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearEtiquetaFragment"
+        android:name="com.example.tustareas.fragmentos.CrearEtiquetaFragment"
+        android:label="fragment_crear_etiqueta"
+        tools:layout="@layout/fragment_crear_etiqueta" >
+        <argument
+            android:name="etiqueta"
+            app:argType="com.example.tustareas.modelos.Etiqueta" />
     </fragment>
 </navigation>
