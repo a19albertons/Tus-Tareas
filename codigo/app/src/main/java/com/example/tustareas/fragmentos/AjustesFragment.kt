@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentAjustesBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.IdiomaApp
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -73,13 +74,9 @@ class AjustesFragment : Fragment() {
         // Obtenemos el valor por defecto del modelo y lo deshabilitamos en la primera
         // ejecucíón para evitar un reinicio (recreación
         val idiomaGuardado = model.idioma.value
-        val posicionInicial =
-            when (idiomaGuardado) {
-                "Español" -> 1
-                "Ingles" -> 2
-                "Gallego" -> 3
-                else -> 0
-            }
+
+        // Obtiene la posicion inicial a partir del valor y mirando las entradas del enum class
+        val posicionInicial = IdiomaApp.entries.toTypedArray().indexOfFirst { it.nombre == idiomaGuardado }
         binding.idioma.setSelection(posicionInicial, false)
 
         // Gestiona la elección del idioma
