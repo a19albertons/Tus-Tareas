@@ -15,6 +15,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.ListarTareasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.ModificarTareasRepository
@@ -61,6 +62,9 @@ class ModificarTareasModelTest {
 
     @Inject
     lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
+
+    @Inject
+    lateinit var repositorioCrearEtiquetas: CrearEtiquetasRepository
 
     lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
 
@@ -139,7 +143,7 @@ class ModificarTareasModelTest {
             val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
             // Insertar tareas y etiqueta
-            repositorioModificarEtiquetas.insertarEtiqueta(etiqueta)
+            repositorioCrearEtiquetas.insertarEtiqueta(etiqueta)
             repositorioModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
             repositorioModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
             repositorioModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)

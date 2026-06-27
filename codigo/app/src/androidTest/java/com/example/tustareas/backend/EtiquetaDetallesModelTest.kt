@@ -7,6 +7,7 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelView.EtiquetaDetallesModel
 import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
@@ -40,7 +41,7 @@ class EtiquetaDetallesModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var modificarEtiquetas: ModificarEtiquetasRepository
+    lateinit var crearEtiquetas: CrearEtiquetasRepository
 
     @Inject
     lateinit var etiquetaDetallesRepository: EtiquetaDetallesRepository
@@ -66,14 +67,14 @@ class EtiquetaDetallesModelTest {
             listarEtiquetasModel = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepository)
 
             // Añadir datos de prueba
-            modificarEtiquetas.insertarEtiqueta(
+            crearEtiquetas.insertarEtiqueta(
                 Etiqueta(
                     id = 1,
                     nombre = "etiqueta",
                 ),
             )
 
-            modificarEtiquetas.insertarEtiqueta(
+            crearEtiquetas.insertarEtiqueta(
                 Etiqueta(
                     id = 2,
                     nombre = "etiqueta2",

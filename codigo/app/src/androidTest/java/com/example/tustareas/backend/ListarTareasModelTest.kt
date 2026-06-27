@@ -12,8 +12,8 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -54,7 +54,7 @@ class ListarTareasModelTest {
     lateinit var repositorioTareasModificar: ModificarTareasRepository
 
     @Inject
-    lateinit var repositorioEtiquetasModificar: ModificarEtiquetasRepository
+    lateinit var repositorioEtiquetasCrear: CrearEtiquetasRepository
 
     @Inject
     lateinit var listarTareasRepository: ListarTareasRepository
@@ -124,7 +124,7 @@ class ListarTareasModelTest {
             // Insertar tareas y etiqueta
             repositorioTareasModificar.insertarTareaConEtiqueta(tarea1DTO)
             repositorioTareasModificar.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioEtiquetasModificar.insertarEtiqueta(etiqueta)
+            repositorioEtiquetasCrear.insertarEtiqueta(etiqueta)
             repositorioTareasModificar.insertarTareaConEtiqueta(tareaHoyDTO)
             repositorioTareasModificar.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }

@@ -132,7 +132,7 @@ class TareaDetallesModelTest {
             modeloModificarTareas.definirTareaDTO(tarea2DTO)
             modeloModificarTareas.guardarYModificarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
             modeloModificarEtiqueta.definirEtiqueta(etiqueta)
-            modeloModificarEtiqueta.guardarYModificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
+            modeloModificarEtiqueta.modificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
             modeloModificarTareas.definirTareaDTO(tareaHoyDTO)
             modeloModificarTareas.guardarYModificarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
             modeloModificarTareas.definirTareaDTO(tareaRetrasadaDTO)

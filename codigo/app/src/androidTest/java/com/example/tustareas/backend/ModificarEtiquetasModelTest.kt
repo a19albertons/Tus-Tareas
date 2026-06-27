@@ -9,6 +9,7 @@ import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -47,6 +48,9 @@ class ModificarEtiquetasModelTest {
     @Inject
     lateinit var repositorioModificarEtiqueta: ModificarEtiquetasRepository
 
+    @Inject
+    lateinit var repositorioCrearEtiqueta: CrearEtiquetasRepository
+
     lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
 
     @Inject
@@ -67,14 +71,14 @@ class ModificarEtiquetasModelTest {
             modeloListarEtiquetas = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepositorio)
             modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
 
-            repositorioModificarEtiqueta.insertarEtiqueta(
+            repositorioCrearEtiqueta.insertarEtiqueta(
                 Etiqueta(
                     id = 1,
                     nombre = "etiqueta",
                 ),
             )
 
-            repositorioModificarEtiqueta.insertarEtiqueta(
+            repositorioCrearEtiqueta.insertarEtiqueta(
                 Etiqueta(
                     id = 2,
                     nombre = "etiqueta2",
@@ -88,30 +92,6 @@ class ModificarEtiquetasModelTest {
         db.close()
     }
 
-    @Test
-    fun tituloDialogoNueva() {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
-
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
-
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.tituloDialogo() == R.string.confirmar_guardar_etiqueta)
-    }
-
-    @Test
-    fun tituloDialogoExistente() {
-        // Definición etiqueta de prueba
-        val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
-
-        // Definir una etiqueta
-        modeloModificarEtiquetas.definirEtiqueta(etiqueta)
-
-        // Comprobación del resultado
-        assert(modeloModificarEtiquetas.tituloDialogo() == R.string.confirmar_modificar_etiqueta)
-    }
-
     // Guardado de nuevas etiquetas
     @Test
     fun guardarEtiqueta() =
@@ -123,7 +103,7 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
             // Guardar la etiqueta
-            modeloModificarEtiquetas.guardarYModificarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
+            modeloModificarEtiquetas.modificarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
             assert(modeloModificarEtiquetas.observarResultado().value == true)
@@ -140,10 +120,10 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
             // Guardar la etiqueta
-            modeloModificarEtiquetas.guardarYModificarEtiqueta("", "Descripción de la etiqueta 1")
+            modeloModificarEtiquetas.modificarEtiqueta("", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_guardar_etiqueta)
+            assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_modificar_etiqueta)
             assert(modeloModificarEtiquetas.observarResultado().value == false)
         }
 
@@ -157,7 +137,7 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
             // Modificar la etiqueta
-            modeloModificarEtiquetas.guardarYModificarEtiqueta(
+            modeloModificarEtiquetas.modificarEtiqueta(
                 "Etiqueta 1",
                 "Descripción de la etiqueta 1",
             )
@@ -176,7 +156,7 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
             // Modificar la etiqueta
-            modeloModificarEtiquetas.guardarYModificarEtiqueta(
+            modeloModificarEtiquetas.modificarEtiqueta(
                 "",
                 "Descripción de la etiqueta 1",
             )

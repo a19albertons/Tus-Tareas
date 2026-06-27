@@ -10,8 +10,8 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.EstadisticasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -48,7 +48,7 @@ class EstadisticasModelTest {
     lateinit var repositorioTareasRepository: ModificarTareasRepository
 
     @Inject
-    lateinit var repositorioModificarEtiqueta: ModificarEtiquetasRepository
+    lateinit var repositorioCrearEtiqueta: CrearEtiquetasRepository
 
     @Inject
     lateinit var estadisticasRepository: EstadisticasRepository
@@ -123,7 +123,7 @@ class EstadisticasModelTest {
             // Insertar tareas y etiqueta
             repositorioTareasRepository.insertarTareaConEtiqueta(tarea1DTO)
             repositorioTareasRepository.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarEtiqueta.insertarEtiqueta(etiqueta)
+            repositorioCrearEtiqueta.insertarEtiqueta(etiqueta)
             repositorioTareasRepository.insertarTareaConEtiqueta(tareaHoyDTO)
             repositorioTareasRepository.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
@@ -173,7 +173,7 @@ class EstadisticasModelTest {
                     id = 2,
                     nombre = "etiqueta2",
                 )
-            repositorioModificarEtiqueta.insertarEtiqueta(etiqueta2)
+            repositorioCrearEtiqueta.insertarEtiqueta(etiqueta2)
 
             val tarea7 =
                 Tarea(

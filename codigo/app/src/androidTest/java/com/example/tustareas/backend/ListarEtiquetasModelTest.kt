@@ -6,8 +6,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -38,7 +38,7 @@ class ListarEtiquetasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioEtiquetas: ModificarEtiquetasRepository
+    lateinit var crearRepositorioEtiquetas: CrearEtiquetasRepository
 
     @Inject
     lateinit var listarEtiquetaRepositorio: ListarEtiquetasRepository
@@ -57,14 +57,14 @@ class ListarEtiquetasModelTest {
             // Inicializar modelo manualmente
             modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetaRepositorio)
 
-            repositorioEtiquetas.insertarEtiqueta(
+            crearRepositorioEtiquetas.insertarEtiqueta(
                 Etiqueta(
                     id = 1,
                     nombre = "etiqueta",
                 ),
             )
 
-            repositorioEtiquetas.insertarEtiqueta(
+            crearRepositorioEtiquetas.insertarEtiqueta(
                 Etiqueta(
                     id = 2,
                     nombre = "etiqueta2",
