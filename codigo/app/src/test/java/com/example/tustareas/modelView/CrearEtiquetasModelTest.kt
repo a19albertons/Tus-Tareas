@@ -5,16 +5,16 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.tustareas.R
 import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelos.Etiqueta
-import com.example.tustareas.repository.ModificarEtiquetasRepository
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 
 /**
- * Clase que tiene las pruebas unitarias de modificar etiquetas model
+ * Clase que tiene las pruebas unitarias de crear etiquetas model
  */
-class ModificarEtiquetasModelTest {
+class CrearEtiquetasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -23,11 +23,11 @@ class ModificarEtiquetasModelTest {
     val mainRule = MainDispatcherRule()
 
     // Definición repositorio
-    val modificarEtiquetasRepository = Mockito.mock(ModificarEtiquetasRepository::class.java)
+    val crearEtiquetasRepository = Mockito.mock(CrearEtiquetasRepository::class.java)
 
     // Definición modelo
-    val modificarEtiquetasModel =
-        ModificarEtiquetasModel(Application(), modificarEtiquetasRepository)
+    val crearEtiquetasModel =
+        CrearEtiquetasModel(Application(), crearEtiquetasRepository)
 
     @Test
     fun definirEtiquetayObservarEtiqueta() {
@@ -35,50 +35,49 @@ class ModificarEtiquetasModelTest {
         val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 
         // Definir una etiqueta
-        modificarEtiquetasModel.definirEtiqueta(etiqueta)
+        crearEtiquetasModel.definirEtiqueta(etiqueta)
 
         // Comprobación del resultado
-        assert(modificarEtiquetasModel.observarEtiqueta().value == etiqueta)
+        assert(crearEtiquetasModel.observarEtiqueta().value == etiqueta)
     }
-
 
     // Guardado de nuevas etiquetas
     @Test
-    fun guardarEtiquetaExistente() =
+    fun guardarEtiqueta() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Definir una etiqueta
-            modificarEtiquetasModel.definirEtiqueta(etiqueta)
+            crearEtiquetasModel.definirEtiqueta(etiqueta)
 
             // Guardar la etiqueta
-            modificarEtiquetasModel.modificarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
+            crearEtiquetasModel.guardarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            Mockito.verify(modificarEtiquetasRepository).modificarEtiqueta(etiqueta)
+            Mockito.verify(crearEtiquetasRepository).insertarEtiqueta(etiqueta)
 
             // Valor del resultado
-            assert(modificarEtiquetasModel.observarResultado().value == true)
+            assert(crearEtiquetasModel.observarResultado().value == true)
         }
 
     // Guardado de nuevas etiquetas no valida
     @Test
-    fun guardarEtiquetaExistenteInvalida() =
+    fun guardarEtiquetaInvalida() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Definir una etiqueta
-            modificarEtiquetasModel.definirEtiqueta(etiqueta)
+            crearEtiquetasModel.definirEtiqueta(etiqueta)
 
             // Guardar la etiqueta
-            modificarEtiquetasModel.modificarEtiqueta(" ", "Descripción de la etiqueta 1")
+            crearEtiquetasModel.guardarEtiqueta(" ", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            assert(modificarEtiquetasModel.observarMensajeError().value == R.string.error_modificar_etiqueta)
+            assert(crearEtiquetasModel.observarMensajeError().value == R.string.error_guardar_etiqueta)
 
             // Valor del resultado
-            assert(modificarEtiquetasModel.observarResultado().value == false)
+            assert(crearEtiquetasModel.observarResultado().value == false)
         }
 }
