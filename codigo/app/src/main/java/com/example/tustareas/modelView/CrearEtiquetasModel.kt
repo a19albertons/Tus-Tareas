@@ -60,7 +60,6 @@ class CrearEtiquetasModel
          */
         fun observarEtiqueta(): MutableLiveData<Etiqueta> = etiquetaModel
 
-
         /**
          * Guarda la etiqueta a crear en la base de datos
          *
@@ -104,7 +103,6 @@ class CrearEtiquetasModel
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun observarResultado(): MutableLiveData<Boolean> = resultado
-
 
         /**
          * Inserta una nueva etiqueta en la base de datos

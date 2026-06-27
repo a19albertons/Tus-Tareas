@@ -43,7 +43,6 @@ class ModificarProyectosRepository
         fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) =
             modificarProyectoConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
-
         /**
          * Modifica un proyecto existente con sus tareas y etiquetas
          *

@@ -121,6 +121,4 @@ interface CrearProyectoConsultas {
             modificarProyectoID(it.id, id)
         }
     }
-
-
 }

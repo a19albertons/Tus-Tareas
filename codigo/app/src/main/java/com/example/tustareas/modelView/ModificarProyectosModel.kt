@@ -325,8 +325,6 @@ class ModificarProyectosModel
                 repository.obtenerEtiquetasRestantes(texto)
             }
 
-
-
         /**
          * Modifica un proyecto con sus tareas e etiquetas en la base de datos
          *

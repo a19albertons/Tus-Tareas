@@ -51,5 +51,4 @@ class CrearProyectosRepository
          */
         suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
             crearProyectoConsultas.insertarProyectoConTareaYEtiqueta(proyectoDTO)
-
     }

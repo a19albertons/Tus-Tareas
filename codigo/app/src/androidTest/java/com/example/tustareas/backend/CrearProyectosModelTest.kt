@@ -11,7 +11,6 @@ import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.CrearProyectosModel
 import com.example.tustareas.modelView.EtiquetaDetallesModel
 import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.ModificarProyectosModel
 import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.modelView.TareaDetallesModel
@@ -67,7 +66,6 @@ class CrearProyectosModelTest {
 
     @Inject
     lateinit var repositorioModificarTareas: ModificarTareasRepository
-
 
     lateinit var modeloModificarTareas: ModificarTareasModel
 
@@ -290,10 +288,6 @@ class CrearProyectosModelTest {
             assert(modeloCrearProyecto.observarResultado().value == false)
             assert(modeloCrearProyecto.observarMensajeError().value == R.string.error_guardar_proyecto)
         }
-
-
-
-
 
     @Test
     fun actualizarEtiquetasDelProyecto() =

@@ -101,7 +101,6 @@ interface ModificarProyectoConsultas {
     @Query("select * from etiquetas where id not in (:lista)")
     fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
 
-
     /**
      * Modifica un proyecto existente junto con sus tareas y etiquetas asociadas.
      *

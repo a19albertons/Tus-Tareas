@@ -60,7 +60,6 @@ class CrearTareasModelTest {
 
     lateinit var modeloCrearTareas: CrearTareasModel
 
-
     @Inject
     lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
 

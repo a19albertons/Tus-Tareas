@@ -149,7 +149,6 @@ class ModificarTareasModel
         ) {
             // Comprobación de que el título de la tarea no está vacío
             if (nombre.isBlank()) {
-
                 mensajeError.value = R.string.error_modificar_tarea
                 return
             }
@@ -174,7 +173,6 @@ class ModificarTareasModel
             // Generamos un hilo con la nueva tarea
             viewModelScope.launch {
                 try {
-
                     modificarTareaConEtiqueta(tareaDTO.value!!)
                     // Volvemos a la vista previa
                     resultado.value = true

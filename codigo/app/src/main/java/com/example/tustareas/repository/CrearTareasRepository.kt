@@ -36,6 +36,4 @@ class CrearTareasRepository
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = crearTareaConsultas.insertarTareaConEtiqueta(tareaDTO)
-
-
     }

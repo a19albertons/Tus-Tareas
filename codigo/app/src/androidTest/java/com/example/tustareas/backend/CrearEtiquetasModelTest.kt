@@ -123,8 +123,6 @@ class CrearEtiquetasModelTest {
             assert(modeloCrearEtiquetas.observarResultado().value == false)
         }
 
-
-
     @Test
     fun observarEtiqueta() =
         runTest {

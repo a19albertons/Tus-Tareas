@@ -138,9 +138,6 @@ class CrearProyectosModelTest {
             assert(crearProyectosModel.observarResultado().value == false)
         }
 
-
-
-
     @Test
     fun observarProyectoDTO() {
         // Definición proyecto

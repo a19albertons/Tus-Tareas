@@ -2,7 +2,6 @@ package com.example.tustareas.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.Update
 import com.example.tustareas.modelos.Etiqueta
 
 /**

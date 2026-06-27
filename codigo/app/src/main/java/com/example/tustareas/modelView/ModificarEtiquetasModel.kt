@@ -85,7 +85,6 @@ class ModificarEtiquetasModel
             // Generamos un hilo donde se ejecuta la inserción
             viewModelScope.launch {
                 try {
-
                     // Modifica la etiqueta
                     modificarEtiqueta(etiquetaModel.value!!)
 
@@ -105,8 +104,6 @@ class ModificarEtiquetasModel
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun observarResultado(): MutableLiveData<Boolean> = resultado
-
-
 
         /**
          * Modifica una etiqueta en la base de datos

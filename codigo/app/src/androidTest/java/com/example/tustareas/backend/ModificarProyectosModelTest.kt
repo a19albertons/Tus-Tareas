@@ -68,7 +68,6 @@ class ModificarProyectosModelTest {
     @Inject
     lateinit var repositorioModificarTareas: ModificarTareasRepository
 
-
     lateinit var modeloModificarTareas: ModificarTareasModel
 
     @Inject

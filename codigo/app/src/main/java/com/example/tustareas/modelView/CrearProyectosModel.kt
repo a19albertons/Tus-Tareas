@@ -195,7 +195,6 @@ class CrearProyectosModel
             // Generamos un hilo con la nueva tarea
             viewModelScope.launch {
                 try {
-
                     insertarProyectoConTareaYEtiqueta(proyectoDTO.value!!)
                     // Vovlemos a la vista previa
                     resultado.value = true
@@ -333,5 +332,4 @@ class CrearProyectosModel
          */
         private suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
             repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
-
     }

@@ -10,7 +10,6 @@ import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking

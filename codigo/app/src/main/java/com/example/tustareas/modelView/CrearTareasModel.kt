@@ -149,7 +149,6 @@ class CrearTareasModel
         ) {
             // Comprobación de que el título de la tarea no está vacío
             if (nombre.isBlank()) {
-
                 mensajeError.value = R.string.error_guardar_tarea
                 return
             }
@@ -228,5 +227,4 @@ class CrearTareasModel
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         private suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
-
     }

@@ -41,7 +41,6 @@ class ModificarEtiquetasModelTest {
         assert(modificarEtiquetasModel.observarEtiqueta().value == etiqueta)
     }
 
-
     // Guardado de nuevas etiquetas
     @Test
     fun guardarEtiquetaExistente() =
