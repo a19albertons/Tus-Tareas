@@ -56,8 +56,8 @@
             android:id="@+id/action_listarTareasFragment_to_tareaDetallesFragment"
             app:destination="@id/tareaDetallesFragment" />
         <action
-            android:id="@+id/action_listarTareasFragment_to_modificarTareasFragment"
-            app:destination="@id/modificarTareasFragment" />
+            android:id="@+id/action_listarTareasFragment_to_crearTareasFragment"
+            app:destination="@id/crearTareasFragment" />
     </fragment>
     <fragment
         android:id="@+id/tareaDetallesFragment"
@@ -143,5 +143,14 @@
         <argument
             android:name="etiqueta"
             app:argType="com.example.tustareas.modelos.Etiqueta" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearTareasFragment"
+        android:name="com.example.tustareas.fragmentos.CrearTareasFragment"
+        android:label="fragment_crear_tareas"
+        tools:layout="@layout/fragment_crear_tareas" >
+        <argument
+            android:name="tareaDTO"
+            app:argType="com.example.tustareas.dto.TareaDTO" />
     </fragment>
 </navigation>

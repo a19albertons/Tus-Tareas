@@ -14,8 +14,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
-import com.example.tustareas.databinding.FragmentModificarTareasBinding
-import com.example.tustareas.modelView.ModificarTareasModel
+import com.example.tustareas.databinding.FragmentCrearTareasBinding
+import com.example.tustareas.modelView.CrearTareasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.util.DateHelper
@@ -30,20 +30,20 @@ import java.util.Date
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @AndroidEntryPoint
-class ModificarTareasFragment : Fragment() {
+class CrearTareasFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding: FragmentModificarTareasBinding? = null
-    val binding: FragmentModificarTareasBinding
+    private var _binding: FragmentCrearTareasBinding? = null
+    val binding: FragmentCrearTareasBinding
         get() = _binding!!
 
-    val model: ModificarTareasModel by viewModels()
+    val model: CrearTareasModel by viewModels()
 
     // Variables para la gestión de etiquetas
     private lateinit var listaEtiquetas: List<Etiqueta>
     private lateinit var adapter: ListaEtiquetasPresentesAdapter
 
     /**
-     * Crea la vista del fragmento de modificación de tareas y gestiona los eventos de los elementos de la vista.
+     * Crea la vista del fragmento de creación de tareas y gestiona los eventos de los elementos de la vista.
      *
      * @param inflater El inflador de la vista.
      * @param container El contenedor de la vista.
@@ -57,10 +57,10 @@ class ModificarTareasFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentModificarTareasBinding.inflate(inflater, container, false)
+        _binding = FragmentCrearTareasBinding.inflate(inflater, container, false)
 
         // Recuperamos la tarea pasada por argumentos
-        val args = ModificarTareasFragmentArgs.fromBundle(requireArguments())
+        val args = CrearTareasFragmentArgs.fromBundle(requireArguments())
         model.definirTareaDTO(args.tareaDTO)
 
         // Rellenamos los campos con los datos de la tarea pasada
@@ -279,10 +279,10 @@ class ModificarTareasFragment : Fragment() {
     private fun dialogo() {
         AlertDialog
             .Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_modificado_tarea))
+            .setTitle(getString(R.string.confirmar_guardar_tarea))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _, _ ->
-                model.modificarTarea(
+                model.guardarTarea(
                     binding.tituloTarea.text
                         .toString()
                         .trim(),
