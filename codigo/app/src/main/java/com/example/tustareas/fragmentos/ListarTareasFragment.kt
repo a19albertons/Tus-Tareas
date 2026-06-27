@@ -319,7 +319,7 @@ class ListarTareasFragment : Fragment() {
             val tarea = Tarea(0, "", null, null, Prioridad.ALTA, DateHelper.fechaMediaNocheUTC(), Estado.EN_TIEMPO, null)
             val dto = TareaDTO(tarea, emptyList())
             try {
-                findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToModificarTareasFragment(dto))
+                findNavController().navigate(ListarTareasFragmentDirections.actionListarTareasFragmentToCrearTareasFragment(dto))
             } catch (_: Exception) {
                 Snackbar
                     .make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT)

@@ -240,7 +240,7 @@ class ListarProyectosFragment : Fragment() {
                 )
             try {
                 findNavController().navigate(
-                    ListarProyectosFragmentDirections.actionListarProyectosFragmentToModificarProyectoFragment(proyectoDTO),
+                    ListarProyectosFragmentDirections.actionListarProyectosFragmentToCrearProyectoFragment(proyectoDTO),
                 )
             } catch (_: Exception) {
                 Snackbar.make(binding.root, getString(R.string.error_navegar), Snackbar.LENGTH_SHORT).show()

@@ -6,12 +6,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.R
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.helper.MainDispatcherRule
+import com.example.tustareas.modelView.CrearEtiquetasModel
 import com.example.tustareas.modelView.ListarEtiquetasModel
-import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -24,11 +23,11 @@ import org.junit.runner.RunWith
 import javax.inject.Inject
 
 /**
- * Clase que gestiona las pruebas de integracion de modificar etiquetas model
+ * Clase que gestiona las pruebas de integracion de crear etiquetas model
  */
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class ModificarEtiquetasModelTest {
+class CrearEtiquetasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -46,12 +45,9 @@ class ModificarEtiquetasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarEtiqueta: ModificarEtiquetasRepository
-
-    @Inject
     lateinit var repositorioCrearEtiqueta: CrearEtiquetasRepository
 
-    lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
+    lateinit var modeloCrearEtiquetas: CrearEtiquetasModel
 
     @Inject
     lateinit var listarEtiquetasRepositorio: ListarEtiquetasRepository
@@ -69,7 +65,7 @@ class ModificarEtiquetasModelTest {
 
             // Crear modelo
             modeloListarEtiquetas = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepositorio)
-            modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
+            modeloCrearEtiquetas = CrearEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioCrearEtiqueta)
 
             repositorioCrearEtiqueta.insertarEtiqueta(
                 Etiqueta(
@@ -92,43 +88,39 @@ class ModificarEtiquetasModelTest {
         db.close()
     }
 
+    // Guardado de nuevas etiquetas
     @Test
-    fun modificarEtiqueta() =
+    fun guardarEtiqueta() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Definir una etiqueta
-            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            modeloCrearEtiquetas.definirEtiqueta(etiqueta)
 
-            // Modificar la etiqueta
-            modeloModificarEtiquetas.modificarEtiqueta(
-                "Etiqueta 1",
-                "Descripción de la etiqueta 1",
-            )
+            // Guardar la etiqueta
+            modeloCrearEtiquetas.guardarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarResultado().value == true)
+            assert(modeloCrearEtiquetas.observarResultado().value == true)
         }
 
+    // Guardado de nuevas etiquetas no valida
     @Test
-    fun modificarEtiquetaNoValida() =
+    fun guardarEtiquetaNoValida() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = Etiqueta(0, "Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Definir una etiqueta
-            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            modeloCrearEtiquetas.definirEtiqueta(etiqueta)
 
-            // Modificar la etiqueta
-            modeloModificarEtiquetas.modificarEtiqueta(
-                "",
-                "Descripción de la etiqueta 1",
-            )
+            // Guardar la etiqueta
+            modeloCrearEtiquetas.guardarEtiqueta("", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_modificar_etiqueta)
-            assert(modeloModificarEtiquetas.observarResultado().value == false)
+            assert(modeloCrearEtiquetas.observarMensajeError().value == R.string.error_guardar_etiqueta)
+            assert(modeloCrearEtiquetas.observarResultado().value == false)
         }
 
     @Test
@@ -138,9 +130,9 @@ class ModificarEtiquetasModelTest {
             val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Definir una etiqueta
-            modeloModificarEtiquetas.definirEtiqueta(etiqueta)
+            modeloCrearEtiquetas.definirEtiqueta(etiqueta)
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarEtiqueta().value == etiqueta)
+            assert(modeloCrearEtiquetas.observarEtiqueta().value == etiqueta)
         }
 }

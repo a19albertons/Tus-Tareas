@@ -9,7 +9,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +19,7 @@ import java.util.Date
 /**
  * Clase que tiene las pruebas unitarias de modificar tareas model
  */
-class ModificarTareasModelTest {
+class CrearTareasModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -29,51 +29,18 @@ class ModificarTareasModelTest {
     val ruleCorutinas = MainDispatcherRule()
 
     // Definición repositorio
-    val modificarTareasRepository = Mockito.mock(ModificarTareasRepository::class.java)
+    val crearTareasRepository = Mockito.mock(CrearTareasRepository::class.java)
 
     // Definición modelo
-    val modificarTareasModel = ModificarTareasModel(Application(), modificarTareasRepository)
+    val crearTareasModel = CrearTareasModel(Application(), crearTareasRepository)
 
     @Test
-    fun guardarTareaExistente() =
+    fun guardarTareaNueva() =
         runTest {
             // Crear tareaDTO de prueba
             val tarea =
                 Tarea(
-                    id = 1,
-                    nombre = "Tarea 1",
-                    descripcion = "Descripción de la tarea 1",
-                    fechaCreacion = Date(),
-                    prioridad = Prioridad.ALTA,
-                    fechaLimite = Date(),
-                    estado = Estado.COMPLETADA,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 1,
-                    nombre = "Etiqueta 1",
-                    descripcion = "Descripción de la etiqueta 1",
-                )
-            val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
-
-            // Definir tareaDTO en el modelo
-            modificarTareasModel.definirTareaDTO(tareaDTO)
-
-            // Guardar tarea
-            modificarTareasModel.modificarTarea("Tarea 1", "Descripción de la tarea 1")
-
-            // Comprobar que se ha llamado al método del repositorio para modificar la tarea
-            Mockito.verify(modificarTareasRepository).modificarTareaConEtiqueta(tareaDTO)
-            assert(modificarTareasModel.observarResultado().value == true)
-        }
-
-    @Test
-    fun guardarTareaExistenteNoValida() =
-        runTest {
-            // Crear tareaDTO de prueba
-            val tarea =
-                Tarea(
-                    id = 1,
+                    id = 0,
                     nombre = "Tarea 1",
                     descripcion = "Descripción de la tarea 1",
                     fechaCreacion = Date(),
@@ -90,14 +57,47 @@ class ModificarTareasModelTest {
             val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
             // Definir tareaDTO en el modelo
-            modificarTareasModel.definirTareaDTO(tareaDTO)
+            crearTareasModel.definirTareaDTO(tareaDTO)
 
             // Guardar tarea
-            modificarTareasModel.modificarTarea("", "Descripción de la tarea 1")
+            crearTareasModel.guardarTarea("Tarea 1", "Descripción de la tarea 1")
+
+            // Comprobar que se ha llamado al método del repositorio para guardar la tarea
+            Mockito.verify(crearTareasRepository).insertarTareaConEtiqueta(tareaDTO)
+            assert(crearTareasModel.observarResultado().value == true)
+        }
+
+    @Test
+    fun guardarTareaNuevaNoValida() =
+        runTest {
+            // Crear tareaDTO de prueba
+            val tarea =
+                Tarea(
+                    id = 0,
+                    nombre = "Tarea 1",
+                    descripcion = "Descripción de la tarea 1",
+                    fechaCreacion = Date(),
+                    prioridad = Prioridad.ALTA,
+                    fechaLimite = Date(),
+                    estado = Estado.EN_TIEMPO,
+                )
+            val etiqueta =
+                Etiqueta(
+                    id = 1,
+                    nombre = "Etiqueta 1",
+                    descripcion = "Descripción de la etiqueta 1",
+                )
+            val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
+
+            // Definir tareaDTO en el modelo
+            crearTareasModel.definirTareaDTO(tareaDTO)
+
+            // Guardar tarea
+            crearTareasModel.guardarTarea("", "Descripción de la tarea 1")
 
             // Comprobar error
-            assert(modificarTareasModel.observarMensajeError().value == R.string.error_modificar_tarea)
-            assert(modificarTareasModel.observarResultado().value == false)
+            assert(crearTareasModel.observarMensajeError().value == R.string.error_guardar_tarea)
+            assert(crearTareasModel.observarResultado().value == false)
         }
 
     @Test
@@ -122,10 +122,10 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Comprobar que se ha definido correctamente el tareaDTO
-        assert(modificarTareasModel.observarTareaDTO().value == tareaDTO)
+        assert(crearTareasModel.observarTareaDTO().value == tareaDTO)
     }
 
     @Test
@@ -150,10 +150,10 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Comprobar que se ha definido correctamente el tareaDTO
-        assert(modificarTareasModel.prioridadOrdinal() == Prioridad.ALTA.ordinal)
+        assert(crearTareasModel.prioridadOrdinal() == Prioridad.ALTA.ordinal)
     }
 
     @Test
@@ -178,14 +178,14 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Cambiar prioridad a media
-        modificarTareasModel.cambiarPrioridad(1)
+        crearTareasModel.cambiarPrioridad(1)
 
         // Comprobar que se ha cambiado correctamente la prioridad
         assert(
-            modificarTareasModel
+            crearTareasModel
                 .observarTareaDTO()
                 .value!!
                 .tarea.prioridad == Prioridad.MEDIA,
@@ -214,14 +214,14 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Cambiar prioridad a alta
-        modificarTareasModel.cambiarPrioridad(0)
+        crearTareasModel.cambiarPrioridad(0)
 
         // Comprobar que se ha cambiado correctamente la prioridad
         assert(
-            modificarTareasModel
+            crearTareasModel
                 .observarTareaDTO()
                 .value!!
                 .tarea.prioridad == Prioridad.ALTA,
@@ -250,14 +250,14 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Cambiar prioridad a baja
-        modificarTareasModel.cambiarPrioridad(2)
+        crearTareasModel.cambiarPrioridad(2)
 
         // Comprobar que se ha cambiado correctamente la prioridad
         assert(
-            modificarTareasModel
+            crearTareasModel
                 .observarTareaDTO()
                 .value!!
                 .tarea.prioridad == Prioridad.BAJA,
@@ -286,14 +286,14 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Cambiar prioridad a no establecido
-        modificarTareasModel.cambiarPrioridad(3)
+        crearTareasModel.cambiarPrioridad(3)
 
         // Comprobar que se ha cambiado correctamente la prioridad
         assert(
-            modificarTareasModel
+            crearTareasModel
                 .observarTareaDTO()
                 .value!!
                 .tarea.prioridad == Prioridad.NO_ESTABLECIDO,
@@ -322,14 +322,14 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Cambiar prioridad a un valor no válido
-        modificarTareasModel.cambiarPrioridad(-1)
+        crearTareasModel.cambiarPrioridad(-1)
 
         // Comprobar que se ha cambiado correctamente la prioridad a alta por defecto
         assert(
-            modificarTareasModel
+            crearTareasModel
                 .observarTareaDTO()
                 .value!!
                 .tarea.prioridad == Prioridad.ALTA,
@@ -358,15 +358,15 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Actualizar fecha límite
         val nuevaFechaLimite = Date()
-        modificarTareasModel.actualizarFechaLimite(nuevaFechaLimite)
+        crearTareasModel.actualizarFechaLimite(nuevaFechaLimite)
 
         // Comprobar que se ha actualizado correctamente la fecha límite
         assert(
-            modificarTareasModel
+            crearTareasModel
                 .observarTareaDTO()
                 .value!!
                 .tarea.fechaLimite == nuevaFechaLimite,
@@ -390,7 +390,7 @@ class ModificarTareasModelTest {
         val etiquetas = listOf(etiqueta1, etiqueta2)
 
         // Comprobar que se devuelve la lista de etiquetas sin modificaciones
-        val resultado = modificarTareasModel.comprobarListaEtiquetas(etiquetas)
+        val resultado = crearTareasModel.comprobarListaEtiquetas(etiquetas)
         assert(resultado.size == 2)
         assert(resultado[0] == etiqueta1)
         assert(resultado[1] == etiqueta2)
@@ -425,19 +425,19 @@ class ModificarTareasModelTest {
             val tareaDTO = TareaDTO(tarea, listOf(etiqueta1))
 
             // Definir tareaDTO en el modelo
-            modificarTareasModel.definirTareaDTO(tareaDTO)
+            crearTareasModel.definirTareaDTO(tareaDTO)
 
             // Actualizar etiquetas de la tarea
-            modificarTareasModel.actualizarEtiquetasTarea(listOf(etiqueta2))
+            crearTareasModel.actualizarEtiquetasTarea(listOf(etiqueta2))
 
             // Comprobar que se ha actualizado correctamente la lista de etiquetas de la tarea
             assert(
-                modificarTareasModel
+                crearTareasModel
                     .observarTareaDTO()
                     .value!!
                     .etiquetas.size == 1,
             )
-            assert(modificarTareasModel.observarTareaDTO().value!!.etiquetas[0] == etiqueta2)
+            assert(crearTareasModel.observarTareaDTO().value!!.etiquetas[0] == etiqueta2)
         }
 
     @Test
@@ -468,10 +468,10 @@ class ModificarTareasModelTest {
         val tareaDTO = TareaDTO(tarea, listOf(etiqueta1, etiqueta2))
 
         // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
+        crearTareasModel.definirTareaDTO(tareaDTO)
 
         // Obtener lista de etiquetas de la tarea
-        val resultado = modificarTareasModel.obtenerListaEtiquetasTarea()
+        val resultado = crearTareasModel.obtenerListaEtiquetasTarea()
 
         // Comprobar que se ha obtenido correctamente la lista de etiquetas de la tarea
         assert(resultado.size == 2)
@@ -486,13 +486,13 @@ class ModificarTareasModelTest {
         val lista = listOf(etiqueta)
 
         // Dejamos a etiquetas restantes como observado
-        modificarTareasModel.obtenerEtiquetasRestantes().observeForever {}
+        crearTareasModel.obtenerEtiquetasRestantes().observeForever {}
 
         // Forzamos la acción
-        modificarTareasModel.actualizarFiltroListaEtiquetaTareas(lista)
+        crearTareasModel.actualizarFiltroListaEtiquetaTareas(lista)
 
         // Verificamos si ha sido afectaod el filtro de etiquetas restantes
-        Mockito.verify(modificarTareasRepository).obtenerEtiquetasRestantes(lista)
+        Mockito.verify(crearTareasRepository).obtenerEtiquetasRestantes(lista)
     }
 
     @Test
@@ -501,9 +501,9 @@ class ModificarTareasModelTest {
         val listaEtiquetas = listOf<Etiqueta>()
 
         // Invocar metodo
-        modificarTareasModel.obtenerEtiquetasRestantes()
+        crearTareasModel.obtenerEtiquetasRestantes()
 
         // Comprobar que se ha llamado al método del repositorio para obtener las etiquetas restantes
-        Mockito.verify(modificarTareasRepository).obtenerEtiquetasRestantes(listaEtiquetas)
+        Mockito.verify(crearTareasRepository).obtenerEtiquetasRestantes(listaEtiquetas)
     }
 }

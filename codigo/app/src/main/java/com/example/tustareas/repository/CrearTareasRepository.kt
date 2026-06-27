@@ -6,18 +6,18 @@ import com.example.tustareas.modelos.Etiqueta
 import javax.inject.Inject
 
 /**
- * Clase que gestiona el subrepositorio de modificar tareas
+ * Clase que gestiona el subrepositorio de crear tareas
  *
  * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarTareasRepository
+class CrearTareasRepository
     @Inject
     constructor(
         database: TusTareasDatabase,
     ) {
-        private val modificarTareaConsultas = database.modificarTareaConsultas()
+        private val crearTareaConsultas = database.crearTareaConsultas()
 
         /**
          * Obtiene las etiquetas restantes de una tarea que no estan usadas en la tarea
@@ -27,13 +27,13 @@ class ModificarTareasRepository
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) =
-            modificarTareaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
+            crearTareaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
         /**
-         * Modifica una tarea existente en la base de datos con sus etiquetas
+         * Inserta una nueva tarea en la base de datos con sus etiquetas
          *
-         * @param tareaDTO El DTO de la tarea a modificar
+         * @param tareaDTO El DTO de la tarea a insertar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = modificarTareaConsultas.modificarTareaConEtiqueta(tareaDTO)
+        suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = crearTareaConsultas.insertarTareaConEtiqueta(tareaDTO)
     }

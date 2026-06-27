@@ -17,7 +17,17 @@ import com.example.tustareas.modelos.TareaEtiqueta
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Dao
-interface ModificarTareaConsultas {
+interface CrearTareaConsultas {
+    /**
+     * Inserta una tarea y devuelve su id. Solo usar en las transaciones
+     *
+     * @param tarea La tarea a insertar.
+     * @return Long con el ID de la tarea insertada.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    @Insert
+    suspend fun insertarTarea(tarea: Tarea): Long
+
     /**
      * Modifica una tarea. Solo usar en las transaciones
      *
@@ -37,15 +47,6 @@ interface ModificarTareaConsultas {
     suspend fun insertarTareaEtiqueta(tareaEtiqueta: TareaEtiqueta)
 
     /**
-     * Elimina las relaciones tarea-etiqueta de una tarea. Solo usar en las transaciones
-     *
-     * @param id El ID de la tarea a eliminar sus relaciones.
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    @Query("DELETE FROM TareaEtiquetas WHERE idTarea = :id")
-    suspend fun eliminarRelacionesTarea(id: Int)
-
-    /**
      * Obtiene las etiquetas restantes que no están asociadas a la tarea.
      *
      * @param lista La lista de IDs de las etiquetas asociadas a la tarea.
@@ -56,19 +57,16 @@ interface ModificarTareaConsultas {
     fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
 
     /**
-     * Modifica la tarea junto con sus etiquetas.
+     * Inserta la tarea junto con sus etiquetas.
      *
-     * @param tareaDTO El objeto TareaDTO que contiene la tarea y sus etiquetas a modificar.
+     * @param tareaDTO El objeto TareaDTO que contiene la tarea y sus etiquetas a insertar.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Transaction
-    suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) {
-        modificarTarea(tareaDTO.tarea)
-        // Eliminar relaciones anteriores
-        eliminarRelacionesTarea(tareaDTO.tarea.id)
-        // Insertar nuevas relaciones
+    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) {
+        val id = insertarTarea(tareaDTO.tarea).toInt()
         tareaDTO.etiquetas.forEach { etiqueta ->
-            insertarTareaEtiqueta(TareaEtiqueta(tareaDTO.tarea.id, etiqueta.id))
+            insertarTareaEtiqueta(TareaEtiqueta(id, etiqueta.id))
         }
     }
 }

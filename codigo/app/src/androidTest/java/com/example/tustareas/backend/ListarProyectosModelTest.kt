@@ -10,9 +10,9 @@ import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelView.ListarProyectosModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Proyecto
+import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.ListarProyectosRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarProyectosRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
@@ -43,10 +43,10 @@ class ListarProyectosModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var modificarProyectosRepository: ModificarProyectosRepository
+    lateinit var crearProyectosRepository: CrearProyectosRepository
 
     @Inject
-    lateinit var modificarEtiquestasRepository: ModificarEtiquetasRepository
+    lateinit var crearEtiquestasRepository: CrearEtiquetasRepository
 
     @Inject
     lateinit var listarProyectosRepository: ListarProyectosRepository
@@ -107,11 +107,11 @@ class ListarProyectosModelTest {
             val proyectoDTO4 = ProyectoDTO(proyecto4, emptyList(), emptyList())
 
             // Insertar proyectos
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
-            modificarEtiquestasRepository.insertarEtiqueta(etiqueta)
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
+            crearEtiquestasRepository.insertarEtiqueta(etiqueta)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
         }
 
     // Finalización entorno

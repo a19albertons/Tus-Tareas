@@ -11,7 +11,7 @@ import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
-import com.example.tustareas.repository.ModificarTareasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,21 +19,21 @@ import java.util.Date
 import javax.inject.Inject
 
 /**
- * Clase que gestiona el submodelo de modificar tareas
+ * Clase que gestiona el submodelo de crear tareas
  *
  * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param application el application de Android, necesario para el ViewModel
- * @param repository El repositorio de modificar tareas
+ * @param repository El repositorio de crear tareas
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
-class ModificarTareasModel
+class CrearTareasModel
     @Inject
     constructor(
         application: Application,
-        private val repository: ModificarTareasRepository,
+        private val repository: CrearTareasRepository,
     ) : AndroidViewModel(application) {
-        // Filtro etiquetas modificar
+        // Filtro etiquetas crear
         private val listaEtiqueta = MutableLiveData<List<Etiqueta>>(emptyList())
 
         // Variables de tareasDTO
@@ -46,9 +46,9 @@ class ModificarTareasModel
         private val resultado: MutableLiveData<Boolean> = MutableLiveData(false)
 
         /**
-         * Define la tarea a modificar
+         * Define la tarea a crear
          *
-         * @param tareaDTO La tarea a modificar
+         * @param tareaDTO La tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun definirTareaDTO(tareaDTO: TareaDTO) {
@@ -56,17 +56,17 @@ class ModificarTareasModel
         }
 
         /**
-         * Observa la tarea a modificar
+         * Observa la tarea a crear
          *
-         * @return Un MutableLiveData que contiene la tarea a modificar
+         * @return Un MutableLiveData que contiene la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun observarTareaDTO(): MutableLiveData<TareaDTO> = tareaDTO
 
         /**
-         * Obtiene la prioridad de la tarea a modificar
+         * Obtiene la prioridad de la tarea a crear
          *
-         * @return Un entero que representa la prioridad de la tarea a modificar
+         * @return Un entero que representa la prioridad de la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun prioridadOrdinal(): Int =
@@ -74,9 +74,9 @@ class ModificarTareasModel
                 .tarea.prioridad.ordinal
 
         /**
-         * Cambia la prioridad de la tarea a modificar
+         * Cambia la prioridad de la tarea a crear
          *
-         * @param prioridad Un entero que representa la nueva prioridad de la tarea a modificar
+         * @param prioridad Un entero que representa la nueva prioridad de la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun cambiarPrioridad(prioridad: Int) {
@@ -90,9 +90,9 @@ class ModificarTareasModel
         }
 
         /**
-         * Actualiza la fecha límite de la tarea a modificar
+         * Actualiza la fecha límite de la tarea a crear
          *
-         * @param fechaLimite La nueva fecha límite de la tarea a modificar
+         * @param fechaLimite La nueva fecha límite de la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun actualizarFechaLimite(fechaLimite: Date) {
@@ -119,9 +119,9 @@ class ModificarTareasModel
         }
 
         /**
-         * Actualiza las etiquetas de la tarea a modificar
+         * Actualiza las etiquetas de la tarea a crear
          *
-         * @param lista La nueva lista de etiquetas de la tarea a modificar
+         * @param lista La nueva lista de etiquetas de la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun actualizarEtiquetasTarea(lista: List<Etiqueta>) {
@@ -129,27 +129,27 @@ class ModificarTareasModel
         }
 
         /**
-         * Obtiene la lista de etiquetas de la tarea a modificar
+         * Obtiene la lista de etiquetas de la tarea a crear
          *
-         * @return Una lista de etiquetas de la tarea a modificar
+         * @return Una lista de etiquetas de la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun obtenerListaEtiquetasTarea(): List<Etiqueta> = tareaDTO.value!!.etiquetas
 
         /**
-         * Guarda o modifica la tarea a modificar en la base de datos dependiendo de si es nueva o no
+         * Guarda la tarea a crear en la base de datos dependiendo de si es nueva o no
          *
-         * @param nombre El nuevo nombre de la tarea a modificar
-         * @param descripcion La nueva descripción de la tarea a modificar
+         * @param nombre El nuevo nombre de la tarea a crear
+         * @param descripcion La nueva descripción de la tarea a crear
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        fun modificarTarea(
+        fun guardarTarea(
             nombre: String,
             descripcion: String,
         ) {
             // Comprobación de que el título de la tarea no está vacío
             if (nombre.isBlank()) {
-                mensajeError.value = R.string.error_modificar_tarea
+                mensajeError.value = R.string.error_guardar_tarea
                 return
             }
 
@@ -173,11 +173,11 @@ class ModificarTareasModel
             // Generamos un hilo con la nueva tarea
             viewModelScope.launch {
                 try {
-                    modificarTareaConEtiqueta(tareaDTO.value!!)
+                    insertarTareaConEtiqueta(tareaDTO.value!!)
                     // Volvemos a la vista previa
                     resultado.value = true
                 } catch (_: Exception) {
-                    mensajeError.value = R.string.error_modificar_tarea
+                    mensajeError.value = R.string.error_guardar_tarea
                 }
             }
         }
@@ -191,10 +191,10 @@ class ModificarTareasModel
         fun observarMensajeError(): MutableLiveData<Int> = mensajeError
 
         /**
-         * Observa el resultado de la operación de modificar la tarea
+         * Observa el resultado de la operación de guardar la tarea
          *
-         * @return Un MutableLiveData que contiene un booleano que indica si la operación de
-         * modificar la tarea ha sido exitosa
+         * @return Un MutableLiveData que contiene un booleano que indica si la operación de guardar
+         * la tarea ha sido exitosa
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun observarResultado(): MutableLiveData<Boolean> = resultado
@@ -221,10 +221,10 @@ class ModificarTareasModel
             }
 
         /**
-         * Modifica una tarea con sus etiquetas en la base de datos
+         * Inserta una nueva tarea con sus etiquetas en la base de datos
          *
-         * @param tareaDTO La tarea a modificar con sus etiquetas
+         * @param tareaDTO La tarea a insertar con sus etiquetas
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        private suspend fun modificarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.modificarTareaConEtiqueta(tareaDTO)
+        private suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
     }

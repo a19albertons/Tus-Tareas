@@ -8,9 +8,9 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
+import com.example.tustareas.modelView.CrearProyectosModel
 import com.example.tustareas.modelView.EtiquetaDetallesModel
 import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.ModificarProyectosModel
 import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.modelView.TareaDetallesModel
@@ -24,7 +24,6 @@ import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarProyectosRepository
 import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.ProyectoDetallesRepository
 import com.example.tustareas.repository.TareaDetallesRepository
@@ -45,7 +44,7 @@ import javax.inject.Inject
  */
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
-class ModificarProyectosModelTest {
+class CrearProyectosModelTest {
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -81,10 +80,7 @@ class ModificarProyectosModelTest {
     @Inject
     lateinit var repositorioCrearProyectos: CrearProyectosRepository
 
-    @Inject
-    lateinit var repositorioModificarProyectos: ModificarProyectosRepository
-
-    lateinit var modeloModificarProyecto: ModificarProyectosModel
+    lateinit var modeloCrearProyecto: CrearProyectosModel
 
     @Inject
     lateinit var repositorioDetallesTarea: TareaDetallesRepository
@@ -113,7 +109,7 @@ class ModificarProyectosModelTest {
             // Creación de modelos
             modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
             modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
-            modeloModificarProyecto = ModificarProyectosModel(ApplicationProvider.getApplicationContext(), repositorioModificarProyectos)
+            modeloCrearProyecto = CrearProyectosModel(ApplicationProvider.getApplicationContext(), repositorioCrearProyectos)
             modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
             modeloDetallesEtiquetas = EtiquetaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesEtiquetas)
             modeloDetallesProyectos = ProyectoDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesProyecto)
@@ -197,7 +193,7 @@ class ModificarProyectosModelTest {
             // Definición proyecto
             val proyecto =
                 Proyecto(
-                    id = 1,
+                    id = 0,
                     nombre = "Proyecto de prueba",
                     descripcion = "Descripción del proyecto de prueba",
                     fechaCreacion = Date(),
@@ -229,17 +225,17 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Guardar proyecto
-            modeloModificarProyecto.modificarProyecto(
+            modeloCrearProyecto.guardarProyecto(
                 proyectoDTO.proyecto.nombre,
                 proyectoDTO.proyecto.descripcion ?: "",
             )
 
             // Comprobar que se ha guardado correctamente
-            assert(modeloModificarProyecto.observarResultado().value == true)
-            assert(modeloModificarProyecto.observarProyectoDTO().value == proyectoDTO)
+            assert(modeloCrearProyecto.observarResultado().value == true)
+            assert(modeloCrearProyecto.observarProyectoDTO().value == proyectoDTO)
         }
 
     @Test
@@ -248,7 +244,7 @@ class ModificarProyectosModelTest {
             // Definición proyecto
             val proyecto =
                 Proyecto(
-                    id = 1,
+                    id = 0,
                     nombre = "",
                     descripcion = "Descripción del proyecto de prueba",
                     fechaCreacion = Date(),
@@ -280,121 +276,17 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Guardar proyecto
-            modeloModificarProyecto.modificarProyecto(
+            modeloCrearProyecto.guardarProyecto(
                 "",
                 proyectoDTO.proyecto.descripcion ?: "",
             )
 
             // Comprobar que se ha guardado correctamente
-            assert(modeloModificarProyecto.observarResultado().value == false)
-            assert(modeloModificarProyecto.observarMensajeError().value == R.string.error_modificar_proyecto)
-        }
-
-    @Test
-    fun modificarProyectoExistente() =
-        runTest {
-            // Definición proyecto
-            val proyecto =
-                Proyecto(
-                    id = 1,
-                    nombre = "Proyecto de prueba",
-                    descripcion = "Descripción del proyecto de prueba",
-                    fechaCreacion = Date(),
-                    fechaInicio = Date(),
-                    fechaFin = Date(),
-                )
-            val tarea =
-                Tarea(
-                    id = 1,
-                    nombre = "tarea de prueba",
-                    descripcion = "Descripción de la tarea de prueba",
-                    fechaCreacion = Date(),
-                    fechaLimite = Date(),
-                    prioridad = Prioridad.ALTA,
-                    estado = Estado.EN_TIEMPO,
-                    idProyecto = null,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 1,
-                    nombre = "Etiqueta de prueba",
-                    descripcion = "",
-                )
-            val proyectoDTO =
-                ProyectoDTO(
-                    proyecto,
-                    listOf(etiqueta),
-                    listOf(tarea),
-                )
-
-            // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
-
-            // Guardar proyecto
-            modeloModificarProyecto.modificarProyecto(
-                proyectoDTO.proyecto.nombre,
-                proyectoDTO.proyecto.descripcion ?: "",
-            )
-
-            println(modeloModificarProyecto.observarResultado().value)
-
-            // Comprobar que se ha guardado correctamente
-            assert(modeloModificarProyecto.observarResultado().value == true)
-            assert(modeloModificarProyecto.observarProyectoDTO().value == proyectoDTO)
-        }
-
-    @Test
-    fun modificarProyectoExistenteNoValido() =
-        runTest {
-            // Definición proyecto
-            val proyecto =
-                Proyecto(
-                    id = 1,
-                    nombre = "",
-                    descripcion = "Descripción del proyecto de prueba",
-                    fechaCreacion = Date(),
-                    fechaInicio = Date(),
-                    fechaFin = Date(),
-                )
-            val tarea =
-                Tarea(
-                    id = 1,
-                    nombre = "tarea de prueba",
-                    descripcion = "Descripción de la tarea de prueba",
-                    fechaCreacion = Date(),
-                    fechaLimite = Date(),
-                    prioridad = Prioridad.ALTA,
-                    estado = Estado.EN_TIEMPO,
-                    idProyecto = null,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 1,
-                    nombre = "Etiqueta de prueba",
-                    descripcion = null,
-                )
-            val proyectoDTO =
-                ProyectoDTO(
-                    proyecto,
-                    listOf(etiqueta),
-                    listOf(tarea),
-                )
-
-            // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
-
-            // Guardar proyecto
-            modeloModificarProyecto.modificarProyecto(
-                "",
-                proyectoDTO.proyecto.descripcion ?: "",
-            )
-
-            // Comprobar que se ha guardado correctamente
-            assert(modeloModificarProyecto.observarResultado().value == false)
-            assert(modeloModificarProyecto.observarMensajeError().value == R.string.error_modificar_proyecto)
+            assert(modeloCrearProyecto.observarResultado().value == false)
+            assert(modeloCrearProyecto.observarMensajeError().value == R.string.error_guardar_proyecto)
         }
 
     @Test
@@ -441,13 +333,13 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Actualizar etiquetas del proyecto
-            modeloModificarProyecto.actualizarEtiquetasDelProyecto(listOf(etiqueta1, etiqueta2))
+            modeloCrearProyecto.actualizarEtiquetasDelProyecto(listOf(etiqueta1, etiqueta2))
 
             // Comprobar que las etiquetas del proyecto se han actualizado correctamente
-            assert(modeloModificarProyecto.obtenerEtiquetasDelProyecto() == listOf(etiqueta1, etiqueta2))
+            assert(modeloCrearProyecto.obtenerEtiquetasDelProyecto() == listOf(etiqueta1, etiqueta2))
         }
 
     @Test
@@ -505,13 +397,13 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Actualizar tareas del proyecto
-            modeloModificarProyecto.actualizarTareasDelProyecto(listOf(tarea1, tarea2))
+            modeloCrearProyecto.actualizarTareasDelProyecto(listOf(tarea1, tarea2))
 
             // Comprobar que las tareas del proyecto se han actualizado correctamente
-            assert(modeloModificarProyecto.obtenerTareasDelProyecto() == listOf(tarea1, tarea2))
+            assert(modeloCrearProyecto.obtenerTareasDelProyecto() == listOf(tarea1, tarea2))
         }
 
     @Test
@@ -558,15 +450,15 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Establecer fecha de inicio del proyecto
             val nuevaFechaInicio = Date()
-            modeloModificarProyecto.establecerFechaInicioProyecto(nuevaFechaInicio)
+            modeloCrearProyecto.establecerFechaInicioProyecto(nuevaFechaInicio)
 
             // Comprobar que la fecha de inicio del proyecto se ha actualizado correctamente
             assert(
-                modeloModificarProyecto
+                modeloCrearProyecto
                     .observarProyectoDTO()
                     .value!!
                     .proyecto.fechaInicio == nuevaFechaInicio,
@@ -617,15 +509,15 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Establecer fecha de fin del proyecto
             val nuevaFechaFin = Date()
-            modeloModificarProyecto.establecerFechaFinProyecto(nuevaFechaFin)
+            modeloCrearProyecto.establecerFechaFinProyecto(nuevaFechaFin)
 
             // Comprobar que la fecha de fin del proyecto se ha actualizado correctamente
             assert(
-                modeloModificarProyecto
+                modeloCrearProyecto
                     .observarProyectoDTO()
                     .value!!
                     .proyecto.fechaFin == nuevaFechaFin,
@@ -677,23 +569,23 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Observar etiquetas restantes para el proyecto
-            val liveData = modeloModificarProyecto.obtenerEtiquetasRestantes()
+            val liveData = modeloCrearProyecto.obtenerEtiquetasRestantes()
             liveData.observeForever { }
 
             // acutalizar filtro etiqueta del proyecto
-            modeloModificarProyecto.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+            modeloCrearProyecto.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
 
             // Procesa lista etiquetas resultantes
-            val resultadoProcesado = modeloModificarProyecto.etiquetasRestantesProcesadas(liveData.value!!)
+            val resultadoProcesado = modeloCrearProyecto.etiquetasRestantesProcesadas(liveData.value!!)
 
             // Añadir etiqueta al proyecto
-            modeloModificarProyecto.anadirEtiquetaAlProyecto(resultadoProcesado.lastIndex)
+            modeloCrearProyecto.anadirEtiquetaAlProyecto(resultadoProcesado.lastIndex)
 
             // Comprobar que la etiqueta se ha añadido correctamente al proyecto
-            assert(modeloModificarProyecto.obtenerEtiquetasDelProyecto() == listOf(etiqueta1, etiqueta2))
+            assert(modeloCrearProyecto.obtenerEtiquetasDelProyecto() == listOf(etiqueta1, etiqueta2))
         }
 
     @Test
@@ -750,22 +642,22 @@ class ModificarProyectosModelTest {
                 )
 
             // Definir DTO de proyecto con tarea y etiqueta
-            modeloModificarProyecto.definirProyectoDTO(proyectoDTO)
+            modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
 
             // Observar etiquetas restantes para el proyecto
-            val liveData = modeloModificarProyecto.obtenerTareasRestantes()
+            val liveData = modeloCrearProyecto.obtenerTareasRestantes()
             liveData.observeForever { }
 
             // actualizar filtro tarea del proyecto
-            modeloModificarProyecto.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+            modeloCrearProyecto.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
 
             // Procesa lista tareas resultantes
-            val resultadoProcesado = modeloModificarProyecto.tareasRestantesProcesadas(liveData.value!!)
+            val resultadoProcesado = modeloCrearProyecto.tareasRestantesProcesadas(liveData.value!!)
 
             // Añadir tarea al proyecto
-            modeloModificarProyecto.anadirTareaAlProyecto(resultadoProcesado.lastIndex)
+            modeloCrearProyecto.anadirTareaAlProyecto(resultadoProcesado.lastIndex)
 
             // Comprobar que la tarea se ha añadido correctamente al proyecto
-            assert(modeloModificarProyecto.obtenerTareasDelProyecto() == listOf(tarea1, tarea2))
+            assert(modeloCrearProyecto.obtenerTareasDelProyecto() == listOf(tarea1, tarea2))
         }
 }

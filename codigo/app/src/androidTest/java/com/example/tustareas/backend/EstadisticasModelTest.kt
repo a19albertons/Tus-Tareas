@@ -10,9 +10,9 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.EstadisticasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -45,10 +45,10 @@ class EstadisticasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioTareasRepository: ModificarTareasRepository
+    lateinit var crearTareasRepository: CrearTareasRepository
 
     @Inject
-    lateinit var repositorioModificarEtiqueta: ModificarEtiquetasRepository
+    lateinit var repositorioCrearEtiqueta: CrearEtiquetasRepository
 
     @Inject
     lateinit var estadisticasRepository: EstadisticasRepository
@@ -121,11 +121,11 @@ class EstadisticasModelTest {
             val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
             // Insertar tareas y etiqueta
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarEtiqueta.insertarEtiqueta(etiqueta)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea1DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearEtiqueta.insertarEtiqueta(etiqueta)
+            crearTareasRepository.insertarTareaConEtiqueta(tareaHoyDTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tareaRetrasadaDTO)
 
             // Tareas adicionales creadas/asistidas por IA
             val tarea3 =
@@ -173,7 +173,7 @@ class EstadisticasModelTest {
                     id = 2,
                     nombre = "etiqueta2",
                 )
-            repositorioModificarEtiqueta.insertarEtiqueta(etiqueta2)
+            repositorioCrearEtiqueta.insertarEtiqueta(etiqueta2)
 
             val tarea7 =
                 Tarea(
@@ -235,16 +235,16 @@ class EstadisticasModelTest {
                 )
             val tarea12DTO = TareaDTO(tarea12, listOf(etiqueta2))
 
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea3DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea4DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea5DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea6DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea7DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea8DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea9DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea10DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea11DTO)
-            repositorioTareasRepository.insertarTareaConEtiqueta(tarea12DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea3DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea4DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea5DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea6DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea7DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea8DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea9DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea10DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea11DTO)
+            crearTareasRepository.insertarTareaConEtiqueta(tarea12DTO)
         }
 
     // Finalización entorno

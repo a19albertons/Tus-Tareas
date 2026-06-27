@@ -12,9 +12,9 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -51,10 +51,10 @@ class ListarTareasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioTareasModificar: ModificarTareasRepository
+    lateinit var repositorioTareasCrear: CrearTareasRepository
 
     @Inject
-    lateinit var repositorioEtiquetasModificar: ModificarEtiquetasRepository
+    lateinit var repositorioEtiquetasCrear: CrearEtiquetasRepository
 
     @Inject
     lateinit var listarTareasRepository: ListarTareasRepository
@@ -122,11 +122,11 @@ class ListarTareasModelTest {
             val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
             // Insertar tareas y etiqueta
-            repositorioTareasModificar.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioTareasModificar.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioEtiquetasModificar.insertarEtiqueta(etiqueta)
-            repositorioTareasModificar.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioTareasModificar.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioEtiquetasCrear.insertarEtiqueta(etiqueta)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     // Finalización entorno

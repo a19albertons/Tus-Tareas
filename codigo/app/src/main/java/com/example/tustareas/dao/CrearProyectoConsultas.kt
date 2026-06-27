@@ -18,7 +18,7 @@ import com.example.tustareas.modelos.Tarea
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @Dao
-interface ModificarProyectoConsultas {
+interface CrearProyectoConsultas {
     /**
      * Inserta un proyecto. Solo usar en las transaciones
      *
@@ -102,26 +102,23 @@ interface ModificarProyectoConsultas {
     fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
 
     /**
-     * Modifica un proyecto existente junto con sus tareas y etiquetas asociadas.
+     * Inserta un nuevo proyecto junto con sus tareas y etiquetas asociadas.
      *
-     * @param proyectoDTO El objeto ProyectoDTO que contiene el proyecto, las tareas y las etiquetas a modificar.
+     * @param proyectoDTO El objeto ProyectoDTO que contiene el proyecto, las tareas y las etiquetas a insertar.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     @Transaction
-    suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) {
-        // Modificar proyecto
-        modificarProyecto(proyectoDTO.proyecto)
+    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) {
+        val id = insertarProyecto(proyectoDTO.proyecto).toInt()
 
-        // Gestionar etiquetas
-        eliminarRelacionProyectoEtiqueta(proyectoDTO.proyecto.id)
+        // Insertar relaciones proyecto-etiqueta
         proyectoDTO.etiquetas.forEach {
-            insertarProyectoEtiqueta(ProyectoEtiqueta(proyectoDTO.proyecto.id, it.id))
+            insertarProyectoEtiqueta(ProyectoEtiqueta(id, it.id))
         }
 
-        // Gestionar tareas
-        eliminarProyectoID(proyectoDTO.proyecto.id)
+        // Actualiza los id de proyecto en la realacion proyecto-tarea
         proyectoDTO.tareas.forEach {
-            modificarProyectoID(it.id, proyectoDTO.proyecto.id)
+            modificarProyectoID(it.id, id)
         }
     }
 }

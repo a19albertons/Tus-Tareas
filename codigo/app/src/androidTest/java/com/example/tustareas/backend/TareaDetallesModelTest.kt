@@ -6,15 +6,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
+import com.example.tustareas.modelView.CrearTareasModel
 import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.TareaDetallesRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -52,9 +52,9 @@ class TareaDetallesModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTareas: ModificarTareasRepository
+    lateinit var repositorioCrearTareas: CrearTareasRepository
 
-    lateinit var modeloModificarTareas: ModificarTareasModel
+    lateinit var modeloCrearTareas: CrearTareasModel
 
     @Inject
     lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
@@ -76,7 +76,7 @@ class TareaDetallesModelTest {
             ruleHilt.inject()
 
             // Crear modelos
-            modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
+            modeloCrearTareas = CrearTareasModel(ApplicationProvider.getApplicationContext(), repositorioCrearTareas)
             modeloModificarEtiqueta = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
             modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
 
@@ -127,16 +127,16 @@ class TareaDetallesModelTest {
             val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
             // Insertar tareas y etiqueta
-            modeloModificarTareas.definirTareaDTO(tarea1DTO)
-            modeloModificarTareas.guardarYModificarTarea(tarea1DTO.tarea.nombre, tarea1DTO.tarea.descripcion ?: "")
-            modeloModificarTareas.definirTareaDTO(tarea2DTO)
-            modeloModificarTareas.guardarYModificarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
+            modeloCrearTareas.definirTareaDTO(tarea1DTO)
+            modeloCrearTareas.guardarTarea(tarea1DTO.tarea.nombre, tarea1DTO.tarea.descripcion ?: "")
+            modeloCrearTareas.definirTareaDTO(tarea2DTO)
+            modeloCrearTareas.guardarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
             modeloModificarEtiqueta.definirEtiqueta(etiqueta)
-            modeloModificarEtiqueta.guardarYModificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
-            modeloModificarTareas.definirTareaDTO(tareaHoyDTO)
-            modeloModificarTareas.guardarYModificarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
-            modeloModificarTareas.definirTareaDTO(tareaRetrasadaDTO)
-            modeloModificarTareas.guardarYModificarTarea(tareaRetrasadaDTO.tarea.nombre, tareaRetrasadaDTO.tarea.descripcion ?: "")
+            modeloModificarEtiqueta.modificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
+            modeloCrearTareas.definirTareaDTO(tareaHoyDTO)
+            modeloCrearTareas.guardarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
+            modeloCrearTareas.definirTareaDTO(tareaRetrasadaDTO)
+            modeloCrearTareas.guardarTarea(tareaRetrasadaDTO.tarea.nombre, tareaRetrasadaDTO.tarea.descripcion ?: "")
         }
 
     @After
