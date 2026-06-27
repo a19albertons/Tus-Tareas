@@ -16,14 +16,7 @@ object LanguageHelper {
      * @return El tag interno del idioma proporcionado. Si el idioma no es reconocido, devuelve una cadena vacía
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
-    fun etiquetaIdioma(idioma: String): String =
-        when (idioma) {
-            "Sistema" -> ""
-            "Español" -> "es"
-            "Ingles" -> "en"
-            "Gallego" -> "gl"
-            else -> ""
-        }
+    fun etiquetaIdioma(idioma: String): String = IdiomaApp.entries.find { it.nombre == idioma }?.tag ?: ""
 
     /**
      * Aplica el idioma a partir del tag proporcionado
