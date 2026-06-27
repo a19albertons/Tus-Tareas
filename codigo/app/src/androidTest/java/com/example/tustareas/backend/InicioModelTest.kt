@@ -9,8 +9,8 @@ import com.example.tustareas.modelView.InicioModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.InicioRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -44,7 +44,7 @@ class InicioModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTarea: ModificarTareasRepository
+    lateinit var repositorioCrearTarea: CrearTareasRepository
 
     @Inject
     lateinit var inicioRepository: InicioRepository
@@ -104,10 +104,10 @@ class InicioModelTest {
             val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
             // Insertar tareas
-            repositorioModificarTarea.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioModificarTarea.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarTarea.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioModificarTarea.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     // Finalización entorno

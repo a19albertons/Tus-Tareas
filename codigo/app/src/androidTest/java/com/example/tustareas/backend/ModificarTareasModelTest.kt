@@ -16,6 +16,7 @@ import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ListarTareasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.ModificarTareasRepository
@@ -62,6 +63,9 @@ class ModificarTareasModelTest {
 
     @Inject
     lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
+
+    @Inject
+    lateinit var repositorioCrearTareas: CrearTareasRepository
 
     @Inject
     lateinit var repositorioCrearEtiquetas: CrearEtiquetasRepository
@@ -144,75 +148,16 @@ class ModificarTareasModelTest {
 
             // Insertar tareas y etiqueta
             repositorioCrearEtiquetas.insertarEtiqueta(etiqueta)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     @After
     fun cerrarBd() {
         db.close()
     }
-
-    // Guardar tarea con etiquetas nuevas
-    @Test
-    fun guardarTareaConEtiquetasNueva() =
-        runTest {
-            // Definir una nueva tarea
-            val tareaDTO =
-                TareaDTO(
-                    Tarea(
-                        id = 0,
-                        nombre = "tareaNueva",
-                        descripcion = "descripcion",
-                        prioridad = Prioridad.ALTA,
-                        fechaCreacion = Date(),
-                        fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
-                        estado = Estado.EN_TIEMPO,
-                    ),
-                    listOf(),
-                )
-
-            // Guardar la tarea
-            modeloModificarTareas.definirTareaDTO(tareaDTO)
-
-            // Operación de guardado
-            modeloModificarTareas.guardarYModificarTarea("tareaNueva", "descripcion")
-
-            // Comprobar que se ha guardado correctamente
-            assert(modeloModificarTareas.observarResultado().value == true)
-            assert(modeloModificarTareas.observarTareaDTO().value == tareaDTO)
-        }
-
-    @Test
-    fun guardarTareaConEtiquetasNuevaNoValida() =
-        runTest {
-            // Definir una nueva tarea
-            val tareaDTO =
-                TareaDTO(
-                    Tarea(
-                        id = 0,
-                        nombre = "tareaNueva",
-                        descripcion = "descripcion",
-                        prioridad = Prioridad.ALTA,
-                        fechaCreacion = Date(),
-                        fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
-                        estado = Estado.EN_TIEMPO,
-                    ),
-                    listOf(),
-                )
-
-            // Guardar la tarea
-            modeloModificarTareas.definirTareaDTO(tareaDTO)
-
-            // Operación de guardado
-            modeloModificarTareas.guardarYModificarTarea("", "descripcion")
-
-            // Comprobar que se ha guardado correctamente
-            assert(modeloModificarTareas.observarResultado().value == false)
-            assert(modeloModificarTareas.observarMensajeError().value == R.string.error_guardar_tarea)
-        }
 
     // Guardar tarea modificada
     @Test
@@ -237,7 +182,7 @@ class ModificarTareasModelTest {
             modeloModificarTareas.definirTareaDTO(tareaDTO)
 
             // Operación de guardado
-            modeloModificarTareas.guardarYModificarTarea("tareaNueva", "descripcion")
+            modeloModificarTareas.modificarTarea("tareaNueva", "descripcion")
 
             // Comprobar que se ha guardado correctamente
             assert(modeloModificarTareas.observarResultado().value == true)
@@ -266,60 +211,12 @@ class ModificarTareasModelTest {
             modeloModificarTareas.definirTareaDTO(tareaDTO)
 
             // Operación de guardado
-            modeloModificarTareas.guardarYModificarTarea("", "descripcion")
+            modeloModificarTareas.modificarTarea("", "descripcion")
 
             // Comprobar que se ha guardado correctamente
             assert(modeloModificarTareas.observarResultado().value == false)
             assert(modeloModificarTareas.observarMensajeError().value == R.string.error_modificar_tarea)
         }
-
-    @Test
-    fun tituloDialogoNueva() {
-        // Definir una nueva tarea
-        val tareaDTO =
-            TareaDTO(
-                Tarea(
-                    id = 0,
-                    nombre = "tareaNueva",
-                    descripcion = "descripcion",
-                    prioridad = Prioridad.ALTA,
-                    fechaCreacion = Date(),
-                    fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
-                    estado = Estado.EN_TIEMPO,
-                ),
-                listOf(),
-            )
-
-        // Guardar la tarea
-        modeloModificarTareas.definirTareaDTO(tareaDTO)
-
-        // Comprobar el título del diálogo
-        assert(modeloModificarTareas.tituloDialogo() == R.string.confirmar_guardar_tarea)
-    }
-
-    @Test
-    fun tituloDialogoExistente() {
-        // Definir una nueva tarea
-        val tareaDTO =
-            TareaDTO(
-                Tarea(
-                    id = 8,
-                    nombre = "tareaNueva",
-                    descripcion = "descripcion",
-                    prioridad = Prioridad.ALTA,
-                    fechaCreacion = Date(),
-                    fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
-                    estado = Estado.EN_TIEMPO,
-                ),
-                listOf(),
-            )
-
-        // Guardar la tarea
-        modeloModificarTareas.definirTareaDTO(tareaDTO)
-
-        // Comprobar el título del diálogo
-        assert(modeloModificarTareas.tituloDialogo() == R.string.confirmar_modificado_tarea)
-    }
 
     @Test
     fun prioridadOrdina() =

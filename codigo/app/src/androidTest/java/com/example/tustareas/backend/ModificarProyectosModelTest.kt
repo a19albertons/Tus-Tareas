@@ -20,6 +20,7 @@ import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Proyecto
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.ModificarProyectosRepository
@@ -61,7 +62,11 @@ class ModificarProyectosModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
+    lateinit var repositorioCrearTareas: CrearTareasRepository
+
+    @Inject
     lateinit var repositorioModificarTareas: ModificarTareasRepository
+
 
     lateinit var modeloModificarTareas: ModificarTareasModel
 
@@ -169,8 +174,8 @@ class ModificarProyectosModelTest {
                 )
 
             // Insercion
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO1)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO2)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO1)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO2)
             repositorioCrearEtiquetas.insertarEtiqueta(etiqueta1)
             repositorioCrearEtiquetas.insertarEtiqueta(etiqueta2)
             repositorioModificarProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO1)

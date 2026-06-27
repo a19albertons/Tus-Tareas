@@ -12,8 +12,8 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Notificacion
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.TusTareasRepository
 import com.example.tustareas.repository.WorkerRepository
 import com.example.tustareas.util.DateHelper
@@ -46,7 +46,7 @@ class TusTareasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTareas: ModificarTareasRepository
+    lateinit var repositorioCrearTareas: CrearTareasRepository
 
     @Inject
     lateinit var repositorioListarTareas: ListarTareasRepository
@@ -95,8 +95,8 @@ class TusTareasModelTest {
             val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
 
             // Añadir tareas
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaCompletaDto)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaCompletaDto)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
 
             // Limpia la tarea completa
             modeloTusTareasModel.limpiarTareasCompletas()
@@ -141,7 +141,7 @@ class TusTareasModelTest {
                     idTarea = 1,
                 )
             // Añadir a la bd
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO)
             WorkerRepository(db).anadirNotificacion(notificacion)
 
             // actualizacion de notificacion

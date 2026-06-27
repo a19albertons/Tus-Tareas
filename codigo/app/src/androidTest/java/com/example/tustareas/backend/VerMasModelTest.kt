@@ -7,13 +7,12 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ListarTareasModel
-import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.VerMasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.VerMasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -51,9 +50,7 @@ class VerMasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTareas: ModificarTareasRepository
-
-    lateinit var modeloModificarTareas: ModificarTareasModel
+    lateinit var repositorioCrearTareas: CrearTareasRepository
 
     @Inject
     lateinit var repositorioListarTareas: ListarTareasRepository
@@ -76,7 +73,6 @@ class VerMasModelTest {
             ruleHilt.inject()
 
             // Crear modelos
-            modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
             modeloListarTareas = ListarTareasModel(ApplicationProvider.getApplicationContext(), repositorioListarTareas)
             modeloVerMas = VerMasModel(ApplicationProvider.getApplicationContext(), repositorioVerMas)
 
@@ -123,10 +119,10 @@ class VerMasModelTest {
             val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
             // Insertar tareas
-            repositorioModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     @After
