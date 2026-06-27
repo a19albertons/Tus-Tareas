@@ -76,7 +76,7 @@ class AjustesFragment : Fragment() {
         val idiomaGuardado = model.idioma.value
 
         // Obtiene la posicion inicial a partir del valor y mirando las entradas del enum class
-        val posicionInicial = IdiomaApp.entries.toTypedArray().indexOfFirst { it.name == idiomaGuardado }
+        val posicionInicial = IdiomaApp.entries.toTypedArray().indexOfFirst { it.nombre == idiomaGuardado }
         binding.idioma.setSelection(posicionInicial, false)
 
         // Gestiona la elección del idioma
