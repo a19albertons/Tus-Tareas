@@ -12,7 +12,7 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
-import com.example.tustareas.repository.ModificarProyectosRepository
+import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,19 +20,19 @@ import java.util.Date
 import javax.inject.Inject
 
 /**
- * Clase que gestiona el submodelo de modificar proyecto
+ * Clase que gestiona el submodelo de crear proyecto
  *
  * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param application el application de Android, necesario para el ViewModel
- * @param repository El repositorio de modificar proyectos
+ * @param repository El repositorio de crear proyectos
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @HiltViewModel
-class ModificarProyectosModel
+class CrearProyectosModel
     @Inject
     constructor(
         application: Application,
-        private val repository: ModificarProyectosRepository,
+        private val repository: CrearProyectosRepository,
     ) : AndroidViewModel(application) {
         // Variable de proyectoDTO
         private val _proyectoDTO: MutableLiveData<ProyectoDTO> = MutableLiveData()
@@ -178,13 +178,13 @@ class ModificarProyectosModel
          * @param descripcion La nueva descripción del proyecto a guardar o modificar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        fun modificarProyecto(
+        fun guardarProyecto(
             nombre: String,
             descripcion: String,
         ) {
             // Comprobar que el titulo del proyecto no este vacio
             if (nombre.isBlank()) {
-                mensajeError.value = R.string.error_modificar_proyecto
+                mensajeError.value = R.string.error_guardar_proyecto
                 return
             }
 
@@ -195,8 +195,8 @@ class ModificarProyectosModel
             // Generamos un hilo con la nueva tarea
             viewModelScope.launch {
                 try {
-                    modificarProyectoConTareaYEtiqueta(proyectoDTO.value!!)
 
+                    insertarProyectoConTareaYEtiqueta(proyectoDTO.value!!)
                     // Vovlemos a la vista previa
                     resultado.value = true
                 } catch (_: Exception) {
@@ -325,14 +325,13 @@ class ModificarProyectosModel
                 repository.obtenerEtiquetasRestantes(texto)
             }
 
-
-
         /**
-         * Modifica un proyecto con sus tareas e etiquetas en la base de datos
+         * Inserta un proyecto con sus tareas e etiquetas en la base de datos
          *
-         * @param proyectoDTO El proyecto con sus tareas e etiquetas a modificar
+         * @param proyectoDTO El proyecto con sus tareas e etiquetas a insertar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        private suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
-            repository.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+        private suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
+            repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+
     }

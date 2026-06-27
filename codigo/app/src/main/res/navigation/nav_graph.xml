@@ -89,8 +89,8 @@
             android:id="@+id/action_listarProyectosFragment_to_proyectoDetallesFragment"
             app:destination="@id/proyectoDetallesFragment" />
         <action
-            android:id="@+id/action_listarProyectosFragment_to_modificarProyectoFragment"
-            app:destination="@id/modificarProyectoFragment" />
+            android:id="@+id/action_listarProyectosFragment_to_crearProyectoFragment"
+            app:destination="@id/crearProyectoFragment" />
     </fragment>
     <fragment
         android:id="@+id/proyectoDetallesFragment"
@@ -152,5 +152,13 @@
         <argument
             android:name="tareaDTO"
             app:argType="com.example.tustareas.dto.TareaDTO" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearProyectoFragment"
+        android:name="com.example.tustareas.fragmentos.CrearProyectoFragment"
+        android:label="CrearProyectoFragment" >
+        <argument
+            android:name="proyectoDTO"
+            app:argType="com.example.tustareas.dto.ProyectoDTO" />
     </fragment>
 </navigation>

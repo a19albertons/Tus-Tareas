@@ -7,18 +7,18 @@ import com.example.tustareas.modelos.Tarea
 import javax.inject.Inject
 
 /**
- * Clase que representa al subrepositorio de modificar proyectos
+ * Clase que representa al subrepositorio de crear proyectos
  *
  * @constructor Crea un constructor para ser usado por el propio Hilt e inyectar las dependencias automáticamente
  * @param database La base de datos de la aplicación
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-class ModificarProyectosRepository
+class CrearProyectosRepository
     @Inject
     constructor(
         private val database: TusTareasDatabase,
     ) {
-        private val modificarProyectoConsultas = database.modificarProyectoConsultas()
+        private val crearProyectoConsultas = database.crearProyectoConsultas()
 
         /**
          * Obtiene las tareas restantes de un proyecto que no esten usadas por otros proyectos  y estan deseleccionada por el actual
@@ -31,7 +31,7 @@ class ModificarProyectosRepository
         fun obtenerTareasRestantes(
             listaTareas: List<Tarea>,
             idProyecto: Int,
-        ) = modificarProyectoConsultas.obtenerTareasRestantes(listaTareas.map { it.id }, idProyecto)
+        ) = crearProyectoConsultas.obtenerTareasRestantes(listaTareas.map { it.id }, idProyecto)
 
         /**
          * Obtiene las etiquetas restantes de un proyecto que no esten usadas
@@ -41,15 +41,15 @@ class ModificarProyectosRepository
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun obtenerEtiquetasRestantes(listaEtiquetas: List<Etiqueta>) =
-            modificarProyectoConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
-
+            crearProyectoConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
         /**
-         * Modifica un proyecto existente con sus tareas y etiquetas
+         * Inserta un proyecto nuevo con sus tareas y etiquetas
          *
-         * @param proyectoDTO El DTO del proyecto a modificar
+         * @param proyectoDTO El DTO del proyecto a insertar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        suspend fun modificarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
-            modificarProyectoConsultas.modificarProyectoConTareaYEtiqueta(proyectoDTO)
+        suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
+            crearProyectoConsultas.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+
     }

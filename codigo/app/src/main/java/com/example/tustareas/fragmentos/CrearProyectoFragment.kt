@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tustareas.R
 import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
 import com.example.tustareas.adapters.ListaTareasPresentesAdapter
-import com.example.tustareas.databinding.FragmentModificarProyectoBinding
-import com.example.tustareas.modelView.ModificarProyectosModel
+import com.example.tustareas.databinding.FragmentCrearProyectoBinding
+import com.example.tustareas.modelView.CrearProyectosModel
 import com.example.tustareas.util.DateHelper
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -23,18 +23,18 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
 /**
- * Clase que gestiona el fragmento de modificación de proyectos.
+ * Clase que gestiona el fragmento de creación de proyectos.
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
 @AndroidEntryPoint
-class ModificarProyectoFragment : Fragment() {
+class CrearProyectoFragment : Fragment() {
     // Variables generales de la clase
-    private var _binding: FragmentModificarProyectoBinding? = null
-    val binding: FragmentModificarProyectoBinding
+    private var _binding: FragmentCrearProyectoBinding? = null
+    val binding: FragmentCrearProyectoBinding
         get() = _binding!!
 
-    val model: ModificarProyectosModel by viewModels()
+    val model: CrearProyectosModel by viewModels()
 
     // Variables comunes tareas
     private lateinit var adapterTarea: ListaTareasPresentesAdapter
@@ -43,12 +43,12 @@ class ModificarProyectoFragment : Fragment() {
     private lateinit var adapterEtiquetas: ListaEtiquetasPresentesAdapter
 
     /**
-     * Crea la vista del fragmento de modificación de proyectos y gestiona los eventos de los elementos de la vista.
+     * Crea la vista del fragmento de creación de proyectos y gestiona los eventos de los elementos de la vista.
      *
      * @param inflater El inflador de la vista.
      * @param container El contenedor de la vista.
      * @param savedInstanceState El estado guardado de la vista.
-     * @return La vista del fragmento de modificación de proyectos.
+     * @return La vista del fragmento de creación de proyectos.
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     override fun onCreateView(
@@ -57,7 +57,7 @@ class ModificarProyectoFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentModificarProyectoBinding.inflate(inflater, container, false)
+        _binding = FragmentCrearProyectoBinding.inflate(inflater, container, false)
 
         // Recuperamos el proyecto pasado por argumentos
         val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
@@ -314,10 +314,10 @@ class ModificarProyectoFragment : Fragment() {
     private fun dialogo() {
         AlertDialog
             .Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(R.string.confirmar_modificar_proyecto))
+            .setTitle(getString(R.string.confirmar_guardar_proyecto))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _, _ ->
-                model.modificarProyecto(
+                model.guardarProyecto(
                     binding.tituloProyecto.text
                         .toString()
                         .trim(),

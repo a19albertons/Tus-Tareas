@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.tustareas.dao.ActivityMainConsultas
 import com.example.tustareas.dao.CrearEtiquetaConsultas
+import com.example.tustareas.dao.CrearProyectoConsultas
 import com.example.tustareas.dao.CrearTareaConsultas
 import com.example.tustareas.dao.EstadisticasConsultas
 import com.example.tustareas.dao.EtiquetaDetallesConsultas
@@ -170,6 +171,14 @@ abstract class TusTareasDatabase : RoomDatabase() {
      * @author Alberto Noceda <a19albertons@iessanclemente.net>
      */
     abstract fun crearTareaConsultas(): CrearTareaConsultas
+
+    /**
+     * Obtiene las consultas de crear proyecto
+     *
+     * @return CrearProyectoConsultas devuelve las consultas de crear proyecto.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    abstract fun crearProyectoConsultas(): CrearProyectoConsultas
 
     companion object {
         @Volatile
