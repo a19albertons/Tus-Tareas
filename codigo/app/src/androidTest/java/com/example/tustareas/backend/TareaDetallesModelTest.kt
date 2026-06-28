@@ -6,19 +6,18 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.CrearTareasModel
-import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.CrearTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.TareaDetallesRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -54,12 +53,8 @@ class TareaDetallesModelTest {
     @Inject
     lateinit var repositorioCrearTareas: CrearTareasRepository
 
-    lateinit var modeloCrearTareas: CrearTareasModel
-
     @Inject
-    lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
-
-    lateinit var modeloModificarEtiqueta: ModificarEtiquetasModel
+    lateinit var repositorioCrearEtiquetas: CrearEtiquetasRepository
 
     @Inject
     lateinit var repositorioDetallesTarea: TareaDetallesRepository
@@ -67,6 +62,60 @@ class TareaDetallesModelTest {
     lateinit var modeloDetallesTarea: TareaDetallesModel
 
     private val diaReferencia = 1735689600000L
+
+    // Tarea sin fecha limite, sin prioridad y en tiempo
+    val tarea1 =
+        Tarea(
+            id = 1,
+            nombre = "tarea1",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = Date(diaReferencia - 86400000),
+            fechaLimite = null,
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea1DTO = TareaDTO(tarea1, emptyList())
+
+    // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
+    val tarea2 =
+        Tarea(
+            id = 2,
+            nombre = "tarea2",
+            prioridad = Prioridad.BAJA,
+            fechaCreacion = Date(diaReferencia),
+            fechaLimite = Date(diaReferencia + 86400000), // Un día después
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea2DTO = TareaDTO(tarea2, emptyList())
+
+    // Completada, priroridad alta, descripcion
+    val tareaHoy =
+        Tarea(
+            id = 3,
+            nombre = "tareaHoy",
+            descripcion = "descripcion",
+            prioridad = Prioridad.ALTA,
+            fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
+            fechaLimite = Date(diaReferencia), // Hoy
+            estado = Estado.COMPLETADA,
+        )
+    val etiqueta =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta",
+        )
+    val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
+
+    // Tarea retrasada, prioridad media y retrasada
+    val tareaRETRASADA =
+        Tarea(
+            id = 4,
+            nombre = "tareaRetrasada",
+            prioridad = Prioridad.MEDIA,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(diaReferencia - 86400000), // Un día antes
+            estado = Estado.RETRASADA,
+        )
+    val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
     // Preparación entorno comun
     @Before
@@ -76,71 +125,19 @@ class TareaDetallesModelTest {
             ruleHilt.inject()
 
             // Crear modelos
-            modeloCrearTareas = CrearTareasModel(ApplicationProvider.getApplicationContext(), repositorioCrearTareas)
-            modeloModificarEtiqueta = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
             modeloDetallesTarea = TareaDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesTarea)
 
-            // Tarea sin fecha limite, sin prioridad y en tiempo
-            val tarea1 =
-                Tarea(
-                    nombre = "tarea1",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = Date(diaReferencia - 86400000),
-                    fechaLimite = null,
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea1DTO = TareaDTO(tarea1, emptyList())
-            // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
-            val tarea2 =
-                Tarea(
-                    nombre = "tarea2",
-                    prioridad = Prioridad.BAJA,
-                    fechaCreacion = Date(diaReferencia),
-                    fechaLimite = Date(diaReferencia + 86400000), // Un día después
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea2DTO = TareaDTO(tarea2, emptyList())
-            // Completada, priroridad alta, descripcion
-            val tareaHoy =
-                Tarea(
-                    nombre = "tareaHoy",
-                    descripcion = "descripcion",
-                    prioridad = Prioridad.ALTA,
-                    fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
-                    fechaLimite = Date(diaReferencia), // Hoy
-                    estado = Estado.COMPLETADA,
-                )
-            val etiqueta =
-                Etiqueta(
-                    nombre = "etiqueta",
-                )
-            val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
-            // Tarea retrasada, prioridad media y retrasada
-            val tareaRETRASADA =
-                Tarea(
-                    nombre = "tareaRetrasada",
-                    prioridad = Prioridad.MEDIA,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-                    estado = Estado.RETRASADA,
-                )
-            val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
-
             // Insertar tareas y etiqueta
-            modeloCrearTareas.definirTareaDTO(tarea1DTO)
-            modeloCrearTareas.guardarTarea(tarea1DTO.tarea.nombre, tarea1DTO.tarea.descripcion ?: "")
-            modeloCrearTareas.definirTareaDTO(tarea2DTO)
-            modeloCrearTareas.guardarTarea(tarea2DTO.tarea.nombre, tarea2DTO.tarea.descripcion ?: "")
-            modeloModificarEtiqueta.definirEtiqueta(etiqueta)
-            modeloModificarEtiqueta.modificarEtiqueta(etiqueta.nombre, etiqueta.descripcion ?: "")
-            modeloCrearTareas.definirTareaDTO(tareaHoyDTO)
-            modeloCrearTareas.guardarTarea(tareaHoyDTO.tarea.nombre, tareaHoyDTO.tarea.descripcion ?: "")
-            modeloCrearTareas.definirTareaDTO(tareaRetrasadaDTO)
-            modeloCrearTareas.guardarTarea(tareaRetrasadaDTO.tarea.nombre, tareaRetrasadaDTO.tarea.descripcion ?: "")
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearEtiquetas.insertarEtiqueta(etiqueta)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -154,7 +151,7 @@ class TareaDetallesModelTest {
 
             // Resultado
             val resultado = liveData.value
-            assert(resultado!!.tarea.nombre == "tarea1")
+            assertEquals("tarea1", resultado!!.tarea.nombre)
         }
 
     // Prueba de eliminar una tarea
@@ -175,6 +172,6 @@ class TareaDetallesModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado?.tarea == null)
+            assertEquals(null, resultado?.tarea)
         }
 }

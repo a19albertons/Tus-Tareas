@@ -7,8 +7,6 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
@@ -18,11 +16,10 @@ import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.CrearTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.ProyectoDetallesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -56,20 +53,10 @@ class ProyectoDetallesModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTareas: ModificarTareasRepository
-
-    @Inject
     lateinit var repositorioCrearTareas: CrearTareasRepository
-
-    lateinit var modeloModificarTareas: ModificarTareasModel
-
-    @Inject
-    lateinit var repositorioModificarEtiquetas: ModificarEtiquetasRepository
 
     @Inject
     lateinit var repositorioCrearEtiquetas: CrearEtiquetasRepository
-
-    lateinit var modeloModificarEtiquetas: ModificarEtiquetasModel
 
     @Inject
     lateinit var repositorioCrearProyectos: CrearProyectosRepository
@@ -81,6 +68,52 @@ class ProyectoDetallesModelTest {
 
     private val diaReferencia = 1735689600000L
 
+    // Unas tareas y etiquetas para las pruebas
+    val tarea1 =
+        Tarea(
+            id = 1,
+            nombre = "tarea 1",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = Date(diaReferencia),
+            estado = Estado.COMPLETADA,
+        )
+    val tareaDTO1 = TareaDTO(tarea1, emptyList())
+    val tarea2 =
+        Tarea(
+            id = 2,
+            nombre = "tarea 2",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = Date(diaReferencia),
+            estado = Estado.COMPLETADA,
+        )
+    val tareaDTO2 = TareaDTO(tarea2, emptyList())
+    val etiqueta1 =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta 1",
+        )
+    val etiqueta2 =
+        Etiqueta(
+            id = 2,
+            nombre = "etiqueta 2",
+        )
+
+    // Crear proyecto
+    val proyecto =
+        Proyecto(
+            nombre = "Proyecto 1",
+            descripcion = "descripcion",
+            fechaCreacion = Date(diaReferencia),
+            fechaInicio = Date(diaReferencia),
+            fechaFin = Date(diaReferencia),
+        )
+    val proyectoDTO =
+        ProyectoDTO(
+            proyecto,
+            listOf(etiqueta1, etiqueta2),
+            listOf(tarea1, tarea2),
+        )
+
     // Preparación entorno comun
     @Before
     fun crearBd() =
@@ -89,68 +122,20 @@ class ProyectoDetallesModelTest {
             ruleHilt.inject()
 
             // Inicializar modelos manualmente
-            modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
-            modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiquetas)
             modeloDetallesProyecto = ProyectoDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesProyecto)
-
-            // Unas tareas y etiquetas para las pruebas
-            val tarea1 =
-                Tarea(
-                    id = 1,
-                    nombre = "tarea 1",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = Date(diaReferencia),
-                    estado = Estado.COMPLETADA,
-                )
-            val tareaDTO1 = TareaDTO(tarea1, emptyList())
-            val tarea2 =
-                Tarea(
-                    id = 2,
-                    nombre = "tarea 2",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = Date(diaReferencia),
-                    estado = Estado.COMPLETADA,
-                )
-            val tareaDTO2 = TareaDTO(tarea2, emptyList())
-            val etiqueta1 =
-                Etiqueta(
-                    id = 1,
-                    nombre = "etiqueta 1",
-                )
-            val etiqueta2 =
-                Etiqueta(
-                    id = 2,
-                    nombre = "etiqueta 2",
-                )
 
             // Insercion
             repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO1)
             repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO2)
             repositorioCrearEtiquetas.insertarEtiqueta(etiqueta1)
             repositorioCrearEtiquetas.insertarEtiqueta(etiqueta2)
-
-            // Crear proyecto
-            val proyecto =
-                Proyecto(
-                    nombre = "Proyecto 1",
-                    descripcion = "descripcion",
-                    fechaCreacion = Date(diaReferencia),
-                    fechaInicio = Date(diaReferencia),
-                    fechaFin = Date(diaReferencia),
-                )
-            val proyectoDTO =
-                ProyectoDTO(
-                    proyecto,
-                    listOf(etiqueta1, etiqueta2),
-                    listOf(tarea1, tarea2),
-                )
-            // Insertar
             repositorioCrearProyectos.insertarProyectoConTareaYEtiqueta(proyectoDTO)
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -163,7 +148,7 @@ class ProyectoDetallesModelTest {
 
             // Resultado
             val resultado = liveData.value
-            assert(resultado!!.proyecto.nombre == "Proyecto 1")
+            assertEquals("Proyecto 1", resultado!!.proyecto.nombre)
         }
 
     @Test
@@ -182,6 +167,6 @@ class ProyectoDetallesModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado?.proyecto == null)
+            assertEquals(null, resultado?.proyecto)
         }
 }

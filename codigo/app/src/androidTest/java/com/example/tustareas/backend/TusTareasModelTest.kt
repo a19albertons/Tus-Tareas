@@ -19,6 +19,9 @@ import com.example.tustareas.repository.WorkerRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
@@ -56,19 +59,44 @@ class TusTareasModelTest {
 
     lateinit var modeloTusTareasModel: TusTareasModel
 
+    // Crear tareas
+    val tareaCompleta =
+        Tarea(
+            nombre = "tarea completa",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            estado = Estado.COMPLETADA,
+        )
+    val tareaCompletaDto = TareaDTO(tareaCompleta, emptyList())
+    val tareaIncompleta =
+        Tarea(
+            nombre = "tarea incompleta",
+            prioridad = Prioridad.BAJA,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            estado = Estado.EN_TIEMPO,
+        )
+    val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
+
     // Configuramos la base de datos
     @Before
     fun creacionBd() {
-        // Iniciar Hilt
-        ruleHilt.inject()
+        runBlocking {
+            // Iniciar Hilt
+            ruleHilt.inject()
 
-        // Crear modelo
-        modeloTusTareasModel = TusTareasModel(ApplicationProvider.getApplicationContext(), repositorioTusTareas)
+            // Crear modelo
+            modeloTusTareasModel = TusTareasModel(ApplicationProvider.getApplicationContext(), repositorioTusTareas)
+
+            // Añadir tareas
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaCompletaDto)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
+        }
     }
 
     // Destrucción bd temporal
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -76,28 +104,6 @@ class TusTareasModelTest {
     @Test
     fun limpiarTareasCompletas() =
         runTest {
-            // Crear tareas
-            val tareaCompleta =
-                Tarea(
-                    nombre = "tarea completa",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    estado = Estado.COMPLETADA,
-                )
-            val tareaCompletaDto = TareaDTO(tareaCompleta, emptyList())
-            val tareaIncompleta =
-                Tarea(
-                    nombre = "tarea incompleta",
-                    prioridad = Prioridad.BAJA,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tareaNoCompletaDto = TareaDTO(tareaIncompleta, emptyList())
-
-            // Añadir tareas
-            repositorioCrearTareas.insertarTareaConEtiqueta(tareaCompletaDto)
-            repositorioCrearTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
-
             // Limpia la tarea completa
             modeloTusTareasModel.limpiarTareasCompletas()
 
@@ -113,10 +119,9 @@ class TusTareasModelTest {
 
             // Comprueba que de las 2 taras de preuba en la bd en memoria solo queda 1
             val resultado = liveData.value
-            println(resultado)
-            println(resultado!!.size)
-            assert(
-                resultado.size == 1,
+            assertEquals(
+                1,
+                resultado!!.size,
             )
         }
 
@@ -124,15 +129,6 @@ class TusTareasModelTest {
     @Test
     fun marcarNotificacionComoLeida() =
         runTest {
-            // Creación datos bd
-            val tarea =
-                Tarea(
-                    nombre = "tarea",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tareaDTO = TareaDTO(tarea, emptyList())
             val notificacion =
                 Notificacion(
                     titulo = "prueba",
@@ -140,8 +136,7 @@ class TusTareasModelTest {
                     leido = false,
                     idTarea = 1,
                 )
-            // Añadir a la bd
-            repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO)
+            // Fuerza que se lancen las notificaciones en el test
             WorkerRepository(db).anadirNotificacion(notificacion)
 
             // actualizacion de notificacion
@@ -156,6 +151,6 @@ class TusTareasModelTest {
             val notificaicones = WorkerRepository(db).obtenerTodasLasNotificaciones()
 
             // Notificaciones comprobacion
-            assert(notificaicones[0].leido)
+            assertTrue(notificaicones[0].leido)
         }
 }
