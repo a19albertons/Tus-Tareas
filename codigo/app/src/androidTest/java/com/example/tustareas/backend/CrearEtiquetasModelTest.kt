@@ -7,12 +7,12 @@ import com.example.tustareas.R
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.CrearEtiquetasModel
-import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -52,9 +52,16 @@ class CrearEtiquetasModelTest {
     @Inject
     lateinit var listarEtiquetasRepositorio: ListarEtiquetasRepository
 
-    lateinit var modeloListarEtiquetas: ListarEtiquetasModel
+    // Valores base comunes
+    val etiquetaBase1 = Etiqueta(
+        id = 1,
+        nombre = "etiqueta",
+        )
 
-    private val diaReferencia = 1735689600000L
+    val etiquetaBase2 = Etiqueta(
+        id = 2,
+        nombre = "etiqueta2",
+        )
 
     // Preparación entorno comun
     @Before
@@ -64,27 +71,21 @@ class CrearEtiquetasModelTest {
             ruleHilt.inject()
 
             // Crear modelo
-            modeloListarEtiquetas = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepositorio)
             modeloCrearEtiquetas = CrearEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioCrearEtiqueta)
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                Etiqueta(
-                    id = 1,
-                    nombre = "etiqueta",
-                ),
+                etiquetaBase1
             )
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                Etiqueta(
-                    id = 2,
-                    nombre = "etiqueta2",
-                ),
+                etiquetaBase2
             )
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -102,7 +103,7 @@ class CrearEtiquetasModelTest {
             modeloCrearEtiquetas.guardarEtiqueta("Etiqueta 1", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            assert(modeloCrearEtiquetas.observarResultado().value == true)
+            assertEquals(true, modeloCrearEtiquetas.observarResultado().value)
         }
 
     // Guardado de nuevas etiquetas no valida
@@ -119,20 +120,21 @@ class CrearEtiquetasModelTest {
             modeloCrearEtiquetas.guardarEtiqueta("", "Descripción de la etiqueta 1")
 
             // Comprobación del resultado
-            assert(modeloCrearEtiquetas.observarMensajeError().value == R.string.error_guardar_etiqueta)
-            assert(modeloCrearEtiquetas.observarResultado().value == false)
+            assertEquals(R.string.error_guardar_etiqueta, modeloCrearEtiquetas.observarMensajeError().value)
+            assertEquals(false,modeloCrearEtiquetas.observarResultado().value)
         }
 
+    // Test que comprueba el funionamiento de definir la et
     @Test
     fun observarEtiqueta() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = etiquetaBase1.copy()
 
             // Definir una etiqueta
             modeloCrearEtiquetas.definirEtiqueta(etiqueta)
 
             // Comprobación del resultado
-            assert(modeloCrearEtiquetas.observarEtiqueta().value == etiqueta)
+            assertEquals(etiqueta, modeloCrearEtiquetas.observarEtiqueta().value, )
         }
 }

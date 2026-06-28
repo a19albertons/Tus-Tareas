@@ -12,6 +12,7 @@ import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -54,6 +55,16 @@ class EtiquetaDetallesModelTest {
 
     private val diaReferencia = 1735689600000L
 
+    // Etiquetas comunes
+    val etiqueta1Base = Etiqueta(
+        id = 1,
+        nombre = "etiqueta",
+    )
+    val etiqueta2Base = Etiqueta(
+        id = 2,
+        nombre = "etiqueta2",
+    )
+
     // Preparación entorno comun
     @Before
     fun crearBd() =
@@ -67,23 +78,18 @@ class EtiquetaDetallesModelTest {
 
             // Añadir datos de prueba
             crearEtiquetas.insertarEtiqueta(
-                Etiqueta(
-                    id = 1,
-                    nombre = "etiqueta",
-                ),
+                etiqueta1Base
             )
 
             crearEtiquetas.insertarEtiqueta(
-                Etiqueta(
-                    id = 2,
-                    nombre = "etiqueta2",
-                ),
+                etiqueta2Base
             )
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -97,7 +103,7 @@ class EtiquetaDetallesModelTest {
 
             // Resultado
             val resultado = liveData.value
-            assert(resultado?.nombre == "etiqueta2")
+            assertEquals("etiqueta2", resultado?.nombre)
         }
 
     // Prueba de eliminar una etiqueta
@@ -118,7 +124,7 @@ class EtiquetaDetallesModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado!!.size == 1)
-            assert(resultado.first().nombre == "etiqueta")
+            assertEquals(1, resultado!!.size)
+            assertEquals("etiqueta", resultado.first().nombre)
         }
 }
