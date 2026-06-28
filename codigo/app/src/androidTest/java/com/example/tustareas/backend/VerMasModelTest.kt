@@ -77,6 +77,7 @@ class VerMasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea1DTO = TareaDTO(tarea1, emptyList())
+
     // Tarea con fecha limite, pero no retrasada
     val tarea2 =
         Tarea(
@@ -88,6 +89,7 @@ class VerMasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea2DTO = TareaDTO(tarea2, emptyList())
+
     // Tarea hoy
     val tareaHoy =
         Tarea(
@@ -99,6 +101,7 @@ class VerMasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
+
     // Tarea retrasada
     val tareaRETRASADA =
         Tarea(
@@ -122,8 +125,6 @@ class VerMasModelTest {
             // Crear modelos
             modeloListarTareas = ListarTareasModel(ApplicationProvider.getApplicationContext(), repositorioListarTareas)
             modeloVerMas = VerMasModel(ApplicationProvider.getApplicationContext(), repositorioVerMas)
-
-
 
             // Insertar tareas
             repositorioCrearTareas.insertarTareaConEtiqueta(tarea1DTO)

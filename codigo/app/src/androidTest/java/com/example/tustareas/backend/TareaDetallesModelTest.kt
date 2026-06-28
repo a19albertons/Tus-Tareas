@@ -6,7 +6,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.CrearTareasModel
 import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
@@ -75,6 +74,7 @@ class TareaDetallesModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea1DTO = TareaDTO(tarea1, emptyList())
+
     // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
     val tarea2 =
         Tarea(
@@ -86,6 +86,7 @@ class TareaDetallesModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea2DTO = TareaDTO(tarea2, emptyList())
+
     // Completada, priroridad alta, descripcion
     val tareaHoy =
         Tarea(
@@ -103,6 +104,7 @@ class TareaDetallesModelTest {
             nombre = "etiqueta",
         )
     val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
+
     // Tarea retrasada, prioridad media y retrasada
     val tareaRETRASADA =
         Tarea(

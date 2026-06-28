@@ -7,8 +7,6 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.ProyectoDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
@@ -18,8 +16,6 @@ import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.CrearTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.ProyectoDetallesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -55,7 +51,6 @@ class ProyectoDetallesModelTest {
     // Variables comunes
     @Inject
     lateinit var db: TusTareasDatabase
-
 
     @Inject
     lateinit var repositorioCrearTareas: CrearTareasRepository
@@ -128,8 +123,6 @@ class ProyectoDetallesModelTest {
 
             // Inicializar modelos manualmente
             modeloDetallesProyecto = ProyectoDetallesModel(ApplicationProvider.getApplicationContext(), repositorioDetallesProyecto)
-
-
 
             // Insercion
             repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO1)

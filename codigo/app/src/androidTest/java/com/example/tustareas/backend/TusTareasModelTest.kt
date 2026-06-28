@@ -20,7 +20,6 @@ import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
@@ -92,7 +91,6 @@ class TusTareasModelTest {
             repositorioCrearTareas.insertarTareaConEtiqueta(tareaCompletaDto)
             repositorioCrearTareas.insertarTareaConEtiqueta(tareaNoCompletaDto)
         }
-
     }
 
     // Destrucción bd temporal
@@ -123,7 +121,7 @@ class TusTareasModelTest {
             val resultado = liveData.value
             assertEquals(
                 1,
-                resultado!!.size
+                resultado!!.size,
             )
         }
 

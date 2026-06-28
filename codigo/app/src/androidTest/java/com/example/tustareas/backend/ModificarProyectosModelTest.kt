@@ -8,12 +8,7 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.ProyectoDTO
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
-import com.example.tustareas.modelView.EtiquetaDetallesModel
-import com.example.tustareas.modelView.ModificarEtiquetasModel
 import com.example.tustareas.modelView.ModificarProyectosModel
-import com.example.tustareas.modelView.ModificarTareasModel
-import com.example.tustareas.modelView.ProyectoDetallesModel
-import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
@@ -22,12 +17,7 @@ import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.CrearTareasRepository
-import com.example.tustareas.repository.EtiquetaDetallesRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import com.example.tustareas.repository.ModificarProyectosRepository
-import com.example.tustareas.repository.ModificarTareasRepository
-import com.example.tustareas.repository.ProyectoDetallesRepository
-import com.example.tustareas.repository.TareaDetallesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertEquals
@@ -76,11 +66,6 @@ class ModificarProyectosModelTest {
     lateinit var repositorioModificarProyectos: ModificarProyectosRepository
 
     lateinit var modeloModificarProyecto: ModificarProyectosModel
-
-
-
-
-
 
     private val diaReferencia = 1735689600000L
 
@@ -153,8 +138,6 @@ class ModificarProyectosModelTest {
 
             // Creación de modelos
             modeloModificarProyecto = ModificarProyectosModel(ApplicationProvider.getApplicationContext(), repositorioModificarProyectos)
-
-
 
             // Insercion
             repositorioCrearTareas.insertarTareaConEtiqueta(tareaDTO1)
@@ -263,7 +246,7 @@ class ModificarProyectosModelTest {
                 modeloModificarProyecto
                     .observarProyectoDTO()
                     .value!!
-                    .proyecto.fechaInicio
+                    .proyecto.fechaInicio,
             )
         }
 
@@ -281,11 +264,12 @@ class ModificarProyectosModelTest {
             modeloModificarProyecto.establecerFechaFinProyecto(nuevaFechaFin)
 
             // Comprobar que la fecha de fin del proyecto se ha actualizado correctamente
-            assertEquals(nuevaFechaFin,
+            assertEquals(
+                nuevaFechaFin,
                 modeloModificarProyecto
                     .observarProyectoDTO()
                     .value!!
-                    .proyecto.fechaFin
+                    .proyecto.fechaFin,
             )
         }
 
