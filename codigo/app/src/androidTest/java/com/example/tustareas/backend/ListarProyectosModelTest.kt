@@ -107,8 +107,6 @@ class ListarProyectosModelTest {
             // Crear modelo
             modelo = ListarProyectosModel(ApplicationProvider.getApplicationContext(), listarProyectosRepository)
 
-
-
             // Insertar proyectos
             crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
             crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)

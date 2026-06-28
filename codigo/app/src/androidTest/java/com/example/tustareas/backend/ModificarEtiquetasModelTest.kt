@@ -63,15 +63,17 @@ class ModificarEtiquetasModelTest {
     private val diaReferencia = 1735689600000L
 
     // Etiquetas base
-    val etiqueta1Base = Etiqueta(
-        id = 1,
-        nombre = "etiqueta",
-    )
+    val etiqueta1Base =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta",
+        )
 
-    val etiqueta2Base = Etiqueta(
-        id = 2,
-        nombre = "etiqueta2",
-    )
+    val etiqueta2Base =
+        Etiqueta(
+            id = 2,
+            nombre = "etiqueta2",
+        )
 
     // Preparación entorno comun
     @Before
@@ -85,11 +87,11 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                etiqueta1Base
+                etiqueta1Base,
             )
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                etiqueta2Base
+                etiqueta2Base,
             )
         }
 
@@ -149,6 +151,6 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
             // Comprobación del resultado
-            assertEquals(etiqueta1Base,modeloModificarEtiquetas.observarEtiqueta().value)
+            assertEquals(etiqueta1Base, modeloModificarEtiquetas.observarEtiqueta().value)
         }
 }

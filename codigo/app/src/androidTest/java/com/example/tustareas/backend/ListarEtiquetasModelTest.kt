@@ -49,14 +49,16 @@ class ListarEtiquetasModelTest {
     private val diaReferencia = 1735689600000L
 
     // Etiquetas base
-    val etiqueta1Base = Etiqueta(
-        id = 1,
-        nombre = "etiqueta",
-    )
-    val etiqueta2Base = Etiqueta(
-        id = 2,
-        nombre = "etiqueta2",
-    )
+    val etiqueta1Base =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta",
+        )
+    val etiqueta2Base =
+        Etiqueta(
+            id = 2,
+            nombre = "etiqueta2",
+        )
 
     // Preparación entorno comun
     @Before
@@ -69,11 +71,11 @@ class ListarEtiquetasModelTest {
             modelo = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetaRepositorio)
 
             crearRepositorioEtiquetas.insertarEtiqueta(
-                etiqueta1Base
+                etiqueta1Base,
             )
 
             crearRepositorioEtiquetas.insertarEtiqueta(
-                etiqueta2Base
+                etiqueta2Base,
             )
         }
 

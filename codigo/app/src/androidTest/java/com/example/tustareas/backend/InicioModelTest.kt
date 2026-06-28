@@ -62,6 +62,7 @@ class InicioModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea1DTO = TareaDTO(tarea1, emptyList())
+
     // Tarea con fecha limite, pero no retrasada
     val tarea2 =
         Tarea(
@@ -72,6 +73,7 @@ class InicioModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea2DTO = TareaDTO(tarea2, emptyList())
+
     // Tarea hoy
     val tareaHoy =
         Tarea(
@@ -82,6 +84,7 @@ class InicioModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
+
     // Tarea retrasada
     val tareaRETRASADA =
         Tarea(
@@ -103,8 +106,6 @@ class InicioModelTest {
 
             // Inicializar modelo manualmente
             modelo = InicioModel(ApplicationProvider.getApplicationContext(), inicioRepository)
-
-
 
             // Insertar tareas
             repositorioCrearTarea.insertarTareaConEtiqueta(tarea1DTO)
