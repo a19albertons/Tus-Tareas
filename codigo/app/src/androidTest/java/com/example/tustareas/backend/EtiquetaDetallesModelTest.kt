@@ -56,14 +56,16 @@ class EtiquetaDetallesModelTest {
     private val diaReferencia = 1735689600000L
 
     // Etiquetas comunes
-    val etiqueta1Base = Etiqueta(
-        id = 1,
-        nombre = "etiqueta",
-    )
-    val etiqueta2Base = Etiqueta(
-        id = 2,
-        nombre = "etiqueta2",
-    )
+    val etiqueta1Base =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta",
+        )
+    val etiqueta2Base =
+        Etiqueta(
+            id = 2,
+            nombre = "etiqueta2",
+        )
 
     // Preparación entorno comun
     @Before
@@ -78,11 +80,11 @@ class EtiquetaDetallesModelTest {
 
             // Añadir datos de prueba
             crearEtiquetas.insertarEtiqueta(
-                etiqueta1Base
+                etiqueta1Base,
             )
 
             crearEtiquetas.insertarEtiqueta(
-                etiqueta2Base
+                etiqueta2Base,
             )
         }
 

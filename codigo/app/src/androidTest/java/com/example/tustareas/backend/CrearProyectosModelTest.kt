@@ -63,10 +63,6 @@ class CrearProyectosModelTest {
 
     lateinit var modeloCrearProyecto: CrearProyectosModel
 
-
-
-
-
     private val diaReferencia = 1735689600000L
 
     // valores base
@@ -160,18 +156,19 @@ class CrearProyectosModelTest {
     fun crearProyectoNuevo() =
         runTest {
             // Definición proyecto
-            val proyectoDTO = ProyectoDTO(
-                Proyecto(
-                    id = 0,
-                    nombre = "Proyecto de prueba",
-                    descripcion = "Descripción del proyecto de prueba",
-                    fechaCreacion = Date(),
-                    fechaInicio = Date(),
-                    fechaFin = Date(),
-                ),
-                listOf(),
-                listOf(),
-            )
+            val proyectoDTO =
+                ProyectoDTO(
+                    Proyecto(
+                        id = 0,
+                        nombre = "Proyecto de prueba",
+                        descripcion = "Descripción del proyecto de prueba",
+                        fechaCreacion = Date(),
+                        fechaInicio = Date(),
+                        fechaFin = Date(),
+                    ),
+                    listOf(),
+                    listOf(),
+                )
 
             // Definir DTO de proyecto con tarea y etiqueta
             modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
@@ -191,18 +188,19 @@ class CrearProyectosModelTest {
     fun crearProyectoNuevoNoValido() =
         runTest {
             // Definición proyecto
-            val proyectoDTO = ProyectoDTO(
-                Proyecto(
-                    id = 0,
-                    nombre = "",
-                    descripcion = "Descripción del proyecto de prueba",
-                    fechaCreacion = Date(),
-                    fechaInicio = Date(),
-                    fechaFin = Date(),
-                ),
-                listOf(),
-                listOf(),
-            )
+            val proyectoDTO =
+                ProyectoDTO(
+                    Proyecto(
+                        id = 0,
+                        nombre = "",
+                        descripcion = "Descripción del proyecto de prueba",
+                        fechaCreacion = Date(),
+                        fechaInicio = Date(),
+                        fechaFin = Date(),
+                    ),
+                    listOf(),
+                    listOf(),
+                )
 
             // Definir DTO de proyecto con tarea y etiqueta
             modeloCrearProyecto.definirProyectoDTO(proyectoDTO)
@@ -264,7 +262,13 @@ class CrearProyectosModelTest {
             modeloCrearProyecto.establecerFechaInicioProyecto(nuevaFechaInicio)
 
             // Comprobar que la fecha de inicio del proyecto se ha actualizado correctamente
-            assertEquals(nuevaFechaInicio, modeloCrearProyecto.observarProyectoDTO().value!!.proyecto.fechaInicio)
+            assertEquals(
+                nuevaFechaInicio,
+                modeloCrearProyecto
+                    .observarProyectoDTO()
+                    .value!!
+                    .proyecto.fechaInicio,
+            )
         }
 
     @Test
@@ -281,7 +285,13 @@ class CrearProyectosModelTest {
             modeloCrearProyecto.establecerFechaFinProyecto(nuevaFechaFin)
 
             // Comprobar que la fecha de fin del proyecto se ha actualizado correctamente
-            assertEquals(nuevaFechaFin, modeloCrearProyecto.observarProyectoDTO().value!!.proyecto.fechaFin)
+            assertEquals(
+                nuevaFechaFin,
+                modeloCrearProyecto
+                    .observarProyectoDTO()
+                    .value!!
+                    .proyecto.fechaFin,
+            )
         }
 
     @Test
@@ -307,7 +317,7 @@ class CrearProyectosModelTest {
             modeloCrearProyecto.anadirEtiquetaAlProyecto(resultadoProcesado.lastIndex)
 
             // Comprobar que la etiqueta se ha añadido correctamente al proyecto
-            assertEquals( listOf(etiqueta1Base, etiqueta2Base), modeloCrearProyecto.obtenerEtiquetasDelProyecto())
+            assertEquals(listOf(etiqueta1Base, etiqueta2Base), modeloCrearProyecto.obtenerEtiquetasDelProyecto())
         }
 
     @Test

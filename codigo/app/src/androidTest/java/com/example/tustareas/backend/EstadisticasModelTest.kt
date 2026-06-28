@@ -71,6 +71,7 @@ class EstadisticasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea1DTO = TareaDTO(tarea1, emptyList())
+
     // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
     val tarea2 =
         Tarea(
@@ -82,6 +83,7 @@ class EstadisticasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea2DTO = TareaDTO(tarea2, emptyList())
+
     // Completada, priroridad alta, descripcion
     val tareaHoy =
         Tarea(
@@ -100,6 +102,7 @@ class EstadisticasModelTest {
             nombre = "etiqueta",
         )
     val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
+
     // Tarea retrasada, prioridad media y retrasada
     val tareaRETRASADA =
         Tarea(
@@ -228,7 +231,6 @@ class EstadisticasModelTest {
             estado = Estado.COMPLETADA,
         )
     val tarea12DTO = TareaDTO(tarea12, listOf(etiqueta2))
-
 
     // Preparación entorno comun
     @Before

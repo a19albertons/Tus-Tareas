@@ -53,14 +53,16 @@ class CrearEtiquetasModelTest {
     lateinit var listarEtiquetasRepositorio: ListarEtiquetasRepository
 
     // Valores base comunes
-    val etiquetaBase1 = Etiqueta(
-        id = 1,
-        nombre = "etiqueta",
+    val etiquetaBase1 =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta",
         )
 
-    val etiquetaBase2 = Etiqueta(
-        id = 2,
-        nombre = "etiqueta2",
+    val etiquetaBase2 =
+        Etiqueta(
+            id = 2,
+            nombre = "etiqueta2",
         )
 
     // Preparación entorno comun
@@ -74,11 +76,11 @@ class CrearEtiquetasModelTest {
             modeloCrearEtiquetas = CrearEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioCrearEtiqueta)
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                etiquetaBase1
+                etiquetaBase1,
             )
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                etiquetaBase2
+                etiquetaBase2,
             )
         }
 
@@ -121,7 +123,7 @@ class CrearEtiquetasModelTest {
 
             // Comprobación del resultado
             assertEquals(R.string.error_guardar_etiqueta, modeloCrearEtiquetas.observarMensajeError().value)
-            assertEquals(false,modeloCrearEtiquetas.observarResultado().value)
+            assertEquals(false, modeloCrearEtiquetas.observarResultado().value)
         }
 
     // Test que comprueba el funionamiento de definir la et
@@ -135,6 +137,6 @@ class CrearEtiquetasModelTest {
             modeloCrearEtiquetas.definirEtiqueta(etiqueta)
 
             // Comprobación del resultado
-            assertEquals(etiqueta, modeloCrearEtiquetas.observarEtiqueta().value, )
+            assertEquals(etiqueta, modeloCrearEtiquetas.observarEtiqueta().value)
         }
 }

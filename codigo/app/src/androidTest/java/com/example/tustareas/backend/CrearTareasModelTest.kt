@@ -8,18 +8,12 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.CrearTareasModel
-import com.example.tustareas.modelView.ListarTareasModel
-import com.example.tustareas.modelView.ModificarEtiquetasModel
-import com.example.tustareas.modelView.TareaDetallesModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
 import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.CrearTareasRepository
-import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.TareaDetallesRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -62,11 +56,8 @@ class CrearTareasModelTest {
 
     lateinit var modeloCrearTareas: CrearTareasModel
 
-
-
     @Inject
     lateinit var repositorioCrearEtiquetas: CrearEtiquetasRepository
-
 
     private val diaReferencia = 1735689600000L
 
@@ -81,6 +72,7 @@ class CrearTareasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea1DTO = TareaDTO(tarea1, emptyList())
+
     // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
     val tarea2 =
         Tarea(
@@ -92,6 +84,7 @@ class CrearTareasModelTest {
             estado = Estado.EN_TIEMPO,
         )
     val tarea2DTO = TareaDTO(tarea2, emptyList())
+
     // Completada, priroridad alta, descripcion
     val tareaHoy =
         Tarea(
@@ -110,6 +103,7 @@ class CrearTareasModelTest {
             nombre = "etiqueta",
         )
     val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
+
     // Tarea retrasada, prioridad media y retrasada
     val tareaRETRASADA =
         Tarea(
@@ -131,7 +125,6 @@ class CrearTareasModelTest {
 
             // Crear modelos
             modeloCrearTareas = CrearTareasModel(ApplicationProvider.getApplicationContext(), repositorioCrearTareas)
-
 
             // Insertar tareas y etiqueta
             repositorioCrearEtiquetas.insertarEtiqueta(etiqueta)
@@ -233,7 +226,13 @@ class CrearTareasModelTest {
             modeloCrearTareas.cambiarPrioridad(0)
 
             // Comprobar que se ha cambiado correctamente
-            assertEquals(Prioridad.ALTA, modeloCrearTareas.observarTareaDTO().value!!.tarea.prioridad)
+            assertEquals(
+                Prioridad.ALTA,
+                modeloCrearTareas
+                    .observarTareaDTO()
+                    .value!!
+                    .tarea.prioridad,
+            )
         }
 
     @Test
@@ -249,7 +248,13 @@ class CrearTareasModelTest {
             modeloCrearTareas.cambiarPrioridad(1)
 
             // Comprobar que se ha cambiado correctamente
-            assertEquals(Prioridad.MEDIA, modeloCrearTareas.observarTareaDTO().value!!.tarea.prioridad)
+            assertEquals(
+                Prioridad.MEDIA,
+                modeloCrearTareas
+                    .observarTareaDTO()
+                    .value!!
+                    .tarea.prioridad,
+            )
         }
 
     @Test
@@ -265,7 +270,13 @@ class CrearTareasModelTest {
             modeloCrearTareas.cambiarPrioridad(2)
 
             // Comprobar que se ha cambiado correctamente
-            assertEquals(Prioridad.BAJA, modeloCrearTareas.observarTareaDTO().value!!.tarea.prioridad)
+            assertEquals(
+                Prioridad.BAJA,
+                modeloCrearTareas
+                    .observarTareaDTO()
+                    .value!!
+                    .tarea.prioridad,
+            )
         }
 
     @Test
@@ -281,7 +292,13 @@ class CrearTareasModelTest {
             modeloCrearTareas.cambiarPrioridad(3)
 
             // Comprobar que se ha cambiado correctamente
-            assertEquals(Prioridad.NO_ESTABLECIDO, modeloCrearTareas.observarTareaDTO().value!!.tarea.prioridad)
+            assertEquals(
+                Prioridad.NO_ESTABLECIDO,
+                modeloCrearTareas
+                    .observarTareaDTO()
+                    .value!!
+                    .tarea.prioridad,
+            )
         }
 
     @Test
@@ -297,7 +314,13 @@ class CrearTareasModelTest {
             modeloCrearTareas.cambiarPrioridad(-1)
 
             // Comprobar que se ha cambiado correctamente a alta (valor por defecto)
-            assertEquals(Prioridad.ALTA, modeloCrearTareas.observarTareaDTO().value!!.tarea.prioridad)
+            assertEquals(
+                Prioridad.ALTA,
+                modeloCrearTareas
+                    .observarTareaDTO()
+                    .value!!
+                    .tarea.prioridad,
+            )
         }
 
     @Test
@@ -314,7 +337,13 @@ class CrearTareasModelTest {
             modeloCrearTareas.actualizarFechaLimite(nuevaFechaLimite)
 
             // Comprobar que se ha actualizado correctamente
-            assertEquals(nuevaFechaLimite, modeloCrearTareas.observarTareaDTO().value!!.tarea.fechaLimite)
+            assertEquals(
+                nuevaFechaLimite,
+                modeloCrearTareas
+                    .observarTareaDTO()
+                    .value!!
+                    .tarea.fechaLimite,
+            )
         }
 
     @Test
@@ -356,7 +385,7 @@ class CrearTareasModelTest {
             // Actualizar las etiquetas de la tarea
             val nuevasEtiquetas =
                 listOf(
-                    etiqueta.copy()
+                    etiqueta.copy(),
                 )
             modeloCrearTareas.actualizarEtiquetasTarea(nuevasEtiquetas)
 
