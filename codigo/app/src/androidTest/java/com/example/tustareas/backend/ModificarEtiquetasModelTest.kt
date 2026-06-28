@@ -14,6 +14,8 @@ import com.example.tustareas.repository.ListarEtiquetasRepository
 import com.example.tustareas.repository.ModificarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -60,6 +62,17 @@ class ModificarEtiquetasModelTest {
 
     private val diaReferencia = 1735689600000L
 
+    // Etiquetas base
+    val etiqueta1Base = Etiqueta(
+        id = 1,
+        nombre = "etiqueta",
+    )
+
+    val etiqueta2Base = Etiqueta(
+        id = 2,
+        nombre = "etiqueta2",
+    )
+
     // Preparación entorno comun
     @Before
     fun crearBd() =
@@ -72,23 +85,18 @@ class ModificarEtiquetasModelTest {
             modeloModificarEtiquetas = ModificarEtiquetasModel(ApplicationProvider.getApplicationContext(), repositorioModificarEtiqueta)
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                Etiqueta(
-                    id = 1,
-                    nombre = "etiqueta",
-                ),
+                etiqueta1Base
             )
 
             repositorioCrearEtiqueta.insertarEtiqueta(
-                Etiqueta(
-                    id = 2,
-                    nombre = "etiqueta2",
-                ),
+                etiqueta2Base
             )
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -96,7 +104,7 @@ class ModificarEtiquetasModelTest {
     fun modificarEtiqueta() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = etiqueta1Base.copy()
 
             // Definir una etiqueta
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
@@ -108,14 +116,14 @@ class ModificarEtiquetasModelTest {
             )
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarResultado().value == true)
+            assertTrue(modeloModificarEtiquetas.observarResultado().value == true)
         }
 
     @Test
     fun modificarEtiquetaNoValida() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = etiqueta1Base.copy()
 
             // Definir una etiqueta
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
@@ -127,20 +135,20 @@ class ModificarEtiquetasModelTest {
             )
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarMensajeError().value == R.string.error_modificar_etiqueta)
-            assert(modeloModificarEtiquetas.observarResultado().value == false)
+            assertEquals(modeloModificarEtiquetas.observarMensajeError().value, R.string.error_modificar_etiqueta)
+            assertTrue(modeloModificarEtiquetas.observarResultado().value == false)
         }
 
     @Test
     fun observarEtiqueta() =
         runTest {
             // Definición etiqueta de prueba
-            val etiqueta = Etiqueta(1, "Etiqueta 1", "Descripción de la etiqueta 1")
+            val etiqueta = etiqueta1Base.copy()
 
             // Definir una etiqueta
             modeloModificarEtiquetas.definirEtiqueta(etiqueta)
 
             // Comprobación del resultado
-            assert(modeloModificarEtiquetas.observarEtiqueta().value == etiqueta)
+            assertEquals(etiqueta1Base,modeloModificarEtiquetas.observarEtiqueta().value)
         }
 }
