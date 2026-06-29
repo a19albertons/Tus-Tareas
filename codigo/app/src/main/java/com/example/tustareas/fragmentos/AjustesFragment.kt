@@ -52,6 +52,9 @@ class AjustesFragment : Fragment() {
         // Gestiona el tema
         gestionTema()
 
+        // Gestiona el boton buscar actualización
+        gestionBoton()
+
         return binding.root
     }
 
@@ -88,13 +91,8 @@ class AjustesFragment : Fragment() {
                     posicion: Int,
                     id: Long,
                 ) {
-                    when (posicion) {
-                        // Actualizar idioma
-                        0 -> model.setIdioma("Sistema")
-                        1 -> model.setIdioma("Español")
-                        2 -> model.setIdioma("Ingles")
-                        3 -> model.setIdioma("Gallego")
-                    }
+                    val idiomaSeleccionado = IdiomaApp.entries.toTypedArray()[posicion].nombre
+                    model.setIdioma(idiomaSeleccionado)
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -125,6 +123,18 @@ class AjustesFragment : Fragment() {
             binding.claro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_NO)
             binding.oscuro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_YES)
             binding.sistema.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
+
+    /**
+     * Funcion privada que gestiona el boton buscar actualización. Su mision es reducir el llamado
+     * codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iesanclemente.net>
+     */
+    private fun gestionBoton() {
+        binding.botonBuscarActualizacion.setOnClickListener {
+            model.buscarActualizacion()
         }
     }
 

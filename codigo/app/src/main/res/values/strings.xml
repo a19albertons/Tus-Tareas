@@ -126,6 +126,7 @@
         <item>Ingles</item>
         <item>Gallego</item>
     </string-array>
+    <string name="buscar_actualizaci_n">Buscar Actualización</string>
 
     <!-- Lista etiquetas presentes -->
     <string name="etiqueta_eliminada">Etiqueta eliminada</string>
