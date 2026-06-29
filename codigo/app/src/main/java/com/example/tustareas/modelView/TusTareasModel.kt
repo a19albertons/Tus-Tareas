@@ -158,12 +158,12 @@ class TusTareasModel
             }
         }
 
-    /**
-     * Busca la ultima version de la app en github.
-     *
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    fun buscarActualizacion() {
+        /**
+         * Busca la ultima version de la app en github.
+         *
+         * @author Alberto Noceda <a19albertons@iessanclemente.net>
+         */
+        fun buscarActualizacion() {
             val intent = Intent(Intent.ACTION_VIEW, "https://github.com/a19albertons/Tus-Tareas/releases/latest".toUri())
             intent.flags = FLAG_ACTIVITY_NEW_TASK
             application.startActivity(intent)
