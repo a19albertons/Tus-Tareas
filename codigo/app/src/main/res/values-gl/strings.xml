@@ -118,6 +118,8 @@
         <item>Inglés</item>
         <item>Galego</item>
     </string-array>
+    <string name="buscar_actualizaci_n">Buscar Actualización</string>
+
 
     <!-- Soporte idiomas en menu -->
     <string name="proyectos">Proxectos</string>
