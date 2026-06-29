@@ -88,13 +88,8 @@ class AjustesFragment : Fragment() {
                     posicion: Int,
                     id: Long,
                 ) {
-                    when (posicion) {
-                        // Actualizar idioma
-                        0 -> model.setIdioma("Sistema")
-                        1 -> model.setIdioma("Español")
-                        2 -> model.setIdioma("Ingles")
-                        3 -> model.setIdioma("Gallego")
-                    }
+                    val idiomaSeleccionado = IdiomaApp.entries.toTypedArray()[posicion].nombre
+                    model.setIdioma(idiomaSeleccionado)
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
