@@ -1,0 +1,186 @@
+<resources>
+    <string name="app_name">Le tue attività</string>
+    <string name="hello_blank_fragment">Ciao frammento vuoto</string>
+
+    <!-- General -->
+    <string name="cargando">Caricamento...</string>
+    <string name="error_navegar">Si è verificato un errore durante la navigazione</string>
+    <string name="lupa">"lente d'ingrandimento"</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Cerca per titolo, descrizione e tag</string>
+    <string name="error_modificar_checkbox">"Si è verificato un errore durante l'editing
+        dell'attività"</string>
+    <string name="tres_barras">tre barre</string>
+    <string name="anadir">+</string>
+    <string name="taza">tazza</string>
+    <string name="nombreRequerido">Nome*</string>
+    <string name="descripcion">Descrizione</string>
+    <string name="xx_xx_xxxx">XX/XX/XXXX</string>
+    <string name="guardar">Salva</string>
+    <string name="descartar">Scarta</string>
+    <string name="continuar">Continua</string>
+    <string name="cancelar">Annulla</string>
+    <string name="eliminar">Elimina</string>
+    <string name="fecha_creacion">data di creazione</string>
+    <string name="calendario">calendario</string>
+    <string name="etiqueta">tag</string>
+    <string name="titulo">titolo</string>
+    <string name="fecha_inicio">data di inizio</string>
+    <string name="fecha_fin">data di fine</string>
+    <string name="tareas">attività</string>
+    <string name="no_existen_etiquetas">Non esistono tag</string>
+    <string name="prevencion_fallo_critico">È stato rilevato un errore critico</string>
+
+    <!-- Inicio -->
+    <string name="ver_mas">Vedi altro</string>
+    <string name="no_hay_tareas_para_hoy">Nessuna attività in sospeso per oggi</string>
+    <string name="tienes_una_tarea_para_hoy">Hai 1 attività in sospeso per oggi</string>
+    <string name="tienes_tareas_para_hoy">Hai %1$d attività in sospeso per oggi</string>
+    <string name="no_hay_tareas_retrasadas">Nessuna attività in ritardo</string>
+    <string name="tienes_una_tarea_retrasada">Hai 1 attività in ritardo</string>
+    <string name="tienes_tareas_retrasadas">Hai %1$d attività in ritardo</string>
+    <string name="no_hay_tareas_proximas">"Nessun'attività imminente"</string>
+    <string name="tienes_una_tarea_proxima">Hai 1 attività imminente</string>
+    <string name="tienes_tareas_proximas">Hai %1$d attività imminenti</string>
+    <string name="eliminar_simbolo">-</string>
+
+    <!-- Listar tareas -->
+    <string name="estado">Stato</string>
+    <string name="prioridad">Priorità</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Non hai ancora
+        creato attività\no non corrispondono al filtro
+        applicato</string>
+
+    <!-- Estado -->
+    <string name="en_tiempo">In tempo</string>
+    <string name="retrasada">In ritardo</string>
+    <string name="completada">Completata</string>
+
+    <!-- Prioridad -->
+    <string name="baja">Bassa</string>
+    <string name="media">Media</string>
+    <string name="alta">Alta</string>
+    <string name="no_establecido">Non impostato</string>
+
+    <!-- Modificar tareas -->
+    <string name="error_guardar_tarea">Si è verificato un errore durante il salvataggio\ndella nuova
+        attività</string>
+    <string name="error_modificar_tarea">Si è verificato un errore durante il salvataggio\ndella
+        modifica</string>
+    <string name="confirmar_guardar_tarea">"Sei sicuro di voler salvare l'attività?"</string>
+    <string name="confirmar_modificado_tarea">Sei sicuro delle modifiche?</string>
+    <string name="fecha_limite">Scadenza</string>
+
+    <!-- Tarea detalles -->
+    <string name="error_eliminar_tarea">"Si è verificato un errore durante il
+        tentativo\ndell'eliminazione dell'attività"</string>
+    <string name="confirmar_eliminar_tarea">Vuoi eliminare questa attività?</string>
+
+    <!-- Listar proyectos -->
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Non hai ancora
+        creato progetti\no non corrispondono al filtro
+        applicato</string>
+    <string name="primero_va_fin_despues_inicio">"La fine deve essere successiva all'inizio"</string>
+    <string name="fin">Fine</string>
+    <string name="inicio">Inizio</string>
+    <string name="ascendente">Ascendente</string>
+    <string name="descendente">Decrescente</string>
+
+    <!-- Modificar proyectos -->
+    <string name="error_modificar_proyecto">Si è verificato un errore durante il salvataggio\ndella
+        modifica</string>
+    <string name="confirmar_modificar_proyecto">Sei sicuro delle modifiche?</string>
+    <string name="error_guardar_proyecto">Si è verificato un errore durante il salvataggio\ndel
+        nuovo progetto</string>
+    <string name="confirmar_guardar_proyecto">Sei sicuro di voler salvare i progetti?</string>
+    <string name="no_existen_tareas">Non esistono attività</string>
+
+    <!-- Proyecto detalles -->
+    <string name="error_eliminar_proyecto">"Si è verificato un errore durante il
+        tentativo\ndell'eliminazione del progetto"</string>
+    <string name="confirmar_eliminar_proyecto">Vuoi eliminare questo progetto?</string>
+    <string name="aviso_confirmar_eliminar_proyecto">Nota: le attività non verranno eliminate</string>
+
+    <!-- Estadisticas -->
+    <string name="progreso_semanal">Progresso settimanale</string>
+    <string name="tareas_completadas_vs_pendientes">Attività completate vs in sospeso</string>
+    <string name="completas">Completate</string>
+    <string name="pendiente">In sospeso</string>
+    <string name="retrasadas">In ritardo</string>
+    <string name="actividad_semanal">Attività settimanale</string>
+    <string-array name="dias_semana_siglas">
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>G</item>
+        <item>V</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+
+    <!-- Ajustes -->
+    <string name="apariencia">Aspetto</string>
+    <string name="claro">Chiaro</string>
+    <string name="oscuro">Scuro</string>
+    <string name="predeterminados_del_sistema">Impostazioni predefinite di sistema</string>
+    <string name="idioma">Lingua</string>
+    <string-array name="idiomas">
+        <item>Sistema</item>
+        <item>Spagnolo</item>
+        <item>Italiano</item>
+        <item>Francese</item>
+        <item>Tedesco</item>
+        <item>Portoghese</item>
+        <item>Inglese</item>
+        <item>Galiziano</item>
+    </string-array>
+    <string name="buscar_actualizaci_n">Cerca aggiornamenti</string>
+
+
+    <!-- Lista etiquetas presentes -->
+    <string name="etiqueta_eliminada">Tag eliminato</string>
+
+    <!-- Lista tareas presentes -->
+    <string name="tarea_eliminada">Attività eliminata</string>
+
+    <!-- Listar etiquetas -->
+    <string name="buscar_por_titulo_y_descripci_n">Cerca per titolo e descrizione</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Non hai ancora
+        creato tag\no non corrispondono al filtro applicato</string>
+
+    <!-- Etiqueta detalles -->
+    <string name="error_eliminar_etiqueta">"Si è verificato un errore durante il
+        tentativo\ndell'eliminazione del tag"</string>
+    <string name="confirmar_eliminar_etiqueta">Vuoi eliminare questo tag?</string>
+
+    <!-- Modificar etiquetas -->
+    <string name="error_modificar_etiqueta">Si è verificato un errore durante il salvataggio\ndella
+        modifica</string>
+    <string name="confirmar_modificar_etiqueta">Sei sicuro delle modifiche?</string>
+    <string name="error_guardar_etiqueta">Si è verificato un errore durante il salvataggio\ndel
+        nuovo tag</string>
+    <string name="confirmar_guardar_etiqueta">Sei sicuro di voler salvare il tag?</string>
+
+    <!-- Activity main -->
+    <string name="error_eliminando_tareas">"Spiacenti, si è verificato un errore\n durante
+        l'eliminazione delle attività"</string>
+
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Progetti</string>
+    <string name="estadisticas">Statistiche</string>
+    <string name="fecha_creaci_n_asc">data di creazione asc</string>
+    <string name="fecha_creaci_n_des">data di creazione desc</string>
+    <string name="fecha_l_mite_asc">scadenza asc</string>
+    <string name="fecha_l_mite_des">scadenza desc</string>
+    <string name="editar">modifica</string>
+    <string name="ajustes">Impostazioni</string>
+    <string name="gestionar_etiquetas">Gestisci tag</string>
+    <string name="limpiar_tareas_comp">Svuota attività completate</string>
+
+    <!-- Error no previsto -->
+    <string name="cerrar_aplicacion">Chiudi applicazione</string>
+    <string name="error_no_previsto">"Si è verificato un errore imprevisto \n"</string>
+    <string name="mensaje_error_activity">"Per favore, segnala il problema con l'errore mostrato
+        nella finestra inferiore sulla piattaforma in modo da poterlo
+        risolvere il più rapidamente possibile. Inoltre, se lo ritieni necessario, puoi spiegare
+        come riprodurre l'errore."</string>
+</resources>

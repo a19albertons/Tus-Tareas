@@ -13,6 +13,10 @@ enum class IdiomaApp(
 ) {
     SISTEMA("", "Sistema"),
     ESPANOL("es", "Español"),
+    ITALIANO("it", "Italiano"),
+    FRANCES("fr", "Francés"),
+    ALEMAN("de", "Alemán"),
+    PORTUGUES("pt", "Portugués"),
     INGLES("en", "Ingles"),
     GALLEGO("gl", "Gallego"),
 }
