@@ -1,0 +1,180 @@
+<resources>
+    <string name="app_name">Deine Aufgaben</string>
+    <string name="hello_blank_fragment">Hallo leeres Fragment</string>
+
+    <!-- General -->
+    <string name="cargando">Laden...</string>
+    <string name="error_navegar">Beim Navigieren ist ein Fehler aufgetreten</string>
+    <string name="lupa">Lupe</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Suche nach Titel, Beschreibung und
+        Schlagwort</string>
+    <string name="error_modificar_checkbox">Beim Bearbeiten der Aufgabe ist ein Fehler aufgetreten</string>
+    <string name="tres_barras">Drei Balken</string>
+    <string name="anadir">+</string>
+    <string name="taza">Tasse</string>
+    <string name="nombreRequerido">Name*</string>
+    <string name="descripcion">Beschreibung</string>
+    <string name="xx_xx_xxxx">XX/XX/XXXX</string>
+    <string name="guardar">Speichern</string>
+    <string name="descartar">Verwerfen</string>
+    <string name="continuar">Weiter</string>
+    <string name="cancelar">Abbrechen</string>
+    <string name="eliminar">Löschen</string>
+    <string name="fecha_creacion">Erstellungsdatum</string>
+    <string name="calendario">Kalender</string>
+    <string name="etiqueta">Schlagwort</string>
+    <string name="titulo">Titel</string>
+    <string name="fecha_inicio">Startdatum</string>
+    <string name="fecha_fin">Enddatum</string>
+    <string name="tareas">Aufgaben</string>
+    <string name="no_existen_etiquetas">Keine Schlagworte vorhanden</string>
+    <string name="prevencion_fallo_critico">Ein kritischer Fehler wurde erkannt</string>
+
+    <!-- Inicio -->
+    <string name="ver_mas">Mehr anzeigen</string>
+    <string name="no_hay_tareas_para_hoy">Keine ausstehenden Aufgaben für heute</string>
+    <string name="tienes_una_tarea_para_hoy">Du hast 1 ausstehende Aufgabe für heute</string>
+    <string name="tienes_tareas_para_hoy">Du hast %1$d ausstehende Aufgaben für heute</string>
+    <string name="no_hay_tareas_retrasadas">Keine verspäteten Aufgaben</string>
+    <string name="tienes_una_tarea_retrasada">Du hast 1 verspätete Aufgabe</string>
+    <string name="tienes_tareas_retrasadas">Du hast %1$d verspätete Aufgaben</string>
+    <string name="no_hay_tareas_proximas">Keine anstehenden Aufgaben</string>
+    <string name="tienes_una_tarea_proxima">Du hast 1 anstehende Aufgabe</string>
+    <string name="tienes_tareas_proximas">Du hast %1$d anstehende Aufgaben</string>
+    <string name="eliminar_simbolo">-</string>
+
+    <!-- Listar tareas -->
+    <string name="estado">Status</string>
+    <string name="prioridad">Priorität</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Du hast noch
+        keine Aufgaben erstellt\noder sie entsprechen nicht dem
+        angewendeten Filter</string>
+
+    <!-- Estado -->
+    <string name="en_tiempo">Pünktlich</string>
+    <string name="retrasada">Verspätet</string>
+    <string name="completada">Erledigt</string>
+
+    <!-- Prioridad -->
+    <string name="baja">Niedrig</string>
+    <string name="media">Mittel</string>
+    <string name="alta">Hoch</string>
+    <string name="no_establecido">Nicht festgelegt</string>
+
+    <!-- Modificar tareas -->
+    <string name="error_guardar_tarea">Beim Speichern der neuen Aufgabe\nist ein Fehler aufgetreten</string>
+    <string name="error_modificar_tarea">Beim Speichern der Änderung ist ein Fehler aufgetreten</string>
+    <string name="confirmar_guardar_tarea">Möchtest du die Aufgabe wirklich speichern?</string>
+    <string name="confirmar_modificado_tarea">Bist du sicher mit den Änderungen?</string>
+    <string name="fecha_limite">Deadline</string>
+
+    <!-- Tarea detalles -->
+    <string name="error_eliminar_tarea">Beim Löschen der Aufgabe ist ein Fehler\naufgetreten</string>
+    <string name="confirmar_eliminar_tarea">Möchtest du diese Aufgabe löschen?</string>
+
+    <!-- Listar proyectos -->
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Du hast noch
+        keine Projekte erstellt\noder sie entsprechen nicht dem
+        angewendeten Filter</string>
+    <string name="primero_va_fin_despues_inicio">Das Ende muss nach dem Start liegen</string>
+    <string name="fin">Ende</string>
+    <string name="inicio">Start</string>
+    <string name="ascendente">Aufsteigend</string>
+    <string name="descendente">Absteigend</string>
+
+    <!-- Modificar proyectos -->
+    <string name="error_modificar_proyecto">Beim Speichern der Änderung ist ein Fehler aufgetreten</string>
+    <string name="confirmar_modificar_proyecto">Möchtest du die Änderungen wirklich übernehmen?</string>
+    <string name="error_guardar_proyecto">Beim Speichern des neuen Projekts ist ein Fehler
+        aufgetreten</string>
+    <string name="confirmar_guardar_proyecto">Möchtest du die Projekte wirklich speichern?</string>
+    <string name="no_existen_tareas">Keine Aufgaben vorhanden</string>
+
+    <!-- Proyecto detalles -->
+    <string name="error_eliminar_proyecto">Beim Löschen des Projekts ist ein Fehler aufgetreten</string>
+    <string name="confirmar_eliminar_proyecto">Möchtest du dieses Projekt löschen?</string>
+    <string name="aviso_confirmar_eliminar_proyecto">Hinweis: Aufgaben werden nicht gelöscht</string>
+
+    <!-- Estadisticas -->
+    <string name="progreso_semanal">Wöchentlicher Fortschritt</string>
+    <string name="tareas_completadas_vs_pendientes">Erledigte vs. ausstehende Aufgaben</string>
+    <string name="completas">Erledigt</string>
+    <string name="pendiente">Ausstehend</string>
+    <string name="retrasadas">Verspätet</string>
+    <string name="actividad_semanal">Wöchentliche Aktivität</string>
+    <string-array name="dias_semana_siglas">
+        <item>M</item> <!-- Montag -->
+        <item>D</item> <!-- Dienstag -->
+        <item>M</item> <!-- Mittwoch -->
+        <item>D</item> <!-- Donnerstag -->
+        <item>F</item> <!-- Freitag -->
+        <item>S</item> <!-- Samstag -->
+        <item>S</item> <!-- Sonntag -->
+    </string-array>
+
+    <!-- Ajustes -->
+    <string name="apariencia">Erscheinungsbild</string>
+    <string name="claro">Hell</string>
+    <string name="oscuro">Dunkel</string>
+    <string name="predeterminados_del_sistema">Systemstandard</string>
+    <string name="idioma">Sprache</string>
+    <string-array name="idiomas">
+        <item>System</item>
+        <item>Spanisch</item>
+        <item>Italienisch</item>
+        <item>Französisch</item>
+        <item>Deutsch</item>
+        <item>Portugiesisch</item>
+        <item>Englisch</item>
+        <item>Galicisch</item>
+    </string-array>
+    <string name="buscar_actualizaci_n">Nach Update suchen</string>
+
+
+    <!-- Lista etiquetas presentes -->
+    <string name="etiqueta_eliminada">Schlagwort gelöscht</string>
+
+    <!-- Lista tareas presentes -->
+    <string name="tarea_eliminada">Aufgabe gelöscht</string>
+
+    <!-- Listar etiquetas -->
+    <string name="buscar_por_titulo_y_descripci_n">Suche nach Titel und Beschreibung</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Du hast noch
+        keine Schlagworte erstellt\noder sie entsprechen nicht dem
+        angewendeten Filter</string>
+
+    <!-- Etiqueta detalles -->
+    <string name="error_eliminar_etiqueta">Beim Löschen des Schlagworts ist ein Fehler aufgetreten</string>
+    <string name="confirmar_eliminar_etiqueta">Möchtest du dieses Schlagwort löschen?</string>
+
+    <!-- Modificar etiquetas -->
+    <string name="error_modificar_etiqueta">Beim Speichern der Änderung ist ein Fehler aufgetreten</string>
+    <string name="confirmar_modificar_etiqueta">Möchtest du die Änderungen wirklich übernehmen?</string>
+    <string name="error_guardar_etiqueta">Beim Speichern des neuen Schlagworts ist ein Fehler
+        aufgetreten</string>
+    <string name="confirmar_guardar_etiqueta">Möchtest du das Schlagwort wirklich speichern?</string>
+
+    <!-- Activity main -->
+    <string name="error_eliminando_tareas">Entschuldigung, beim Löschen der Aufgaben ist ein Fehler
+        aufgetreten</string>
+
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Projekte</string>
+    <string name="estadisticas">Statistiken</string>
+    <string name="fecha_creaci_n_asc">Erstellungsdatum (aufsteigend)</string>
+    <string name="fecha_creaci_n_des">Erstellungsdatum (absteigend)</string>
+    <string name="fecha_l_mite_asc">Frist (aufsteigend)</string>
+    <string name="fecha_l_mite_des">Frist (absteigend)</string>
+    <string name="editar">Bearbeiten</string>
+    <string name="ajustes">Einstellungen</string>
+    <string name="gestionar_etiquetas">Schlagworte verwalten</string>
+    <string name="limpiar_tareas_comp">Erledigte Aufgaben löschen</string>
+
+    <!-- Error no previsto -->
+    <string name="cerrar_aplicacion">Anwendung schließen</string>
+    <string name="error_no_previsto">"Ein unerwarteter Fehler ist aufgetreten \n"</string>
+    <string name="mensaje_error_activity">Bitte veröffentlichen Sie das Problem mit dem unten
+        angezeigten Fehler in der Plattform, damit wir es so schnell wie
+        möglich beheben können. Falls Sie es für notwendig halten, können Sie auch beschreiben, wie
+        man den Fehler reproduziert.</string>
+</resources>
