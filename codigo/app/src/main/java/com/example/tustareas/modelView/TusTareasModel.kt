@@ -3,9 +3,12 @@ package com.example.tustareas.modelView
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.application
@@ -153,5 +156,16 @@ class TusTareasModel
             } else {
                 Log.i("MainActivity", "No se ha recibido notificacion")
             }
+        }
+
+    /**
+     * Busca la ultima version de la app en github.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    fun buscarActualizacion() {
+            val intent = Intent(Intent.ACTION_VIEW, "https://github.com/a19albertons/Tus-Tareas/releases/latest".toUri())
+            intent.flags = FLAG_ACTIVITY_NEW_TASK
+            application.startActivity(intent)
         }
     }
