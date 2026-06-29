@@ -115,6 +115,10 @@
     <string-array name="idiomas">
         <item>Sistema</item>
         <item>Español</item>
+        <item>Galego</item>
+        <item>Francés</item>
+        <item>Alemán</item>
+        <item>Portugués</item>
         <item>Inglés</item>
         <item>Galego</item>
     </string-array>
