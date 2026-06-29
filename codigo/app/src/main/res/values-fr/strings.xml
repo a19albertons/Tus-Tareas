@@ -1,0 +1,187 @@
+<resources>
+    <string name="app_name">Vos tâches</string>
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+
+    <!-- General -->
+    <string name="cargando">Chargement...</string>
+    <string name="error_navegar">Une erreur est survenue lors de la navigation</string>
+    <string name="lupa">loupe</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Rechercher par titre, description et
+        étiquette</string>
+    <string name="error_modificar_checkbox">"Une erreur est survenue lors de l'édition de la tâche"</string>
+    <string name="tres_barras">trois barres</string>
+    <string name="anadir">+</string>
+    <string name="taza">tasse</string>
+    <string name="nombreRequerido">Nom*</string>
+    <string name="descripcion">Description</string>
+    <string name="xx_xx_xxxx">JJ/MM/AAAA</string>
+    <string name="guardar">Enregistrer</string>
+    <string name="descartar">Abandonner</string>
+    <string name="continuar">Continuer</string>
+    <string name="cancelar">Annuler</string>
+    <string name="eliminar">Supprimer</string>
+    <string name="fecha_creacion">date de création</string>
+    <string name="calendario">calendrier</string>
+    <string name="etiqueta">étiquette</string>
+    <string name="titulo">titre</string>
+    <string name="fecha_inicio">date de début</string>
+    <string name="fecha_fin">date de fin</string>
+    <string name="tareas">tâches</string>
+    <string name="no_existen_etiquetas">"Aucune étiquette n'existe"</string>
+    <string name="prevencion_fallo_critico">Une défaillance critique a été détectée</string>
+
+    <!-- Inicio -->
+    <string name="ver_mas">Voir plus</string>
+    <string name="no_hay_tareas_para_hoy">"Aucune tâche en attente pour aujourd'hui"</string>
+    <string name="tienes_una_tarea_para_hoy">"Vous avez 1 tâche en attente pour aujourd'hui"</string>
+    <string name="tienes_tareas_para_hoy">"Vous avez %1$d tâches en attente pour aujourd'hui"</string>
+    <string name="no_hay_tareas_retrasadas">Aucune tâche en retard</string>
+    <string name="tienes_una_tarea_retrasada">Vous avez 1 tâche en retard</string>
+    <string name="tienes_tareas_retrasadas">Vous avez %1$d tâches en retard</string>
+    <string name="no_hay_tareas_proximas">Aucune tâche à venir</string>
+    <string name="tienes_una_tarea_proxima">Vous avez 1 tâche à venir</string>
+    <string name="tienes_tareas_proximas">Vous avez %1$d tâches à venir</string>
+    <string name="eliminar_simbolo">-</string>
+
+    <!-- Listar tareas -->
+    <string name="estado">Statut</string>
+    <string name="prioridad">Priorité</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">"Vous n'avez pas
+        encore créé de tâches\nou elles ne correspondent pas au filtre
+        appliqué"</string>
+
+    <!-- Estado -->
+    <string name="en_tiempo">À temps</string>
+    <string name="retrasada">En retard</string>
+    <string name="completada">Terminée</string>
+
+    <!-- Prioridad -->
+    <string name="baja">Basse</string>
+    <string name="media">Moyenne</string>
+    <string name="alta">Haute</string>
+    <string name="no_establecido">Non défini</string>
+
+    <!-- Modificar tareas -->
+    <string name="error_guardar_tarea">"Une erreur est survenue lors de l'enregistrement\nde la
+        nouvelle tâche"</string>
+    <string name="error_modificar_tarea">"Une erreur est survenue lors de l'enregistrement\nde la
+        modification"</string>
+    <string name="confirmar_guardar_tarea">Êtes-vous sûr de vouloir enregistrer la tâche ?</string>
+    <string name="confirmar_modificado_tarea">Êtes-vous sûr des modifications ?</string>
+    <string name="fecha_limite">Échéance</string>
+
+    <!-- Tarea detalles -->
+    <string name="error_eliminar_tarea">Une erreur est survenue lors de la tentative\nde suppression
+        de la tâche</string>
+    <string name="confirmar_eliminar_tarea">Voulez-vous supprimer cette tâche ?</string>
+
+    <!-- Listar proyectos -->
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">"Vous n'avez
+        pas encore créé de projets\nou ils ne correspondent pas au
+        filtre appliqué"</string>
+    <string name="primero_va_fin_despues_inicio">La fin doit être après le début</string>
+    <string name="fin">Fin</string>
+    <string name="inicio">Début</string>
+    <string name="ascendente">Croissant</string>
+    <string name="descendente">Décroissant</string>
+
+    <!-- Modificar proyectos -->
+    <string name="error_modificar_proyecto">"Une erreur est survenue lors de l'enregistrement\nde la
+        modification"</string>
+    <string name="confirmar_modificar_proyecto">Êtes-vous sûr des modifications ?</string>
+    <string name="error_guardar_proyecto">"Une erreur est survenue lors de l'enregistrement\ndu
+        nouveau projet"</string>
+    <string name="confirmar_guardar_proyecto">Êtes-vous sûr de vouloir enregistrer les projets ?</string>
+    <string name="no_existen_tareas">"Aucune tâche n'existe"</string>
+
+    <!-- Proyecto detalles -->
+    <string name="error_eliminar_proyecto">Une erreur est survenue lors de la tentative\nde
+        suppression du projet</string>
+    <string name="confirmar_eliminar_proyecto">Voulez-vous supprimer ce projet ?</string>
+    <string name="aviso_confirmar_eliminar_proyecto">Note : les tâches ne seront pas supprimées</string>
+
+    <!-- Estadisticas -->
+    <string name="progreso_semanal">Progrès hebdomadaire</string>
+    <string name="tareas_completadas_vs_pendientes">Tâches terminées vs en attente</string>
+    <string name="completas">Terminées</string>
+    <string name="pendiente">En attente</string>
+    <string name="retrasadas">En retard</string>
+    <string name="actividad_semanal">Activité hebdomadaire</string>
+    <string-array name="dias_semana_siglas">
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>J</item>
+        <item>V</item>
+        <item>S</item>
+        <item>D</item>
+    </string-array>
+
+    <!-- Ajustes -->
+    <string name="apariencia">Apparence</string>
+    <string name="claro">Clair</string>
+    <string name="oscuro">Sombre</string>
+    <string name="predeterminados_del_sistema">Par défaut (système)</string>
+    <string name="idioma">Langue</string>
+    <string-array name="idiomas">
+        <item>Système</item>
+        <item>Espagnol</item>
+        <item>Italien</item>
+        <item>Français</item>
+        <item>Allemand</item>
+        <item>Portugais</item>
+        <item>Anglais</item>
+        <item>Galicien</item>
+    </string-array>
+    <string name="buscar_actualizaci_n">Rechercher les mises à jour</string>
+
+
+    <!-- Lista etiquetas presentes -->
+    <string name="etiqueta_eliminada">Étiquette supprimée</string>
+
+    <!-- Lista tareas presentes -->
+    <string name="tarea_eliminada">Tâche supprimée</string>
+
+    <!-- Listar etiquetas -->
+    <string name="buscar_por_titulo_y_descripci_n">Rechercher par titre et description</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">"Vous n'avez
+        pas encore créé d'étiquettes\nou elles ne correspondent pas au
+        filtre appliqué"</string>
+
+    <!-- Etiqueta detalles -->
+    <string name="error_eliminar_etiqueta">"Une erreur est survenue lors de la tentative\nde
+        suppression de l'étiquette"</string>
+    <string name="confirmar_eliminar_etiqueta">Voulez-vous supprimer cette étiquette ?</string>
+
+    <!-- Modificar etiquetas -->
+    <string name="error_modificar_etiqueta">"Une erreur est survenue lors de l'enregistrement\nde la
+        modification"</string>
+    <string name="confirmar_modificar_etiqueta">Êtes-vous sûr des modifications ?</string>
+    <string name="error_guardar_etiqueta">"Une erreur est survenue lors de l'enregistrement\nde la
+        nouvelle étiquette"</string>
+    <string name="confirmar_guardar_etiqueta">"Êtes-vous sûr de vouloir enregistrer l'étiquette ?"</string>
+
+    <!-- Activity main -->
+    <string name="error_eliminando_tareas">Désolé, une erreur est survenue\n lors de la suppression
+        des tâches</string>
+
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Projets</string>
+    <string name="estadisticas">Statistiques</string>
+    <string name="fecha_creaci_n_asc">date de création croissante</string>
+    <string name="fecha_creaci_n_des">date de création décroissante</string>
+    <string name="fecha_l_mite_asc">échéance croissante</string>
+    <string name="fecha_l_mite_des">échéance décroissante</string>
+    <string name="editar">modifier</string>
+    <string name="ajustes">Paramètres</string>
+    <string name="gestionar_etiquetas">Gérer les étiquettes</string>
+    <string name="limpiar_tareas_comp">Effacer les tâches terminées</string>
+
+    <!-- Error no previsto -->
+    <string name="cerrar_aplicacion">"Fermer l'application"</string>
+    <string name="error_no_previsto">"Une erreur imprévue est survenue \n"</string>
+    <string name="mensaje_error_activity">"Veuillez signaler le problème avec l'erreur affichée dans
+        la fenêtre inférieure sur la plateforme afin que nous
+        puissions la corriger dès que possible. De plus, si vous le jugez nécessaire, vous pouvez
+        expliquer comment reproduire l'erreur."</string>
+</resources>
