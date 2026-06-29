@@ -1,7 +1,6 @@
 package com.example.tustareas.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Update
 import com.example.tustareas.modelos.Etiqueta
 
@@ -12,15 +11,6 @@ import com.example.tustareas.modelos.Etiqueta
  */
 @Dao
 interface ModificarEtiquetaConsultas {
-    /**
-     * Inserta una etiqueta
-     *
-     * @param etiqueta La etiqueta a insertar.
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    @Insert
-    suspend fun insertarEtiqueta(etiqueta: Etiqueta)
-
     /**
      * Modifica una etiqueta
      *

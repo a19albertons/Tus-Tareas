@@ -12,15 +12,17 @@ import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
+import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -51,10 +53,10 @@ class ListarTareasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioTareasModificar: ModificarTareasRepository
+    lateinit var repositorioTareasCrear: CrearTareasRepository
 
     @Inject
-    lateinit var repositorioEtiquetasModificar: ModificarEtiquetasRepository
+    lateinit var repositorioEtiquetasCrear: CrearEtiquetasRepository
 
     @Inject
     lateinit var listarTareasRepository: ListarTareasRepository
@@ -62,6 +64,58 @@ class ListarTareasModelTest {
     lateinit var listarTareasModel: ListarTareasModel
 
     private val diaReferencia = 1735689600000L
+
+    // Tarea sin fecha limite, sin prioridad y en tiempo
+    val tarea1 =
+        Tarea(
+            id = 1,
+            nombre = "tarea1",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = Date(diaReferencia - 86400000),
+            fechaLimite = null,
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea1DTO = TareaDTO(tarea1, emptyList())
+
+    // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
+    val tarea2 =
+        Tarea(
+            nombre = "tarea2",
+            prioridad = Prioridad.BAJA,
+            fechaCreacion = Date(diaReferencia),
+            fechaLimite = Date(diaReferencia + 86400000), // Un día después
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea2DTO = TareaDTO(tarea2, emptyList())
+
+    // Completada, priroridad alta, descripcion
+    val tareaHoy =
+        Tarea(
+            nombre = "tareaHoy",
+            descripcion = "descripcion",
+            prioridad = Prioridad.ALTA,
+            fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
+            fechaLimite = Date(diaReferencia), // Hoy
+            estado = Estado.COMPLETADA,
+        )
+    val etiqueta =
+        Etiqueta(
+            // Id interno manual para base de pruebas
+            id = 1,
+            nombre = "etiqueta",
+        )
+    val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
+
+    // Tarea retrasada, prioridad media y retrasada
+    val tareaRETRASADA =
+        Tarea(
+            nombre = "tareaRetrasada",
+            prioridad = Prioridad.MEDIA,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(diaReferencia - 86400000), // Un día antes
+            estado = Estado.RETRASADA,
+        )
+    val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
     // Preparación entorno comun
     @Before
@@ -72,66 +126,18 @@ class ListarTareasModelTest {
             // Crear modelo
             listarTareasModel = ListarTareasModel(ApplicationProvider.getApplicationContext(), listarTareasRepository)
 
-            // Tarea sin fecha limite, sin prioridad y en tiempo
-            val tarea1 =
-                Tarea(
-                    id = 1,
-                    nombre = "tarea1",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = Date(diaReferencia - 86400000),
-                    fechaLimite = null,
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea1DTO = TareaDTO(tarea1, emptyList())
-            // Tarea con fecha limite, pero no retrasada, prioridad baja, y más vieja en creación
-            val tarea2 =
-                Tarea(
-                    nombre = "tarea2",
-                    prioridad = Prioridad.BAJA,
-                    fechaCreacion = Date(diaReferencia),
-                    fechaLimite = Date(diaReferencia + 86400000), // Un día después
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea2DTO = TareaDTO(tarea2, emptyList())
-            // Completada, priroridad alta, descripcion
-            val tareaHoy =
-                Tarea(
-                    nombre = "tareaHoy",
-                    descripcion = "descripcion",
-                    prioridad = Prioridad.ALTA,
-                    fechaCreacion = Date(DateHelper.fechaMediaNocheUTC().time - 86400000),
-                    fechaLimite = Date(diaReferencia), // Hoy
-                    estado = Estado.COMPLETADA,
-                )
-            val etiqueta =
-                Etiqueta(
-                    // Id interno manual para base de pruebas
-                    id = 1,
-                    nombre = "etiqueta",
-                )
-            val tareaHoyDTO = TareaDTO(tareaHoy, listOf(etiqueta))
-            // Tarea retrasada, prioridad media y retrasada
-            val tareaRETRASADA =
-                Tarea(
-                    nombre = "tareaRetrasada",
-                    prioridad = Prioridad.MEDIA,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-                    estado = Estado.RETRASADA,
-                )
-            val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
-
             // Insertar tareas y etiqueta
-            repositorioTareasModificar.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioTareasModificar.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioEtiquetasModificar.insertarEtiqueta(etiqueta)
-            repositorioTareasModificar.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioTareasModificar.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioEtiquetasCrear.insertarEtiqueta(etiqueta)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioTareasCrear.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -144,7 +150,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 4)
+        assertEquals(4, resultado!!.size)
     }
 
     @Test
@@ -155,7 +161,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -166,7 +172,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.last().nombre)
     }
 
     // Test prioridad No establecido
@@ -179,7 +185,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -191,7 +197,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -203,7 +209,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.last().nombre)
     }
 
     // Test prioridad Baja
@@ -216,7 +222,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -228,7 +234,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea2")
+        assertEquals("tarea2", resultado!!.first().nombre)
     }
 
     @Test
@@ -240,7 +246,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea2")
+        assertEquals("tarea2", resultado!!.last().nombre)
     }
 
     // Test prioridad Media
@@ -253,7 +259,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -265,7 +271,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.first().nombre)
     }
 
     @Test
@@ -277,7 +283,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.last().nombre)
     }
 
     // Test prioridad Alta
@@ -290,7 +296,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -302,7 +308,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.first().nombre)
     }
 
     @Test
@@ -314,7 +320,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.last().nombre)
     }
 
     // Test estado todos
@@ -326,7 +332,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 4)
+        assertEquals(4, resultado!!.size)
     }
 
     @Test
@@ -337,7 +343,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -348,7 +354,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.last().nombre)
     }
 
     // Test estado en tiempo
@@ -361,7 +367,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 2)
+        assertEquals(2, resultado!!.size)
     }
 
     @Test
@@ -373,7 +379,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -385,7 +391,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea2")
+        assertEquals("tarea2", resultado!!.last().nombre)
     }
 
     // Test estado compeltada
@@ -398,7 +404,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -410,7 +416,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.first().nombre)
     }
 
     @Test
@@ -422,7 +428,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.last().nombre)
     }
 
     // Test estado retrasada
@@ -435,7 +441,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -447,7 +453,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.first().nombre)
     }
 
     @Test
@@ -459,7 +465,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.last().nombre)
     }
 
     // Test ordenacion fecha creacion ascendente
@@ -472,7 +478,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -484,7 +490,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.last().nombre)
     }
 
     // Test ordenacion fecha creacion descendente
@@ -497,7 +503,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!!.first().nombre)
     }
 
     @Test
@@ -509,7 +515,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.last().nombre)
     }
 
     // Test ordenacion fecha limite ascendente
@@ -522,7 +528,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -534,7 +540,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea2")
+        assertEquals("tarea2", resultado!!.last().nombre)
     }
 
     // Test ordenacion fecha limite ascendente
@@ -547,11 +553,11 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea2")
+        assertEquals("tarea2", resultado!!.first().nombre)
     }
 
     @Test
-    fun fechaLimiteDescenteUltimo() {
+    fun fechaLimiteDescendenteUltimo() {
         // Obtener datos
         listarTareasModel.actualizarTextoOrdenacionListadoTareas(OrdenarTareas.FECHA_LIMITE_DES)
         val liveData = listarTareasModel.obtenerTareasFiltradas()
@@ -559,7 +565,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.last().nombre)
     }
 
     // Test filtro probando que nombre funciona
@@ -572,7 +578,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -584,7 +590,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.first().nombre)
     }
 
     @Test
@@ -596,7 +602,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tarea1")
+        assertEquals("tarea1", resultado!!.last().nombre)
     }
 
     // Test filtro probando que descipcion funciona
@@ -609,7 +615,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -621,7 +627,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.first().nombre)
     }
 
     @Test
@@ -633,7 +639,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.last().nombre)
     }
 
     // Test filtro probando que etiqueta funciona
@@ -646,7 +652,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     @Test
@@ -658,7 +664,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.first().nombre)
     }
 
     @Test
@@ -670,7 +676,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.last().nombre)
     }
 
     // test completo
@@ -686,7 +692,7 @@ class ListarTareasModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!!.last().nombre)
     }
 
     // test modificar tarea (marcar como completada)
@@ -709,7 +715,7 @@ class ListarTareasModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado!!.first().estado == Estado.COMPLETADA)
+            assertEquals(Estado.COMPLETADA, resultado!!.first().estado)
         }
 
     // test modificar tarea (marcar como no completada)
@@ -732,6 +738,6 @@ class ListarTareasModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado!!.get(2).estado != Estado.COMPLETADA)
+            assertNotEquals(Estado.COMPLETADA, resultado!![2].estado)
         }
 }

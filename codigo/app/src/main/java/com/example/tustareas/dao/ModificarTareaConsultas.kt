@@ -19,16 +19,6 @@ import com.example.tustareas.modelos.TareaEtiqueta
 @Dao
 interface ModificarTareaConsultas {
     /**
-     * Inserta una tarea y devuelve su id. Solo usar en las transaciones
-     *
-     * @param tarea La tarea a insertar.
-     * @return Long con el ID de la tarea insertada.
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    @Insert
-    suspend fun insertarTarea(tarea: Tarea): Long
-
-    /**
      * Modifica una tarea. Solo usar en las transaciones
      *
      * @param tarea La tarea a modificar.
@@ -64,20 +54,6 @@ interface ModificarTareaConsultas {
      */
     @Query("select * from etiquetas where id not in (:lista)")
     fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
-
-    /**
-     * Inserta la tarea junto con sus etiquetas.
-     *
-     * @param tareaDTO El objeto TareaDTO que contiene la tarea y sus etiquetas a insertar.
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    @Transaction
-    suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) {
-        val id = insertarTarea(tareaDTO.tarea).toInt()
-        tareaDTO.etiquetas.forEach { etiqueta ->
-            insertarTareaEtiqueta(TareaEtiqueta(id, etiqueta.id))
-        }
-    }
 
     /**
      * Modifica la tarea junto con sus etiquetas.

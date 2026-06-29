@@ -44,15 +44,6 @@ class ModificarProyectosRepository
             modificarProyectoConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
         /**
-         * Inserta un proyecto nuevo con sus tareas y etiquetas
-         *
-         * @param proyectoDTO El DTO del proyecto a insertar
-         * @author Alberto Noceda <a19albertons@iessanclemente.net>
-         */
-        suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
-            modificarProyectoConsultas.insertarProyectoConTareaYEtiqueta(proyectoDTO)
-
-        /**
          * Modifica un proyecto existente con sus tareas y etiquetas
          *
          * @param proyectoDTO El DTO del proyecto a modificar

@@ -115,9 +115,15 @@
     <string-array name="idiomas">
         <item>System</item>
         <item>Spanish</item>
+        <item>Italian</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Portuguese</item>
         <item>English</item>
         <item>Galician</item>
     </string-array>
+    <string name="buscar_actualizaci_n">Search Update</string>
+
 
     <!-- Lista etiquetas presentes -->
     <string name="etiqueta_eliminada">Tag deleted</string>

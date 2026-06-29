@@ -314,10 +314,10 @@ class ModificarProyectoFragment : Fragment() {
     private fun dialogo() {
         AlertDialog
             .Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(model.tituloDialogo()))
+            .setTitle(getString(R.string.confirmar_modificar_proyecto))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _, _ ->
-                model.guardarYModificarProyecto(
+                model.modificarProyecto(
                     binding.tituloProyecto.text
                         .toString()
                         .trim(),

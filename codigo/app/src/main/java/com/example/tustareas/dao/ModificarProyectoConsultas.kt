@@ -102,27 +102,6 @@ interface ModificarProyectoConsultas {
     fun obtenerEtiquetasRestantes(lista: List<Int>): LiveData<List<Etiqueta>>
 
     /**
-     * Inserta un nuevo proyecto junto con sus tareas y etiquetas asociadas.
-     *
-     * @param proyectoDTO El objeto ProyectoDTO que contiene el proyecto, las tareas y las etiquetas a insertar.
-     * @author Alberto Noceda <a19albertons@iessanclemente.net>
-     */
-    @Transaction
-    suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) {
-        val id = insertarProyecto(proyectoDTO.proyecto).toInt()
-
-        // Insertar relaciones proyecto-etiqueta
-        proyectoDTO.etiquetas.forEach {
-            insertarProyectoEtiqueta(ProyectoEtiqueta(id, it.id))
-        }
-
-        // Actualiza los id de proyecto en la realacion proyecto-tarea
-        proyectoDTO.tareas.forEach {
-            modificarProyectoID(it.id, id)
-        }
-    }
-
-    /**
      * Modifica un proyecto existente junto con sus tareas y etiquetas asociadas.
      *
      * @param proyectoDTO El objeto ProyectoDTO que contiene el proyecto, las tareas y las etiquetas a modificar.

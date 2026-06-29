@@ -54,8 +54,6 @@ class MainActivity : AppCompatActivity() {
             R.id.listarTareasFragment,
             R.id.listarProyectosFragment,
             R.id.estadisticasFragment,
-            R.id.ajustesFragment,
-            R.id.listarEtiquetasFragment,
         )
 
     /**
@@ -106,6 +104,15 @@ class MainActivity : AppCompatActivity() {
 
         // Maneja la flecha de retroceso teniendo en cuenta el appbarconfiguration
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+
+        // Maneja la visibilidad de la barra inferior según el fragmento actual
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id in fragmentosSinFlecha.toList()) {
+                bottomNav.visibility = BottomNavigationView.VISIBLE
+            } else {
+                bottomNav.visibility = BottomNavigationView.GONE
+            }
+        }
 
         // Permiso para notificaicones
         val permisoNotificaciones =

@@ -7,7 +7,8 @@
     <string name="cargando">Cargando</string>
     <string name="error_navegar">Ha habido un error al navegar</string>
     <string name="lupa">lupa</string>
-    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Buscar por titulo, descripción y etiqueta</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Buscar por titulo, descripción y
+        etiqueta</string>
     <string name="error_modificar_checkbox">Ha habido un error al modificar la tarea</string>
     <string name="tres_barras">tres barras</string>
     <string name="anadir">+</string>
@@ -32,7 +33,6 @@
     <string name="prevencion_fallo_critico">Se ha detectado un fallo crítico</string>
 
 
-
     <!-- Inicio -->
     <string name="ver_mas">Ver más</string>
     <string name="no_hay_tareas_para_hoy">No hay tareas pendientes para hoy</string>
@@ -52,7 +52,8 @@
     <!-- Listar tareas -->
     <string name="estado">Estado</string>
     <string name="prioridad">Prioridad</string>
-    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado tareas\no no se ajustan al filtro aplicado</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha
+        creado tareas\no no se ajustan al filtro aplicado</string>
 
 
     <!-- Estado -->
@@ -78,7 +79,8 @@
     <string name="confirmar_eliminar_tarea">Desea eliminar esta tarea</string>
 
     <!-- Listar proyectos -->
-    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado proyectos\no no se ajustan al filtro aplicado</string>
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Todavía no ha
+        creado proyectos\no no se ajustan al filtro aplicado</string>
     <string name="primero_va_fin_despues_inicio">Primero va fin despues inicio</string>
     <string name="fin">Fin</string>
     <string name="ascendente">Ascendente</string>
@@ -120,12 +122,18 @@
     <string name="oscuro">Oscuro</string>
     <string name="predeterminados_del_sistema">Predeterminados del sistema</string>
     <string name="idioma">Idioma</string>
+
     <string-array name="idiomas">
         <item>Sistema</item>
         <item>Español</item>
-        <item>Ingles</item>
+        <item>Italiano</item>
+        <item>Francés</item>
+        <item>Alemán</item>
+        <item>Portugués</item>
+        <item>Inglés</item>
         <item>Gallego</item>
     </string-array>
+    <string name="buscar_actualizaci_n">Buscar Actualización</string>
 
     <!-- Lista etiquetas presentes -->
     <string name="etiqueta_eliminada">Etiqueta eliminada</string>
@@ -136,7 +144,8 @@
 
     <!-- Listar etiquetas -->
     <string name="buscar_por_titulo_y_descripci_n">Buscar por titulo y descripción</string>
-    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Todavía no ha creado etiqueta \n o no se ajustan al filtro aplicado</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Todavía no ha
+        creado etiqueta \n o no se ajustan al filtro aplicado</string>
 
     <!-- Etiqueta detalles -->
     <string name="error_eliminar_etiqueta">Ha habido un error al intentar\nborrar la etiqueta</string>
@@ -150,7 +159,6 @@
 
     <!-- Activity main -->
     <string name="error_eliminando_tareas">Lo sentimos ha habido un\nerror eliminando las tareas</string>
-
 
 
     <!-- Soporte idiomas en menu -->
@@ -168,5 +176,7 @@
     <!-- Activity error no previsto -->
     <string name="cerrar_aplicacion">Cerrar aplicación</string>
     <string name="error_no_previsto">"Ha habido el siguiente error no previsto/irreversible \n"</string>
-    <string name="mensaje_error_activity">Publique la incidencia con el error que sale en la ventana inferior en la plataforma, para que podamos solucionarlo lo antes posible. Además, si considera necesario puede indicar los casos de como reproducir el errro.</string>
+    <string name="mensaje_error_activity">Publique la incidencia con el error que sale en la ventana
+        inferior en la plataforma, para que podamos solucionarlo lo antes posible. Además, si
+        considera necesario puede indicar los casos de como reproducir el errro.</string>
 </resources>

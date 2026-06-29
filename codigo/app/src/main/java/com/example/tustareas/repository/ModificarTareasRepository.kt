@@ -30,14 +30,6 @@ class ModificarTareasRepository
             modificarTareaConsultas.obtenerEtiquetasRestantes(listaEtiquetas.map { it.id })
 
         /**
-         * Inserta una nueva tarea en la base de datos con sus etiquetas
-         *
-         * @param tareaDTO El DTO de la tarea a insertar
-         * @author Alberto Noceda <a19albertons@iessanclemente.net>
-         */
-        suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = modificarTareaConsultas.insertarTareaConEtiqueta(tareaDTO)
-
-        /**
          * Modifica una tarea existente en la base de datos con sus etiquetas
          *
          * @param tareaDTO El DTO de la tarea a modificar

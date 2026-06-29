@@ -37,108 +37,6 @@ class ModificarProyectosModelTest {
         ModificarProyectosModel(Application(), modificarProyectosRepository)
 
     @Test
-    fun guardarProyectoConTareaYEtiquetasNueva() =
-        runTest {
-            // Definición proyecto
-            val proyecto =
-                Proyecto(
-                    id = 0,
-                    nombre = "Proyecto de prueba",
-                    descripcion = "Descripción del proyecto de prueba",
-                    fechaCreacion = Date(),
-                    fechaInicio = Date(),
-                    fechaFin = Date(),
-                )
-            val tarea =
-                Tarea(
-                    id = 0,
-                    nombre = "tarea de prueba",
-                    descripcion = "Descripción de la tarea de prueba",
-                    fechaCreacion = Date(),
-                    fechaLimite = Date(),
-                    prioridad = Prioridad.ALTA,
-                    estado = Estado.EN_TIEMPO,
-                    idProyecto = null,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 0,
-                    nombre = "Etiqueta de prueba",
-                    descripcion = null,
-                )
-            val proyectoDTO =
-                ProyectoDTO(
-                    proyecto,
-                    listOf(etiqueta),
-                    listOf(tarea),
-                )
-
-            // Definir DTO de proyecto con tarea y etiqueta
-            modificarProyectosModel.definirProyectoDTO(proyectoDTO)
-
-            // Guardar tarea
-            modificarProyectosModel.guardarYModificarProyecto(
-                proyectoDTO.proyecto.nombre,
-                proyectoDTO.proyecto.descripcion ?: "",
-            )
-
-            // Verificar que se haya llamado al repositorio para guardar el proyecto
-            Mockito.verify(modificarProyectosRepository).insertarProyectoConTareaYEtiqueta(proyectoDTO)
-            assert(modificarProyectosModel.observarResultado().value == true)
-        }
-
-    @Test
-    fun guardarProyectoConTareaYEtiquetasNoValido() =
-        runTest {
-            // Definición proyecto
-            val proyecto =
-                Proyecto(
-                    id = 0,
-                    nombre = "",
-                    descripcion = "Descripción del proyecto de prueba",
-                    fechaCreacion = Date(),
-                    fechaInicio = Date(),
-                    fechaFin = Date(),
-                )
-            val tarea =
-                Tarea(
-                    id = 0,
-                    nombre = "tarea de prueba",
-                    descripcion = "Descripción de la tarea de prueba",
-                    fechaCreacion = Date(),
-                    fechaLimite = Date(),
-                    prioridad = Prioridad.ALTA,
-                    estado = Estado.EN_TIEMPO,
-                    idProyecto = null,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 0,
-                    nombre = "Etiqueta de prueba",
-                    descripcion = null,
-                )
-            val proyectoDTO =
-                ProyectoDTO(
-                    proyecto,
-                    listOf(etiqueta),
-                    listOf(tarea),
-                )
-
-            // Definir DTO de proyecto con tarea y etiqueta
-            modificarProyectosModel.definirProyectoDTO(proyectoDTO)
-
-            // Guardar tarea
-            modificarProyectosModel.guardarYModificarProyecto(
-                "",
-                proyectoDTO.proyecto.descripcion ?: "",
-            )
-
-            // Verificar que se haya llamado al repositorio para guardar el proyecto
-            assert(modificarProyectosModel.observarMensajeError().value == com.example.tustareas.R.string.error_guardar_proyecto)
-            assert(modificarProyectosModel.observarResultado().value == false)
-        }
-
-    @Test
     fun guardarProyectoConTareaYEtiquetasExistentes() =
         runTest {
             // Definición proyecto
@@ -179,7 +77,7 @@ class ModificarProyectosModelTest {
             modificarProyectosModel.definirProyectoDTO(proyectoDTO)
 
             // Guardar tarea
-            modificarProyectosModel.guardarYModificarProyecto(
+            modificarProyectosModel.modificarProyecto(
                 proyectoDTO.proyecto.nombre,
                 proyectoDTO.proyecto.descripcion ?: "",
             )
@@ -229,7 +127,7 @@ class ModificarProyectosModelTest {
         modificarProyectosModel.definirProyectoDTO(proyectoDTO)
 
         // Guardar tarea
-        modificarProyectosModel.guardarYModificarProyecto(
+        modificarProyectosModel.modificarProyecto(
             "",
             proyectoDTO.proyecto.descripcion ?: "",
         )
@@ -237,92 +135,6 @@ class ModificarProyectosModelTest {
         // Verificar que se haya llamado al repositorio para guardar el proyecto
         assert(modificarProyectosModel.observarMensajeError().value == R.string.error_modificar_proyecto)
         assert(modificarProyectosModel.observarResultado().value == false)
-    }
-
-    @Test
-    fun tituloDialogoNueva() {
-        // Definición proyecto
-        val proyecto =
-            Proyecto(
-                id = 0,
-                nombre = "Proyecto de prueba",
-                descripcion = "Descripción del proyecto de prueba",
-                fechaCreacion = Date(),
-                fechaInicio = Date(),
-                fechaFin = Date(),
-            )
-        val tarea =
-            Tarea(
-                id = 0,
-                nombre = "tarea de prueba",
-                descripcion = "Descripción de la tarea de prueba",
-                fechaCreacion = Date(),
-                fechaLimite = Date(),
-                prioridad = Prioridad.ALTA,
-                estado = Estado.EN_TIEMPO,
-                idProyecto = null,
-            )
-        val etiqueta =
-            Etiqueta(
-                id = 0,
-                nombre = "Etiqueta de prueba",
-                descripcion = null,
-            )
-        val proyectoDTO =
-            ProyectoDTO(
-                proyecto,
-                listOf(etiqueta),
-                listOf(tarea),
-            )
-
-        // Definir DTO de proyecto con tarea y etiqueta
-        modificarProyectosModel.definirProyectoDTO(proyectoDTO)
-
-        // Verificar que el título del diálogo sea el correcto para un proyecto nuevo
-        assert(modificarProyectosModel.tituloDialogo() == R.string.confirmar_guardar_proyecto)
-    }
-
-    @Test
-    fun tituloDialogoExistente() {
-        // Definición proyecto
-        val proyecto =
-            Proyecto(
-                id = 1,
-                nombre = "Proyecto de prueba",
-                descripcion = "Descripción del proyecto de prueba",
-                fechaCreacion = Date(),
-                fechaInicio = Date(),
-                fechaFin = Date(),
-            )
-        val tarea =
-            Tarea(
-                id = 1,
-                nombre = "tarea de prueba",
-                descripcion = "Descripción de la tarea de prueba",
-                fechaCreacion = Date(),
-                fechaLimite = Date(),
-                prioridad = Prioridad.ALTA,
-                estado = Estado.EN_TIEMPO,
-                idProyecto = null,
-            )
-        val etiqueta =
-            Etiqueta(
-                id = 1,
-                nombre = "Etiqueta de prueba",
-                descripcion = null,
-            )
-        val proyectoDTO =
-            ProyectoDTO(
-                proyecto,
-                listOf(etiqueta),
-                listOf(tarea),
-            )
-
-        // Definir DTO de proyecto con tarea y etiqueta
-        modificarProyectosModel.definirProyectoDTO(proyectoDTO)
-
-        // Verificar que el título del diálogo sea el correcto para un proyecto existente
-        assert(modificarProyectosModel.tituloDialogo() == R.string.confirmar_modificar_proyecto)
     }
 
     @Test

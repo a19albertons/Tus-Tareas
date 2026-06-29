@@ -19,14 +19,6 @@ class ModificarEtiquetasRepository
         private val modificarEtiquetaConsultas = database.modificarEtiquetaConsultas()
 
         /**
-         * Inserta una nueva etiqueta en la base de datos
-         *
-         * @param etiqueta La etiqueta a insertar
-         * @author Alberto Noceda <a19albertons@iessanclemente.net>
-         */
-        suspend fun insertarEtiqueta(etiqueta: Etiqueta) = modificarEtiquetaConsultas.insertarEtiqueta(etiqueta)
-
-        /**
          * Modifica una etiqueta existente en la base de datos
          *
          * @param etiqueta La etiqueta a modificar

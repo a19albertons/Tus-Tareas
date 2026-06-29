@@ -1,0 +1,369 @@
+package com.example.tustareas.fragmentos
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tustareas.R
+import com.example.tustareas.adapters.ListaEtiquetasPresentesAdapter
+import com.example.tustareas.adapters.ListaTareasPresentesAdapter
+import com.example.tustareas.databinding.FragmentCrearProyectoBinding
+import com.example.tustareas.modelView.CrearProyectosModel
+import com.example.tustareas.util.DateHelper
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.Date
+
+/**
+ * Clase que gestiona el fragmento de creación de proyectos.
+ *
+ * @author Alberto Noceda <a19albertons@iessanclemente.net>
+ */
+@AndroidEntryPoint
+class CrearProyectoFragment : Fragment() {
+    // Variables generales de la clase
+    private var _binding: FragmentCrearProyectoBinding? = null
+    val binding: FragmentCrearProyectoBinding
+        get() = _binding!!
+
+    val model: CrearProyectosModel by viewModels()
+
+    // Variables comunes tareas
+    private lateinit var adapterTarea: ListaTareasPresentesAdapter
+
+    // Variables comunes etiquetas
+    private lateinit var adapterEtiquetas: ListaEtiquetasPresentesAdapter
+
+    /**
+     * Crea la vista del fragmento de creación de proyectos y gestiona los eventos de los elementos de la vista.
+     *
+     * @param inflater El inflador de la vista.
+     * @param container El contenedor de la vista.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @return La vista del fragmento de creación de proyectos.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentCrearProyectoBinding.inflate(inflater, container, false)
+
+        // Recuperamos el proyecto pasado por argumentos
+        val args = ModificarProyectoFragmentArgs.fromBundle(requireArguments())
+        model.definirProyectoDTO(args.proyectoDTO)
+
+        // Gestionar el llenado de los campos
+        rellenarCampos()
+
+        // Gestiona la lógica de añadir nuevas tareas a un proyecto
+        gestionarMostradoTareas()
+
+        // Gestiona la lógica de eliminar tareas del proyecto
+        gestionarEliminacionTareas()
+
+        // Gestiona la lógica de añadir nuevas etiquetas a un proyecto
+        gestionarMostradoEtiquetas()
+
+        // Gestiona la lógica de eliminar etiquetas del proyecto
+        gestionarEliminacionEtiquetas()
+
+        // Gestiona el boton de añadir tarea
+        gestionarAnadirTarea()
+
+        // Gestiona el boton de añadir etiqueta
+        gestionarAnadirEtiqueta()
+
+        // Gestiona los calendarios de inicio y fin del proyecto
+        gestionarCalendarios()
+
+        // Observar los errores
+        observarError()
+
+        // Observar el resultado del guardado o modificación de un proyecto
+        observarResultado()
+
+        return binding.root
+    }
+
+    /**
+     * Hace modificacines en la vista ya creada para gestionar los eventos de los elementos de la vista.
+     *
+     * @param view La vista del fragmento de modificación de proyectos.
+     * @param savedInstanceState El estado guardado de la vista.
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Gestiona la lógica de la flecha de retroceso
+        gestionarFlechaRetroceso()
+    }
+
+    /**
+     * Función que se encarga de rellenar los campos del formulario con los datos del proyecto pasado por argumentos.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun rellenarCampos() {
+        // Carga todos los datos recibidos en el fragmento
+        model.observarProyectoDTO().value?.let { proyectoDTO ->
+            binding.tituloProyecto.setText(proyectoDTO.proyecto.nombre)
+            binding.descripcionProyecto.setText(proyectoDTO.proyecto.descripcion)
+            binding.fechaCreacionTarea.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaCreacion)
+            binding.fechaInicioProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaInicio)
+            binding.fechaFinProyecto.text = DateHelper.timestampToString(proyectoDTO.proyecto.fechaFin)
+
+            // Refrescar tareas y etiquetas
+            model.actualizarFiltroListaEtiquetaProyecto(proyectoDTO.etiquetas)
+            model.actualizarFiltroListaTareaProyecto(proyectoDTO.tareas)
+        }
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de añadir nuevas tareas a un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net
+     */
+    private fun gestionarMostradoTareas() {
+        // Gestiona la addición de tareas
+        // spinner tareas
+        model.obtenerTareasRestantes().observe(viewLifecycleOwner) { tareas ->
+            val listaTareas = model.tareasRestantesProcesadas(tareas)
+            binding.listaTareas.adapter =
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.spinner_personalizado,
+                    listaTareas.map { it.nombre },
+                )
+        }
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de eliminar tareas de un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarEliminacionTareas() {
+        // Gestiona las tareas del proyecto en la opción de eliminar
+        // Recycler view para las tareas
+        adapterTarea =
+            ListaTareasPresentesAdapter { listaTareas ->
+                model.actualizarTareasDelProyecto(listaTareas)
+                model.actualizarFiltroListaTareaProyecto(model.obtenerTareasDelProyecto())
+            }
+        binding.recyclerViewMostrarTareas.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewMostrarTareas.adapter = adapterTarea
+        adapterTarea.submitList(model.obtenerTareasDelProyecto())
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de añadir nuevas etiquetas a un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarMostradoEtiquetas() {
+        // Gestiona la addición de etiquetas
+        // spinner etiquetas
+        model.obtenerEtiquetasRestantes().observe(viewLifecycleOwner) { etiquetas ->
+            val listaEtiquetas = model.etiquetasRestantesProcesadas(etiquetas)
+            binding.listaEtiquetas.adapter =
+                ArrayAdapter(
+                    requireContext(),
+                    R.layout.spinner_personalizado,
+                    listaEtiquetas.map { it.nombre },
+                )
+        }
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de eliminar etiquetas de un proyecto.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarEliminacionEtiquetas() {
+        // Gestiona las etiquetas del proyecto en la opción de eliminar
+        // Recycler view con las etiquetas del proyecto
+        adapterEtiquetas =
+            ListaEtiquetasPresentesAdapter { listaEtiquetas ->
+                model.actualizarEtiquetasDelProyecto(listaEtiquetas)
+                model.actualizarFiltroListaEtiquetaProyecto(model.obtenerEtiquetasDelProyecto())
+            }
+        binding.recyclerViewMostrarEtiquetas.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewMostrarEtiquetas.adapter = adapterEtiquetas
+        adapterEtiquetas.submitList(model.obtenerEtiquetasDelProyecto())
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de añadir una tarea a un proyecto al pulsar el botón de añadir tarea.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarAnadirTarea() {
+        // boton añadir tarea
+        binding.anadirTarea.setOnClickListener {
+            val posicion = binding.listaTareas.selectedItemPosition
+            model.anadirTareaAlProyecto(posicion)
+            // Mandamos la lista con las nuevas tareas
+            adapterTarea.submitList(model.obtenerTareasDelProyecto())
+            model.actualizarFiltroListaTareaProyecto(model.obtenerTareasDelProyecto())
+        }
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de añadir una etiqueta a un proyecto al pulsar el botón de añadir etiqueta.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarAnadirEtiqueta() {
+        // boton añadir etiqueta
+        binding.anadirEtiqueta.setOnClickListener {
+            val posicion = binding.listaEtiquetas.selectedItemPosition
+            model.anadirEtiquetaAlProyecto(posicion)
+            // Mandamos la lista con las nuevas tareas
+            adapterEtiquetas.submitList(model.obtenerEtiquetasDelProyecto())
+            model.actualizarFiltroListaEtiquetaProyecto(model.obtenerEtiquetasDelProyecto())
+        }
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de los calendarios de inicio y fin del proyecto al pulsar los botones correspondientes.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarCalendarios() {
+        // Despliega el calendario
+        // Calendario
+        // Fecha inicio
+        binding.calendarioInicio.setOnClickListener {
+            // Creamos una instancia de MaterialDatePicker
+            val builder = MaterialDatePicker.Builder.datePicker()
+            builder.setTitleText(getString(R.string.fecha_inicio))
+            // Construimos el datePicker
+            val picker = builder.build()
+
+            // Customizamos el boton de confirmar
+            picker.addOnPositiveButtonClickListener { eleccion ->
+
+                val fechaEscogidaPorUsuario = Date(eleccion)
+                model.establecerFechaInicioProyecto(fechaEscogidaPorUsuario)
+                binding.fechaInicioProyecto.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
+            }
+
+            // Mostramos el datePicker
+            picker.show(parentFragmentManager, "escoger fecha inicio")
+        }
+
+        // Fecha fin
+        binding.calendarioFin.setOnClickListener {
+            // Creamos una instancia de MaterialDatePicker
+            val builder = MaterialDatePicker.Builder.datePicker()
+            builder.setTitleText(getString(R.string.fecha_fin))
+            // Construimos el datePicker
+            val picker = builder.build()
+
+            // Customizamos el boton de confirmar
+            picker.addOnPositiveButtonClickListener { eleccion ->
+
+                val fechaEscogidaPorUsuario = Date(eleccion)
+                model.establecerFechaFinProyecto(fechaEscogidaPorUsuario)
+                binding.fechaFinProyecto.text = DateHelper.timestampToString(fechaEscogidaPorUsuario)
+            }
+
+            // Mostramos el datePicker
+            picker.show(parentFragmentManager, "escoger fecha fin")
+        }
+    }
+
+    /**
+     * Función que se encarga de gestionar la lógica de la flecha de retroceso para mostrar un diálogo de confirmación al usuario antes de salir del fragmento.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun gestionarFlechaRetroceso() {
+        // Modifica la logica por defecto de la flecha de retroceso
+        val flechaRetroceso =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    dialogo()
+                }
+            }
+
+        // Modifica el comportamiento en el activity
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, flechaRetroceso)
+    }
+
+    /**
+     * Muestra un diálogo que se encarga del guardado de un proyecto nuevo.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    private fun dialogo() {
+        AlertDialog
+            .Builder(requireContext(), R.style.DialogoPersonalizado)
+            .setTitle(getString(R.string.confirmar_guardar_proyecto))
+            .setMessage("")
+            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
+                model.guardarProyecto(
+                    binding.tituloProyecto.text
+                        .toString()
+                        .trim(),
+                    binding.descripcionProyecto.text
+                        .toString()
+                        .trim(),
+                )
+            }.setNegativeButton(getString(R.string.descartar)) { _, _ ->
+                findNavController().popBackStack()
+            }.setNeutralButton(getString(R.string.continuar), null)
+            .show()
+    }
+
+    /**
+     * Función que se encarga de observar los mensajes de error del modelo y mostrar un Snackbar con
+     * el mensaje de error correspondiente al usuario.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    fun observarError() {
+        model.observarMensajeError().observe(viewLifecycleOwner) { mensajeError ->
+            Snackbar.make(binding.root, mensajeError, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Función que se encarga de observar el resultado del guardado o modificación de un proyecto y
+     * volver a la vista previa si el resultado es positivo.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    fun observarResultado() {
+        model.observarResultado().observe(viewLifecycleOwner) { resultado ->
+            if (resultado) {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    /**
+     * Destruye la vista del fragmento de modificación de proyectos y libera los recursos asociados a la vista.
+     *
+     * @author Alberto Noceda <a19albertons@iessanclemente.net>
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

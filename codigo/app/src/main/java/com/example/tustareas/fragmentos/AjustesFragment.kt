@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import com.example.tustareas.R
 import com.example.tustareas.databinding.FragmentAjustesBinding
 import com.example.tustareas.modelView.TusTareasModel
+import com.example.tustareas.util.IdiomaApp
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -51,6 +52,9 @@ class AjustesFragment : Fragment() {
         // Gestiona el tema
         gestionTema()
 
+        // Gestiona el boton buscar actualización
+        gestionBoton()
+
         return binding.root
     }
 
@@ -73,13 +77,9 @@ class AjustesFragment : Fragment() {
         // Obtenemos el valor por defecto del modelo y lo deshabilitamos en la primera
         // ejecucíón para evitar un reinicio (recreación
         val idiomaGuardado = model.idioma.value
-        val posicionInicial =
-            when (idiomaGuardado) {
-                "Español" -> 1
-                "Ingles" -> 2
-                "Gallego" -> 3
-                else -> 0
-            }
+
+        // Obtiene la posicion inicial a partir del valor y mirando las entradas del enum class
+        val posicionInicial = IdiomaApp.entries.toTypedArray().indexOfFirst { it.nombre == idiomaGuardado }
         binding.idioma.setSelection(posicionInicial, false)
 
         // Gestiona la elección del idioma
@@ -91,13 +91,8 @@ class AjustesFragment : Fragment() {
                     posicion: Int,
                     id: Long,
                 ) {
-                    when (posicion) {
-                        // Actualizar idioma
-                        0 -> model.setIdioma("Sistema")
-                        1 -> model.setIdioma("Español")
-                        2 -> model.setIdioma("Ingles")
-                        3 -> model.setIdioma("Gallego")
-                    }
+                    val idiomaSeleccionado = IdiomaApp.entries.toTypedArray()[posicion].nombre
+                    model.setIdioma(idiomaSeleccionado)
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -128,6 +123,18 @@ class AjustesFragment : Fragment() {
             binding.claro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_NO)
             binding.oscuro.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_YES)
             binding.sistema.isChecked = (modo == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
+    }
+
+    /**
+     * Funcion privada que gestiona el boton buscar actualización. Su mision es reducir el llamado
+     * codigo spaguetti que había en onCreateView y mejorar la legibilidad del código.
+     *
+     * @author Alberto Noceda <a19albertons@iesanclemente.net>
+     */
+    private fun gestionBoton() {
+        binding.botonBuscarActualizacion.setOnClickListener {
+            model.buscarActualizacion()
         }
     }
 

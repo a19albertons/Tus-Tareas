@@ -279,10 +279,10 @@ class ModificarTareasFragment : Fragment() {
     private fun dialogo() {
         AlertDialog
             .Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(model.tituloDialogo()))
+            .setTitle(getString(R.string.confirmar_modificado_tarea))
             .setMessage("")
             .setPositiveButton(getString(R.string.guardar)) { _, _ ->
-                model.guardarYModificarTarea(
+                model.modificarTarea(
                     binding.tituloTarea.text
                         .toString()
                         .trim(),

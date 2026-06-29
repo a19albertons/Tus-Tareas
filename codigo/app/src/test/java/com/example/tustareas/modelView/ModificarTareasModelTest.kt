@@ -35,116 +35,6 @@ class ModificarTareasModelTest {
     val modificarTareasModel = ModificarTareasModel(Application(), modificarTareasRepository)
 
     @Test
-    fun tituloDialogoNueva() {
-        // Crear tareaDTO de prueba
-        val tarea =
-            Tarea(
-                id = 0,
-                nombre = "Tarea 1",
-                descripcion = "Descripción de la tarea 1",
-                fechaCreacion = Date(),
-                prioridad = Prioridad.ALTA,
-                fechaLimite = Date(),
-                estado = Estado.EN_TIEMPO,
-            )
-        val tareaDTO = TareaDTO(tarea, emptyList())
-
-        // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
-
-        // Comprobar que el título del diálogo es el esperado
-        assert(modificarTareasModel.tituloDialogo() == R.string.confirmar_guardar_tarea)
-    }
-
-    @Test
-    fun tituloDialogoExistentes() {
-        // Crear tareaDTO de prueba
-        val tarea =
-            Tarea(
-                id = 1,
-                nombre = "Tarea 1",
-                descripcion = "Descripción de la tarea 1",
-                fechaCreacion = Date(),
-                prioridad = Prioridad.ALTA,
-                fechaLimite = Date(),
-                estado = Estado.EN_TIEMPO,
-            )
-        val tareaDTO = TareaDTO(tarea, emptyList())
-
-        // Definir tareaDTO en el modelo
-        modificarTareasModel.definirTareaDTO(tareaDTO)
-
-        // Comprobar que el título del diálogo es el esperado
-        assert(modificarTareasModel.tituloDialogo() == R.string.confirmar_modificado_tarea)
-    }
-
-    @Test
-    fun guardarTareaNueva() =
-        runTest {
-            // Crear tareaDTO de prueba
-            val tarea =
-                Tarea(
-                    id = 0,
-                    nombre = "Tarea 1",
-                    descripcion = "Descripción de la tarea 1",
-                    fechaCreacion = Date(),
-                    prioridad = Prioridad.ALTA,
-                    fechaLimite = Date(),
-                    estado = Estado.EN_TIEMPO,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 1,
-                    nombre = "Etiqueta 1",
-                    descripcion = "Descripción de la etiqueta 1",
-                )
-            val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
-
-            // Definir tareaDTO en el modelo
-            modificarTareasModel.definirTareaDTO(tareaDTO)
-
-            // Guardar tarea
-            modificarTareasModel.guardarYModificarTarea("Tarea 1", "Descripción de la tarea 1")
-
-            // Comprobar que se ha llamado al método del repositorio para guardar la tarea
-            Mockito.verify(modificarTareasRepository).insertarTareaConEtiqueta(tareaDTO)
-            assert(modificarTareasModel.observarResultado().value == true)
-        }
-
-    @Test
-    fun guardarTareaNuevaNoValida() =
-        runTest {
-            // Crear tareaDTO de prueba
-            val tarea =
-                Tarea(
-                    id = 0,
-                    nombre = "Tarea 1",
-                    descripcion = "Descripción de la tarea 1",
-                    fechaCreacion = Date(),
-                    prioridad = Prioridad.ALTA,
-                    fechaLimite = Date(),
-                    estado = Estado.EN_TIEMPO,
-                )
-            val etiqueta =
-                Etiqueta(
-                    id = 1,
-                    nombre = "Etiqueta 1",
-                    descripcion = "Descripción de la etiqueta 1",
-                )
-            val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
-
-            // Definir tareaDTO en el modelo
-            modificarTareasModel.definirTareaDTO(tareaDTO)
-
-            // Guardar tarea
-            modificarTareasModel.guardarYModificarTarea("", "Descripción de la tarea 1")
-
-            // Comprobar error
-            assert(modificarTareasModel.observarMensajeError().value == R.string.error_guardar_tarea)
-            assert(modificarTareasModel.observarResultado().value == false)
-        }
-
-    @Test
     fun guardarTareaExistente() =
         runTest {
             // Crear tareaDTO de prueba
@@ -170,7 +60,7 @@ class ModificarTareasModelTest {
             modificarTareasModel.definirTareaDTO(tareaDTO)
 
             // Guardar tarea
-            modificarTareasModel.guardarYModificarTarea("Tarea 1", "Descripción de la tarea 1")
+            modificarTareasModel.modificarTarea("Tarea 1", "Descripción de la tarea 1")
 
             // Comprobar que se ha llamado al método del repositorio para modificar la tarea
             Mockito.verify(modificarTareasRepository).modificarTareaConEtiqueta(tareaDTO)
@@ -203,7 +93,7 @@ class ModificarTareasModelTest {
             modificarTareasModel.definirTareaDTO(tareaDTO)
 
             // Guardar tarea
-            modificarTareasModel.guardarYModificarTarea("", "Descripción de la tarea 1")
+            modificarTareasModel.modificarTarea("", "Descripción de la tarea 1")
 
             // Comprobar error
             assert(modificarTareasModel.observarMensajeError().value == R.string.error_modificar_tarea)

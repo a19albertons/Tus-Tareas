@@ -7,17 +7,17 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.dto.TareaDTO
 import com.example.tustareas.helper.MainDispatcherRule
 import com.example.tustareas.modelView.ListarTareasModel
-import com.example.tustareas.modelView.ModificarTareasModel
 import com.example.tustareas.modelView.VerMasModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.ListarTareasRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.repository.VerMasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -51,9 +51,7 @@ class VerMasModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTareas: ModificarTareasRepository
-
-    lateinit var modeloModificarTareas: ModificarTareasModel
+    lateinit var repositorioCrearTareas: CrearTareasRepository
 
     @Inject
     lateinit var repositorioListarTareas: ListarTareasRepository
@@ -68,6 +66,55 @@ class VerMasModelTest {
     // En esta clase de pruebas no se usa
     private val diaReferencia = 1735689600000L
 
+    // Tarea sin fecha limite
+    val tarea1 =
+        Tarea(
+            id = 1,
+            nombre = "tarea1",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = null,
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea1DTO = TareaDTO(tarea1, emptyList())
+
+    // Tarea con fecha limite, pero no retrasada
+    val tarea2 =
+        Tarea(
+            id = 2,
+            nombre = "tarea2",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea2DTO = TareaDTO(tarea2, emptyList())
+
+    // Tarea hoy
+    val tareaHoy =
+        Tarea(
+            id = 3,
+            nombre = "tareaHoy",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = DateHelper.fechaMediaNocheUTC(), // Hoy
+            estado = Estado.EN_TIEMPO,
+        )
+    val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
+
+    // Tarea retrasada
+    val tareaRETRASADA =
+        Tarea(
+            id = 4,
+            nombre = "tareaRetrasada",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time - 86400000), // Un día antes
+            // Es el campo se mira.
+            estado = Estado.RETRASADA,
+        )
+    val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
+
     // Preparación entorno comun
     @Before
     fun crearBd() =
@@ -76,61 +123,19 @@ class VerMasModelTest {
             ruleHilt.inject()
 
             // Crear modelos
-            modeloModificarTareas = ModificarTareasModel(ApplicationProvider.getApplicationContext(), repositorioModificarTareas)
             modeloListarTareas = ListarTareasModel(ApplicationProvider.getApplicationContext(), repositorioListarTareas)
             modeloVerMas = VerMasModel(ApplicationProvider.getApplicationContext(), repositorioVerMas)
 
-            // Tarea sin fecha limite
-            val tarea1 =
-                Tarea(
-                    nombre = "tarea1",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = null,
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea1DTO = TareaDTO(tarea1, emptyList())
-            // Tarea con fecha limite, pero no retrasada
-            val tarea2 =
-                Tarea(
-                    nombre = "tarea2",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time + 86400000), // Un día después
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea2DTO = TareaDTO(tarea2, emptyList())
-            // Tarea hoy
-            val tareaHoy =
-                Tarea(
-                    nombre = "tareaHoy",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = DateHelper.fechaMediaNocheUTC(), // Hoy
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
-            // Tarea retrasada
-            val tareaRETRASADA =
-                Tarea(
-                    nombre = "tareaRetrasada",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(DateHelper.fechaMediaNocheUTC().time - 86400000), // Un día antes
-                    // Es el campo se mira.
-                    estado = Estado.RETRASADA,
-                )
-            val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
-
             // Insertar tareas
-            repositorioModificarTareas.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioModificarTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioCrearTareas.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -154,7 +159,7 @@ class VerMasModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado!!.first().estado == Estado.COMPLETADA)
+            assertEquals(Estado.COMPLETADA, resultado!!.first().estado)
         }
 
     // Tareas para hoy -- cantidad
@@ -167,7 +172,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     // Tareas para hoy -- Nombre tarea
@@ -180,7 +185,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!![0].nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!![0].nombre)
     }
 
     // Tareas para hoy -- Nombre tarea
@@ -194,7 +199,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!![0].nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!![0].nombre)
     }
 
     // Tareas para retrasadas -- cantidad
@@ -207,7 +212,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     // Tareas para hoy -- Nombre tarea
@@ -220,7 +225,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![0].nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!![0].nombre)
     }
 
     // Tareas para hoy -- Nombre tarea
@@ -234,7 +239,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![0].nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!![0].nombre)
     }
 
     // Tareas futuras -- cantidad
@@ -247,7 +252,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!!.size == 2)
+        assertEquals(2, resultado!!.size)
     }
 
     // Tareas futuras -- Nombre tarea
@@ -260,7 +265,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![0].nombre == "tarea1")
+        assertEquals("tarea1", resultado!![0].nombre)
     }
 
     @Test
@@ -272,7 +277,7 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![1].nombre == "tarea2")
+        assertEquals("tarea2", resultado!![1].nombre)
     }
 
     @Test
@@ -285,6 +290,6 @@ class VerMasModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![0].nombre == "tarea2")
+        assertEquals("tarea2", resultado!![0].nombre)
     }
 }

@@ -137,36 +137,19 @@ class ModificarTareasModel
         fun obtenerListaEtiquetasTarea(): List<Etiqueta> = tareaDTO.value!!.etiquetas
 
         /**
-         * Obtiene el título del diálogo de confirmación dependiendo de si la tarea a modificar es nueva o no
-         *
-         * @return Un entero que representa el recurso del título del diálogo de confirmación a mostrar dependiendo de si la tarea a modificar es nueva o no
-         * @author Alberto Noceda <a19albertons@iessanclemente.net
-         */
-        fun tituloDialogo(): Int =
-            if (tareaDTO.value!!.tarea.id == 0) {
-                R.string.confirmar_guardar_tarea
-            } else {
-                R.string.confirmar_modificado_tarea
-            }
-
-        /**
          * Guarda o modifica la tarea a modificar en la base de datos dependiendo de si es nueva o no
          *
          * @param nombre El nuevo nombre de la tarea a modificar
          * @param descripcion La nueva descripción de la tarea a modificar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        fun guardarYModificarTarea(
+        fun modificarTarea(
             nombre: String,
             descripcion: String,
         ) {
             // Comprobación de que el título de la tarea no está vacío
             if (nombre.isBlank()) {
-                if (tareaDTO.value!!.tarea.id == 0) {
-                    mensajeError.value = R.string.error_guardar_tarea
-                } else {
-                    mensajeError.value = R.string.error_modificar_tarea
-                }
+                mensajeError.value = R.string.error_modificar_tarea
                 return
             }
 
@@ -190,15 +173,11 @@ class ModificarTareasModel
             // Generamos un hilo con la nueva tarea
             viewModelScope.launch {
                 try {
-                    if (tareaDTO.value!!.tarea.id == 0) {
-                        insertarTareaConEtiqueta(tareaDTO.value!!)
-                    } else {
-                        modificarTareaConEtiqueta(tareaDTO.value!!)
-                    }
+                    modificarTareaConEtiqueta(tareaDTO.value!!)
                     // Volvemos a la vista previa
                     resultado.value = true
                 } catch (_: Exception) {
-                    mensajeError.value = R.string.error_guardar_tarea
+                    mensajeError.value = R.string.error_modificar_tarea
                 }
             }
         }
@@ -212,9 +191,10 @@ class ModificarTareasModel
         fun observarMensajeError(): MutableLiveData<Int> = mensajeError
 
         /**
-         * Observa el resultado de la operación de guardar o modificar la tarea
+         * Observa el resultado de la operación de modificar la tarea
          *
-         * @return Un MutableLiveData que contiene un booleano que indica si la operación de guardar o modificar la tarea ha sido exitosa
+         * @return Un MutableLiveData que contiene un booleano que indica si la operación de
+         * modificar la tarea ha sido exitosa
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
         fun observarResultado(): MutableLiveData<Boolean> = resultado
@@ -239,14 +219,6 @@ class ModificarTareasModel
             listaEtiqueta.switchMap { texto ->
                 repository.obtenerEtiquetasRestantes(texto)
             }
-
-        /**
-         * Inserta una nueva tarea con sus etiquetas en la base de datos
-         *
-         * @param tareaDTO La tarea a insertar con sus etiquetas
-         * @author Alberto Noceda <a19albertons@iessanclemente.net>
-         */
-        private suspend fun insertarTareaConEtiqueta(tareaDTO: TareaDTO) = repository.insertarTareaConEtiqueta(tareaDTO)
 
         /**
          * Modifica una tarea con sus etiquetas en la base de datos

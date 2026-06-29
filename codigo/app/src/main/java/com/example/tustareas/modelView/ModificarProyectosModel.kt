@@ -170,19 +170,6 @@ class ModificarProyectosModel
         }
 
         /**
-         * Obtiene el título del diálogo de confirmación dependiendo de si el proyecto a modificar es nuevo o no
-         *
-         * @return Un entero que representa el recurso del título del diálogo de confirmación a mostrar dependiendo de si el proyecto a modificar es nuevo o no
-         * @author Alberto Noceda <a19albertons@iessanclemente.net>
-         */
-        fun tituloDialogo(): Int =
-            if (proyectoDTO.value!!.proyecto.id == 0) {
-                R.string.confirmar_guardar_proyecto
-            } else {
-                R.string.confirmar_modificar_proyecto
-            }
-
-        /**
          * Guarda o modifica un proyecto en función del id del dto del proyecto, si el id es 0 se guarda un nuevo proyecto sino se modifica el existente.
          * Comprueba logicas de negocio, actualzia campos recibidos y lanza mensajes error en caso de error o fallo en las validaciones. Si todo es correcto
          * se eactualiza corectamente.
@@ -191,17 +178,13 @@ class ModificarProyectosModel
          * @param descripcion La nueva descripción del proyecto a guardar o modificar
          * @author Alberto Noceda <a19albertons@iessanclemente.net>
          */
-        fun guardarYModificarProyecto(
+        fun modificarProyecto(
             nombre: String,
             descripcion: String,
         ) {
             // Comprobar que el titulo del proyecto no este vacio
             if (nombre.isBlank()) {
-                if (proyectoDTO.value!!.proyecto.id == 0) {
-                    mensajeError.value = R.string.error_guardar_proyecto
-                } else {
-                    mensajeError.value = R.string.error_modificar_proyecto
-                }
+                mensajeError.value = R.string.error_modificar_proyecto
                 return
             }
 
@@ -212,11 +195,8 @@ class ModificarProyectosModel
             // Generamos un hilo con la nueva tarea
             viewModelScope.launch {
                 try {
-                    if (proyectoDTO.value!!.proyecto.id == 0) {
-                        insertarProyectoConTareaYEtiqueta(proyectoDTO.value!!)
-                    } else {
-                        modificarProyectoConTareaYEtiqueta(proyectoDTO.value!!)
-                    }
+                    modificarProyectoConTareaYEtiqueta(proyectoDTO.value!!)
+
                     // Vovlemos a la vista previa
                     resultado.value = true
                 } catch (_: Exception) {
@@ -344,15 +324,6 @@ class ModificarProyectosModel
             listaEtiquetas.switchMap { texto ->
                 repository.obtenerEtiquetasRestantes(texto)
             }
-
-        /**
-         * Inserta un proyecto con sus tareas e etiquetas en la base de datos
-         *
-         * @param proyectoDTO El proyecto con sus tareas e etiquetas a insertar
-         * @author Alberto Noceda <a19albertons@iessanclemente.net>
-         */
-        private suspend fun insertarProyectoConTareaYEtiqueta(proyectoDTO: ProyectoDTO) =
-            repository.insertarProyectoConTareaYEtiqueta(proyectoDTO)
 
         /**
          * Modifica un proyecto con sus tareas e etiquetas en la base de datos

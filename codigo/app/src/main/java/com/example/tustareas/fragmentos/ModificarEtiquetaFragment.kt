@@ -155,11 +155,11 @@ class ModificarEtiquetaFragment : Fragment() {
     private fun dialogo() {
         AlertDialog
             .Builder(requireContext(), R.style.DialogoPersonalizado)
-            .setTitle(getString(model.tituloDialogo()))
+            .setTitle(getString(R.string.confirmar_modificar_etiqueta))
             .setMessage("")
             .setPositiveButton(R.string.guardar) { _, _ ->
                 // Logica de guardado y campos que no tolera nulos
-                model.guardarYModificarEtiqueta(
+                model.modificarEtiqueta(
                     binding.tituloEtiqueta.text
                         .toString()
                         .trim(),

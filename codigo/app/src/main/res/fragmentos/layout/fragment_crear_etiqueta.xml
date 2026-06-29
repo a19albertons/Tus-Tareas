@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragmentos.CrearEtiquetaFragment"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        >
+
+        <EditText
+            android:id="@+id/tituloEtiqueta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="etiqueta 1"
+            android:textColorHint="@color/black"
+            android:hint="@string/nombreRequerido"
+            android:inputType="text"
+            android:background="@null"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+
+            >
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@string/descripcion"
+                android:src="@drawable/descripcion"
+                android:layout_marginEnd="10dp"
+                />
+            <EditText
+                android:id="@+id/descipcionEtiqueta"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:autofillHints="descripcion etiqueta"
+                android:textColorHint="@color/black"
+                android:hint="@string/descripcion"
+                android:inputType="textMultiLine"
+                android:layout_gravity="bottom"
+                android:background="@null"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

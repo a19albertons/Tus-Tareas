@@ -1,0 +1,177 @@
+<resources>
+    <string name="app_name">Suas Tarefas</string>
+    <string name="hello_blank_fragment">Olá, fragmento em branco</string>
+
+    <!-- General -->
+    <string name="cargando">Carregando</string>
+    <string name="error_navegar">Ocorreu um erro ao navegar</string>
+    <string name="lupa">lupa</string>
+    <string name="buscar_por_titulo_descripci_n_y_etiqueta">Pesquisar por título, descrição e
+        etiqueta</string>
+    <string name="error_modificar_checkbox">Ocorreu um erro ao editar a tarefa</string>
+    <string name="tres_barras">três barras</string>
+    <string name="anadir">+</string>
+    <string name="taza">xícara</string>
+    <string name="nombreRequerido">Nome*</string>
+    <string name="descripcion">Descrição</string>
+    <string name="xx_xx_xxxx">XX/XX/XXXX</string>
+    <string name="guardar">Salvar</string>
+    <string name="descartar">Descartar</string>
+    <string name="continuar">Continuar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="eliminar">Excluir</string>
+    <string name="fecha_creacion">data de criação</string>
+    <string name="calendario">calendário</string>
+    <string name="etiqueta">etiqueta</string>
+    <string name="titulo">título</string>
+    <string name="fecha_inicio">data de início</string>
+    <string name="fecha_fin">data de término</string>
+    <string name="tareas">tarefas</string>
+    <string name="no_existen_etiquetas">Não existem etiquetas</string>
+    <string name="prevencion_fallo_critico">Uma falha crítica foi detectada</string>
+
+    <!-- Inicio -->
+    <string name="ver_mas">Ver mais</string>
+    <string name="no_hay_tareas_para_hoy">Não há tarefas pendentes para hoje</string>
+    <string name="tienes_una_tarea_para_hoy">Você tem 1 tarefa pendente para hoje</string>
+    <string name="tienes_tareas_para_hoy">Você tem %1$d tarefas pendentes para hoje</string>
+    <string name="no_hay_tareas_retrasadas">Não há tarefas atrasadas</string>
+    <string name="tienes_una_tarea_retrasada">Você tem 1 tarefa atrasada</string>
+    <string name="tienes_tareas_retrasadas">Você tem %1$d tarefas atrasadas</string>
+    <string name="no_hay_tareas_proximas">Não há tarefas próximas</string>
+    <string name="tienes_una_tarea_proxima">Você tem 1 tarefa próxima</string>
+    <string name="tienes_tareas_proximas">Você tem %1$d tarefas próximas</string>
+    <string name="eliminar_simbolo">-</string>
+
+    <!-- Listar tareas -->
+    <string name="estado">Status</string>
+    <string name="prioridad">Prioridade</string>
+    <string name="todav_a_no_ha_creado_tareas_no_no_se_ajustan_al_filtro_aplicado">Você ainda não
+        criou tarefas\nou elas não correspondem ao filtro
+        aplicado</string>
+
+    <!-- Estado -->
+    <string name="en_tiempo">No prazo</string>
+    <string name="retrasada">Atrasada</string>
+    <string name="completada">Concluída</string>
+
+    <!-- Prioridad -->
+    <string name="baja">Baixa</string>
+    <string name="media">Média</string>
+    <string name="alta">Alta</string>
+    <string name="no_establecido">Não definido</string>
+
+    <!-- Modificar tareas -->
+    <string name="error_guardar_tarea">Ocorreu um erro ao salvar\na nova tarefa</string>
+    <string name="error_modificar_tarea">Ocorreu um erro ao salvar\na modificação</string>
+    <string name="confirmar_guardar_tarea">Tem certeza que deseja salvar a tarefa?</string>
+    <string name="confirmar_modificado_tarea">Tem certeza das alterações?</string>
+    <string name="fecha_limite">Prazo limite</string>
+
+    <!-- Tarea detalles -->
+    <string name="error_eliminar_tarea">Ocorreu um erro ao tentar\nexcluir a tarefa</string>
+    <string name="confirmar_eliminar_tarea">Deseja excluir esta tarefa?</string>
+
+    <!-- Listar proyectos -->
+    <string name="todav_a_no_ha_creado_proyectos_no_no_se_ajustan_al_filtro_aplicado">Você ainda não
+        criou projetos\nou eles não correspondem ao filtro
+        aplicado</string>
+    <string name="primero_va_fin_despues_inicio">O fim deve ser após o início</string>
+    <string name="fin">Fim</string>
+    <string name="inicio">Início</string>
+    <string name="ascendente">Ascendente</string>
+    <string name="descendente">Descendente</string>
+
+    <!-- Modificar proyectos -->
+    <string name="error_modificar_proyecto">Ocorreu um erro ao salvar\na modificação</string>
+    <string name="confirmar_modificar_proyecto">Tem certeza das alterações?</string>
+    <string name="error_guardar_proyecto">Ocorreu um erro ao salvar\no novo projeto</string>
+    <string name="confirmar_guardar_proyecto">Tem certeza que deseja salvar os projetos?</string>
+    <string name="no_existen_tareas">Não existem tarefas</string>
+
+    <!-- Proyecto detalles -->
+    <string name="error_eliminar_proyecto">Ocorreu um erro ao tentar\nexcluir o projeto</string>
+    <string name="confirmar_eliminar_proyecto">Deseja excluir este projeto?</string>
+    <string name="aviso_confirmar_eliminar_proyecto">Nota: as tarefas não serão excluídas</string>
+
+    <!-- Estadisticas -->
+    <string name="progreso_semanal">Progresso semanal</string>
+    <string name="tareas_completadas_vs_pendientes">Tarefas concluídas vs pendentes</string>
+    <string name="completas">Concluídas</string>
+    <string name="pendiente">Pendente</string>
+    <string name="retrasadas">Atrasadas</string>
+    <string name="actividad_semanal">Atividade semanal</string>
+    <string-array name="dias_semana_siglas">
+        <item>D</item> <!-- Domingo -->
+        <item>S</item> <!-- Segunda -->
+        <item>T</item> <!-- Terça -->
+        <item>Q</item> <!-- Quarta -->
+        <item>Q</item> <!-- Quinta -->
+        <item>S</item> <!-- Sexta -->
+        <item>S</item> <!-- Sábado -->
+    </string-array>
+
+    <!-- Ajustes -->
+    <string name="apariencia">Aparência</string>
+    <string name="claro">Claro</string>
+    <string name="oscuro">Escuro</string>
+    <string name="predeterminados_del_sistema">Padrões do sistema</string>
+    <string name="idioma">Idioma</string>
+    <string-array name="idiomas">
+        <item>Sistema</item>
+        <item>Espanhol</item>
+        <item>Italiano</item>
+        <item>Francês</item>
+        <item>Alemão</item>
+        <item>Português</item>
+        <item>Inglês</item>
+        <item>Galego</item>
+    </string-array>
+    <string name="buscar_actualizaci_n">Procurar atualização</string>
+
+
+    <!-- Lista etiquetas presentes -->
+    <string name="etiqueta_eliminada">Etiqueta excluída</string>
+
+    <!-- Lista tareas presentes -->
+    <string name="tarea_eliminada">Tarefa excluída</string>
+
+    <!-- Listar etiquetas -->
+    <string name="buscar_por_titulo_y_descripci_n">Pesquisar por título e descrição</string>
+    <string name="todav_a_no_ha_creado_etiqueta_n_o_no_se_ajustan_al_filtro_aplicado">Você ainda não
+        criou etiquetas\nou elas não correspondem ao filtro
+        aplicado</string>
+
+    <!-- Etiqueta detalles -->
+    <string name="error_eliminar_etiqueta">Ocorreu um erro ao tentar\nexcluir a etiqueta</string>
+    <string name="confirmar_eliminar_etiqueta">Deseja excluir esta etiqueta?</string>
+
+    <!-- Modificar etiquetas -->
+    <string name="error_modificar_etiqueta">Ocorreu um erro ao salvar\na modificação</string>
+    <string name="confirmar_modificar_etiqueta">Tem certeza das alterações?</string>
+    <string name="error_guardar_etiqueta">Ocorreu um erro ao salvar\na nova etiqueta</string>
+    <string name="confirmar_guardar_etiqueta">Tem certeza que deseja salvar a etiqueta?</string>
+
+    <!-- Activity main -->
+    <string name="error_eliminando_tareas">Desculpe, ocorreu um erro\na excluir as tarefas</string>
+
+    <!-- Soporte idiomas en menu -->
+    <string name="proyectos">Projetos</string>
+    <string name="estadisticas">Estatísticas</string>
+    <string name="fecha_creaci_n_asc">data de criação asc</string>
+    <string name="fecha_creaci_n_des">data de criação desc</string>
+    <string name="fecha_l_mite_asc">prazo limite asc</string>
+    <string name="fecha_l_mite_des">prazo limite desc</string>
+    <string name="editar">editar</string>
+    <string name="ajustes">Configurações</string>
+    <string name="gestionar_etiquetas">Gerenciar etiquetas</string>
+    <string name="limpiar_tareas_comp">Limpar tarefas concluídas</string>
+
+    <!-- Error no previsto -->
+    <string name="cerrar_aplicacion">Fechar aplicativo</string>
+    <string name="error_no_previsto">"Ocorreu um erro inesperado \n"</string>
+    <string name="mensaje_error_activity">Por favor, reporte o problema com o erro mostrado na
+        janela inferior na plataforma para que possamos corrigi-lo o mais
+        rápido possível. Além disso, se considerar necessário, você pode explicar como reproduzir o
+        erro.</string>
+</resources>

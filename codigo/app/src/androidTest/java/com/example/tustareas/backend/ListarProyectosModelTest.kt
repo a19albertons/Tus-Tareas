@@ -10,11 +10,12 @@ import com.example.tustareas.filtros.OrdenarProyectosInicio
 import com.example.tustareas.modelView.ListarProyectosModel
 import com.example.tustareas.modelos.Etiqueta
 import com.example.tustareas.modelos.Proyecto
+import com.example.tustareas.repository.CrearEtiquetasRepository
+import com.example.tustareas.repository.CrearProyectosRepository
 import com.example.tustareas.repository.ListarProyectosRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
-import com.example.tustareas.repository.ModificarProyectosRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -43,10 +44,10 @@ class ListarProyectosModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var modificarProyectosRepository: ModificarProyectosRepository
+    lateinit var crearProyectosRepository: CrearProyectosRepository
 
     @Inject
-    lateinit var modificarEtiquestasRepository: ModificarEtiquetasRepository
+    lateinit var crearEtiquestasRepository: CrearEtiquetasRepository
 
     @Inject
     lateinit var listarProyectosRepository: ListarProyectosRepository
@@ -54,6 +55,47 @@ class ListarProyectosModelTest {
     lateinit var modelo: ListarProyectosModel
 
     private val diaReferencia = 1735689600000L
+
+    // Un par de proyectos
+    val proyecto1 =
+        Proyecto(
+            nombre = "Proyecto 1",
+            fechaCreacion = Date(diaReferencia), // dia de referencia
+            fechaInicio = Date(diaReferencia), // dia de referencia
+            fechaFin = Date(diaReferencia + 86400000 * 7), // dia de referencia + 7
+        )
+    val proyectoDTO1 = ProyectoDTO(proyecto1, emptyList(), emptyList())
+    val proyecto2 =
+        Proyecto(
+            nombre = "Proyecto 2",
+            descripcion = "descripcion",
+            fechaCreacion = Date(diaReferencia), // dia de referencia
+            fechaInicio = Date(diaReferencia + 86400000), // dia de referencia + 1
+            fechaFin = Date(diaReferencia + 86400000 * 7), // dia de referencia + 7
+        )
+    val proyectoDTO2 = ProyectoDTO(proyecto2, emptyList(), emptyList())
+    val proyecto3 =
+        Proyecto(
+            nombre = "Proyecto 3",
+            fechaCreacion = Date(diaReferencia),
+            fechaInicio = Date(diaReferencia - 86400000 * 7), // dia de referencia - 7
+            fechaFin = Date(diaReferencia - 86400000 * 7), // dia de referencia - 7
+        )
+    val etiqueta =
+        Etiqueta(
+            // Id interno manual para base de pruebas
+            id = 1,
+            nombre = "etiqueta 1",
+        )
+    val proyectoDTO3 = ProyectoDTO(proyecto3, listOf(etiqueta), emptyList())
+    val proyecto4 =
+        Proyecto(
+            nombre = "Proyecto 4",
+            fechaCreacion = Date(diaReferencia),
+            fechaInicio = Date(diaReferencia - 86400000 * 8), // dia de referencia - 7
+            fechaFin = Date(diaReferencia - 86400000 * 7), // dia de referencia + 7
+        )
+    val proyectoDTO4 = ProyectoDTO(proyecto4, emptyList(), emptyList())
 
     // Preparación entorno comun
     @Before
@@ -65,58 +107,18 @@ class ListarProyectosModelTest {
             // Crear modelo
             modelo = ListarProyectosModel(ApplicationProvider.getApplicationContext(), listarProyectosRepository)
 
-            // Un par de proyectos
-            val proyecto1 =
-                Proyecto(
-                    nombre = "Proyecto 1",
-                    fechaCreacion = Date(diaReferencia), // dia de referencia
-                    fechaInicio = Date(diaReferencia), // dia de referencia
-                    fechaFin = Date(diaReferencia + 86400000 * 7), // dia de referencia + 7
-                )
-            val proyectoDTO1 = ProyectoDTO(proyecto1, emptyList(), emptyList())
-            val proyecto2 =
-                Proyecto(
-                    nombre = "Proyecto 2",
-                    descripcion = "descripcion",
-                    fechaCreacion = Date(diaReferencia), // dia de referencia
-                    fechaInicio = Date(diaReferencia + 86400000), // dia de referencia + 1
-                    fechaFin = Date(diaReferencia + 86400000 * 7), // dia de referencia + 7
-                )
-            val proyectoDTO2 = ProyectoDTO(proyecto2, emptyList(), emptyList())
-            val proyecto3 =
-                Proyecto(
-                    nombre = "Proyecto 3",
-                    fechaCreacion = Date(diaReferencia),
-                    fechaInicio = Date(diaReferencia - 86400000 * 7), // dia de referencia - 7
-                    fechaFin = Date(diaReferencia - 86400000 * 7), // dia de referencia - 7
-                )
-            val etiqueta =
-                Etiqueta(
-                    // Id interno manual para base de pruebas
-                    id = 1,
-                    nombre = "etiqueta 1",
-                )
-            val proyectoDTO3 = ProyectoDTO(proyecto3, listOf(etiqueta), emptyList())
-            val proyecto4 =
-                Proyecto(
-                    nombre = "Proyecto 4",
-                    fechaCreacion = Date(diaReferencia),
-                    fechaInicio = Date(diaReferencia - 86400000 * 8), // dia de referencia - 7
-                    fechaFin = Date(diaReferencia - 86400000 * 7), // dia de referencia + 7
-                )
-            val proyectoDTO4 = ProyectoDTO(proyecto4, emptyList(), emptyList())
-
             // Insertar proyectos
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
-            modificarEtiquestasRepository.insertarEtiqueta(etiqueta)
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
-            modificarProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO1)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO2)
+            crearEtiquestasRepository.insertarEtiqueta(etiqueta)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO3)
+            crearProyectosRepository.insertarProyectoConTareaYEtiqueta(proyectoDTO4)
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -133,7 +135,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 1")
+        assertEquals("Proyecto 1", resultado!!.first().nombre)
     }
 
     @Test
@@ -148,7 +150,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.last().nombre)
     }
 
     // Ordenar por inicio y fecha ascendente
@@ -164,7 +166,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 3")
+        assertEquals("Proyecto 3", resultado!!.first().nombre)
     }
 
     @Test
@@ -179,7 +181,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 2")
+        assertEquals("Proyecto 2", resultado!!.last().nombre)
     }
 
     // Ordenar por inicio y fecha descendente
@@ -195,7 +197,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 1")
+        assertEquals("Proyecto 1", resultado!!.first().nombre)
     }
 
     @Test
@@ -210,7 +212,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.last().nombre)
     }
 
     // Ordenar por fecha ascendente y fin
@@ -226,7 +228,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.first().nombre)
     }
 
     @Test
@@ -241,7 +243,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 2")
+        assertEquals("Proyecto 2", resultado!!.last().nombre)
     }
 
     // Ordenar por fecha ascendente y fecha ascendente
@@ -257,7 +259,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.first().nombre)
     }
 
     @Test
@@ -272,7 +274,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 2")
+        assertEquals("Proyecto 2", resultado!!.last().nombre)
     }
 
     // Ordenar por fecha ascendente y fecha descendente
@@ -288,7 +290,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 1")
+        assertEquals("Proyecto 1", resultado!!.first().nombre)
     }
 
     @Test
@@ -303,7 +305,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 3")
+        assertEquals("Proyecto 3", resultado!!.last().nombre)
     }
 
     // Ordenar por fecha descente y fin
@@ -319,7 +321,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 2")
+        assertEquals("Proyecto 2", resultado!!.first().nombre)
     }
 
     @Test
@@ -334,7 +336,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.last().nombre)
     }
 
     // Ordenar por fecha descendente y fecha ascendente
@@ -350,7 +352,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 3")
+        assertEquals("Proyecto 3", resultado!!.first().nombre)
     }
 
     @Test
@@ -365,7 +367,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 1")
+        assertEquals("Proyecto 1", resultado!!.last().nombre)
     }
 
     // Ordenar por fecha descendente y fecha ascendente
@@ -381,7 +383,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 2")
+        assertEquals("Proyecto 2", resultado!!.first().nombre)
     }
 
     @Test
@@ -396,7 +398,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.last().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.last().nombre)
     }
 
     // Filtros de nombre, descripcion y etiquetas
@@ -411,7 +413,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 4")
+        assertEquals("Proyecto 4", resultado!!.first().nombre)
     }
 
     @Test
@@ -425,7 +427,7 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 2")
+        assertEquals("Proyecto 2", resultado!!.first().nombre)
     }
 
     @Test
@@ -439,6 +441,6 @@ class ListarProyectosModelTest {
 
         // Resultado
         val resultado = liveData.value
-        assert(resultado!!.first().nombre == "Proyecto 3")
+        assertEquals("Proyecto 3", resultado!!.first().nombre)
     }
 }

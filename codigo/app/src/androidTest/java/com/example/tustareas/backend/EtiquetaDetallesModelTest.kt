@@ -7,11 +7,12 @@ import com.example.tustareas.db.TusTareasDatabase
 import com.example.tustareas.modelView.EtiquetaDetallesModel
 import com.example.tustareas.modelView.ListarEtiquetasModel
 import com.example.tustareas.modelos.Etiqueta
+import com.example.tustareas.repository.CrearEtiquetasRepository
 import com.example.tustareas.repository.EtiquetaDetallesRepository
 import com.example.tustareas.repository.ListarEtiquetasRepository
-import com.example.tustareas.repository.ModificarEtiquetasRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -40,7 +41,7 @@ class EtiquetaDetallesModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var modificarEtiquetas: ModificarEtiquetasRepository
+    lateinit var crearEtiquetas: CrearEtiquetasRepository
 
     @Inject
     lateinit var etiquetaDetallesRepository: EtiquetaDetallesRepository
@@ -54,6 +55,18 @@ class EtiquetaDetallesModelTest {
 
     private val diaReferencia = 1735689600000L
 
+    // Etiquetas comunes
+    val etiqueta1Base =
+        Etiqueta(
+            id = 1,
+            nombre = "etiqueta",
+        )
+    val etiqueta2Base =
+        Etiqueta(
+            id = 2,
+            nombre = "etiqueta2",
+        )
+
     // Preparación entorno comun
     @Before
     fun crearBd() =
@@ -66,24 +79,19 @@ class EtiquetaDetallesModelTest {
             listarEtiquetasModel = ListarEtiquetasModel(ApplicationProvider.getApplicationContext(), listarEtiquetasRepository)
 
             // Añadir datos de prueba
-            modificarEtiquetas.insertarEtiqueta(
-                Etiqueta(
-                    id = 1,
-                    nombre = "etiqueta",
-                ),
+            crearEtiquetas.insertarEtiqueta(
+                etiqueta1Base,
             )
 
-            modificarEtiquetas.insertarEtiqueta(
-                Etiqueta(
-                    id = 2,
-                    nombre = "etiqueta2",
-                ),
+            crearEtiquetas.insertarEtiqueta(
+                etiqueta2Base,
             )
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -97,7 +105,7 @@ class EtiquetaDetallesModelTest {
 
             // Resultado
             val resultado = liveData.value
-            assert(resultado?.nombre == "etiqueta2")
+            assertEquals("etiqueta2", resultado?.nombre)
         }
 
     // Prueba de eliminar una etiqueta
@@ -118,7 +126,7 @@ class EtiquetaDetallesModelTest {
 
             // Resultado
             val resultado = liveData2.value
-            assert(resultado!!.size == 1)
-            assert(resultado.first().nombre == "etiqueta")
+            assertEquals(1, resultado!!.size)
+            assertEquals("etiqueta", resultado.first().nombre)
         }
 }

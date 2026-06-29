@@ -133,7 +133,7 @@ class ListarEtiquetasFragment : Fragment() {
         binding.anadirEtiqueta.setOnClickListener {
             try {
                 findNavController().navigate(
-                    ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToModificarEtiquetaFragment(
+                    ListarEtiquetasFragmentDirections.actionListarEtiquetasFragmentToCrearEtiquetaFragment(
                         Etiqueta(0, "", ""),
                     ),
                 )

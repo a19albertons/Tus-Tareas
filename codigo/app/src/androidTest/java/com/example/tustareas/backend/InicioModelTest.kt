@@ -9,11 +9,12 @@ import com.example.tustareas.modelView.InicioModel
 import com.example.tustareas.modelos.Estado
 import com.example.tustareas.modelos.Prioridad
 import com.example.tustareas.modelos.Tarea
+import com.example.tustareas.repository.CrearTareasRepository
 import com.example.tustareas.repository.InicioRepository
-import com.example.tustareas.repository.ModificarTareasRepository
 import com.example.tustareas.util.DateHelper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -44,12 +45,57 @@ class InicioModelTest {
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioModificarTarea: ModificarTareasRepository
+    lateinit var repositorioCrearTarea: CrearTareasRepository
 
     @Inject
     lateinit var inicioRepository: InicioRepository
 
     lateinit var modelo: InicioModel
+
+    // Tarea sin fecha limite
+    val tarea1 =
+        Tarea(
+            nombre = "tarea1",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = null,
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea1DTO = TareaDTO(tarea1, emptyList())
+
+    // Tarea con fecha limite, pero no retrasada
+    val tarea2 =
+        Tarea(
+            nombre = "tarea2",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(diaReferencia + 86400000), // Un día después
+            estado = Estado.EN_TIEMPO,
+        )
+    val tarea2DTO = TareaDTO(tarea2, emptyList())
+
+    // Tarea hoy
+    val tareaHoy =
+        Tarea(
+            nombre = "tareaHoy",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(diaReferencia), // Hoy
+            estado = Estado.EN_TIEMPO,
+        )
+    val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
+
+    // Tarea retrasada
+    val tareaRETRASADA =
+        Tarea(
+            nombre = "tareaRetrasada",
+            prioridad = Prioridad.NO_ESTABLECIDO,
+            fechaCreacion = DateHelper.fechaMediaNocheUTC(),
+            fechaLimite = Date(diaReferencia - 86400000), // Un día antes
+            // Es el campo se mira.
+            estado = Estado.RETRASADA,
+        )
+    val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
 
     // Preparación entorno comun
     @Before
@@ -61,58 +107,17 @@ class InicioModelTest {
             // Inicializar modelo manualmente
             modelo = InicioModel(ApplicationProvider.getApplicationContext(), inicioRepository)
 
-            // Tarea sin fecha limite
-            val tarea1 =
-                Tarea(
-                    nombre = "tarea1",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = null,
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea1DTO = TareaDTO(tarea1, emptyList())
-            // Tarea con fecha limite, pero no retrasada
-            val tarea2 =
-                Tarea(
-                    nombre = "tarea2",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(diaReferencia + 86400000), // Un día después
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tarea2DTO = TareaDTO(tarea2, emptyList())
-            // Tarea hoy
-            val tareaHoy =
-                Tarea(
-                    nombre = "tareaHoy",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(diaReferencia), // Hoy
-                    estado = Estado.EN_TIEMPO,
-                )
-            val tareaHoyDTO = TareaDTO(tareaHoy, emptyList())
-            // Tarea retrasada
-            val tareaRETRASADA =
-                Tarea(
-                    nombre = "tareaRetrasada",
-                    prioridad = Prioridad.NO_ESTABLECIDO,
-                    fechaCreacion = DateHelper.fechaMediaNocheUTC(),
-                    fechaLimite = Date(diaReferencia - 86400000), // Un día antes
-                    // Es el campo se mira.
-                    estado = Estado.RETRASADA,
-                )
-            val tareaRetrasadaDTO = TareaDTO(tareaRETRASADA, emptyList())
-
             // Insertar tareas
-            repositorioModificarTarea.insertarTareaConEtiqueta(tarea1DTO)
-            repositorioModificarTarea.insertarTareaConEtiqueta(tarea2DTO)
-            repositorioModificarTarea.insertarTareaConEtiqueta(tareaHoyDTO)
-            repositorioModificarTarea.insertarTareaConEtiqueta(tareaRetrasadaDTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tarea1DTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tarea2DTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tareaHoyDTO)
+            repositorioCrearTarea.insertarTareaConEtiqueta(tareaRetrasadaDTO)
         }
 
     // Finalización entorno
     @After
     fun cerrarBd() {
+        db.clearAllTables()
         db.close()
     }
 
@@ -126,7 +131,7 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     // Tareas para hoy -- Nombre tarea
@@ -139,7 +144,7 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!![0].nombre == "tareaHoy")
+        assertEquals("tareaHoy", resultado!![0].nombre)
     }
 
     // Tareas para retrasadas -- cantidad
@@ -152,7 +157,7 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!!.size == 1)
+        assertEquals(1, resultado!!.size)
     }
 
     // Tareas para hoy -- Nombre tarea
@@ -165,7 +170,7 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![0].nombre == "tareaRetrasada")
+        assertEquals("tareaRetrasada", resultado!![0].nombre)
     }
 
     // Tareas futuras -- cantidad
@@ -178,7 +183,7 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación 1
-        assert(resultado!!.size == 2)
+        assertEquals(2, resultado!!.size)
     }
 
     // Tareas futuras -- Nombre tarea
@@ -191,7 +196,7 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![0].nombre == "tarea1")
+        assertEquals("tarea1", resultado!![0].nombre)
     }
 
     @Test
@@ -203,6 +208,6 @@ class InicioModelTest {
         val resultado = liveData.value
 
         // Comprobación nombre
-        assert(resultado!![1].nombre == "tarea2")
+        assertEquals("tarea2", resultado!![1].nombre)
     }
 }

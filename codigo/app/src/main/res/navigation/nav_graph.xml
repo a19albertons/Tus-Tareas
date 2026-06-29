@@ -23,8 +23,8 @@
             android:id="@+id/action_listarEtiquetasFragment_to_etiquetaDetallesFragment"
             app:destination="@id/etiquetaDetallesFragment" />
         <action
-            android:id="@+id/action_listarEtiquetasFragment_to_modificarEtiquetaFragment"
-            app:destination="@id/modificarEtiquetaFragment" />
+            android:id="@+id/action_listarEtiquetasFragment_to_crearEtiquetaFragment"
+            app:destination="@id/crearEtiquetaFragment" />
     </fragment>
     <fragment
         android:id="@+id/etiquetaDetallesFragment"
@@ -56,8 +56,8 @@
             android:id="@+id/action_listarTareasFragment_to_tareaDetallesFragment"
             app:destination="@id/tareaDetallesFragment" />
         <action
-            android:id="@+id/action_listarTareasFragment_to_modificarTareasFragment"
-            app:destination="@id/modificarTareasFragment" />
+            android:id="@+id/action_listarTareasFragment_to_crearTareasFragment"
+            app:destination="@id/crearTareasFragment" />
     </fragment>
     <fragment
         android:id="@+id/tareaDetallesFragment"
@@ -89,8 +89,8 @@
             android:id="@+id/action_listarProyectosFragment_to_proyectoDetallesFragment"
             app:destination="@id/proyectoDetallesFragment" />
         <action
-            android:id="@+id/action_listarProyectosFragment_to_modificarProyectoFragment"
-            app:destination="@id/modificarProyectoFragment" />
+            android:id="@+id/action_listarProyectosFragment_to_crearProyectoFragment"
+            app:destination="@id/crearProyectoFragment" />
     </fragment>
     <fragment
         android:id="@+id/proyectoDetallesFragment"
@@ -134,5 +134,31 @@
         <action
             android:id="@+id/action_verMasFragment_to_tareaDetallesFragment"
             app:destination="@id/tareaDetallesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearEtiquetaFragment"
+        android:name="com.example.tustareas.fragmentos.CrearEtiquetaFragment"
+        android:label="fragment_crear_etiqueta"
+        tools:layout="@layout/fragment_crear_etiqueta" >
+        <argument
+            android:name="etiqueta"
+            app:argType="com.example.tustareas.modelos.Etiqueta" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearTareasFragment"
+        android:name="com.example.tustareas.fragmentos.CrearTareasFragment"
+        android:label="fragment_crear_tareas"
+        tools:layout="@layout/fragment_crear_tareas" >
+        <argument
+            android:name="tareaDTO"
+            app:argType="com.example.tustareas.dto.TareaDTO" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearProyectoFragment"
+        android:name="com.example.tustareas.fragmentos.CrearProyectoFragment"
+        android:label="CrearProyectoFragment" >
+        <argument
+            android:name="proyectoDTO"
+            app:argType="com.example.tustareas.dto.ProyectoDTO" />
     </fragment>
 </navigation>

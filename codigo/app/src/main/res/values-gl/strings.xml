@@ -115,9 +115,15 @@
     <string-array name="idiomas">
         <item>Sistema</item>
         <item>Español</item>
+        <item>Galego</item>
+        <item>Francés</item>
+        <item>Alemán</item>
+        <item>Portugués</item>
         <item>Inglés</item>
         <item>Galego</item>
     </string-array>
+    <string name="buscar_actualizaci_n">Buscar Actualización</string>
+
 
     <!-- Soporte idiomas en menu -->
     <string name="proyectos">Proxectos</string>
