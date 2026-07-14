@@ -27,7 +27,7 @@ mockitoKotlin = "6.3.0"
 dokka = "2.2.0"
 hiltCommon = "1.4.0"
 ktlint = "14.2.0"
-kotlinMetadataJvm = "2.4.0"
+kotlinMetadataJvm = "2.4.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
