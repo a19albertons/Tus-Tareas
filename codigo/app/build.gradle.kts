@@ -40,6 +40,15 @@ android {
         testInstrumentationRunner = "com.example.tustareas.hilt.HiltTestRunner"
     }
 
+    // Configuraciones en los test unitarios para que roboelectric no tire abajo la maquina java por out of memory o heap space
+    testOptions {
+        unitTests.all {
+            it.maxHeapSize = "3g"
+            it.forkEvery = 15
+            it.maxParallelForks = 1
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -131,6 +140,11 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    // Robolectric + AndroidX Test Core para tests JVM con Context/NotificationManager
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core.ktx)
+
     androidTestImplementation(libs.androidx.arch.core.testing)
     androidTestImplementation(libs.kotlinx.coroutines.test)
 
@@ -166,4 +180,47 @@ dokka {
     dokkaSourceSets.configureEach {
         suppress.set(name != "produccionRelease")
     }
+}
+
+tasks.withType<JacocoReport> {
+    dependsOn("testDebugUnitTest") // Asegura que los tests se ejecuten antes de generar el reporte
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    // Lista de exclusiones para evitar que JaCoCo intente instrumentar clases del sistema (Causa del OOM)
+    val fileFilter =
+        listOf(
+            "android/**",
+            "androidx/**",
+            "com/android/**",
+            "org/robolectric/**",
+            "org/junit/**",
+            "org/mockito/**",
+            "**/R.class",
+            "**/R$*.class",
+            "**/BuildConfig.*",
+            "**/Manifest*.*",
+            "**/*Test*.*",
+            "**/databinding/**",
+            "**/viewbinding/**",
+        )
+
+    // Obtener el directorio de clases compiladas (Compatible con Gradle 8+)
+    val classesDir =
+        layout.buildDirectory
+            .dir("intermediates/javac/debug/classes")
+            .get()
+            .asFile
+    val debugTree =
+        fileTree(classesDir) {
+            exclude(fileFilter)
+        }
+
+    val mainSrc = "$projectDir/src/main/java"
+
+    sourceDirectories.setFrom(files(mainSrc))
+    classDirectories.setFrom(files(debugTree))
 }
