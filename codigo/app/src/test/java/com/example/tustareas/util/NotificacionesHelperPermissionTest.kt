@@ -4,12 +4,9 @@ import android.Manifest
 import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
-import androidx.core.app.ActivityCompat
 import androidx.test.core.app.ApplicationProvider
 import com.example.tustareas.modelos.Notificacion
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
