@@ -1,11 +1,16 @@
 package com.example.tustareas.util
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.Application
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.example.tustareas.modelos.Notificacion
+import com.example.tustareas.workers.LanzarNotificaciones
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -31,13 +36,13 @@ class AlarmaHelperTest {
         // Limpiar y obtener el AlarmManager
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         // Cancelar cualquier alarma previa con el mismo pending intent
-        val intent = android.content.Intent(context, com.example.tustareas.workers.LanzarNotificaciones::class.java)
+        val intent = Intent(context, LanzarNotificaciones::class.java)
         val pendingIntent =
-            android.app.PendingIntent.getBroadcast(
+            PendingIntent.getBroadcast(
                 context,
                 0,
                 intent,
-                android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
             )
         alarmManager.cancel(pendingIntent)
     }
@@ -48,7 +53,7 @@ class AlarmaHelperTest {
     @Test
     fun `T15 invocarAlarma con lista vacia no causa crash`() {
         // Arrange: conceder permiso de notificaciones
-        shadowOf(context as Application).grantPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
+        shadowOf(context as Application).grantPermissions(Manifest.permission.POST_NOTIFICATIONS)
 
         // Act: llamar con lista vacía → no debería lanzar excepción
         NotificacionesHelper.crearCanalNotificaciones(context)
@@ -64,7 +69,7 @@ class AlarmaHelperTest {
     @Config(minSdk = Build.VERSION_CODES.TIRAMISU)
     fun `T16 invocarAlarma con notificaciones las publica todas`() {
         // Arrange: conceder permiso y crear canal
-        shadowOf(context as Application).grantPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
+        shadowOf(context as Application).grantPermissions(Manifest.permission.POST_NOTIFICATIONS)
         NotificacionesHelper.crearCanalNotificaciones(context)
 
         val notificaciones =
@@ -78,8 +83,8 @@ class AlarmaHelperTest {
 
         // Assert: verificar que ambas notificaciones se publicaron
         val shadowNotificationManager =
-            org.robolectric.Shadows.shadowOf(
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager,
+            shadowOf(
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager,
             )
         assertNotNull("La notificación 1001 debería haberse publicado", shadowNotificationManager.getNotification(1001))
         assertNotNull("La notificación 1002 debería haberse publicado", shadowNotificationManager.getNotification(1002))
@@ -92,7 +97,7 @@ class AlarmaHelperTest {
     @Config(minSdk = Build.VERSION_CODES.TIRAMISU)
     fun `T17 invocarAlarma con una sola notificacion la publica`() {
         // Arrange
-        shadowOf(context as Application).grantPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
+        shadowOf(context as Application).grantPermissions(Manifest.permission.POST_NOTIFICATIONS)
         NotificacionesHelper.crearCanalNotificaciones(context)
 
         val notificacion = Notificacion(id = 2001, titulo = "Única Tarea", mensaje = "Mensaje único", leido = false, idTarea = 5)
@@ -102,8 +107,8 @@ class AlarmaHelperTest {
 
         // Assert
         val shadowNotificationManager =
-            org.robolectric.Shadows.shadowOf(
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager,
+            shadowOf(
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager,
             )
         assertNotNull("La notificación única debería haberse publicado", shadowNotificationManager.getNotification(2001))
     }
@@ -115,7 +120,6 @@ class AlarmaHelperTest {
     @Config(minSdk = Build.VERSION_CODES.TIRAMISU)
     fun `T18 invocarAlarma sin permiso no publica pero no causa crash`() {
         // Arrange: NO conceder permiso POST_NOTIFICATIONS
-
         val notificacion = Notificacion(id = 2002, titulo = "Sin Permiso", mensaje = "No se publicará", leido = false, idTarea = 6)
 
         // Act: llamar sin permiso → no debería lanzar excepción
@@ -123,8 +127,8 @@ class AlarmaHelperTest {
 
         // Assert: la notificación NO debería haberse publicado (permiso denegado)
         val shadowNotificationManager =
-            org.robolectric.Shadows.shadowOf(
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager,
+            shadowOf(
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager,
             )
         // En Robolectric, getNotification devuelve null si no existe
         // Pero el test principal es que no crashó al llamar invocarAlarma sin permiso
