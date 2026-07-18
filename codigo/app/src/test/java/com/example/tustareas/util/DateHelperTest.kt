@@ -12,17 +12,17 @@ import java.util.TimeZone
  * Cubre: timestampToString() y fechaMediaNocheUTC().
  */
 class DateHelperTest {
-
     /**
      * T7: timestampToString con fecha válida → devuelve formato dd/MM/yyyy correcto.
      */
     @Test
     fun `T7 timestampToString con fecha valida devuelve formato ddMMyyyy`() {
         // Arrange: crear una fecha conocida (15 de julio de 2026)
-        val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
-            set(2026, Calendar.JULY, 15, 0, 0, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
+        val cal =
+            Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+                set(2026, Calendar.JULY, 15, 0, 0, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
         val fecha: Date = cal.time
 
         // Act
@@ -50,14 +50,16 @@ class DateHelperTest {
     @Test
     fun `T9 timestampToString con multiples fechas formatea correctamente`() {
         // Arrange
-        val cal1 = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
-            set(2024, Calendar.JANUARY, 1, 0, 0, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-        val cal2 = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
-            set(2025, Calendar.DECEMBER, 31, 0, 0, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
+        val cal1 =
+            Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+                set(2024, Calendar.JANUARY, 1, 0, 0, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+        val cal2 =
+            Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+                set(2025, Calendar.DECEMBER, 31, 0, 0, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
 
         // Act & Assert
         assertEquals("01/01/2024", DateHelper.timestampToString(cal1.time))
@@ -70,9 +72,10 @@ class DateHelperTest {
     @Test
     fun `T10 timestampToString con hora no nula solo muestra la fecha`() {
         // Arrange: fecha con hora específica
-        val cal = Calendar.getInstance().apply {
-            set(2026, Calendar.MARCH, 5, 14, 30, 45)
-        }
+        val cal =
+            Calendar.getInstance().apply {
+                set(2026, Calendar.MARCH, 5, 14, 30, 45)
+            }
 
         // Act
         val resultado = DateHelper.timestampToString(cal.time)
@@ -117,12 +120,13 @@ class DateHelperTest {
     @Test
     fun `T12 fechaMediaNocheUTC devuelve la fecha de hoy`() {
         // Arrange: obtener la fecha actual en UTC
-        val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
+        val cal =
+            Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
 
         // Act
         val resultado = DateHelper.fechaMediaNocheUTC()
@@ -151,17 +155,19 @@ class DateHelperTest {
     @Test
     fun `T13 timestampToString con fechas de diferentes meses`() {
         // Arrange & Act & Assert
-        val pruebas = mapOf(
-            Pair(2026, Calendar.JANUARY) to "01/01/2026",
-            Pair(2026, Calendar.FEBRUARY) to "01/02/2026",
-            Pair(2026, Calendar.DECEMBER) to "01/12/2026",
-        )
+        val pruebas =
+            mapOf(
+                Pair(2026, Calendar.JANUARY) to "01/01/2026",
+                Pair(2026, Calendar.FEBRUARY) to "01/02/2026",
+                Pair(2026, Calendar.DECEMBER) to "01/12/2026",
+            )
 
         pruebas.forEach { (yearMonth, esperado) ->
-            val cal = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
-                set(yearMonth.first, yearMonth.second, 1, 0, 0, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
+            val cal =
+                Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+                    set(yearMonth.first, yearMonth.second, 1, 0, 0, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
             assertEquals(esperado, DateHelper.timestampToString(cal.time))
         }
     }

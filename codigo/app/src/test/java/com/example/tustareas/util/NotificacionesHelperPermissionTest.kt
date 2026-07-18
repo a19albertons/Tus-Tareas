@@ -25,7 +25,6 @@ import org.robolectric.shadows.ShadowNotificationManager
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class NotificacionesHelperPermissionTest {
-
     private lateinit var context: Context
     private lateinit var notificationManager: NotificationManager
 
@@ -33,7 +32,6 @@ class NotificacionesHelperPermissionTest {
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
 
         // Limpiar canales previos para tests aislados
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -106,11 +104,12 @@ class NotificacionesHelperPermissionTest {
     fun `T4 crearNotificacion multiple con permiso denegado no causa crash`() {
         // Arrange: NO conceder permiso
 
-        val notificaciones = listOf(
-            Notificacion(id = 901, titulo = "Tarea 1", mensaje = "Mensaje 1", leido = false, idTarea = 10),
-            Notificacion(id = 902, titulo = "Tarea 2", mensaje = "Mensaje 2", leido = false, idTarea = 11),
-            Notificacion(id = 903, titulo = "Tarea 3", mensaje = "Mensaje 3", leido = false, idTarea = 12),
-        )
+        val notificaciones =
+            listOf(
+                Notificacion(id = 901, titulo = "Tarea 1", mensaje = "Mensaje 1", leido = false, idTarea = 10),
+                Notificacion(id = 902, titulo = "Tarea 2", mensaje = "Mensaje 2", leido = false, idTarea = 11),
+                Notificacion(id = 903, titulo = "Tarea 3", mensaje = "Mensaje 3", leido = false, idTarea = 12),
+            )
 
         // Act: llamar varias veces sin permiso → no debe crash
         notificaciones.forEach { notif ->

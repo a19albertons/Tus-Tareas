@@ -21,7 +21,6 @@ import org.robolectric.annotation.LooperMode
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class NotificacionesHelperChannelTest {
-
     private lateinit var context: Context
     private lateinit var notificationManager: NotificationManager
 
@@ -29,7 +28,6 @@ class NotificacionesHelperChannelTest {
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
 
         // Limpiar canales previos para tests aislados
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

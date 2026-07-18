@@ -23,7 +23,6 @@ import org.robolectric.annotation.LooperMode
 @Config(sdk = [34])
 @LooperMode(LooperMode.Mode.PAUSED)
 class AlarmaHelperTest {
-
     private val context = ApplicationProvider.getApplicationContext<Context>()
     private lateinit var alarmManager: AlarmManager
 
@@ -33,12 +32,13 @@ class AlarmaHelperTest {
         alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         // Cancelar cualquier alarma previa con el mismo pending intent
         val intent = android.content.Intent(context, com.example.tustareas.workers.LanzarNotificaciones::class.java)
-        val pendingIntent = android.app.PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE,
-        )
+        val pendingIntent =
+            android.app.PendingIntent.getBroadcast(
+                context,
+                0,
+                intent,
+                android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE,
+            )
         alarmManager.cancel(pendingIntent)
     }
 
@@ -67,18 +67,20 @@ class AlarmaHelperTest {
         shadowOf(context as Application).grantPermissions(android.Manifest.permission.POST_NOTIFICATIONS)
         NotificacionesHelper.crearCanalNotificaciones(context)
 
-        val notificaciones = listOf(
-            Notificacion(id = 1001, titulo = "Tarea A", mensaje = "Mensaje A", leido = false, idTarea = 1),
-            Notificacion(id = 1002, titulo = "Tarea B", mensaje = "Mensaje B", leido = false, idTarea = 2),
-        )
+        val notificaciones =
+            listOf(
+                Notificacion(id = 1001, titulo = "Tarea A", mensaje = "Mensaje A", leido = false, idTarea = 1),
+                Notificacion(id = 1002, titulo = "Tarea B", mensaje = "Mensaje B", leido = false, idTarea = 2),
+            )
 
         // Act
         AlarmaHelper.invocarAlarma(context, notificaciones)
 
         // Assert: verificar que ambas notificaciones se publicaron
-        val shadowNotificationManager = org.robolectric.Shadows.shadowOf(
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-        )
+        val shadowNotificationManager =
+            org.robolectric.Shadows.shadowOf(
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager,
+            )
         assertNotNull("La notificación 1001 debería haberse publicado", shadowNotificationManager.getNotification(1001))
         assertNotNull("La notificación 1002 debería haberse publicado", shadowNotificationManager.getNotification(1002))
     }
@@ -99,9 +101,10 @@ class AlarmaHelperTest {
         AlarmaHelper.invocarAlarma(context, listOf(notificacion))
 
         // Assert
-        val shadowNotificationManager = org.robolectric.Shadows.shadowOf(
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-        )
+        val shadowNotificationManager =
+            org.robolectric.Shadows.shadowOf(
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager,
+            )
         assertNotNull("La notificación única debería haberse publicado", shadowNotificationManager.getNotification(2001))
     }
 
@@ -119,9 +122,10 @@ class AlarmaHelperTest {
         AlarmaHelper.invocarAlarma(context, listOf(notificacion))
 
         // Assert: la notificación NO debería haberse publicado (permiso denegado)
-        val shadowNotificationManager = org.robolectric.Shadows.shadowOf(
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-        )
+        val shadowNotificationManager =
+            org.robolectric.Shadows.shadowOf(
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager,
+            )
         // En Robolectric, getNotification devuelve null si no existe
         // Pero el test principal es que no crashó al llamar invocarAlarma sin permiso
     }

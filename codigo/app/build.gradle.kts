@@ -182,7 +182,6 @@ dokka {
     }
 }
 
-
 tasks.withType<JacocoReport> {
     dependsOn("testDebugUnitTest") // Asegura que los tests se ejecuten antes de generar el reporte
 
@@ -192,29 +191,35 @@ tasks.withType<JacocoReport> {
     }
 
     // Lista de exclusiones para evitar que JaCoCo intente instrumentar clases del sistema (Causa del OOM)
-    val fileFilter = listOf(
-        "android/**",
-        "androidx/**",
-        "com/android/**",
-        "org/robolectric/**",
-        "org/junit/**",
-        "org/mockito/**",
-        "**/R.class",
-        "**/R$*.class",
-        "**/BuildConfig.*",
-        "**/Manifest*.*",
-        "**/*Test*.*",
-        "**/databinding/**",
-        "**/viewbinding/**"
-    )
+    val fileFilter =
+        listOf(
+            "android/**",
+            "androidx/**",
+            "com/android/**",
+            "org/robolectric/**",
+            "org/junit/**",
+            "org/mockito/**",
+            "**/R.class",
+            "**/R$*.class",
+            "**/BuildConfig.*",
+            "**/Manifest*.*",
+            "**/*Test*.*",
+            "**/databinding/**",
+            "**/viewbinding/**",
+        )
 
     // Obtener el directorio de clases compiladas (Compatible con Gradle 8+)
-    val classesDir = layout.buildDirectory.dir("intermediates/javac/debug/classes").get().asFile
-    val debugTree = fileTree(classesDir) {
-        exclude(fileFilter)
-    }
+    val classesDir =
+        layout.buildDirectory
+            .dir("intermediates/javac/debug/classes")
+            .get()
+            .asFile
+    val debugTree =
+        fileTree(classesDir) {
+            exclude(fileFilter)
+        }
 
-    val mainSrc = "${projectDir}/src/main/java"
+    val mainSrc = "$projectDir/src/main/java"
 
     sourceDirectories.setFrom(files(mainSrc))
     classDirectories.setFrom(files(debugTree))
