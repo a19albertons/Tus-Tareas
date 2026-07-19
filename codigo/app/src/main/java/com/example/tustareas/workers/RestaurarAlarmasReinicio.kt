@@ -11,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
  *
  * @author Alberto Noceda <a19albertons@iessanclemente.net>
  */
-@AndroidEntryPoint
 class RestaurarAlarmasReinicio : BroadcastReceiver() {
     /**
      * Metodo que se ejecuta al recibir el broadcan de reinicio o encendido del dispositivo que programara la alarma para media noche
