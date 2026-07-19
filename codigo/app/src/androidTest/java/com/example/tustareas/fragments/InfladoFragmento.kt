@@ -50,7 +50,6 @@ import java.util.Date
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class InfladoFragmento {
-
     // Necesario para saltarle el suspend que se ejecuta en segundo plano
     @get:Rule
     val ruleInstant = InstantTaskExecutorRule()
@@ -72,55 +71,57 @@ class InfladoFragmento {
     val tareaDTO = TareaDTO(tarea, listOf(etiqueta))
     val proyectoDTO = ProyectoDTO(proyecto, listOf(etiqueta), listOf(tarea))
 
-    val fragmentArgsProyectoDTO = Bundle().apply {
-        putParcelable("proyectoDTO", proyectoDTO)
-    }
-    val fragmentArgsTareaDTO = Bundle().apply {
-        putParcelable("tareaDTO", tareaDTO)
-    }
-    val fragmentArgsEtiqueta = Bundle().apply {
-        putParcelable("etiqueta", etiqueta)
-    }
-    val fragmentArgsProyectoId = Bundle().apply {
-        putInt("id", 1)
-    }
-    val fragmentArgsTareaId = Bundle().apply {
-        putInt("id", 1)
-    }
-    val fragmentArgsEtiquetaId = Bundle().apply {
-        putInt("id", 1)
-    }
-    val fragmentArgsVerMas = Bundle().apply {
-        putInt("numeroVerMas", 1)
-    }
+    val fragmentArgsProyectoDTO =
+        Bundle().apply {
+            putParcelable("proyectoDTO", proyectoDTO)
+        }
+    val fragmentArgsTareaDTO =
+        Bundle().apply {
+            putParcelable("tareaDTO", tareaDTO)
+        }
+    val fragmentArgsEtiqueta =
+        Bundle().apply {
+            putParcelable("etiqueta", etiqueta)
+        }
+    val fragmentArgsProyectoId =
+        Bundle().apply {
+            putInt("id", 1)
+        }
+    val fragmentArgsTareaId =
+        Bundle().apply {
+            putInt("id", 1)
+        }
+    val fragmentArgsEtiquetaId =
+        Bundle().apply {
+            putInt("id", 1)
+        }
+    val fragmentArgsVerMas =
+        Bundle().apply {
+            putInt("numeroVerMas", 1)
+        }
 
     @Inject
     lateinit var db: TusTareasDatabase
 
     @Inject
-    lateinit var repositorioProyecto : CrearProyectosRepository
+    lateinit var repositorioProyecto: CrearProyectosRepository
 
     @Inject
-    lateinit var repositorioTarea : CrearTareasRepository
+    lateinit var repositorioTarea: CrearTareasRepository
 
     @Inject
-    lateinit var repositorioEtiqueta : CrearEtiquetasRepository
-
-
-
+    lateinit var repositorioEtiqueta: CrearEtiquetasRepository
 
     // Prepara el entorno
     @Before
-    fun before()
-    = runBlocking {
-        rule.inject()
+    fun before() =
+        runBlocking {
+            rule.inject()
 
-        repositorioEtiqueta.insertarEtiqueta(etiqueta)
-        repositorioTarea.insertarTareaConEtiqueta(tareaDTO)
-        repositorioProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO)
-
-
-    }
+            repositorioEtiqueta.insertarEtiqueta(etiqueta)
+            repositorioTarea.insertarTareaConEtiqueta(tareaDTO)
+            repositorioProyecto.insertarProyectoConTareaYEtiqueta(proyectoDTO)
+        }
 
     // Finalización entorno
     @After
@@ -133,131 +134,144 @@ class InfladoFragmento {
     // Comprueba el fragmento de ajustes
     @Test
     fun inflarAjustesFragment() {
-        scenario = launchFragmentInHiltContainer<AjustesFragment> {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<AjustesFragment> {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de crear etiqueta
     @Test
     fun inflarCrearEtiquetaFragment() {
-        scenario = launchFragmentInHiltContainer<CrearEtiquetaFragment>(fragmentArgs = fragmentArgsEtiqueta) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<CrearEtiquetaFragment>(fragmentArgs = fragmentArgsEtiqueta) {
+                assert(view != null)
+            }
     }
-
 
     // Comprueba el fragmento de crear proyecto
     @Test
     fun inflarCrearProyectoFragment() {
-        scenario = launchFragmentInHiltContainer<CrearProyectoFragment>(fragmentArgs = fragmentArgsProyectoDTO) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<CrearProyectoFragment>(fragmentArgs = fragmentArgsProyectoDTO) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de crear tarea
     @Test
     fun inflarCrearTareaFragment() {
-        scenario = launchFragmentInHiltContainer<CrearTareasFragment>(fragmentArgs = fragmentArgsTareaDTO) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<CrearTareasFragment>(fragmentArgs = fragmentArgsTareaDTO) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de estadisticas
     @Test
     fun inflarEstadisticasFragment() {
-        scenario = launchFragmentInHiltContainer<EstadisticasFragment> {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<EstadisticasFragment> {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de detalles de etiqueta
     @Test
     fun inflarEtiquetaDetallesFragment() {
-        scenario = launchFragmentInHiltContainer<EtiquetaDetallesFragment>(fragmentArgs = fragmentArgsEtiquetaId) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<EtiquetaDetallesFragment>(fragmentArgs = fragmentArgsEtiquetaId) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de inicio
     @Test
     fun inflarInicioFragment() {
-        scenario = launchFragmentInHiltContainer<InicioFragment> {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<InicioFragment> {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de listar etiqueta
     @Test
     fun inflarListarEtiquetasFragment() {
-        scenario = launchFragmentInHiltContainer<ListarEtiquetasFragment> {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ListarEtiquetasFragment> {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de listar proyecto
     @Test
     fun inflarListarProyectoFragment() {
-        scenario = launchFragmentInHiltContainer<ListarProyectosFragment> {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ListarProyectosFragment> {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de listar tarea
     @Test
     fun inflarListarTareasFragment() {
-        scenario = launchFragmentInHiltContainer<ListarTareasFragment> {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ListarTareasFragment> {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de modificar etiqueta
     @Test
     fun inflarModificarEtiquetaFragment() {
-        scenario = launchFragmentInHiltContainer<ModificarEtiquetaFragment>(fragmentArgs = fragmentArgsEtiqueta) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ModificarEtiquetaFragment>(fragmentArgs = fragmentArgsEtiqueta) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de modificar proyecto
     @Test
     fun inflarModificarProyectoFragment() {
-        scenario = launchFragmentInHiltContainer<ModificarProyectoFragment>(fragmentArgs = fragmentArgsProyectoDTO) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ModificarProyectoFragment>(fragmentArgs = fragmentArgsProyectoDTO) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de modificar tarea
     @Test
     fun inflarModificarTareaFragment() {
-        scenario = launchFragmentInHiltContainer<ModificarTareasFragment>(fragmentArgs = fragmentArgsTareaDTO) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ModificarTareasFragment>(fragmentArgs = fragmentArgsTareaDTO) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de detalles de proyecto
     @Test
     fun inflarProyectoDetallesFragment() {
-        scenario = launchFragmentInHiltContainer<ProyectoDetallesFragment>(fragmentArgs = fragmentArgsProyectoId) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<ProyectoDetallesFragment>(fragmentArgs = fragmentArgsProyectoId) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de detalles de tarea
     @Test
     fun inflarTareaDetallesFragment() {
-        scenario = launchFragmentInHiltContainer<TareaDetallesFragment>(fragmentArgs = fragmentArgsTareaId) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<TareaDetallesFragment>(fragmentArgs = fragmentArgsTareaId) {
+                assert(view != null)
+            }
     }
 
     // Comprueba el fragmento de ver mas
     @Test
     fun inflarVerMasFragment() {
-        scenario = launchFragmentInHiltContainer<VerMasFragment>(fragmentArgs = fragmentArgsVerMas) {
-            assert(view != null)
-        }
+        scenario =
+            launchFragmentInHiltContainer<VerMasFragment>(fragmentArgs = fragmentArgsVerMas) {
+                assert(view != null)
+            }
     }
-
-
 }

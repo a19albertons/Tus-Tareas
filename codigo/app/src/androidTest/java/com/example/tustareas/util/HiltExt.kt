@@ -21,26 +21,27 @@ import com.example.tustareas.R
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
     @StyleRes themeResId: Int = R.style.Theme_TusTareas,
-    crossinline action: T.() -> Unit = {}
-) : ActivityScenario<HiltTestActivity> {
+    crossinline action: T.() -> Unit = {},
+): ActivityScenario<HiltTestActivity> {
     // Inicia la nueva actividad HiltTestActivity
-    val startActivityIntent = Intent.makeMainActivity(
-        ComponentName(
-            ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
+    val startActivityIntent =
+        Intent.makeMainActivity(
+            ComponentName(
+                ApplicationProvider.getApplicationContext(),
+                HiltTestActivity::class.java,
+            ),
         )
-    )
 
     // Lo que devolvemos
     val scenario = ActivityScenario.launch<HiltTestActivity>(startActivityIntent)
 
-
     // Crea el fragmento dentro de la actividad anteriormente creada
     scenario.onActivity { activity ->
-        val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
-            Preconditions.checkNotNull(T::class.java.classLoader),
-            T::class.java.name
-        )
+        val fragment: Fragment =
+            activity.supportFragmentManager.fragmentFactory.instantiate(
+                Preconditions.checkNotNull(T::class.java.classLoader),
+                T::class.java.name,
+            )
         fragment.arguments = fragmentArgs
         activity.supportFragmentManager
             .beginTransaction()
