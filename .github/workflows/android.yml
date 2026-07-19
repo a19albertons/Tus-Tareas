@@ -78,14 +78,14 @@ jobs:
         working-directory: codigo
         run: |
           chmod +x gradlew
-          ./gradlew -Pci --console=plain ktlintCheck
+          ./gradlew -Pci --console=plain ktlintCheck -PbuildDir=ktlint
 
       # Sube el reporte de ktlint como artefacto
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ktlint-report
-          path: codigo/app/lint/reports/ktlint/
+          path: codigo/app/ktlint/reports/*.txt
           retention-days: 5
 
   # 3. Compilación del APK de debug
