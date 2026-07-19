@@ -226,6 +226,16 @@ jobs:
             chmod +x gradlew
             ./gradlew connectedAndroidTest
 
+      # Subir el log que genera
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs-instrumented-tests-api-${{ matrix.api-level }}.html
+          path: codigo/app/build/reports/coverage/androidTest/produccion/debug/connected/index.html
+          retention-days: 5
+
+            
+
   # 7. Ensamblado y firmado del APK de release
   assemble-release:
     name: Assemble & Sign Release APK
