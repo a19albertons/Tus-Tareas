@@ -201,6 +201,7 @@ jobs:
     strategy:
       matrix:
         api-level: [24,25,26,27,28,29,30,31,32,33,34,35,36]
+        flavor: [app:connectedPre-produccionDebugAndroidTest, app:connectedProduccionDebugAndroidTest]
       fail-fast: false
     steps:
       # Configura checkout
@@ -232,15 +233,7 @@ jobs:
           working-directory: ./codigo
           script: |
             chmod +x gradlew
-            ./gradlew connectedAndroidTest
-
-      # Subir el log que genera
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: logs-instrumented-tests-api-${{ matrix.api-level }}.html
-          path: codigo/app/build/reports/coverage/androidTest/produccion/debug/connected/index.html
-          retention-days: 5
+            ./gradlew ${{ matrix.flavor}} -Pci --console=plain
 
             
 
