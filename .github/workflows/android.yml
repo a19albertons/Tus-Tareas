@@ -192,7 +192,7 @@ jobs:
           ./gradlew app:test
 
       
-  # 5. Ejecución de pruebas instrumentadas y unitarias
+  # 6. Ejecución de pruebas instrumentadas
   testInstrumentado:
     name: Run Tests
     runs-on: ubuntu-24.04
