@@ -34,7 +34,7 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 1
-        versionName = "1.1.0"
+        versionName = "1.1.1"
 
         // Cambiamos el runner original
         testInstrumentationRunner = "com.example.tustareas.hilt.HiltTestRunner"
