@@ -115,6 +115,10 @@ android {
 }
 
 dependencies {
+    // Fragment scenario
+    debugImplementation(libs.androidx.fragment.testing.manifest)
+    androidTestImplementation(libs.androidx.fragment.testing)
+
     // parche error kotlin metadata
     ksp(libs.kotlin.metadata.jvm)
 
