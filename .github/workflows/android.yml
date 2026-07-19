@@ -5,10 +5,10 @@ on:
   push:
     branches: [Desarrollo, master]
     tags:
-      - 'TusTareas-*'
+      - "TusTareas-*"
   pull_request:
     branches: [Desarrollo]
-    paths-ignore: ['**.md']
+    paths-ignore: ["**.md"]
 
     # Variables de entorno para la configuración del SDK y JDK
 env:
@@ -32,7 +32,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: 'gradle'
+          cache: "gradle"
 
       # Configura Android SDK
       - name: Setup Android SDK
@@ -67,7 +67,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: 'gradle'
+          cache: "gradle"
 
       # Configura Android SDK
       - name: Setup Android SDK
@@ -103,7 +103,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: 'gradle'
+          cache: "gradle"
 
       # Configura Android SDK
       - name: Setup Android SDK
@@ -139,7 +139,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: 'gradle'
+          cache: "gradle"
 
       # Configura Android SDK
       - name: Setup Android SDK
@@ -160,8 +160,8 @@ jobs:
           path: codigo/app/build/outputs/apk/produccion/release/app-produccion-release-unsigned.apk
           retention-days: 5
 
-  # 5. Ejecución de pruebas instrumentadas y unitarias
-  tests:
+  # 5. Ejecución de pruebas y unitarias
+  testUnitarios:
     name: Run Tests
     runs-on: ubuntu-24.04
     needs: [assemble-debug, assemble]
@@ -175,7 +175,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: 'gradle'
+          cache: "gradle"
 
       # Habilitar KVM en el ejecutor para aceleración por hardware nativa
       - name: Enable KVM group perms
@@ -184,54 +184,53 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-      # Crear script de comprobación de pruebas
-      - name: Create Test Script
+      # Correr test unitarios
+      - name: Run Android unit tests
+        working-directory: codigo
         run: |
-          cat << 'EOF' > ./codigo/run_tests.sh
-          #!/bin/bash
-          ./gradlew app:createProduccionDebugCoverageReport app:createProduccionDebugUnitTestCoverageReport
-          
-          # Tu lógica de verificación de fallos personalizada adaptada
-          COMPROBACION_FALLIDA=false
-          TEST_XML=$(find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' | head -n 1) || true
-          if [ -z "$TEST_XML" ]; then
-            echo "No se encontraron resultados de tests instrumentados."
-          fi
-          
-          # Se añade -print0 en find y -0 en xargs para mayor robustez ante nombres de archivo
-          if find app/build/outputs/androidTest-results/connected/debug/flavors -name 'TEST-*.xml' -print0 2>/dev/null | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"' 2>/dev/null; then
-            echo "Fallos encontrados en resultados de Android Test."
-            COMPROBACION_FALLIDA=true
-          fi
-          
-          if find app/build/test-results -name 'TEST-*.xml' -print0 2>/dev/null | xargs -0 grep -Eq 'failures="[1-9][0-9]*"|errors="[1-9][0-9]*"' 2>/dev/null; then
-            echo "Fallos encontrados en test unitarios."
-            COMPROBACION_FALLIDA=true
-          fi
-          
-          if [ "$COMPROBACION_FALLIDA" = true ]; then
-            echo "Al menos un tipo de test es fallido, marcando el job como fallido."
-            exit 1
-          fi
-          EOF
-          chmod +x ./codigo/run_tests.sh
+          chmod +x gradlew
+          ./gradlew app:test
+
+      
+  # 5. Ejecución de pruebas instrumentadas y unitarias
+  testInstrumentado:
+    name: Run Tests
+    runs-on: ubuntu-24.04
+    needs: [assemble-debug, assemble]
+    # Validamos que los test instrumentados se comprueben en todas las versiones de API soportadas por la app
+    strategy:
+      matrix:
+        api-level: [24,25,26,27,28,29,30,31,32,33,34,35,36]
+    steps:
+      # Configura checkout
+      - uses: actions/checkout@v4
+
+      # Configura JDK
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+          cache: "gradle"
 
       # Corre el emulador y ejecuta el script
       - name: Run Android instrumented & unit tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: ${{ matrix.api-level }}
           target: aosp_atd
           arch: x86_64
           profile: pixel_2
           working-directory: ./codigo
-          script: ./run_tests.sh
+          script: |
+            chmod +x gradlew
+            ./gradlew connectedAndroidTest
 
-  # 6. Ensamblado y firmado del APK de release
+  # 7. Ensamblado y firmado del APK de release
   assemble-release:
     name: Assemble & Sign Release APK
     runs-on: ubuntu-24.04
-    needs: [tests]
+    needs: [testUnitarios, testInstrumentado]
     # Se ejecuta en master o ante la presencia de un tag
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
     # Carga el enviroment de variables de entorno para el firmado
@@ -246,7 +245,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: temurin
-          cache: 'gradle'
+          cache: "gradle"
 
       # Configura Android SDK
       - name: Setup Android SDK
@@ -291,13 +290,13 @@ jobs:
           path: codigo/app-signed.apk
           retention-days: 5
 
-  # 7. Despliegue del APK firmado en GitHub Releases (solo para tags que comiencen con "TusTareas-")
+  # 8. Despliegue del APK firmado en GitHub Releases (solo para tags que comiencen con "TusTareas-")
   deploy:
     name: Create GitHub Release
     runs-on: ubuntu-24.04
     needs: [assemble-release]
     # Filtro corregido con sintaxis nativa de GitHub Actions
-    if: startsWith(github.ref, 'refs/tags/') && startsWith(github.ref_name, 'TusTareas-') 
+    if: startsWith(github.ref, 'refs/tags/') && startsWith(github.ref_name, 'TusTareas-')
     # Declaración explícita de permisos mínimos requeridos
     permissions:
       contents: write
@@ -306,7 +305,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # Descarga el apk firmado desde el job anterior
-      - name: Download signed APK 
+      - name: Download signed APK
         uses: actions/download-artifact@v4
         with:
           name: release-apk
