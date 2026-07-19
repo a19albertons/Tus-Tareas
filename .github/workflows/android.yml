@@ -219,7 +219,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
-          target: aosp_atd
+          target: default
           arch: x86_64
           profile: pixel_2
           working-directory: ./codigo
