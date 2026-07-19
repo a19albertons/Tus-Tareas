@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.example.tustareas.util.AlarmaHelper
-import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Clase que reactiva las alarmas al reiniciarse o encender el dispositivo
