@@ -29,7 +29,7 @@ dokka = "2.2.0"
 hiltCommon = "1.4.0"
 ktlint = "14.2.0"
 kotlinMetadataJvm = "2.4.10"
-robolectric = "4.14"
+robolectric = "4.16.1"
 androidxTestCore = "1.7.0"
 
 [libraries]
