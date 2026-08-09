@@ -24,7 +24,7 @@ android {
     namespace = "com.example.tustareas"
     compileSdk {
         version =
-            release(36) {
+            release(37) {
                 minorApiLevel = 1
             }
     }
