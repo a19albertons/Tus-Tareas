@@ -3,11 +3,11 @@ name: CI/CD Pipeline
 # Configuración de eventos que disparan el workflow
 on:
   push:
-    branches: [Desarrollo, master]
+    branches: [master]
     tags:
       - "TusTareas-*"
   pull_request:
-    branches: [Desarrollo]
+    branches: [master]
     paths-ignore: ["**.md"]
 
     # Variables de entorno para la configuración del SDK y JDK
