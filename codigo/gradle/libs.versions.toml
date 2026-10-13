@@ -28,7 +28,7 @@ mockitoKotlin = "6.4.0"
 dokka = "2.2.0"
 hiltCommon = "1.4.0"
 ktlint = "14.2.0"
-kotlinMetadataJvm = "2.4.20"
+kotlinMetadataJvm = "2.4.21"
 robolectric = "4.17"
 androidxTestCore = "1.7.0"
 
