@@ -1,5 +1,5 @@
 # Notas de desarrollo
-Tus tareas versión 1.1.9 esta disponible
+Tus tareas versión 1.1.10 esta disponible
 
 ## Actualización de mantenimiento de la aplicación contiene:
 - Corrección de errores menores
